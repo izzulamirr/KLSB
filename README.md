@@ -5,11 +5,10 @@ A modern Flask starter with theming, responsive layout, and test scaffolding.
 ## Features
 - Flask app factory pattern
 - Routes: `/`, `/about`, `/healthz`
-- Modern responsive layout (marketplace hero, glass panel)
-- Light/Dark theme toggle with `data-theme` & CSS custom properties
-- Design tokens in `app/static/css/variables.css`
-- Static assets served from `app/static` (Flask default with package approach)
-- Pytest tests (4 passing incl. static asset test)
+- Modular CSS architecture (tokens, base, layout, utilities, components, page-specific)
+- Modern responsive homepage (hero, metrics, testimonials, CTA) with dark mode
+- Light/Dark theme toggle using `data-theme` + CSS custom properties
+- Pytest tests (4 passing)
 
 ## Setup (Windows PowerShell)
 ```powershell
@@ -23,24 +22,37 @@ pip install -r requirements.txt
 ```powershell
 python run.py
 ```
-Visit: http://127.0.0.1:5000
+Visit http://127.0.0.1:5000
 
 ## Run Tests
 ```powershell
 pytest -q
 ```
 
-## Static Assets
-Place CSS/JS/images under `app/static/`. Example reference in templates:
+## CSS Structure
+Located under `app/static/css/`:
+- `variables.css` – design tokens (colors, spacing, fonts, shadows)
+- `base.css` – resets, typography, global element styles
+- `layout.css` – structural containers (header, footer, generic hero)
+- `utilities.css` – utility classes (flex helpers, spacing, fade-in)
+- `components.css` – buttons, cards, navigation, panel component
+- `home.css` – homepage-specific sections (market hero, logos bar, features, metrics, testimonials, CTA)
+- `style.css` – deprecated placeholder (kept only for backwards compatibility; safe to delete)
+
+To add page‑specific styles create `page-name.css` and include in that template via:
 ```jinja2
-<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+{% block extra_head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/page-name.css') }}">
+{% endblock %}
 ```
-Add a hero image: `app/static/img/hero.jpg` (optimize size). The CSS references `/static/img/hero.jpg`.
+
+## Static Assets
+Place images in `app/static/img/` (e.g. `hero.jpg`). Reference in CSS as `/static/img/hero.jpg` or in templates via `url_for('static', filename='img/hero.jpg')`.
 
 ## Theming
-- Theme stored in `localStorage` under key `klsb-theme`.
-- Root `<html>` has `data-theme="light|dark"`.
-- Extend palette by adding tokens in `variables.css` and referencing them via `var(--token)`.
+- Persisted in `localStorage` key `klsb-theme`
+- Override or add tokens in `variables.css`
+- Dark mode handled by `[data-theme='dark']` selectors
 
 ## Project Structure
 ```
@@ -54,23 +66,29 @@ app/
   static/
     css/
       variables.css
-      style.css
+      base.css
+      layout.css
+      utilities.css
+      components.css
+      home.css
+      style.css (deprecated)
     img/
-      (hero.jpg optional)
+      hero.jpg (optional)
 ```
 
 ## Environment Variables
-Create a `.env` file (optional) to override config values (e.g. `SECRET_KEY`).
+Use a `.env` file for secrets like `SECRET_KEY`.
 
-## Extending
+## Extending Ideas
 - Database (SQLAlchemy + Alembic)
 - Blueprints (`api`, `auth`)
-- Forms with Flask-WTF
-- Caching (Redis)
-- Dockerfile + CI pipeline
+- Forms & validation (Flask-WTF)
+- Background tasks (RQ / Celery)
+- Asset build pipeline (minify + hash)
+- Docker container + CI workflow
 
 ## Accessibility
-- Skip link for keyboard users
+- Skip link included; maintain contrast when adjusting palette.
 
 ## License
 Specify license here (MIT recommended) if publishing.
