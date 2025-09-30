@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <title>{% block title %}{{ title or 'KLSB Draft' }}{% endblock %}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/variables.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/layout.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/utilities.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/components.css') }}">
+  {% block extra_head %}{% endblock %}
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="container flex between center-y gap-4">
+      <div class="branding">
+        <a href="/" class="logo">KLSB<span class="logo-accent">•</span></a>
+      </div>
+      <nav class="main-nav" aria-label="Main Navigation">
+        <ul class="nav-list">
+          <li><a href="/" {% if request.path=='/' %}class="active"{% endif %}>Home</a></li>
+          <li><a href="/services" {% if request.path=='/services' %}class="active"{% endif %}>Services</a></li>
+          <li><a href="/about" {% if request.path.startswith('/about') %}class="active"{% endif %}>About</a></li>
+        </ul>
+      </nav>
+      <div class="actions flex center-y gap-2">
+        <button id="themeToggle" class="btn btn-ghost" type="button" aria-label="Toggle theme">🌙</button>
+      </div>
+    </div>
+  </header>
+  <main id="main" class="site-main container">
+    {% block content %}{% endblock %}
+  </main>
+  <footer class="site-footer">
+    <div class="container small text-dim">
+      <p>&copy; {{ 2025 }} KLSB Draft Site · <span id="currentYear"></span></p>
+    </div>
+  </footer>
+  <script>
+    // Theme persistence
+    (function(){
+      const root = document.documentElement;
+      const key = 'klsb-theme';
+      const stored = localStorage.getItem(key);
+      if (stored) root.setAttribute('data-theme', stored);
+      const btn = document.getElementById('themeToggle');
+      function updateIcon(){
+        const mode = root.getAttribute('data-theme');
+        btn.textContent = mode === 'dark' ? '☀️' : '🌙';
+      }
+      updateIcon();
+      btn && btn.addEventListener('click', ()=>{
+        const mode = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+        root.setAttribute('data-theme', mode);
+        localStorage.setItem(key, mode);
+        updateIcon();
+      });
+      document.getElementById('currentYear').textContent = new Date().getFullYear();
+    })();
+  </script>
+  {% block extra_scripts %}{% endblock %}
+</body>
+</html>

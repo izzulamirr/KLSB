@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block title %}Engineering Services Marketplace - KLSB{% endblock %}
+{% block content %}
+<section class="market-hero" aria-labelledby="hero-title">
+  <div class="hero-bg" role="img" aria-label="Sunrise over industrial shipyard"></div>
+  <div class="market-hero-inner">
+    <div class="hero-left">
+      <h1 id="hero-title" class="hero-heading">The Engineering<br>Services<br>Marketplace</h1>
+      <p class="hero-sub">The platform for freelancers and subcontractors to connect with clients for:</p>
+      <ul class="checklist">
+        <li>Task-based Engineering</li>
+        <li>Manpower</li>
+        <li>Consultancy</li>
+      </ul>
+    </div>
+    <div class="hero-right">
+      <div class="panel glass" aria-labelledby="panel-freelancer">
+        <div class="panel-section" id="panel-freelancer">
+          <p class="panel-eyebrow">I'm a <strong>Freelancer</strong></p>
+          <ul class="panel-bullets">
+            <li>Choose your projects</li>
+            <li>Work at your own terms</li>
+            <li>Communicate with clients directly</li>
+          </ul>
+          <a href="#" class="btn btn-primary wide">Create my profile <span aria-hidden>→</span></a>
+        </div>
+        <div class="panel-separator" role="separator" aria-label="or">
+          <span class="sep-label">OR</span>
+        </div>
+        <div class="panel-section" id="panel-client">
+          <p class="panel-eyebrow">I'm a <strong>Client</strong> and I am looking for freelancers</p>
+          <ol class="panel-ordered">
+            <li>Access to Global Talent</li>
+            <li>Scalable Workforce Flexibility</li>
+            <li>Transparent Hiring Process</li>
+          </ol>
+          <a href="#" class="btn btn-outline wide">Create an account <span aria-hidden>→</span></a>
+        </div>
+        <p class="panel-terms small">By signing up, you agree to our <a href="#">Terms</a> and <a href="#">Privacy Policy</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="after-hero container prose">
+  <h2>Why KLSB?</h2>
+  <p>Insert differentiators or trust indicators here (logos, stats, categories). This section follows the primary hero and can be iterated later.</p>
+</section>
+{% endblock %}

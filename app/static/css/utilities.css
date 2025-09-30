@@ -1,0 +1,16 @@
+/* utilities.css - utility & helper classes */
+.flex { display:flex; }
+.center-y { align-items:center; }
+.between { justify-content:space-between; }
+.gap-2 { gap: var(--space-2); }
+.gap-4 { gap: var(--space-4); }
+.small { font-size: var(--font-size-sm); }
+.text-dim { color: var(--color-text-light); }
+:root[data-theme='dark'] .text-dim { color: var(--color-text-light-dark); }
+.fade-in { animation: fade .6s ease; }
+@keyframes fade { from { opacity:0; transform: translateY(8px);} to { opacity:1; transform:translateY(0);} }
+
+/* responsive tweaks */
+@media (max-width: 640px) {
+  .hero { padding-top: var(--space-10); }
+}

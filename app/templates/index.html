@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+{% block title %}Engineering Services Marketplace - KLSB{% endblock %}
+{% block extra_head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+{% endblock %}
+{% block content %}
+<section class="market-hero" aria-labelledby="hero-title">
+  <div class="hero-bg" role="img" aria-label="Sunrise over industrial shipyard"></div>
+  <div class="market-hero-inner">
+    <div class="hero-left">
+      <h1 id="hero-title" class="hero-heading gradient-text">Kemuncak Lanai <br>Sdn Bhd</h1>
+      <p class="hero-sub">Expert Solution for Customer Satisfaction.....</p>
+        <p class="hero-sub">Digital Engineering Solutions</p>
+      <ul class="checklist">
+        <li>Task-based Engineering</li>
+        <li>Manpower</li>
+        <li>Cybersecurity Consultancy</li>
+        <li>Digital Transformation</li>
+        <li>General Construction</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- Logos / Trust Bar -->
+<section class="logos-bar" aria-label="Trusted by leading firms">
+  <div class="container flex center-y gap-4 logos-track">
+    <span class="logo-item">ACME Offshore</span>
+    <span class="logo-item">VectorRig</span>
+    <span class="logo-item">SubSeaCore</span>
+    <span class="logo-item">PipeFlow</span>
+    <span class="logo-item">MacroDynamics</span>
+  </div>
+</section>
+
+<!-- Feature Grid -->
+<section class="feature-grid container" aria-labelledby="features-heading">
+  <h2 id="features-heading" class="section-title">Why teams choose KLSB</h2>
+  <div class="grid feature-cards">
+    <article class="card feature">
+      <h3>Specialized Talent</h3>
+      <p>Verified engineers by discipline & seniority ensure high quality delivery.</p>
+    </article>
+    <article class="card feature">
+      <h3>Faster Sourcing</h3>
+      <p>Structured profiles & filters cut selection time from weeks to days.</p>
+    </article>
+    <article class="card feature">
+      <h3>Transparent Process</h3>
+      <p>Clear milestones, messaging & audit trail for every engagement.</p>
+    </article>
+    <article class="card feature">
+      <h3>Scalable Model</h3>
+      <p>Ramp talent up or down dynamically across parallel workstreams.</p>
+    </article>
+  </div>
+</section>
+
+<!-- Metrics Band -->
+<section class="metrics-band" aria-label="Key platform metrics">
+  <div class="container metrics-grid">
+    <div class="metric"><span class="metric-value">3k+</span><span class="metric-label">Engineers</span></div>
+    <div class="metric"><span class="metric-value">120+</span><span class="metric-label">Disciplines</span></div>
+    <div class="metric"><span class="metric-value">8d</span><span class="metric-label">Avg Match Time</span></div>
+    <div class="metric"><span class="metric-value">98%</span><span class="metric-label">On-time Delivery</span></div>
+  </div>
+</section>
+
+<!-- Testimonials -->
+<section class="testimonials container" aria-labelledby="testimonials-heading">
+  <h2 id="testimonials-heading" class="section-title">What clients say</h2>
+  <div class="testimonial-list">
+    <blockquote class="testimonial">
+      <p>“We filled a niche subsea analysis role in under a week.”</p>
+      <footer>— Operations Lead, Offshore EPC</footer>
+    </blockquote>
+    <blockquote class="testimonial">
+      <p>“The transparency and milestone tracking improved our vendor audits.”</p>
+      <footer>— Head of Engineering, EnergyTech</footer>
+    </blockquote>
+    <blockquote class="testimonial">
+      <p>“We scaled from 2 to 11 specialists without adding internal overhead.”</p>
+      <footer>— Project Manager, Marine Systems</footer>
+    </blockquote>
+  </div>
+</section>
+
+<!-- CTA Band -->
+<section class="cta-band" aria-labelledby="cta-heading">
+  <div class="container cta-inner">
+    <h2 id="cta-heading">Ready to accelerate delivery?</h2>
+    <p>Join the platform and access specialized engineering talent today.</p>
+    <div class="cta-actions">
+      <a href="#" class="btn btn-primary">Get Started</a>
+      <a href="#" class="btn btn-outline">Book a Demo</a>
+    </div>
+  </div>
+</section>
+{% endblock %}
