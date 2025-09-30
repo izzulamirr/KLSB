@@ -1,20 +1,49 @@
 {% extends 'base.html' %}
 {% block title %}About - KLSB{% endblock %}
+{% block extra_head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+{% endblock %}
 {% block content %}
-<article class="prose fade-in">
-  <h1>About This Project</h1>
-  <p>This starter aims to give you a clean, modern baseline so you can ship faster with Flask.</p>
-  <h2>Philosophy</h2>
+<section class="market-hero" aria-labelledby="about-hero-title">
+  <div class="hero-bg" aria-hidden="true">
+    <div class="hero-slides"></div>
+    <div class="hero-overlay" aria-hidden="true"></div>
+  </div>
+  <div class="market-hero-inner">
+    <div class="hero-col hero-col-text">
+      <h1 id="about-hero-title" class="hero-heading">
+        <span class="hero-line brand-accent">About</span>
+        <span class="hero-line brand-muted">KLSB</span>
+      </h1>
+      <p class="hero-lead">We connect specialized engineering talent with organizations to accelerate delivery, modernization and innovation.</p>
+      <ul class="checklist hero-list concise">
+        <li>Domain-focused expertise</li>
+        <li>Transparent collaboration</li>
+        <li>Quality & compliance mindset</li>
+        <li>Flexible engagement models</li>
+      </ul>
+      <div class="hero-actions">
+        <a href="/services" class="btn btn-primary btn-lg">Explore Services</a>
+        <a href="#story" class="btn btn-outline btn-lg">Our Story</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<article id="story" class="prose fade-in container" style="margin-top:2rem;">
+  <h2>Our Philosophy</h2>
+  <p>KLSB focuses on bridging capability gaps in complex engineering and digital transformation projects. We emphasize clarity, accountability and measurable outcomes.</p>
+  <h3>Guiding Principles</h3>
   <ul>
-    <li>Minimal but sensible defaults</li>
-    <li>Modern styling without a huge framework</li>
-    <li>Easy theming with CSS variables</li>
+    <li>Precision over volume</li>
+    <li>Rapid knowledge transfer</li>
+    <li>Operational transparency</li>
   </ul>
-  <h2>Next Steps</h2>
+  <h3>Roadmap Highlights</h3>
   <ol>
-    <li>Add persistence (SQLite / Postgres)</li>
-    <li>User accounts & auth</li>
-    <li>API endpoints & JS enhancements</li>
+    <li>Platform talent vetting enhancements</li>
+    <li>Integrated compliance documentation</li>
+    <li>Advanced analytics & reporting</li>
   </ol>
 </article>
 {% endblock %}

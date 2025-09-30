@@ -5,10 +5,10 @@
   --color-surface: #ffffff;
   --color-border: #e2e8f0;
   --color-text: #1e293b;
-  --color-text-light: #64748b;
-  --color-primary: #2563eb;
+  --color-text-light: #e0e2e6;
+  --color-primary: #0341c9;
   --color-primary-accent: #1d4ed8;
-  --color-primary-bg: #eff6ff;
+  --color-primary-bg: #e9ecf0;
   --color-accent: #f59e0b;
   --color-danger: #dc2626;
   --color-success: #16a34a;
@@ -17,7 +17,7 @@
   --color-surface-dark: #1e293b;
   --color-border-dark: #334155;
   --color-text-dark: #f1f5f9;
-  --color-text-light-dark: #94a3b8;
+  --color-text-light-dark: #edeef0;
   --color-primary-dark: #3b82f6;
   --color-primary-bg-dark: #1e3a8a;
   --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;

@@ -5,19 +5,28 @@
 {% endblock %}
 {% block content %}
 <section class="market-hero" aria-labelledby="hero-title">
-  <div class="hero-bg" role="img" aria-label="Sunrise over industrial shipyard"></div>
+  <div class="hero-bg" aria-hidden="true">
+    <div class="hero-slides"></div>
+    <div class="hero-overlay" aria-hidden="true"></div>
+  </div>
   <div class="market-hero-inner">
-    <div class="hero-left">
-      <h1 id="hero-title" class="hero-heading gradient-text">Kemuncak Lanai <br>Sdn Bhd</h1>
-      <p class="hero-sub">Expert Solution for Customer Satisfaction.....</p>
-        <p class="hero-sub">Digital Engineering Solutions</p>
-      <ul class="checklist">
+    <div class="hero-col hero-col-text">
+      <h1 id="hero-title" class="hero-heading">
+        <span class="hero-line brand-accent">Kemuncak Lanai</span>
+        <span class="hero-line brand-muted">Sdn Bhd</span>
+      </h1>
+      <p class="hero-lead">Expert solutions tailored for modern energy, industrial and digital transformation initiatives.</p>
+      <ul class="checklist hero-list concise">
         <li>Task-based Engineering</li>
         <li>Manpower</li>
         <li>Cybersecurity Consultancy</li>
         <li>Digital Transformation</li>
         <li>General Construction</li>
       </ul>
+      <div class="hero-actions">
+        <a href="/services" class="btn btn-primary btn-lg">Explore Services</a>
+        <a href="/about" class="btn btn-outline btn-lg">About Us</a>
+      </div>
     </div>
   </div>
 </section>
@@ -96,4 +105,7 @@
     </div>
   </div>
 </section>
+{% endblock %}
+{% block extra_scripts %}
+<script src="{{ url_for('static', filename='js/home-hero.js') }}" defer></script>
 {% endblock %}

@@ -14,26 +14,30 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='css/components.css') }}">
   {% block extra_head %}{% endblock %}
 </head>
-<body>
+<body class="{% if request.path=='/' %}home-page{% endif %}">
   <a class="skip-link" href="#main">Skip to content</a>
   <header class="site-header">
-    <div class="container flex between center-y gap-4">
+    <div class="container flex center-y header-bar">
       <div class="branding">
-        <a href="/" class="logo">KLSB<span class="logo-accent">•</span></a>
+        <a href="/" class="logo" aria-label="KLSB Home">
+          <img src="{{ url_for('static', filename='img/klsblogo-2022-side-e1670243644251-1024x335.png') }}" alt="KLSB" class="branding-logo" />
+        </a>
       </div>
-      <nav class="main-nav" aria-label="Main Navigation">
-        <ul class="nav-list">
-          <li><a href="/" {% if request.path=='/' %}class="active"{% endif %}>Home</a></li>
-          <li><a href="/services" {% if request.path=='/services' %}class="active"{% endif %}>Services</a></li>
-          <li><a href="/about" {% if request.path.startswith('/about') %}class="active"{% endif %}>About</a></li>
-        </ul>
-      </nav>
-      <div class="actions flex center-y gap-2">
-        <button id="themeToggle" class="btn btn-ghost" type="button" aria-label="Toggle theme">🌙</button>
+      <div class="flex grow justify-end center-y gap-6 header-right">
+        <nav class="main-nav" aria-label="Main Navigation">
+          <ul class="nav-list">
+            <li><a href="/" {% if request.path=='/' %}class="active"{% endif %}>Home</a></li>
+            <li><a href="/services" {% if request.path=='/services' %}class="active"{% endif %}>Services</a></li>
+            <li><a href="/about" {% if request.path.startswith('/about') %}class="active"{% endif %}>About</a></li>
+          </ul>
+        </nav>
+        <div class="actions flex center-y gap-2">
+          <button id="themeToggle" class="btn btn-ghost" type="button" aria-label="Toggle theme">🌙</button>
+        </div>
       </div>
     </div>
   </header>
-  <main id="main" class="site-main container">
+  <main id="main" class="site-main">
     {% block content %}{% endblock %}
   </main>
   <footer class="site-footer">
