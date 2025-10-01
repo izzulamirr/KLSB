@@ -31,3 +31,11 @@ def test_static_layout_css_served():
     resp = client.get('/static/css/layout.css')
     assert resp.status_code == 200
     assert b"site-header" in resp.data
+
+
+def test_services_route():
+    app = create_app()
+    client = app.test_client()
+    resp = client.get('/services')
+    assert resp.status_code == 200
+    assert b"Services" in resp.data
