@@ -19,6 +19,11 @@ def projects():
 def services():
     return render_template("services.html", page_class="home-page center-content")
 
+@main_bp.route("/contact", methods=["GET", "POST"])
+def contact():
+    # Placeholder: on POST you could process form data / send email
+    return render_template("contact.html", page_class="home-page center-content")
+
 # New routes to satisfy tests
 @main_bp.route("/about")
 def about():

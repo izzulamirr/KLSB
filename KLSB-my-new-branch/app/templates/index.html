@@ -11,7 +11,7 @@
     <p class="mt-6 text-slate-200 text-lg max-w-3xl mx-auto">We help EPCs and operators scale with certified personnel, in‑house design & modelling, and supply & trading aligned to your specifications.</p>
     <div class="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
       <a href="/services" class="rounded-2xl bg-white text-slate-900 px-6 py-3 text-sm font-medium shadow hover:shadow-md transition">Explore services</a>
-      <a href="#contact" class="rounded-2xl border border-white/60 text-white px-6 py-3 text-sm font-medium hover:bg-white/10 transition">Request a proposal</a>
+  <a href="/contact" class="rounded-2xl border border-white/60 text-white px-6 py-3 text-sm font-medium hover:bg-white/10 transition">Request a proposal</a>
     </div>
     <div class="mt-14 grid gap-6 sm:grid-cols-3 text-center">
       <div class="rounded-2xl bg-white/80 backdrop-blur p-6 shadow-sm">
@@ -37,29 +37,116 @@
 <!-- Why Choose KLSB -->
 <section class="py-24 bg-white" id="why">
   <div class="max-w-7xl mx-auto px-6">
-    <div class="max-w-3xl">
+    <div class="max-w-3xl mx-auto text-center">
       <h2 class="text-3xl sm:text-4xl font-bold tracking-tight">Why Choose KLSB</h2>
       <p class="mt-5 text-slate-600 text-lg">We combine certified technical talent, disciplined project governance, and multi-domain capability to accelerate execution while de‑risking delivery for engineering, energy and industrial stakeholders.</p>
     </div>
 
     <!-- Value pillars -->
-    <div class="mt-14 grid gap-8 md:grid-cols-2 lg:grid-cols-4">
-      <div class="p-6 rounded-2xl border bg-slate-50 shadow-sm hover:shadow transition">
-        <h3 class="font-semibold mb-2">Certified Expertise</h3>
-        <p class="text-sm text-slate-600">Platform & discipline certified personnel (E3D, Smart3D, SPI, cybersecurity) with proven field & design exposure.</p>
+    <div class="mt-14 feature-grid-enhanced md:grid-cols-2 lg:grid-cols-4">
+      <button class="feature-card text-left cursor-pointer" data-modal-target="feature-certified" aria-haspopup="dialog" aria-controls="modal-feature-certified">
+        <div class="feature-card-media">
+          <img src="{{ url_for('static', filename='img/hero.jpg') }}" alt="Certified expertise visual" loading="lazy">
+        </div>
+        <h3 class="font-semibold mb-2 flex items-center gap-2">Certified Expertise <span class="inline-block text-[10px] font-medium tracking-wide px-2 py-0.5 rounded-full bg-slate-900 text-white">Details</span></h3>
+        <p class="text-sm text-slate-600">Platform & discipline certified personnel with multi-environment execution history.</p>
+      </button>
+      <button class="feature-card text-left cursor-pointer" data-modal-target="feature-execution" aria-haspopup="dialog" aria-controls="modal-feature-execution">
+        <div class="feature-card-media">
+          <img src="{{ url_for('static', filename='img/2584721_XL.jpg') }}" alt="Execution discipline process" loading="lazy">
+        </div>
+        <h3 class="font-semibold mb-2 flex items-center gap-2">Execution Discipline <span class="inline-block text-[10px] font-medium tracking-wide px-2 py-0.5 rounded-full bg-slate-900 text-white">Details</span></h3>
+        <p class="text-sm text-slate-600">Structured governance & QA/QC loops enable predictability.</p>
+      </button>
+      <button class="feature-card text-left cursor-pointer" data-modal-target="feature-integrated" aria-haspopup="dialog" aria-controls="modal-feature-integrated">
+        <div class="feature-card-media">
+          <img src="{{ url_for('static', filename='img/business-2717427.jpg') }}" alt="Integrated capability collaboration" loading="lazy">
+        </div>
+        <h3 class="font-semibold mb-2 flex items-center gap-2">Integrated Capability <span class="inline-block text-[10px] font-medium tracking-wide px-2 py-0.5 rounded-full bg-slate-900 text-white">Details</span></h3>
+        <p class="text-sm text-slate-600">Cross-domain services under unified coordination.</p>
+      </button>
+      <button class="feature-card text-left cursor-pointer" data-modal-target="feature-adaptive" aria-haspopup="dialog" aria-controls="modal-feature-adaptive">
+        <div class="feature-card-media">
+          <img src="{{ url_for('static', filename='img/shutterstock_744825085-min.jpg') }}" alt="Adaptive engagement flexibility" loading="lazy">
+        </div>
+        <h3 class="font-semibold mb-2 flex items-center gap-2">Adaptive Engagement <span class="inline-block text-[10px] font-medium tracking-wide px-2 py-0.5 rounded-full bg-slate-900 text-white">Details</span></h3>
+        <p class="text-sm text-slate-600">Engagement models aligned to phase & risk appetite.</p>
+      </button>
+    </div>
+
+    <!-- Hidden detailed content (modal sources) -->
+    <div class="hidden" id="modal-source-feature-certified">
+      <div class="modal-hero">
+        <img src="{{ url_for('static', filename='img/hero.jpg') }}" alt="Certified expertise imagery" loading="lazy">
       </div>
-      <div class="p-6 rounded-2xl border bg-slate-50 shadow-sm hover:shadow transition">
-        <h3 class="font-semibold mb-2">Execution Discipline</h3>
-        <p class="text-sm text-slate-600">Structured onboarding, progress visibility and QA/QC loops ensure predictable outcomes.</p>
+      <h2 class="modal-title">Certified Expertise</h2>
+      <p>Our personnel hold platform and discipline certifications across E3D, Smart3D, SPI, cybersecurity frameworks and more, combining design office rigor with field commissioning exposure.</p>
+      <ul class="list-disc pl-5 mt-4 text-sm leading-relaxed space-y-1">
+        <li>Multi-platform (Aveva / Hexagon) model stewardship</li>
+        <li>Discipline cross-check & interface management</li>
+        <li>As-built reconciliation & metadata hygiene</li>
+        <li>Mentored onboarding for junior augmentation</li>
+      </ul>
+    </div>
+    <div class="hidden" id="modal-source-feature-execution">
+      <div class="modal-hero">
+        <img src="{{ url_for('static', filename='img/2584721_XL.jpg') }}" alt="Execution process visual" loading="lazy">
       </div>
-      <div class="p-6 rounded-2xl border bg-slate-50 shadow-sm hover:shadow transition">
-        <h3 class="font-semibold mb-2">Integrated Capability</h3>
-        <p class="text-sm text-slate-600">Manpower, digitalization, cybersecurity and supply & trading under a single coordination layer.</p>
+      <h2 class="modal-title">Execution Discipline</h2>
+      <p>We embed cadence, visibility and quality loops to reduce variance and surface risk early.</p>
+      <ol class="list-decimal pl-5 mt-4 text-sm leading-relaxed space-y-1">
+        <li>Structured kickoff & interface matrix</li>
+        <li>Sprint / milestone progress dashboards</li>
+        <li>QA/QC gates with defect categorization</li>
+        <li>Change impact + mitigation logging</li>
+      </ol>
+    </div>
+    <div class="hidden" id="modal-source-feature-integrated">
+      <div class="modal-hero">
+        <img src="{{ url_for('static', filename='img/business-2717427.jpg') }}" alt="Integrated capability collaboration image" loading="lazy">
       </div>
-      <div class="p-6 rounded-2xl border bg-slate-50 shadow-sm hover:shadow transition">
-        <h3 class="font-semibold mb-2">Adaptive Engagement</h3>
-        <p class="text-sm text-slate-600">Retainer, fixed scope, capacity augmentation or hybrid—aligned to project phase & risk appetite.</p>
+      <h2 class="modal-title">Integrated Capability</h2>
+      <p>Unified coordination layer spanning manpower, digitalization, cybersecurity and supply & trading.</p>
+      <p class="mt-3 text-sm">This reduces transactional overhead and misalignment across workstreams while improving traceability.</p>
+      <ul class="list-disc pl-5 mt-4 text-sm leading-relaxed space-y-1">
+        <li>Consolidated reporting across domains</li>
+        <li>Shared knowledge & standards repository</li>
+        <li>Common escalation & risk register</li>
+        <li>Toolchain alignment & credential governance</li>
+      </ul>
+    </div>
+    <div class="hidden" id="modal-source-feature-adaptive">
+      <div class="modal-hero">
+        <img src="{{ url_for('static', filename='img/shutterstock_744825085-min.jpg') }}" alt="Adaptive engagement flexibility image" loading="lazy">
       </div>
+      <h2 class="modal-title">Adaptive Engagement</h2>
+      <p>Flexible commercial and delivery structures tailored to uncertainty and phase maturity.</p>
+      <table class="w-full text-sm mt-4 border-collapse">
+        <thead>
+          <tr class="text-left border-b">
+            <th class="py-1 pr-3 font-semibold">Model</th>
+            <th class="py-1 pr-3 font-semibold">Best For</th>
+            <th class="py-1 font-semibold">Advantages</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="border-b align-top">
+            <td class="py-2 pr-3">Capacity Augmentation</td>
+            <td class="py-2 pr-3">Scaling established workflows</td>
+            <td class="py-2">Rapid ramp, lower onboarding friction</td>
+          </tr>
+          <tr class="border-b align-top">
+            <td class="py-2 pr-3">Fixed Scope</td>
+            <td class="py-2 pr-3">Well-defined deliverables</td>
+            <td class="py-2">Predictable cost, milestone clarity</td>
+          </tr>
+          <tr class="align-top">
+            <td class="py-2 pr-3">Hybrid / Retainer</td>
+            <td class="py-2 pr-3">Evolving backlog & advisory</td>
+            <td class="py-2">Strategic continuity & elasticity</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
 
     <!-- Metrics / Indicators -->
@@ -102,19 +189,6 @@
   </div>
 </section>
 
-<!-- Contact -->
-<section id="contact" class="py-20 bg-slate-100 text-center">
-  <div class="max-w-xl mx-auto px-6">
-    <h2 class="text-3xl font-semibold">Get in touch</h2>
-    <p class="mt-4 text-slate-600">Share your requirements and we’ll revert with a tailored proposal.</p>
-    <form class="mt-8 grid gap-4">
-      <input class="rounded-2xl border px-4 py-3" placeholder="Your name" required>
-      <input type="email" class="rounded-2xl border px-4 py-3" placeholder="Email" required>
-      <input class="rounded-2xl border px-4 py-3" placeholder="Company (optional)">
-      <textarea class="rounded-2xl border px-4 py-3 min-h-[140px]" placeholder="Project brief / scope"></textarea>
-      <button class="rounded-2xl bg-slate-900 text-white px-6 py-3 text-sm font-medium mx-auto">Send</button>
-    </form>
-  </div>
-</section>
+<!-- Contact section removed (moved to /contact) -->
 
 {% endblock %}
