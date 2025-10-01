@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}KLSB — Profile{% endblock %}
+{% block content %}
+<section class="relative overflow-hidden">
+  <div class="max-w-6xl mx-auto px-6 pt-40 pb-24">
+    <h1 class="text-5xl font-bold tracking-tight">Company Profile</h1>
+    <p class="mt-6 text-lg text-slate-600 leading-relaxed max-w-3xl">Add your profile content here (we can paste from your draft). Provide an overview, mission, and differentiators.</p>
+  </div>
+</section>
+<section class="max-w-6xl mx-auto px-6 pb-28 space-y-16">
+  <div>
+    <h2 class="text-2xl font-semibold mb-4">Mission</h2>
+    <p class="text-slate-600 leading-relaxed">Describe mission statement succinctly here.</p>
+  </div>
+  <div>
+    <h2 class="text-2xl font-semibold mb-4">Capabilities</h2>
+    <ul class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 text-sm text-slate-700">
+      <li class="p-5 rounded-2xl border bg-white shadow-sm">Engineering Design &amp; Modelling</li>
+      <li class="p-5 rounded-2xl border bg-white shadow-sm">Specialist Manpower</li>
+      <li class="p-5 rounded-2xl border bg-white shadow-sm">Digitalization Advisory</li>
+      <li class="p-5 rounded-2xl border bg-white shadow-sm">Cybersecurity Readiness</li>
+      <li class="p-5 rounded-2xl border bg-white shadow-sm">Quality &amp; Compliance</li>
+      <li class="p-5 rounded-2xl border bg-white shadow-sm">Supply &amp; Trading Support</li>
+    </ul>
+  </div>
+  <div>
+    <h2 class="text-2xl font-semibold mb-4">Engagement Principles</h2>
+    <ol class="list-decimal list-inside space-y-2 text-slate-600">
+      <li>Transparent collaboration</li>
+      <li>Outcome-focused delivery</li>
+      <li>Flexible engagement tiers</li>
+      <li>Documented knowledge transfer</li>
+    </ol>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,12 @@
+/* base.css - resets, typography, basic elements */
+* { box-sizing: border-box; }
+html { -webkit-font-smoothing: antialiased; }
+body, html { min-height:100%; }
+body { margin:0; font-family: var(--font-sans); line-height:1.55; background: var(--color-bg); color: var(--color-text); transition: background var(--trans-fast), color var(--trans-fast); }
+:root[data-theme='dark'] body { background: var(--color-bg-dark); color: var(--color-text-dark); }
+img { max-width:100%; height:auto; display:block; }
+a { color: var(--color-primary); text-decoration:none; }
+a:hover { text-decoration:underline; }
+.skip-link { position:absolute; left:-999px; top:auto; width:1px; height:1px; overflow:hidden; }
+.skip-link:focus { left: var(--space-4); top: var(--space-4); width:auto; height:auto; background: var(--color-primary); color:#fff; padding: var(--space-2) var(--space-4); border-radius: var(--radius-sm); }
+:root[data-theme='dark'] { color-scheme: dark; }
