@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% block title %}Focus | KLSB{% endblock %}
+{% block content %}
+<section class="py-24 bg-white">
+  <div class="max-w-6xl mx-auto px-6">
+    <!-- Vision & Mission -->
+    <h1 class="sr-only">Focus</h1>
+    <h2 class="text-xl font-semibold tracking-tight text-slate-900 flex items-center gap-2 justify-center">
+      <span class="h-5 w-1.5 rounded-full bg-teal-500"></span>
+      <span>Vision & Mission</span>
+    </h2>
+    <div class="mt-10 grid lg:grid-cols-2 gap-16">
+      <div>
+        <h3 class="text-2xl font-semibold">Mission</h3>
+        <p class="mt-4 text-slate-600 leading-relaxed">Deliver integrated technical and digital capability that improves certainty, compresses schedule risk and elevates asset & lifecycle performance for our partners.</p>
+        <ul class="mt-6 space-y-3 text-sm text-slate-700">
+          <li class="flex gap-2"><span class="h-2 w-2 rounded-full bg-teal-600 mt-2"></span><span>Execution discipline & QA/QC loops.</span></li>
+          <li class="flex gap-2"><span class="h-2 w-2 rounded-full bg-teal-600 mt-2"></span><span>Certified multi-platform engineering resources.</span></li>
+          <li class="flex gap-2"><span class="h-2 w-2 rounded-full bg-teal-600 mt-2"></span><span>Flexible engagement models aligned to risk.</span></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="text-2xl font-semibold">Vision</h3>
+        <p class="mt-4 text-slate-600 leading-relaxed">Be the trusted coordination layer unifying discipline expertise, digital enablement and secure operations for capital & industrial program stakeholders.</p>
+        <ul class="mt-6 space-y-3 text-sm text-slate-700">
+          <li class="flex gap-2"><span class="h-2 w-2 rounded-full bg-teal-600 mt-2"></span><span>Unified reporting & interface clarity.</span></li>
+          <li class="flex gap-2"><span class="h-2 w-2 rounded-full bg-teal-600 mt-2"></span><span>Security-aware digital workflows embedded early.</span></li>
+          <li class="flex gap-2"><span class="h-2 w-2 rounded-full bg-teal-600 mt-2"></span><span>Predictable delivery with proactive risk surfacing.</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Sustainability Commitment -->
+    <section class="mt-24">
+      <div class="flex items-center gap-2 justify-center">
+        <h2 class="text-xl font-semibold tracking-tight text-slate-900 flex items-center gap-2">
+          <span class="h-5 w-1.5 rounded-full bg-teal-500"></span><span>Sustainability Commitment</span>
+        </h2>
+      </div>
+      <div class="mt-10 grid gap-12 lg:grid-cols-3">
+        <div class="lg:col-span-2 space-y-5 text-sm leading-relaxed text-slate-600">
+          <p>Building on the foundation of our inaugural 2023 Sustainability Report, the current cycle adds refined data insight and a clearer trajectory. Comparative views where relevant provide stakeholders a consistent lens on progress.</p>
+          <p>Aligned with <strong>GRI Standards</strong> and the <strong>GHG Protocol</strong>, disclosures encompass Scope 1, Scope 2 and selected Scope 3 emissions, energy consumption patterns, employee wellbeing and governance initiatives with year‑on‑year context where informative.</p>
+            <p>The process reinforces strategic direction—embedding responsible practice, measurement discipline and resilience orientation.</p>
+          <ul class="mt-4 space-y-2 text-xs text-slate-600">
+            <li class="flex gap-2"><span class="h-1.5 w-1.5 rounded-full bg-teal-500 mt-1"></span>GRI / GHG aligned methodology</li>
+            <li class="flex gap-2"><span class="h-1.5 w-1.5 rounded-full bg-teal-500 mt-1"></span>Scopes 1 & 2 + selected 3 tracking</li>
+            <li class="flex gap-2"><span class="h-1.5 w-1.5 rounded-full bg-teal-500 mt-1"></span>Energy intensity & efficiency metrics</li>
+            <li class="flex gap-2"><span class="h-1.5 w-1.5 rounded-full bg-teal-500 mt-1"></span>People wellbeing & governance programs</li>
+          </ul>
+        </div>
+        <div class="bg-slate-900 text-slate-50 rounded-2xl p-6 shadow-sm ring-1 ring-slate-800/50">
+          <h3 class="text-xs font-semibold uppercase tracking-wide text-teal-300">Sustainability Focus</h3>
+          <p class="mt-4 text-xs leading-relaxed text-slate-300">Incremental maturity: better data quality, structured emissions baselining, and embedding responsibility in delivery governance & digital workflows.</p>
+          <div class="mt-6 grid grid-cols-2 gap-3 text-[11px]">
+            <div class="bg-white/5 rounded-lg p-3">
+              <div class="font-medium text-slate-100">Scopes</div>
+              <p class="mt-1 text-slate-400">1 • 2 • 3 (sel)</p>
+            </div>
+            <div class="bg-white/5 rounded-lg p-3">
+              <div class="font-medium text-slate-100">Frameworks</div>
+              <p class="mt-1 text-slate-400">GRI • GHG</p>
+            </div>
+            <div class="bg-white/5 rounded-lg p-3">
+              <div class="font-medium text-slate-100">Focus</div>
+              <p class="mt-1 text-slate-400">Energy & Gov</p>
+            </div>
+            <div class="bg-white/5 rounded-lg p-3">
+              <div class="font-medium text-slate-100">Trajectory</div>
+              <p class="mt-1 text-slate-400">Resilience</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</section>
+{% endblock %}
