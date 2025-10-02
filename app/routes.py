@@ -117,27 +117,3 @@ def about_focus():
 @main_bp.route("/healthz")
 def healthz():
     return jsonify(status="ok")
-
-@main_bp.route('/services/manpower')
-def services_manpower():
-    return render_template('Services/manpower.html')
-
-@main_bp.route('/services/engineering')
-def services_engineering():
-    return render_template('Services/engineering.html')
-
-@main_bp.route('/services/digital')
-def services_digital():
-    return render_template('Services/digital.html')
-
-@main_bp.route('/services/inspection')
-def services_inspection():
-    return render_template('Services/inspection.html')
-
-@main_bp.route('/services/construction')
-def services_construction():
-    return render_template('Services/construction.html')
-
-@main_bp.route('/services/supply')
-def services_supply():
-    return render_template('Services/supply.html')
