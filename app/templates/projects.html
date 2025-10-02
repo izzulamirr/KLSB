@@ -1,48 +1,170 @@
 {% extends "base.html" %}
-{% block title %}KLSB — Projects{% endblock %}
+{% block title %}Projects & Case Studies — KLSB{% endblock %}
 {% block content %}
-<section class="relative overflow-hidden">
-  <div class="max-w-6xl mx-auto px-6 pt-40 pb-20">
-    <h1 class="text-5xl font-bold tracking-tight">Projects</h1>
-    <p class="mt-6 text-lg text-slate-600 leading-relaxed max-w-3xl">Selected highlights and case studies demonstrating delivery quality, domain depth and collaboration maturity.</p>
+
+<!-- Hero / Intro -->
+<section class="relative overflow-hidden bg-gradient-to-b from-slate-50 to-white">
+  <div class="max-w-7xl mx-auto px-6 pt-36 pb-20">
+    <h1 class="text-4xl sm:text-5xl font-bold tracking-tight">Projects & Case Studies</h1>
+    <p class="mt-6 text-lg text-slate-600 leading-relaxed max-w-3xl">Representative engagements illustrating how integrated manpower, engineering and digital enablement compress risk and elevate delivery certainty.</p>
+    <div class="mt-10 flex flex-wrap gap-3 text-xs font-medium tracking-wide uppercase">
+      <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-slate-900 text-white">Active Streams <span class="text-[10px]">7</span></span>
+      <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-slate-200 text-slate-700">Clients 12+</span>
+      <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-slate-200 text-slate-700">Disciplines 6</span>
+    </div>
   </div>
 </section>
 
-<section class="max-w-6xl mx-auto px-6 pb-28 space-y-16">
-  <div>
-    <h2 class="text-2xl font-semibold mb-4">Featured Initiatives</h2>
-    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-      <article class="p-5 rounded-2xl border bg-white shadow-sm flex flex-col gap-3">
-        <h3 class="font-semibold">Digital Model Integration</h3>
-        <p class="text-sm text-slate-600">Consolidated multi-discipline models improving cross-team coordination.</p>
-      </article>
-      <article class="p-5 rounded-2xl border bg-white shadow-sm flex flex-col gap-3">
-        <h3 class="font-semibold">Cyber Hardening Program</h3>
-        <p class="text-sm text-slate-600">Risk reduction through endpoint policy and access segmentation.</p>
-      </article>
-      <article class="p-5 rounded-2xl border bg-white shadow-sm flex flex-col gap-3">
-        <h3 class="font-semibold">Specialist Manpower Ramp-Up</h3>
-        <p class="text-sm text-slate-600">Rapid onboarding of certified designers within critical schedule window.</p>
-      </article>
+<!-- Filters -->
+<section class="sticky top-20 z-30 border-y bg-white/90 backdrop-blur supports-[backdrop-filter]:bg-white/70">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="flex flex-wrap items-center gap-3 py-4" id="project-filters" aria-label="Project filters">
+      <button class="filter-chip is-active" data-filter="all">All</button>
+      <button class="filter-chip" data-filter="engineering">Engineering</button>
+      <button class="filter-chip" data-filter="digital">Digital</button>
+      <button class="filter-chip" data-filter="cyber">Cybersecurity</button>
+      <button class="filter-chip" data-filter="manpower">Manpower</button>
+      <button class="filter-chip" data-filter="inspection">Inspection</button>
+      <button class="filter-chip" data-filter="construction">Construction</button>
+      <button class="filter-chip" data-filter="supply">Supply</button>
     </div>
   </div>
-  <div>
-    <h2 class="text-2xl font-semibold mb-4">Delivery Pillars</h2>
-    <ul class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 text-sm text-slate-700">
-      <li class="p-5 rounded-2xl border bg-white shadow-sm">Traceability</li>
-      <li class="p-5 rounded-2xl border bg-white shadow-sm">Interoperability</li>
-      <li class="p-5 rounded-2xl border bg-white shadow-sm">Security Hygiene</li>
-      <li class="p-5 rounded-2xl border bg-white shadow-sm">Performance Insight</li>
-    </ul>
-  </div>
-  <div>
-    <h2 class="text-2xl font-semibold mb-4">Engagement Models</h2>
-    <ol class="list-decimal list-inside space-y-2 text-slate-600">
-      <li>Fixed-scope package</li>
-      <li>Capacity augmentation</li>
-      <li>Retainer advisory</li>
-      <li>Hybrid blended teams</li>
-    </ol>
+</section>
+
+<!-- Project Grid -->
+<section class="py-24">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="grid gap-8 md:grid-cols-2 xl:grid-cols-3" id="project-grid">
+
+      <!-- Project Card Template Examples -->
+      <article class="project-card" data-cat="engineering digital" data-modal-target="proj-model-integration" aria-haspopup="dialog" aria-controls="modal-proj-model-integration">
+        <div class="project-media"><img src="{{ url_for('static', filename='img/hero.jpg') }}" alt="Integrated 3D model coordination" loading="lazy"></div>
+        <div class="project-body">
+          <h3 class="project-title">Digital Model Integration</h3>
+          <p class="project-excerpt">Unified multi-discipline model reducing rework loops & interface delay.</p>
+          <div class="project-tags"><span>Engineering</span><span>Digital</span></div>
+        </div>
+      </article>
+
+      <article class="project-card" data-cat="cyber digital" data-modal-target="proj-cyber-hardening" aria-haspopup="dialog" aria-controls="modal-proj-cyber-hardening">
+        <div class="project-media"><img src="{{ url_for('static', filename='img/2584721_XL.jpg') }}" alt="Cyber hardening" loading="lazy"></div>
+        <div class="project-body">
+          <h3 class="project-title">Cyber Hardening Program</h3>
+          <p class="project-excerpt">Endpoint segmentation & policy uplift decreasing attack surface.</p>
+          <div class="project-tags"><span>Cybersecurity</span><span>Digital</span></div>
+        </div>
+      </article>
+
+      <article class="project-card" data-cat="manpower" data-modal-target="proj-manpower-ramp" aria-haspopup="dialog" aria-controls="modal-proj-manpower-ramp">
+        <div class="project-media"><img src="{{ url_for('static', filename='img/business-2717427.jpg') }}" alt="Manpower ramp" loading="lazy"></div>
+        <div class="project-body">
+          <h3 class="project-title">Specialist Ramp-Up</h3>
+          <p class="project-excerpt">Rapid onboarding of certified designers across critical disciplines.</p>
+          <div class="project-tags"><span>Manpower</span></div>
+        </div>
+      </article>
+
+      <article class="project-card" data-cat="inspection engineering" data-modal-target="proj-inspection" aria-haspopup="dialog" aria-controls="modal-proj-inspection">
+        <div class="project-media"><img src="{{ url_for('static', filename='img/shutterstock_744825085-min.jpg') }}" alt="Inspection services" loading="lazy"></div>
+        <div class="project-body">
+          <h3 class="project-title">Specialized Inspection</h3>
+          <p class="project-excerpt">Asset integrity verification with structured digital trace capture.</p>
+          <div class="project-tags"><span>Inspection</span><span>Engineering</span></div>
+        </div>
+      </article>
+
+      <article class="project-card" data-cat="construction" data-modal-target="proj-construction" aria-haspopup="dialog" aria-controls="modal-proj-construction">
+        <div class="project-media"><img src="{{ url_for('static', filename='img/4.png') }}" alt="Construction coordination" loading="lazy"></div>
+        <div class="project-body">
+          <h3 class="project-title">Construction Package Support</h3>
+          <p class="project-excerpt">Coordinated package tracking & materials readiness enablement.</p>
+          <div class="project-tags"><span>Construction</span></div>
+        </div>
+      </article>
+
+      <article class="project-card" data-cat="supply" data-modal-target="proj-supply" aria-haspopup="dialog" aria-controls="modal-proj-supply">
+        <div class="project-media"><img src="{{ url_for('static', filename='img/5.png') }}" alt="Supply trading" loading="lazy"></div>
+        <div class="project-body">
+          <h3 class="project-title">Supply & Trading Enablement</h3>
+          <p class="project-excerpt">Coordinated vendor sourcing & event management logistics.</p>
+          <div class="project-tags"><span>Supply</span></div>
+        </div>
+      </article>
+
+    </div>
   </div>
 </section>
+
+<!-- Hidden Modal Sources -->
+<div class="hidden" id="modal-source-proj-model-integration">
+  <div class="modal-hero"><img src="{{ url_for('static', filename='img/hero.jpg') }}" alt="Model integration"></div>
+  <h2 class="modal-title">Digital Model Integration</h2>
+  <p>Consolidated multi-discipline 3D model stewardship improving interface clarity and reducing engineering iteration churn.</p>
+  <ul class="list-disc pl-5 mt-4 text-sm space-y-1">
+    <li>Cross-platform (Aveva/Hexagon) reconciliation</li>
+    <li>Metadata hygiene & revision control</li>
+    <li>As-built alignment & deviation logging</li>
+    <li>Dashboards surfacing clash / status KPIs</li>
+  </ul>
+</div>
+<div class="hidden" id="modal-source-proj-cyber-hardening">
+  <div class="modal-hero"><img src="{{ url_for('static', filename='img/2584721_XL.jpg') }}" alt="Cyber hardening"></div>
+  <h2 class="modal-title">Cyber Hardening Program</h2>
+  <p>Phased uplift of endpoint and identity posture across engineering toolchain landscape.</p>
+  <ol class="list-decimal pl-5 mt-4 text-sm space-y-1">
+    <li>Baseline assessment & asset mapping</li>
+    <li>Policy segmentation & MFA coverage</li>
+    <li>Patch cadence normalization</li>
+    <li>Continuous monitoring dashboards</li>
+  </ol>
+</div>
+<div class="hidden" id="modal-source-proj-manpower-ramp">
+  <div class="modal-hero"><img src="{{ url_for('static', filename='img/business-2717427.jpg') }}" alt="Manpower ramp"></div>
+  <h2 class="modal-title">Specialist Ramp-Up</h2>
+  <p>Rapid deployment of certified designers and discipline specialists within compressed schedule window.</p>
+  <ul class="list-disc pl-5 mt-4 text-sm space-y-1">
+    <li>Competency matrix aligned to work packs</li>
+    <li>Mentored onboarding & QA loops</li>
+    <li>Utilization analytics & velocity tracking</li>
+    <li>Retention support & succession planning</li>
+  </ul>
+</div>
+<div class="hidden" id="modal-source-proj-inspection">
+  <div class="modal-hero"><img src="{{ url_for('static', filename='img/shutterstock_744825085-min.jpg') }}" alt="Inspection"></div>
+  <h2 class="modal-title">Specialized Inspection</h2>
+  <p>Structured inspection workflow capturing condition data with digital trace for integrity engineering.</p>
+  <ul class="list-disc pl-5 mt-4 text-sm space-y-1">
+    <li>Scope matrix & priority tagging</li>
+    <li>Field data capture templates</li>
+    <li>Anomaly classification & escalation</li>
+    <li>Remediation tracking dashboards</li>
+  </ul>
+</div>
+<div class="hidden" id="modal-source-proj-construction">
+  <div class="modal-hero"><img src="{{ url_for('static', filename='img/4.png') }}" alt="Construction"></div>
+  <h2 class="modal-title">Construction Package Support</h2>
+  <p>Coordinated materials & package readiness oversight minimizing on‑site idle time.</p>
+  <ul class="list-disc pl-5 mt-4 text-sm space-y-1">
+    <li>Look‑ahead readiness snapshots</li>
+    <li>Material receipt & variance logging</li>
+    <li>Permit / interface tracking</li>
+    <li>Progress KPI & constraint board</li>
+  </ul>
+</div>
+<div class="hidden" id="modal-source-proj-supply">
+  <div class="modal-hero"><img src="{{ url_for('static', filename='img/5.png') }}" alt="Supply enablement"></div>
+  <h2 class="modal-title">Supply & Trading Enablement</h2>
+  <p>Vendor sourcing orchestration and logistics coordination increasing transparency & cycle speed.</p>
+  <ul class="list-disc pl-5 mt-4 text-sm space-y-1">
+    <li>Vendor qualification & shortlisting</li>
+    <li>Bid comparison analytics</li>
+    <li>Event & logistics alignment</li>
+    <li>Performance & compliance KPIs</li>
+  </ul>
+</div>
+
+{% endblock %}
+{% block extra_body %}
+{{ super() }}
+<script src="{{ url_for('static', filename='js/projects.js') }}" defer></script>
 {% endblock %}

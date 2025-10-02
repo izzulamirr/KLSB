@@ -43,7 +43,20 @@
         <nav class="nav-links flex justify-center" aria-label="Main navigation">
           <a href="/" class="nav-link" data-nav>Home</a>
           <a href="/services" class="nav-link" data-nav>Services</a>
-          <a href="{{ url_for('main.profile') }}" class="nav-link" data-nav>Profile</a>
+          <div class="relative group" data-nav-parent>
+            <button class="nav-link inline-flex items-center gap-1" aria-haspopup="true" aria-expanded="false">About Us
+              <svg width="14" height="14" viewBox="0 0 20 20" fill="none" class="transition-transform group-hover:translate-y-[1px]"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <div class="invisible opacity-0 group-hover:opacity-100 group-hover:visible transition duration-200 absolute left-0 top-full pt-3 min-w-[220px]">
+              <div class="rounded-xl border border-slate-200 shadow-lg bg-white p-2 flex flex-col gap-1 dropdown-panel">
+                <a href="/about/overview" class="dropdown-item" data-nav>Overview</a>
+                <a href="/about/history" class="dropdown-item" data-nav>History</a>
+                  <a href="/about/focus" class="block px-3 py-2 rounded-lg text-sm text-slate-700 hover:bg-slate-50">Focus</a>
+                <a href="/about/board" class="dropdown-item" data-nav>Board</a>
+                <a href="/about/affiliations" class="dropdown-item" data-nav>Affiliations</a>
+              </div>
+            </div>
+          </div>
           <a href="{{ url_for('main.projects') }}" class="nav-link" data-nav>Projects</a>
           {% if not hide_contact_cta %}
           <a href="/contact" class="nav-link" data-nav>Contact</a>

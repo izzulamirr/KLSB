@@ -2,7 +2,7 @@
 {% block title %}KLSB — Profile{% endblock %}
 {% block content %}
 <section class="relative overflow-hidden">
-  <div class="max-w-6xl mx-auto px-6 pt-40 pb-24">
+ 
     <h1 class="text-5xl font-bold tracking-tight">Company Profile</h1>
     <p class="mt-6 text-lg text-slate-600 leading-relaxed max-w-3xl">Add your profile content here (we can paste from your draft). Provide an overview, mission, and differentiators.</p>
   </div>
@@ -13,6 +13,7 @@
     <p class="text-slate-600 leading-relaxed">Describe mission statement succinctly here.</p>
   </div>
   <div>
+    
     <h2 class="text-2xl font-semibold mb-4">Capabilities</h2>
     <ul class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 text-sm text-slate-700">
       <li class="p-5 rounded-2xl border bg-white shadow-sm">Engineering Design &amp; Modelling</li>
@@ -23,14 +24,28 @@
       <li class="p-5 rounded-2xl border bg-white shadow-sm">Supply &amp; Trading Support</li>
     </ul>
   </div>
-  <div>
-    <h2 class="text-2xl font-semibold mb-4">Engagement Principles</h2>
-    <ol class="list-decimal list-inside space-y-2 text-slate-600">
-      <li>Transparent collaboration</li>
-      <li>Outcome-focused delivery</li>
-      <li>Flexible engagement tiers</li>
-      <li>Documented knowledge transfer</li>
-    </ol>
+ <section class="py-24 bg-white">
+  <div class="max-w-7xl mx-auto px-6">
+    <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-center mb-12">Board of Directors</h2>
+    <div class="flex flex-wrap justify-center gap-8">
+      <div class="bg-slate-100 rounded-3xl overflow-hidden shadow w-full max-w-xs flex flex-col items-center">
+        <img src="/static/img/director1.jpg" alt="Tan Sri Dato’ Seri Mohd Bakke Salleh" class="w-full h-80 object-cover">
+        <div class="p-6 w-full">
+          <div class="font-bold text-lg text-teal-700 mb-2">Tan Sri Dato’ Seri Mohd Bakke Salleh</div>
+          <div class="text-slate-700 mb-1">Chairman</div>
+          <div class="text-slate-500 text-sm">Independent<br>Non-Executive Director</div>
+        </div>
+      </div>
+      <div class="bg-slate-100 rounded-3xl overflow-hidden shadow w-full max-w-xs flex flex-col items-center">
+        <img src="/static/img/director2.jpg" alt="YM Tan Sri Tengku Muhammad Taufik Tengku Kamadjaja Aziz" class="w-full h-80 object-cover">
+        <div class="p-6 w-full">
+          <div class="font-bold text-lg text-teal-700 mb-2">YM Tan Sri Tengku Muhammad Taufik Tengku Kamadjaja Aziz</div>
+          <div class="text-slate-700 mb-1">President &<br>Group Chief Executive Officer</div>
+          <div class="text-slate-500 text-sm">Executive Director</div>
+        </div>
+      </div>
+    </div>
   </div>
+</section>
 </section>
 {% endblock %}
