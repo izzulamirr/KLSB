@@ -84,4 +84,31 @@
       closeModal();
     }
   });
-})();
+
+    // Equalize hero cards to match the first card's height (fallback when CSS alone doesn't do it)
+    function equalizeHeroCards(){
+      const container = document.querySelector('.hero-cards');
+      if(!container) return;
+      const cards = Array.from(container.querySelectorAll(':scope > a'));
+      if(!cards.length) return;
+      // Reset heights first to allow natural measurement
+      cards.forEach(c=>{ c.style.minHeight = ''; c.style.height = ''; });
+      // Measure the first card's computed height (including padding)
+      const firstRect = cards[0].getBoundingClientRect();
+      const target = Math.round(firstRect.height);
+      // Apply target as minHeight to all cards
+      cards.forEach(c=>{ c.style.minHeight = target + 'px'; });
+    }
+
+    // Debounced resize handler
+    let resizeTimer = null;
+    function onResizeDebounced(){
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(()=>{ equalizeHeroCards(); }, 120);
+    }
+
+    // Run on DOM ready and on window resize
+    document.addEventListener('DOMContentLoaded', equalizeHeroCards);
+    window.addEventListener('resize', onResizeDebounced);
+
+  })();

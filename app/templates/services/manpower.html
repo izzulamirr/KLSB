@@ -1,0 +1,152 @@
+{% extends "base.html" %}
+{% block title %}KLSB — Professional & Technical Manpower{% endblock %}
+{% block content %}
+
+<section class="py-16 bg-white">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+
+    <!-- ✅ Back to all services -->
+    <nav class="text-sm text-slate-500 mb-6 text-left">
+      <a href="{{ url_for('main.services_page') }}" class="hover:text-slate-700">← Back to all services</a>
+    </nav>
+
+    <!-- Header -->
+    <h1 class="text-3xl sm:text-4xl font-bold mb-6">Professional &amp; Technical Manpower</h1>
+    <p class="text-slate-600 mb-12">
+      We deliver professional and technical manpower for engineering, project management, and construction—
+      tailored to your scope, timeline, and budget. Our resourcing model covers on-site, hybrid, and remote,
+      with quick onboarding and clear SLAs.
+    </p>
+
+    <!-- Top CTA -->
+    <div class="mb-14">
+      <a href="{{ url_for('main.services_manpower_send_cv') }}"
+         class="inline-flex items-center rounded-2xl bg-slate-900 text-white px-6 py-3 font-medium hover:bg-slate-800">
+        Send CV
+      </a>
+    </div>
+
+    <!-- Content -->
+    <div class="space-y-12 text-left">
+
+      <!-- Engineering Personnel -->
+      <section class="rounded-2xl border bg-white p-6 shadow-sm">
+        <h2 class="text-2xl font-semibold text-center mb-2">Engineering Personnel</h2>
+        <p class="text-slate-600 text-center mb-5">
+          Multi-discipline engineers and designers for upstream, midstream, and downstream projects.
+        </p>
+        <div class="grid sm:grid-cols-2 gap-6">
+          <ul class="list-disc list-inside text-slate-700 space-y-1">
+            <li>Process Engineers</li>
+            <li>Civil Engineers</li>
+            <li>Structural Engineers</li>
+            <li>Piping Engineers</li>
+          </ul>
+          <ul class="list-disc list-inside text-slate-700 space-y-1">
+            <li>Mechanical Engineers</li>
+            <li>Electrical Engineers</li>
+            <li>Instrument/Control Engineers</li>
+            <li>3D Designers/Modellers (E3D, Smart 3D)</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Project Management Personnel -->
+      <section class="rounded-2xl border bg-white p-6 shadow-sm">
+        <h2 class="text-2xl font-semibold text-center mb-2">Project Management Personnel</h2>
+        <p class="text-slate-600 text-center mb-5">
+          Delivery-driven roles to plan, control, and report project outcomes.
+        </p>
+        <div class="grid sm:grid-cols-2 gap-6">
+          <ul class="list-disc list-inside text-slate-700 space-y-1">
+            <li>Project Managers</li>
+            <li>Project Engineers / Coordinators</li>
+            <li>Planners &amp; Schedulers</li>
+          </ul>
+          <ul class="list-disc list-inside text-slate-700 space-y-1">
+            <li>Cost Estimators / Controllers</li>
+            <li>Document Controllers</li>
+            <li>QA/QC &amp; Inspection Coordinators</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Construction Personnel -->
+      <section class="rounded-2xl border bg-white p-6 shadow-sm">
+        <h2 class="text-2xl font-semibold text-center mb-2">Construction Personnel</h2>
+        <p class="text-slate-600 text-center mb-5">
+          Site-ready resources with strong HSE culture and proven field experience.
+        </p>
+        <div class="grid sm:grid-cols-2 gap-6">
+          <ul class="list-disc list-inside text-slate-700 space-y-1">
+            <li>Construction Managers</li>
+            <li>Site Supervisors</li>
+            <li>Safety Officers</li>
+          </ul>
+          <ul class="list-disc list-inside text-slate-700 space-y-1">
+            <li>Skilled Trades (welding, piping, electrical, civil)</li>
+            <li>Inspectors (QA/QC, Welding, NDT)</li>
+            <li>Turnaround / Shutdown Crews</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Engagement Models -->
+      <section class="rounded-2xl border bg-white p-6 shadow-sm">
+        <h2 class="text-2xl font-semibold text-center mb-2">Engagement Models</h2>
+        <div class="grid sm:grid-cols-3 gap-6 text-slate-700">
+          <div class="rounded-xl border p-4">
+            <h3 class="font-semibold">Secondment</h3>
+            <p class="mt-2 text-sm">Embed resources within your team for the duration you need.</p>
+          </div>
+          <div class="rounded-xl border p-4">
+            <h3 class="font-semibold">Unit-Rate / T&amp;M</h3>
+            <p class="mt-2 text-sm">Transparent outputs and hours with clear reporting and SLAs.</p>
+          </div>
+          <div class="rounded-xl border p-4">
+            <h3 class="font-semibold">Hybrid</h3>
+            <p class="mt-2 text-sm">Blend on-site presence with remote design and back-office support.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Why Choose KLSB -->
+      <section class="rounded-2xl border bg-white p-6 shadow-sm">
+        <h2 class="text-2xl font-semibold text-center mb-2">Why Choose KLSB</h2>
+        <div class="grid sm:grid-cols-2 gap-6 text-slate-700">
+          <div class="rounded-xl border p-4">
+            <h3 class="font-semibold">Expertise</h3>
+            <p class="mt-2 text-sm">Qualified specialists with strong domain knowledge and toolsets.</p>
+          </div>
+          <div class="rounded-xl border p-4">
+            <h3 class="font-semibold">Customization</h3>
+            <p class="mt-2 text-sm">Resourcing matched to your scope, delivery model, and schedule.</p>
+          </div>
+          <div class="rounded-xl border p-4">
+            <h3 class="font-semibold">Quality &amp; Safety</h3>
+            <p class="mt-2 text-sm">Certified personnel and robust HSE practices for dependable delivery.</p>
+          </div>
+          <div class="rounded-xl border p-4">
+            <h3 class="font-semibold">Reliability</h3>
+            <p class="mt-2 text-sm">Track record of on-time delivery backed by clear metrics and reviews.</p>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- Bottom CTA -->
+    <div class="mt-16">
+      <p class="text-slate-600 mb-6">
+        Need certified, project-ready personnel? Tell us your timeline and scope.
+      </p>
+      <a href="/contact"
+         class="inline-flex items-center rounded-2xl bg-slate-900 text-white px-6 py-3 font-medium hover:bg-slate-800">
+        Request a proposal
+      </a>
+    </div>
+
+  </div>
+</section>
+
+{% endblock %}

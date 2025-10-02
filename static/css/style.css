@@ -39,6 +39,32 @@ a:hover { text-decoration: underline; }
 .card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
 :root[data-theme='dark'] .card { background: var(--color-surface-dark); border-color: var(--color-border-dark); }
 
+/* Hero cards: make each card a flex column and use responsive min-heights so all look uniform */
+.hero-cards {
+  align-items: stretch;
+  /* make each grid cell have equal height (rows will size to tallest content)
+     and let children stretch to fill the grid area */
+  grid-auto-rows: 1fr;
+}
+.hero-cards > a {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  height: 100%;
+}
+
+/* Ensure any direct child inside a hero card is vertically centered
+   This handles cases where the card has one or multiple child elements */
+.hero-cards > a > * {
+  margin: 0 auto; /* center horizontally */
+  width: auto;    /* allow content to size naturally */
+  align-self: center; /* center vertically within the flex parent */
+}
+
+.hero-cards > a .text-xl { display: inline-block; text-align: center; }
+
 /* Buttons */
 .btn { --btn-bg: var(--color-primary); --btn-bg-hover: var(--color-primary-accent); --btn-color:#fff; --btn-border: transparent; font: inherit; cursor:pointer; display:inline-flex; align-items:center; gap: .5ch; border:1px solid var(--btn-border); background: var(--btn-bg); color: var(--btn-color); padding: var(--space-3) var(--space-5); border-radius: var(--radius-full); font-weight:600; text-decoration:none; line-height:1.2; box-shadow: var(--shadow-sm); transition: background var(--trans-fast), color var(--trans-fast), transform var(--trans-fast), box-shadow var(--trans-fast); }
 .btn:hover { background: var(--btn-bg-hover); text-decoration:none; }

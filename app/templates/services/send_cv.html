@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}Send CV — KLSB{% endblock %}
+{% block content %}
+
+<section class="py-16 bg-white">
+  <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
+    <h1 class="text-3xl font-bold mb-6 text-center">Send your CV</h1>
+
+    {% if errors %}
+      <div class="mb-4 rounded-md bg-red-50 p-4 text-sm text-red-700">
+        <ul>
+        {% for e in errors %}
+          <li>{{ e }}</li>
+        {% endfor %}
+        </ul>
+      </div>
+    {% endif %}
+
+    <form method="post" enctype="multipart/form-data" class="space-y-6">
+      <div>
+        <label class="block text-sm font-medium text-slate-700">Full name</label>
+        <input name="full_name" type="text" required value="{{ form.full_name if form else '' }}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm" />
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-slate-700">Position</label>
+        <input name="position" type="text" required value="{{ form.position if form else '' }}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm" />
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-slate-700">Availability date</label>
+        <input name="availability" type="date" required value="{{ form.availability if form else '' }}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm" />
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-slate-700">Attachment (CV)</label>
+        <input name="cv_file" type="file" accept=".pdf,.doc,.docx" required class="mt-1 block w-full" />
+      </div>
+
+      <div class="text-right">
+        <button type="submit" class="inline-flex items-center rounded-2xl bg-slate-900 text-white px-6 py-3 font-medium hover:bg-slate-800">Send CV</button>
+      </div>
+    </form>
+  </div>
+</section>
+
+{% endblock %}

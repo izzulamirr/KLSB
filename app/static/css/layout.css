@@ -5,18 +5,18 @@
 .home-page .site-header .container, .site-header.flush .container { max-width:100%; padding-left: clamp(.75rem,2vw,2rem); padding-right: clamp(.75rem,2vw,2rem); }
 .site-header { backdrop-filter: blur(8px); background:#ffffff; border-bottom:1px solid var(--color-border); position:sticky; top:0; z-index:50; transition: background .4s ease; }
 /* Light mode home hero overlay: soft white glass */
-.home-page .site-header { background: rgba(255,255,255,0.85); border-color: var(--color-border); backdrop-filter: blur(10px) saturate(160%); }
+.home-page .site-header { background: rgba(255,255,255,0.85); border-color: var(--color-border); backdrop-filter: blur(10px) saturate(160%); border-bottom: none; }
 /* Dark mode overlay variant */
-:root[data-theme='dark'] .home-page .site-header { background: rgba(161, 161, 161, 0.35); border-color: rgba(255,255,255,0.08); }
+:root[data-theme='dark'] .home-page .site-header { background: rgba(161, 161, 161, 0.35); border-color: rgba(255,255,255,0.08); border-bottom: none; }
 .home-page.scrolled .site-header { background: linear-gradient(90deg, var(--color-bg-alt) 0%, var(--color-bg) 100%); }
 :root[data-theme='dark'] .site-header { background: linear-gradient(90deg, var(--color-bg-alt-dark) 0%, var(--color-bg-dark) 100%); border-color: var(--color-border-dark); }
 .site-main { padding-top:0; width:100%; }
 .site-footer { margin-top: var(--space-10); padding: var(--space-8) 0; border-top:1px solid var(--color-border); background: var(--color-bg-alt); }
 :root[data-theme='dark'] .site-footer { background: var(--color-bg-alt-dark); border-color: var(--color-border-dark); }
-/* branding logo sizing */
-.branding-logo { height:clamp(92px, 12vh, 140px); width:auto; display:block; object-fit:contain; }
+/* branding logo sizing: constrain to header height (var --h) to avoid overflow */
+.branding-logo { max-height: var(--h, 96px); width:auto; display:block; object-fit:contain; height:auto; }
 @media (max-width: 740px){
-	.branding-logo { height:72px; }
+	.branding-logo { max-height:72px; }
 }
 /* hero generic (not marketplace specific) */
 .hero { padding: clamp(3rem, 8vw, 6rem) 0 var(--space-12); text-align:center; position:relative; }
@@ -81,7 +81,7 @@
 #site-header.shrink { --h:70px; }
 #site-header { --h:96px; height:var(--h); }
 #site-header .branding-logo { transition:height .45s, transform .45s; }
-#site-header.shrink .branding-logo { height: clamp(64px,10vh,86px); transform:translateY(0); }
+#site-header.shrink .branding-logo { max-height: clamp(64px,10vh,86px); transform:translateY(0); }
 
 @media (max-width: 980px){
 	.nav-links { display:none; }

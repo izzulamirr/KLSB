@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+{% block title %}KLSB — Minor Construction Services{% endblock %}
+{% block content %}
+
+<section class="py-16 bg-white">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+
+    <!-- Back to all services -->
+    <nav class="text-sm text-slate-500 mb-6 text-left">
+      <a href="{{ url_for('main.services_page') }}" class="hover:text-slate-700">← Back to all services</a>
+    </nav>
+
+    <!-- Header -->
+    <h1 class="text-3xl sm:text-4xl font-bold mb-6">Minor Construction Services</h1>
+    <p class="text-slate-600 mb-12">
+      We deliver precise and efficient small-scale construction works—renovations, repairs, and compact new builds—
+      with the same professionalism, safety, and quality control you’d expect on larger projects.
+    </p>
+
+    <!-- Content -->
+    <div class="space-y-12 text-left">
+
+      <!-- Scope of Work -->
+      <section class="rounded-2xl border bg-white p-6 shadow-sm">
+        <h2 class="text-2xl font-semibold text-center mb-2">Scope of Work</h2>
+        <p class="text-slate-600 text-center mb-5">
+          Tailored services for facilities, plants, offices, and sites.
+        </p>
+        <div class="grid sm:grid-cols-2 gap-6">
+          <ul class="list-disc list-inside text-slate-700 space-y-1">
+            <li>Interior &amp; exterior renovations</li>
+            <li>Masonry, plastering, painting &amp; finishing</li>
+            <li>Minor structural repairs &amp; reinstatement</li>
+            <li>Carpentry, partitions, ceilings &amp; flooring</li>
+          </ul>
+          <ul class="list-disc list-inside text-slate-700 space-y-1">
+            <li>Drainage &amp; minor civil works</li>
+            <li>Small MEP tasks (fixture swaps, routing tidy-ups)</li>
+            <li>Site enabling &amp; temporary works</li>
+            <li>Small-scale new build elements</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Delivery Approach -->
+      <section class="rounded-2xl border bg-white p-6 shadow-sm">
+        <h2 class="text-2xl font-semibold text-center mb-2">Delivery Approach</h2>
+        <div class="grid sm:grid-cols-3 gap-4 text-slate-700">
+          <div class="rounded-xl border p-4">
+            <h3 class="font-semibold">Site Assessment</h3>
+            <p class="mt-2 text-sm">Survey, method statement, and risk assessment aligned to constraints.</p>
+          </div>
+          <div class="rounded-xl border p-4">
+            <h3 class="font-semibold">Plan &amp; Schedule</h3>
+            <p class="mt-2 text-sm">Clear work packs, milestones, and stakeholder coordination.</p>
+          </div>
+          <div class="rounded-xl border p-4">
+            <h3 class="font-semibold">Execute &amp; QA/QC</h3>
+            <p class="mt-2 text-sm">Supervised works, inspections, punch lists, and handover docs.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Why Choose KLSB -->
+      <section class="rounded-2xl border bg-white p-6 shadow-sm">
+        <h2 class="text-2xl font-semibold text-center mb-2">Why Choose KLSB</h2>
+        <div class="grid sm:grid-cols-2 gap-6 text-slate-700">
+          <div class="rounded-xl border p-4">
+            <h3 class="font-semibold">Specialised Expertise</h3>
+            <p class="mt-2 text-sm">Focused small-works execution with skilled crews and tight controls.</p>
+          </div>
+          <div class="rounded-xl border p-4">
+            <h3 class="font-semibold">Quality Assurance</h3>
+            <p class="mt-2 text-sm">Durable finishes and workmanship that meet rigorous standards.</p>
+          </div>
+          <div class="rounded-xl border p-4">
+            <h3 class="font-semibold">Efficient &amp; On-Time</h3>
+            <p class="mt-2 text-sm">Lean planning to minimise disruption and meet target dates.</p>
+          </div>
+          <div class="rounded-xl border p-4">
+            <h3 class="font-semibold">Safety First</h3>
+            <p class="mt-2 text-sm">Strict adherence to HSE protocols for workers and occupants.</p>
+          </div>
+          <div class="rounded-xl border p-4">
+            <h3 class="font-semibold">Cost-Effective</h3>
+            <p class="mt-2 text-sm">Competitive pricing without compromising quality.</p>
+          </div>
+          <div class="rounded-xl border p-4">
+            <h3 class="font-semibold">Proven Track Record</h3>
+            <p class="mt-2 text-sm">Reliable delivery across renovations, repairs, and small builds.</p>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- Bottom CTA -->
+    <div class="mt-16">
+      <p class="text-slate-600 mb-6">
+        Have a minor construction task or renovation coming up? Share your requirements and timeline.
+      </p>
+      <a href="/contact"
+         class="inline-flex items-center rounded-2xl bg-slate-900 text-white px-6 py-3 font-medium hover:bg-slate-800">
+        Request a proposal
+      </a>
+    </div>
+
+  </div>
+</section>
+
+{% endblock %}

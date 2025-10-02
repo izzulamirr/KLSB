@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+{% block title %}KLSB — Supply & Support Services{% endblock %}
+{% block content %}
+
+<section class="py-16 bg-white">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+
+    <!-- Back to all services -->
+    <nav class="text-sm text-slate-500 mb-6 text-left">
+      <a href="{{ url_for('main.services_page') }}" class="hover:text-slate-700">← Back to all services</a>
+    </nav>
+
+    <!-- Header -->
+    <h1 class="text-3xl sm:text-4xl font-bold mb-6">Supply &amp; Support Services</h1>
+    <p class="text-slate-600 mb-12">
+      End-to-end support for your operations — from <strong>IT equipment &amp; peripherals</strong> to
+      <strong>event management</strong> and <strong>authority liaison</strong> services — delivered with reliable logistics,
+      responsive service, and competitive pricing.
+    </p>
+
+    <!-- Content -->
+    <div class="space-y-12 text-left">
+
+      <!-- IT Equipment & Peripherals -->
+      <section class="rounded-2xl border bg-white p-6 shadow-sm">
+        <h2 class="text-2xl font-semibold text-center mb-2">Supply of IT Equipment &amp; Peripherals</h2>
+        <p class="text-slate-600 text-center mb-5">
+          Wide selection from leading brands with expert guidance and timely delivery.
+        </p>
+        <div class="grid sm:grid-cols-2 gap-6">
+          <ul class="list-disc list-inside text-slate-700 space-y-1">
+            <li>Computers, workstations, laptops &amp; monitors</li>
+            <li>Servers, storage &amp; networking devices</li>
+            <li>Printers, scanners &amp; specialized peripherals</li>
+            <li>Keyboards, mice, headsets &amp; accessories</li>
+          </ul>
+          <div class="rounded-xl border p-4 text-sm">
+            <h3 class="font-semibold">Why us?</h3>
+            <ul class="mt-2 list-disc list-inside space-y-1">
+              <li>Tailored recommendations &amp; expert advice</li>
+              <li>Competitive pricing and dependable lead times</li>
+              <li>After-sales support &amp; technical assistance</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Event Management -->
+      <section class="rounded-2xl border bg-white p-6 shadow-sm">
+        <h2 class="text-2xl font-semibold text-center mb-2">Event Management</h2>
+        <p class="text-slate-600 text-center mb-5">
+          End-to-end planning and on-site coordination for corporate and technical events.
+        </p>
+        <div class="grid sm:grid-cols-2 gap-6">
+          <ul class="list-disc list-inside text-slate-700 space-y-1">
+            <li>Concept development &amp; program design</li>
+            <li>Venue selection &amp; vendor management</li>
+            <li>Logistics, registration &amp; on-site ops</li>
+            <li>AV support, catering &amp; collateral</li>
+          </ul>
+          <div class="rounded-xl border p-4 text-sm">
+            <h3 class="font-semibold">Benefits</h3>
+            <ul class="mt-2 list-disc list-inside space-y-1">
+              <li>Meticulous planning &amp; flawless execution</li>
+              <li>Customised to brand and objectives</li>
+              <li>Established supplier network &amp; cost control</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Authority Liaisons -->
+      <section class="rounded-2xl border bg-white p-6 shadow-sm">
+        <h2 class="text-2xl font-semibold text-center mb-2">Authority Liaisons</h2>
+        <p class="text-slate-600 text-center mb-5">
+          Efficient interfacing with regulatory bodies (e.g., BOMBA, DOSH) to keep projects compliant and on schedule.
+        </p>
+        <div class="grid sm:grid-cols-2 gap-6">
+          <ul class="list-disc list-inside text-slate-700 space-y-1">
+            <li>Permits, certifications &amp; approvals</li>
+            <li>Regulatory submissions &amp; clarifications</li>
+            <li>Issue resolution &amp; proactive compliance</li>
+          </ul>
+          <div class="rounded-xl border p-4 text-sm">
+            <h3 class="font-semibold">What you gain</h3>
+            <ul class="mt-2 list-disc list-inside space-y-1">
+              <li>Experienced guidance in complex requirements</li>
+              <li>Streamlined processes &amp; shorter cycle times</li>
+              <li>Established relationships with agencies</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- Bottom CTA -->
+    <div class="mt-16">
+      <p class="text-slate-600 mb-6">
+        Tell us your requirements (items, quantities, event scope, or permits) and timeline — we’ll tailor a package for you.
+      </p>
+      <a href="/contact"
+         class="inline-flex items-center rounded-2xl bg-slate-900 text-white px-6 py-3 font-medium hover:bg-slate-800">
+        Request a proposal
+      </a>
+    </div>
+
+  </div>
+</section>
+
+{% endblock %}

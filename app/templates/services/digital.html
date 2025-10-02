@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% block title %}KLSB — Digitalisation Consultancy{% endblock %}
+{% block content %}
+
+<section class="py-16 bg-white">
+  <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+
+    <!-- Back to all services -->
+    <nav class="text-sm text-slate-500 mb-6 text-left">
+      <a href="{{ url_for('main.services_page') }}" class="hover:text-slate-700">← Back to all services</a>
+    </nav>
+
+    <!-- Header -->
+    <h1 class="text-3xl sm:text-4xl font-bold mb-6">Digitalisation Consultancy</h1>
+    <p class="text-slate-600 mb-12">
+      Helping organisations adopt and optimise digital transformation through customised solutions,
+      data-driven strategies, and robust ICT support.
+    </p>
+
+    <!-- Content Sections -->
+    <div class="grid md:grid-cols-2 gap-8 text-left">
+
+      <!-- Digitalisation -->
+      <section class="rounded-2xl border bg-white p-6 shadow-sm">
+        <h2 class="text-xl font-semibold mb-2">Digitalisation</h2>
+        <ul class="list-disc list-inside text-slate-700 space-y-1">
+          <li>Technical support and consultancy throughout digital transformation</li>
+          <li>Expertise in end-to-end digital solutions development</li>
+          <li>Implementing the latest technological advancements and solutions</li>
+        </ul>
+      </section>
+
+      <!-- Data Analytics -->
+      <section class="rounded-2xl border bg-white p-6 shadow-sm">
+        <h2 class="text-xl font-semibold mb-2">Data Analytics</h2>
+        <ul class="list-disc list-inside text-slate-700 space-y-1">
+          <li>Asset performance analysis and predictive modelling</li>
+          <li>Prescriptive and preventive maintenance strategies</li>
+          <li>Asset usage analytics, planning and scheduling replacement/disposal</li>
+        </ul>
+      </section>
+
+      <!-- Custom Software Solutions -->
+      <section class="rounded-2xl border bg-white p-6 shadow-sm">
+        <h2 class="text-xl font-semibold mb-2">Customised Software Solutions</h2>
+        <ul class="list-disc list-inside text-slate-700 space-y-1">
+          <li>Web, mobile and desktop applications</li>
+          <li>Modern, interactive UI/UX design</li>
+          <li>Software quality assurance to meet the highest standards</li>
+          <li>Small to enterprise-scale projects</li>
+        </ul>
+      </section>
+
+      <!-- ICT Services -->
+      <section class="rounded-2xl border bg-white p-6 shadow-sm">
+        <h2 class="text-xl font-semibold mb-2">ICT Services</h2>
+        <ul class="list-disc list-inside text-slate-700 space-y-1">
+          <li>Document digitising &amp; management services</li>
+          <li>Asset integrity management</li>
+          <li>Software deployment, networking &amp; communications (wired &amp; wireless)</li>
+          <li>LAN, copper cabling, system integration, fibre cabling, electrical cabling</li>
+          <li>Consultancy, support &amp; maintenance</li>
+        </ul>
+      </section>
+
+    </div>
+
+    <!-- Bottom CTA -->
+    <div class="mt-16 text-center">
+      <p class="text-slate-600 mb-6">
+        Ready to accelerate your digital journey? Let’s design, build, and optimise your digital solutions together.
+      </p>
+      <a href="/contact"
+         class="inline-flex items-center rounded-2xl bg-slate-900 text-white px-6 py-3 font-medium hover:bg-slate-800">
+        Request a proposal
+      </a>
+    </div>
+
+  </div>
+</section>
+
+{% endblock %}
+      

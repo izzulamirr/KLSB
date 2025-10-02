@@ -1,0 +1,159 @@
+{% extends "base.html" %}
+{% block title %}KLSB — Engineering Services{% endblock %}
+{% block content %}
+
+<section class="py-16 bg-white">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+
+    <!-- Back to all services -->
+    <nav class="text-sm text-slate-500 mb-6 text-left">
+      <a href="{{ url_for('main.services_page') }}" class="hover:text-slate-700">← Back to all services</a>
+    </nav>
+
+    <!-- Header -->
+    <h1 class="text-3xl sm:text-4xl font-bold mb-6">Engineering Services</h1>
+    <p class="text-slate-600 mb-12">
+      End-to-end engineering delivery covering consultancy, advanced 3D modelling, AVEVA platform solutions
+      and AWP-led project execution for Oil &amp; Gas, Petrochemical, Power Generation and Renewables.
+    </p>
+
+    <div class="space-y-12 text-left">
+
+      <!-- Engineering Consultancy -->
+      <section class="rounded-2xl border bg-white p-6 shadow-sm">
+        <h2 class="text-2xl font-semibold text-center mb-2">Engineering Consultancy</h2>
+        <p class="text-slate-600 text-center mb-5">
+          Innovative, accurate and efficient design services and fabrication drawings tailored to your project needs. :contentReference[oaicite:0]{index=0}
+        </p>
+        <div class="grid sm:grid-cols-2 gap-6">
+          <div>
+            <h3 class="font-semibold">Design Services</h3>
+            <ul class="mt-2 list-disc list-inside text-slate-700 space-y-1">
+              <li>Detailed Engineering Design: Civil &amp; Structural, Mechanical &amp; Piping, Electrical &amp; Instrumentation</li>
+              <li>3D Modelling &amp; Simulation to visualise and optimise solutions pre-implementation</li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="font-semibold">Fabrication Drawings</h3>
+            <ul class="mt-2 list-disc list-inside text-slate-700 space-y-1">
+              <li>Structural &amp; Mechanical fabrication drawings</li>
+              <li>P&amp;IDs for fabrication &amp; installation (incl. instrumentation &amp; controls)</li>
+              <li>Sheet metal and electrical installation drawings (wiring, panels, circuits)</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3D Modelling -->
+      <section class="rounded-2xl border bg-white p-6 shadow-sm">
+        <h2 class="text-2xl font-semibold text-center mb-2">3D Modelling</h2>
+        <p class="text-slate-600 text-center mb-5">
+          Advanced modelling across Autodesk, AVEVA, Hexagon, Dassault, SketchUp ecosystems to support planning, design and execution. :contentReference[oaicite:1]{index=1}
+        </p>
+        <div class="grid lg:grid-cols-2 gap-6">
+          <div>
+            <h3 class="font-semibold">Oil &amp; Gas</h3>
+            <ul class="mt-2 list-disc list-inside text-slate-700 space-y-1">
+              <li>Pipeline systems (layout, design, analysis)</li>
+              <li>Offshore platforms &amp; support vessels</li>
+              <li>Refinery units &amp; equipment</li>
+            </ul>
+
+            <h3 class="font-semibold mt-5">Power Generation</h3>
+            <ul class="mt-2 list-disc list-inside text-slate-700 space-y-1">
+              <li>Conventional &amp; nuclear plants (turbines, boilers, generators)</li>
+              <li>Electrical systems (switchyards, substations)</li>
+              <li>Models for upgrades &amp; maintenance planning</li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="font-semibold">Petrochemical</h3>
+            <ul class="mt-2 list-disc list-inside text-slate-700 space-y-1">
+              <li>Process plants (reactors, separators, heat exchangers)</li>
+              <li>Facility layouts for new builds, expansions &amp; retrofits</li>
+              <li>Equipment integration with existing infrastructure</li>
+            </ul>
+
+            <h3 class="font-semibold mt-5">Renewable Energy</h3>
+            <ul class="mt-2 list-disc list-inside text-slate-700 space-y-1">
+              <li>Wind farms: turbines, layouts, infrastructure</li>
+              <li>Solar plants: panels, arrays, tracking systems</li>
+              <li>Hydropower: dams, turbines, facilities</li>
+              <li>Green hydrogen: production, electrolysis, storage &amp; pipelines</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- AVEVA Solutions -->
+      <section class="rounded-2xl border bg-white p-6 shadow-sm">
+        <h2 class="text-2xl font-semibold text-center mb-2">AVEVA Solutions</h2>
+        <p class="text-slate-600 text-center mb-5">
+          Integrated engineering &amp; digital-twin solutions delivered as a recognised AVEVA Specialist Service Provider (Engineering &amp; Digital Twin, 2024). :contentReference[oaicite:2]{index=2}
+        </p>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 text-slate-700">
+          <div class="rounded-xl border p-4">
+            <h3 class="font-semibold">Implementation Expertise</h3>
+            <p class="mt-2 text-sm">Seamless deployments and optimal use of the AVEVA stack.</p>
+          </div>
+          <div class="rounded-xl border p-4">
+            <h3 class="font-semibold">Tailored Solutions</h3>
+            <p class="mt-2 text-sm">Aligned to your objectives and operational context.</p>
+          </div>
+          <div class="rounded-xl border p-4">
+            <h3 class="font-semibold">End-to-End Support</h3>
+            <p class="mt-2 text-sm">Consultation through implementation and optimisation.</p>
+          </div>
+          <div class="rounded-xl border p-4">
+            <h3 class="font-semibold">Innovative &amp; Current</h3>
+            <p class="mt-2 text-sm">Leveraging the latest AVEVA features and updates.</p>
+          </div>
+          <div class="rounded-xl border p-4">
+            <h3 class="font-semibold">Strong Partnership</h3>
+            <p class="mt-2 text-sm">Close collaboration for best practices and insights.</p>
+          </div>
+          <div class="rounded-xl border p-4">
+            <h3 class="font-semibold">Proven Track Record</h3>
+            <p class="mt-2 text-sm">Successful projects with dedicated customer support.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- AWP -->
+      <section class="rounded-2xl border bg-white p-6 shadow-sm">
+        <h2 class="text-2xl font-semibold text-center mb-2">Advanced Work Packaging (AWP)</h2>
+        <p class="text-slate-600 text-center mb-5">
+          Structured project execution through defined work packages, integrated planning and data-driven readiness for efficient delivery. :contentReference[oaicite:3]{index=3}
+        </p>
+        <div class="grid sm:grid-cols-2 gap-6">
+          <ul class="list-disc list-inside text-slate-700 space-y-1">
+            <li>Work Packaging with clear scope, deliverables &amp; requirements</li>
+            <li>Integrated Planning across disciplines and stakeholders</li>
+            <li>Data &amp; Information Management across design, procurement, construction</li>
+          </ul>
+          <ul class="list-disc list-inside text-slate-700 space-y-1">
+            <li>Execution Readiness (resources, materials, information in place)</li>
+            <li>Performance Monitoring for schedule, cost &amp; progress control</li>
+            <li>Consultancy, implementation &amp; tailored training programmes</li>
+          </ul>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- Bottom CTA -->
+    <div class="mt-16">
+      <p class="text-slate-600 mb-6">
+        Let’s align the right engineering scope, toolsets and delivery model for your project.
+      </p>
+      <a href="/contact"
+         class="inline-flex items-center rounded-2xl bg-slate-900 text-white px-6 py-3 font-medium hover:bg-slate-800">
+        Request a proposal
+      </a>
+    </div>
+
+  </div>
+</section>
+
+{% endblock %}
+

@@ -1,10 +1,11 @@
 {% extends "base.html" %}
 {% block title %}KLSB — Home{% endblock %}
 {% block content %}
+{% set hero_image = url_for('static', filename='img/hero.jpg') %}
 
 <!-- Hero -->
 <section class="relative min-h-screen overflow-hidden text-center flex items-center">
-  <div class="absolute inset-0 -z-10 bg-cover bg-center" style="background-image: url({{ url_for('static', filename='img/hero.jpg') }});"></div>
+  <div class="absolute inset-0 -z-10 bg-cover bg-center" style="background-image: url('{{ hero_image }}');"></div>
   <div class="absolute inset-0 -z-10 bg-black/50"></div>
   <div class="w-full max-w-5xl mx-auto px-6 py-28">
     <h1 class="text-4xl sm:text-6xl uppercase font-bold text-white">Your Partner to Strategic Value Creation</h1>
@@ -13,25 +14,31 @@
       <a href="/services" class="rounded-2xl bg-white text-slate-900 px-6 py-3 text-sm font-medium shadow hover:shadow-md transition">Explore services</a>
   <a href="/contact" class="rounded-2xl border border-white/60 text-white px-6 py-3 text-sm font-medium hover:bg-white/10 transition">Request a proposal</a>
     </div>
-    <div class="mt-14 grid gap-6 sm:grid-cols-3 text-center">
-      <div class="rounded-2xl bg-white/80 backdrop-blur p-6 shadow-sm">
-        <div class="text-xl font-semibold">PROFESSIONAL TECHNICAL MANPOWER SUPPLY</div>
-      </div>
-      <div class="rounded-2xl bg-white/80 backdrop-blur p-6 shadow-sm">
-        <div class="text-xl font-semibold">ENGINEERING & CONSULTATION MANAGEMENT</div>
-      </div>
-      <div class="rounded-2xl bg-white/80 backdrop-blur p-6 shadow-sm">
-      <div class="text-xl font-semibold">DIGITAL SOLUTIONS & CYBERSECURITY CONSULTANCY</div>
-      </div>
-      <div class="rounded-2xl bg-white/80 backdrop-blur p-6 shadow-sm">
-        <div class="text-xl font-semibold">SPECIALIZED INSPECTION SERVICES</div>
-      </div>
-      <div class="rounded-2xl bg-white/80 backdrop-blur p-6 shadow-sm">
-        <div class="text-xl font-semibold">GENERAL CONSTRUCTION SERVICES</div>
-      </div>
-      <div class="rounded-2xl bg-white/80 backdrop-blur p-6 shadow-sm">
-        <div class="text-xl font-semibold">SUPPLY TRADING & EVENT MANAGEMENT</div>
-      </div>
+  <div class="mt-14 grid gap-6 sm:grid-cols-3 text-center hero-cards">
+      <a href="{{ url_for('main.services_manpower') }}"
+             class="rounded-2xl bg-white p-5 shadow-sm hover:shadow-md focus:outline-none focus:ring-2 focus:ring-slate-300 block">
+            <div class="text-xl font-semibold">PROFESSIONAL TECHNICAL MANPOWER SUPPLY</div>
+          </a>
+          <a href="{{ url_for('main.services_engineering') }}"
+             class="rounded-2xl bg-white p-5 shadow-sm hover:shadow-md focus:outline-none focus:ring-2 focus:ring-slate-300 block">
+            <div class="text-xl font-semibold">ENGINEERING & CONSULTATION MANAGEMENT</div>
+          </a>
+          <a href="{{ url_for('main.services_digital') }}"
+             class="rounded-2xl bg-white p-5 shadow-sm hover:shadow-md focus:outline-none focus:ring-2 focus:ring-slate-300 block">
+            <div class="text-xl font-semibold">DIGITAL SOLUTIONS & CYBERSECURITY CONSULTANCY</div>
+          </a>
+          <a href="{{ url_for('main.services_inspection') }}"
+             class="rounded-2xl bg-white p-5 shadow-sm hover:shadow-md focus:outline-none focus:ring-2 focus:ring-slate-300 block">
+            <div class="text-xl font-semibold">SPECIALIZED INSPECTION SERVICES</div>
+          </a>
+          <a href="{{ url_for('main.services_construction') }}"
+             class="rounded-2xl bg-white p-5 shadow-sm hover:shadow-md focus:outline-none focus:ring-2 focus:ring-slate-300 block">
+            <div class="text-xl font-semibold">GENERAL CONSTRUCTION SERVICES</div>
+          </a>
+          <a href="{{ url_for('main.services_supply') }}"
+             class="rounded-2xl bg-white p-5 shadow-sm hover:shadow-md focus:outline-none focus:ring-2 focus:ring-slate-300 block">
+            <div class="text-xl font-semibold">SUPPLY TRADING & EVENT MANAGEMENT</div>
+          </a>
     </div>
   </div>
 </section>
@@ -42,7 +49,7 @@
   <div class="max-w-7xl mx-auto px-6">
     <div class="max-w-3xl mx-auto text-center">
       <h2 class="text-3xl sm:text-4xl font-bold tracking-tight">Why Choose KLSB</h2>
-      <p class="mt-5 text-slate-600 text-lg">We combine certified technical talent, disciplined project governance, and multi-domain capability to accelerate execution while de‑risking delivery for engineering, energy and industrial stakeholders.</p>
+  <p class="mt-5 text-slate-600 text-lg">We combine certified technical talent, disciplined project governance, and multi-domain capability to accelerate execution while de-risking delivery for engineering, energy and industrial stakeholders.</p>
     </div>
 
     <!-- Value pillars -->
