@@ -4,30 +4,33 @@
 
 <!-- Hero -->
 <section class="relative min-h-screen overflow-hidden text-center flex items-center">
-  <div class="absolute inset-0 -z-10 bg-cover bg-center" style="background-image: url('{{ url_for('static', filename='img/hero.jpg') }}');"></div>
+  <div class="absolute inset-0 -z-10 bg-cover bg-center" style="background-image: url({{ url_for('static', filename='img/hero.jpg') }});"></div>
   <div class="absolute inset-0 -z-10 bg-black/50"></div>
   <div class="w-full max-w-5xl mx-auto px-6 py-28">
-    <h1 class="text-4xl sm:text-6xl font-bold leading-tight text-white">Reliable manpower, precise engineering & agile supply</h1>
-    <p class="mt-6 text-slate-200 text-lg max-w-3xl mx-auto">We help EPCs and operators scale with certified personnel, in‑house design & modelling, and supply & trading aligned to your specifications.</p>
+    <h1 class="text-4xl sm:text-6xl uppercase font-bold text-white">Your Partner to Strategic Value Creation</h1>
+    <p class="mt-6 text-slate-200 text-lg max-w-3xl mx-auto">Your one-stop partner for manpower, engineering, digital solutions, specialized inspections, construction and supply trading.</p>
     <div class="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
       <a href="/services" class="rounded-2xl bg-white text-slate-900 px-6 py-3 text-sm font-medium shadow hover:shadow-md transition">Explore services</a>
   <a href="/contact" class="rounded-2xl border border-white/60 text-white px-6 py-3 text-sm font-medium hover:bg-white/10 transition">Request a proposal</a>
     </div>
     <div class="mt-14 grid gap-6 sm:grid-cols-3 text-center">
       <div class="rounded-2xl bg-white/80 backdrop-blur p-6 shadow-sm">
-        <div class="text-4xl font-bold">4</div>
-        <div class="text-xs uppercase tracking-wide text-slate-500 mt-1">Core services</div>
-        <div class="text-sm mt-2">Manpower • Digital • Cyber • Trading</div>
+        <div class="text-xl font-semibold">PROFESSIONAL TECHNICAL MANPOWER SUPPLY</div>
       </div>
       <div class="rounded-2xl bg-white/80 backdrop-blur p-6 shadow-sm">
-        <div class="text-2xl font-semibold">On-site / Remote</div>
-        <div class="text-xs uppercase tracking-wide text-slate-500 mt-1">Engagement</div>
-        <div class="text-sm mt-2">Training & setup available</div>
+        <div class="text-xl font-semibold">ENGINEERING & CONSULTATION MANAGEMENT</div>
       </div>
       <div class="rounded-2xl bg-white/80 backdrop-blur p-6 shadow-sm">
-        <div class="text-2xl font-semibold">E3D • Smart3D • SPI</div>
-        <div class="text-xs uppercase tracking-wide text-slate-500 mt-1">Platforms</div>
-        <div class="text-sm mt-2">Aveva & Hexagon ecosystems</div>
+      <div class="text-xl font-semibold">DIGITAL SOLUTIONS & CYBERSECURITY CONSULTANCY</div>
+      </div>
+      <div class="rounded-2xl bg-white/80 backdrop-blur p-6 shadow-sm">
+        <div class="text-xl font-semibold">SPECIALIZED INSPECTION SERVICES</div>
+      </div>
+      <div class="rounded-2xl bg-white/80 backdrop-blur p-6 shadow-sm">
+        <div class="text-xl font-semibold">GENERAL CONSTRUCTION SERVICES</div>
+      </div>
+      <div class="rounded-2xl bg-white/80 backdrop-blur p-6 shadow-sm">
+        <div class="text-xl font-semibold">SUPPLY TRADING & EVENT MANAGEMENT</div>
       </div>
     </div>
   </div>
