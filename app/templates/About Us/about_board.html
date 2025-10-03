@@ -4,163 +4,100 @@
 <section class="py-24 bg-white" id="board">
   <div class="max-w-7xl mx-auto px-6">
     <h1 class="text-4xl font-bold tracking-tight text-center mb-12">Board of Directors</h1>
-    <div class="grid gap-10 md:grid-cols-2 lg:grid-cols-3">
-      <button class="group director-card text-left rounded-3xl overflow-hidden bg-slate-100 shadow hover:shadow-md focus:outline-none focus:ring-2 focus:ring-teal-600 transition" data-modal-target="director-bakke" aria-haspopup="dialog">
-        <div class="aspect-[3/4] w-full overflow-hidden">
+    <div class="grid gap-10 md:grid-cols-2 lg:grid-cols-4">
+      <button class="group director-card text-left rounded-3xl overflow-hidden bg-slate-100 shadow-lg hover:shadow-2xl focus:outline-none focus:ring-2 focus:ring-teal-600 transition" data-modal-target="director-bakke" aria-haspopup="dialog">
+        <div class="aspect-[4/3] w-full overflow-hidden">
           <img src="{{ url_for('static', filename='img/hero.jpg') }}" alt="Tan Sri Dato’ Seri Mohd Bakke Salleh" class="w-full h-full object-cover group-hover:scale-[1.03] transition-transform" loading="lazy">
         </div>
-        <div class="p-6">
-          <h3 class="font-semibold text-teal-700 leading-snug">Shazli Bin Razak</h3>
+        <div class="p-8">
+          <h3 class="font-semibold text-teal-700 leading-snug text-lg">Shazli Bin Razak</h3>
           <p class="mt-2 text-sm text-slate-600">Managing Director</p>
         </div>
       </button>
-      <button class="group director-card text-left rounded-3xl overflow-hidden bg-slate-100 shadow hover:shadow-md focus:outline-none focus:ring-2 focus:ring-teal-600 transition" data-modal-target="director-taufik" aria-haspopup="dialog">
-        <div class="aspect-[3/4] w-full overflow-hidden">
+      <button class="group director-card text-left rounded-3xl overflow-hidden bg-slate-100 shadow-lg hover:shadow-2xl focus:outline-none focus:ring-2 focus:ring-teal-600 transition" data-modal-target="director-taufik" aria-haspopup="dialog">
+        <div class="aspect-[4/3] w-full overflow-hidden">
           <img src="{{ url_for('static', filename='img/2584721_XL.jpg') }}" alt="YM Tan Sri Tengku Muhammad Taufik Tengku Kamadjaja Aziz" class="w-full h-full object-cover group-hover:scale-[1.03] transition-transform" loading="lazy">
         </div>
-        <div class="p-6">
-          <h3 class="font-semibold text-teal-700 leading-snug">Ahmad Syahmy Bin Muhammad Shamsuddin</h3>
+        <div class="p-8">
+          <h3 class="font-semibold text-teal-700 leading-snug text-lg">Ahmad Syahmy Bin Muhammad Shamsuddin</h3>
           <p class="mt-2 text-sm text-slate-600">Executive Director</p>
         </div>
       </button>
-      <button class="group director-card text-left rounded-3xl overflow-hidden bg-slate-100 shadow hover:shadow-md focus:outline-none focus:ring-2 focus:ring-teal-600 transition" data-modal-target="director-dummy" aria-haspopup="dialog">
-        <div class="aspect-[3/4] w-full overflow-hidden">
+      <button class="group director-card text-left rounded-3xl overflow-hidden bg-slate-100 shadow-lg hover:shadow-2xl focus:outline-none focus:ring-2 focus:ring-teal-600 transition" data-modal-target="director-dummy" aria-haspopup="dialog">
+        <div class="aspect-[4/3] w-full overflow-hidden">
           <img src="{{ url_for('static', filename='img/business-2717427.jpg') }}" alt="Director Name Placeholder" class="w-full h-full object-cover group-hover:scale-[1.03] transition-transform" loading="lazy">
         </div>
-        <div class="p-6">
-          <h3 class="font-semibold text-teal-700 leading-snug">Mohd Faizal Rafie</h3>
+        <div class="p-8">
+          <h3 class="font-semibold text-teal-700 leading-snug text-lg">Mohd Faizal Rafie</h3>
           <p class="mt-2 text-sm text-slate-600">Operation Director</p>
+        </div>
+      </button>
+      <button class="group director-card text-left rounded-3xl overflow-hidden bg-slate-100 shadow-lg hover:shadow-2xl focus:outline-none focus:ring-2 focus:ring-teal-600 transition" data-modal-target="director-dummy" aria-haspopup="dialog">
+        <div class="aspect-[4/3] w-full overflow-hidden">
+          <img src="{{ url_for('static', filename='img/business-2717427.jpg') }}" alt="Director Name Placeholder" class="w-full h-full object-cover group-hover:scale-[1.03] transition-transform" loading="lazy">
+        </div>
+        <div class="p-8">
+          <h3 class="font-semibold text-teal-700 leading-snug text-lg">Ts. Amir Hisham Albakri</h3>
+          <p class="mt-2 text-sm text-slate-600">Sales & BD Director</p>
         </div>
       </button>
     </div>
   </div>
 </section>
-<div class="hidden" id="modal-source-director-bakke">
-  <div class="modal-hero">
-    <img src="{{ url_for('static', filename='img/hero.jpg') }}" alt="Tan Sri Dato’ Seri Mohd Bakke Salleh" loading="lazy">
-  </div>
-  <h2 class="modal-title">Tan Sri Dato’ Seri Mohd Bakke Salleh</h2>
-  <p>Chairman &amp; Independent Non-Executive Director.</p>
-</div>
-<div class="hidden" id="modal-source-director-taufik">
-  <div class="modal-hero">
-    <img src="{{ url_for('static', filename='img/2584721_XL.jpg') }}" alt="YM Tan Sri Tengku Muhammad Taufik Tengku Kamadjaja Aziz" loading="lazy">
-  </div>
-  <h2 class="modal-title">YM Tan Sri Tengku Muhammad Taufik Tengku Kamadjaja Aziz</h2>
-  <p>President &amp; Group Chief Executive Officer • Executive Director.</p>
-</div>
-<div class="hidden" id="modal-source-director-dummy">
-  <div class="modal-hero">
-    <img src="{{ url_for('static', filename='img/business-2717427.jpg') }}" alt="Director Name Placeholder" loading="lazy">
-  </div>
-  <h2 class="modal-title">Director Name Placeholder</h2>
-  <p>Non-Executive Director (placeholder bio).</p>
-</div>
+
 <!-- Management (Manager Level) -->
-<section class="mt-24">
-  <h2 class="text-xl font-semibold tracking-tight text-slate-900 flex items-center gap-2 justify-center">
-    <span class="h-5 w-1.5 rounded-full bg-teal-500"></span><span>Management Team</span>
-  </h2>
-
-  <div class="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-    <!-- Manager 1 -->
-    <button type="button"
-            class="group relative rounded-2xl bg-slate-50 hover:bg-white transition shadow-sm hover:shadow-md text-left overflow-hidden focus:outline-none focus:ring-2 focus:ring-teal-500"
-            data-modal-target="modal-source-mgr-ops">
-      <div class="aspect-[3/4] overflow-hidden">
-        <img src="/static/img/manager1.jpg" alt="Operations Manager" class="h-full w-full object-cover group-hover:scale-[1.03] transition" />
-      </div>
-      <div class="p-4">
-        <div class="font-semibold text-slate-800 text-sm">A. Rahman</div>
-        <div class="mt-1 text-[11px] uppercase tracking-wide text-teal-600 font-medium">Operations Manager</div>
-      </div>
-    </button>
-
-    <!-- Manager 2 -->
-    <button type="button"
-            class="group relative rounded-2xl bg-slate-50 hover:bg-white transition shadow-sm hover:shadow-md text-left overflow-hidden focus:outline-none focus:ring-2 focus:ring-teal-500"
-            data-modal-target="modal-source-mgr-eng">
-      <div class="aspect-[3/4] overflow-hidden">
-        <img src="/static/img/manager2.jpg" alt="Engineering Manager" class="h-full w-full object-cover group-hover:scale-[1.03] transition" />
-      </div>
-      <div class="p-4">
-        <div class="font-semibold text-slate-800 text-sm">S. Lee</div>
-        <div class="mt-1 text-[11px] uppercase tracking-wide text-teal-600 font-medium">Engineering Manager</div>
-      </div>
-    </button>
-
-    <!-- Manager 3 -->
-    <button type="button"
-            class="group relative rounded-2xl bg-slate-50 hover:bg-white transition shadow-sm hover:shadow-md text-left overflow-hidden focus:outline-none focus:ring-2 focus:ring-teal-500"
-            data-modal-target="modal-source-mgr-digital">
-      <div class="aspect-[3/4] overflow-hidden">
-        <img src="/static/img/manager3.jpg" alt="Digital Solutions Lead" class="h-full w-full object-cover group-hover:scale-[1.03] transition" />
-      </div>
-      <div class="p-4">
-        <div class="font-semibold text-slate-800 text-sm">N. Kumar</div>
-        <div class="mt-1 text-[11px] uppercase tracking-wide text-teal-600 font-medium">Digital Solutions Lead</div>
-      </div>
-    </button>
-
-    <!-- Manager 4 -->
-    <button type="button"
-            class="group relative rounded-2xl bg-slate-50 hover:bg-white transition shadow-sm hover:shadow-md text-left overflow-hidden focus:outline-none focus:ring-2 focus:ring-teal-500"
-            data-modal-target="modal-source-mgr-qhse">
-      <div class="aspect-[3/4] overflow-hidden">
-        <img src="/static/img/manager4.jpg" alt="QHSE & Compliance" class="h-full w-full object-cover group-hover:scale-[1.03] transition" />
-      </div>
-      <div class="p-4">
-        <div class="font-semibold text-slate-800 text-sm">Farah M.</div>
-        <div class="mt-1 text-[11px] uppercase tracking-wide text-teal-600 font-medium">QHSE & Compliance</div>
-      </div>
-    </button>
+<section class="py-24 bg-white" id="Manager">
+  <div class="max-w-7xl mx-auto px-6">
+    <h1 class="text-4xl font-bold tracking-tight text-center mb-12">Board of Managers</h1>
+    <div class="grid gap-10 md:grid-cols-2 lg:grid-cols-5">
+      <button class="group director-card text-left rounded-3xl overflow-hidden bg-slate-100 shadow-lg hover:shadow-2xl focus:outline-none focus:ring-2 focus:ring-teal-600 transition" data-modal-target="director-bakke" aria-haspopup="dialog">
+        <div class="aspect-[4/3] w-full overflow-hidden">
+          <img src="{{ url_for('static', filename='img/hero.jpg') }}" alt="Tan Sri Dato’ Seri Mohd Bakke Salleh" class="w-full h-full object-cover group-hover:scale-[1.03] transition-transform" loading="lazy">
+        </div>
+        <div class="p-8">
+          <h3 class="font-semibold text-teal-700 leading-snug text-lg">Ahmad Sobry</h3>
+          <p class="mt-2 text-sm text-slate-600">Project Manager</p>
+        </div>
+      </button>
+      <button class="group director-card text-left rounded-3xl overflow-hidden bg-slate-100 shadow-lg hover:shadow-2xl focus:outline-none focus:ring-2 focus:ring-teal-600 transition" data-modal-target="director-taufik" aria-haspopup="dialog">
+        <div class="aspect-[4/3] w-full overflow-hidden">
+          <img src="{{ url_for('static', filename='img/2584721_XL.jpg') }}" alt="YM Tan Sri Tengku Muhammad Taufik Tengku Kamadjaja Aziz" class="w-full h-full object-cover group-hover:scale-[1.03] transition-transform" loading="lazy">
+        </div>
+        <div class="p-8">
+          <h3 class="font-semibold text-teal-700 leading-snug text-lg">Hafiz Azizan</h3>
+          <p class="mt-2 text-sm text-slate-600">Talent & Recruitment Manager</p>
+        </div>
+      </button>
+      <button class="group director-card text-left rounded-3xl overflow-hidden bg-slate-100 shadow-lg hover:shadow-2xl focus:outline-none focus:ring-2 focus:ring-teal-600 transition" data-modal-target="director-dummy" aria-haspopup="dialog">
+        <div class="aspect-[4/3] w-full overflow-hidden">
+          <img src="{{ url_for('static', filename='img/business-2717427.jpg') }}" alt="Director Name Placeholder" class="w-full h-full object-cover group-hover:scale-[1.03] transition-transform" loading="lazy">
+        </div>
+        <div class="p-8">
+          <h3 class="font-semibold text-teal-700 leading-snug text-lg">Sabaruddin Sabri</h3>
+          <p class="mt-2 text-sm text-slate-600">Engineering Manager</p>
+        </div>
+      </button>
+      <button class="group director-card text-left rounded-3xl overflow-hidden bg-slate-100 shadow-lg hover:shadow-2xl focus:outline-none focus:ring-2 focus:ring-teal-600 transition" data-modal-target="director-dummy" aria-haspopup="dialog">
+        <div class="aspect-[4/3] w-full overflow-hidden">
+          <img src="{{ url_for('static', filename='img/business-2717427.jpg') }}" alt="Director Name Placeholder" class="w-full h-full object-cover group-hover:scale-[1.03] transition-transform" loading="lazy">
+        </div>
+        <div class="p-8">
+          <h3 class="font-semibold text-teal-700 leading-snug text-lg">Asrul Azizie</h3>
+          <p class="mt-2 text-sm text-slate-600">IT Manager</p>
+        </div>
+      </button>
+      <button class="group director-card text-left rounded-3xl overflow-hidden bg-slate-100 shadow-lg hover:shadow-2xl focus:outline-none focus:ring-2 focus:ring-teal-600 transition" data-modal-target="director-dummy" aria-haspopup="dialog">
+        <div class="aspect-[4/3] w-full overflow-hidden">
+          <img src="{{ url_for('static', filename='img/business-2717427.jpg') }}" alt="Director Name Placeholder" class="w-full h-full object-cover group-hover:scale-[1.03] transition-transform" loading="lazy">
+        </div>
+        <div class="p-8">
+          <h3 class="font-semibold text-teal-700 leading-snug text-lg">Shazarina Shafiee</h3>
+          <p class="mt-2 text-sm text-slate-600">HR Admin & Finance Manager</p>
+        </div>
+      </button>
+    </div>
   </div>
 </section>
 
-<!-- Hidden modal content sources (manager level) -->
-<div class="hidden">
-  <div id="modal-source-mgr-ops">
-    <h3 class="text-lg font-semibold text-slate-900">A. Rahman</h3>
-    <p class="mt-1 text-sm text-teal-600 font-medium tracking-wide uppercase">Operations Manager</p>
-    <p class="mt-4 text-sm text-slate-600 leading-relaxed">Oversees cross-discipline coordination, resource allocation and performance governance ensuring schedule adherence and interface clarity.</p>
-    <ul class="mt-4 space-y-2 text-sm text-slate-700">
-      <li class="flex gap-2"><span class="h-1.5 w-1.5 rounded-full bg-teal-500 mt-2"></span>Manpower deployment optimization</li>
-      <li class="flex gap-2"><span class="h-1.5 w-1.5 rounded-full bg-teal-500 mt-2"></span>Operational KPI stewardship</li>
-      <li class="flex gap-2"><span class="h-1.5 w-1.5 rounded-full bg-teal-500 mt-2"></span>Interface risk mitigation loops</li>
-    </ul>
-  </div>
 
-  <div id="modal-source-mgr-eng">
-    <h3 class="text-lg font-semibold text-slate-900">S. Lee</h3>
-    <p class="mt-1 text-sm text-teal-600 font-medium tracking-wide uppercase">Engineering Manager</p>
-    <p class="mt-4 text-sm text-slate-600 leading-relaxed">Leads multi-platform 3D modelling, discipline integration and QA/QC cycles supporting predictable technical deliverables.</p>
-    <ul class="mt-4 space-y-2 text-sm text-slate-700">
-      <li class="flex gap-2"><span class="h-1.5 w-1.5 rounded-full bg-teal-500 mt-2"></span>Model coordination reviews</li>
-      <li class="flex gap-2"><span class="h-1.5 w-1.5 rounded-full bg-teal-500 mt-2"></span>Standards & compliance mapping</li>
-      <li class="flex gap-2"><span class="h-1.5 w-1.5 rounded-full bg-teal-500 mt-2"></span>Change impact assessment</li>
-    </ul>
-  </div>
-
-  <div id="modal-source-mgr-digital">
-    <h3 class="text-lg font-semibold text-slate-900">N. Kumar</h3>
-    <p class="mt-1 text-sm text-teal-600 font-medium tracking-wide uppercase">Digital Solutions Lead</p>
-    <p class="mt-4 text-sm text-slate-600 leading-relaxed">Drives digital workflow enablement, data coherence and secure process integration to elevate delivery transparency.</p>
-    <ul class="mt-4 space-y-2 text-sm text-slate-700">
-      <li class="flex gap-2"><span class="h-1.5 w-1.5 rounded-full bg-teal-500 mt-2"></span>Workflow digitisation</li>
-      <li class="flex gap-2"><span class="h-1.5 w-1.5 rounded-full bg-teal-500 mt-2"></span>Data quality governance</li>
-      <li class="flex gap-2"><span class="h-1.5 w-1.5 rounded-full bg-teal-500 mt-2"></span>Toolchain integration</li>
-    </ul>
-  </div>
-
-  <div id="modal-source-mgr-qhse">
-    <h3 class="text-lg font-semibold text-slate-900">Farah M.</h3>
-    <p class="mt-1 text-sm text-teal-600 font-medium tracking-wide uppercase">QHSE & Compliance</p>
-    <p class="mt-4 text-sm text-slate-600 leading-relaxed">Ensures quality, health, safety and environmental alignment with regulatory and client frameworks while embedding preventative culture.</p>
-    <ul class="mt-4 space-y-2 text-sm text-slate-700">
-      <li class="flex gap-2"><span class="h-1.5 w-1.5 rounded-full bg-teal-500 mt-2"></span>Audit & compliance readiness</li>
-      <li class="flex gap-2"><span class="h-1.5 w-1.5 rounded-full bg-teal-500 mt-2"></span>QHSE training cadence</li>
-      <li class="flex gap-2"><span class="h-1.5 w-1.5 rounded-full bg-teal-500 mt-2"></span>Preventive risk controls</li>
-    </ul>
-  </div>
-</div>
 {% endblock %}
