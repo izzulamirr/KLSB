@@ -115,12 +115,12 @@
     {% block content %}{% endblock %}
   </main>
 
-  <footer class="site-footer py-10 text-center text-sm text-slate-500">
-    <div class="container flex flex-col gap-4">
-      <!-- footer nav removed per request -->
-      <div class="text-xs opacity-70">© {{ now().year if now else 'KLSB' }} KLSB. All rights reserved.</div>
-    </div>
-  </footer>
+<footer class="site-footer pt-6 pb-10 -mt-px text-center text-sm text-slate-500 bg-[#030C69] text-white">
+  <div class="container flex flex-col gap-4">
+    <div class="text-xs opacity-100">© 2025 KLSB. All rights reserved.</div>
+  </div>
+</footer>
+
 
   <!-- Scripts -->
   <script src="{{ url_for('static', filename='js/feature-cards.js') }}" defer></script>
