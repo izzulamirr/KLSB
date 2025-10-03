@@ -4,61 +4,83 @@
 <section class="py-24 bg-slate-50">
   <div class="max-w-7xl mx-auto px-6">
     <div class="md:flex md:items-start md:gap-16 lg:gap-24">
+
       <!-- Info column -->
       <div class="md:w-5/12 lg:w-4/12 mb-14 md:mb-0">
-        <h1 class="text-3xl sm:text-4xl font-bold tracking-tight">Get in touch</h1>
-        
-        <div class="mt-10 space-y-6"><p class="mt-5 text-slate-600 text-lg leading-relaxed"></p>
-          <div class="flex items-start gap-4">
-            <div>
-              <h2 class="font-semibold mb-1">Address</h2>
-              <p class="text-sm text-slate-600 leading-relaxed">39-5 to 39-8, Binjai 8 Premium SOHO, No 2 Lorong Binjai, 50450 Kuala Lumpur</p>
-            </div>
+        <!-- Center only the title -->
+        <h1 class="text-3xl sm:text-4xl font-bold tracking-tight text-center">Get in touch</h1>
+
+        <!-- Details forced left -->
+        <div class="mt-10 space-y-6 contact-details">
+          <div>
+            <h2 class="font-semibold mb-1">Address</h2>
+            <p class="text-sm leading-relaxed">
+              39-5 to 39-8, Binjai 8 Premium SOHO, No 2 Lorong Binjai, 50450 Kuala Lumpur
+            </p>
           </div>
-          <div class="flex items-start gap-4">
-            <div class="flex items-start gap-4">
-            <div>
-              <h2 class="font-semibold mb-1">Email</h2>
-              <p class="text-sm text-slate-600 leading-relaxed">recruitment@kemuncaklanai.com</p>
-            </div>
+
+          <div>
+            <h2 class="font-semibold mb-1">Email</h2>
+            <p class="text-sm leading-relaxed">recruitment@kemuncaklanai.com</p>
           </div>
+
+          <div>
+            <h2 class="font-semibold mb-1">Operation Hours</h2>
+            <p class="text-sm leading-relaxed">Monday to Friday: 9 AM – 6 PM</p>
           </div>
-          <div class="flex items-start gap-4">
-            <div class="flex items-start gap-4">
-            <div>
-              <h2 class="font-semibold mb-1">Operation Hours</h2>
-              <p class="text-sm text-slate-600 leading-relaxed">Monday to Friday: 9 AM - 6 PM</p>
-            </div>
+
+          <div>
+            <h2 class="font-semibold mb-1">Office Number</h2>
+            <p class="text-sm leading-relaxed">+603-2181 8078</p>
           </div>
+
+          <div>
+            <h2 class="font-semibold mb-1">Fax Number</h2>
+            <p class="text-sm leading-relaxed">+603-2181 5078</p>
           </div>
-        </div>
-        <div class="mt-12 grid gap-6 text-sm">
-          
-          
+          <!-- Social: place directly under Fax Number -->
+<div class="mt-4 flex items-center gap-4">
+  <a href="https://www.linkedin.com/company/kemuncak-lanai-sdn-bhd"
+     target="_blank" rel="noopener"
+     aria-label="KLSB on LinkedIn">
+    <img src="{{ url_for('static', filename='logo/linkedin.png') }}"
+         alt="LinkedIn"
+         class="h-6 w-6 hover:opacity-80 transition">
+  </a>
+</div>
+
         </div>
       </div>
-      <!-- Form column (replaced with static contact card) -->
+
+      <!-- Map column -->
       <div class="md:flex-1">
         <div class="bg-white rounded-3xl shadow-sm border p-8 md:p-10 relative overflow-hidden">
-         
-            
-            <div class="mt-6">
-              <!-- Embedded Google Maps iframe for the address -->
-              <div class="w-full rounded-xl overflow-hidden border">
-                <iframe
-                  title="Kemuncak Lanai Office — Binjai 8 Premium SOHO"
-                  src="https://www.google.com/maps?q=39-5%20to%2039-8%2C%20Binjai%208%20Premium%20SOHO%2C%20No%202%20Lorong%20Binjai%2C%2050450%20Kuala%20Lumpur&output=embed"
-                  width="100%"
-                  height="320"
-                  style="border:0;"
-                  allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
-                </iframe>
-              </div>
-            </div>
+          <div class="w-full rounded-xl overflow-hidden border">
+            <!-- Google Map embed pinned to Kemuncak Lanai Sdn Bhd -->
+<iframe
+  title="Kemuncak Lanai Sdn Bhd — Binjai 8 Premium SOHO"
+  src="https://www.google.com/maps?q=Kemuncak%20Lanai%20Sdn%20Bhd%2C%20Binjai%208%20Premium%20SOHO&output=embed"
+  width="100%" height="320" style="border:0"
+  allowfullscreen loading="lazy"
+  referrerpolicy="no-referrer-when-downgrade">
+</iframe>
+
           </div>
         </div>
       </div>
+
     </div>
   </div>
 </section>
+
+{% endblock %}
+
+{% block extra_body %}
+<style>
+  /* force left alignment for details even if page_class centers content */
+  .contact-details, 
+  .contact-details * {
+    text-align: left !important;
+  }
+</style>
 {% endblock %}
