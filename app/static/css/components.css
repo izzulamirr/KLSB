@@ -72,3 +72,8 @@
 .aff-points li:before { content:""; position:absolute; left:0; top:.45rem; width:6px; height:6px; background:#0f172a; border-radius:50%; opacity:.55; }
 .aff-meta { margin-top:auto; font-size:.6rem; letter-spacing:.09em; text-transform:uppercase; color:#64748b; display:flex; gap:.35rem; flex-wrap:wrap; }
 .aff-meta span { background:#0f172a; color:#ffffff; padding:.35rem .55rem .3rem; border-radius:.65rem; font-weight:600; letter-spacing:.06em; }
+
+ul li {
+  text-align: left !important;
+}
+

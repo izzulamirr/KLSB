@@ -9,47 +9,103 @@
 </section>
 <section class="pb-28 text-center">
   <div class="max-w-6xl mx-auto px-6">
-    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mt-4">
-      <article class="group rounded-2xl border bg-white p-6 shadow-sm hover:shadow-md transition">
-        <h3 class="font-semibold mb-2">Professional & Technical Manpower</h3>
-        <p class="text-sm text-slate-600">Contract / secondment personnel, compliance, onboarding.</p>
-      </article>
-      <article class="group rounded-2xl border bg-white p-6 shadow-sm hover:shadow-md transition">
-        <h3 class="font-semibold mb-2">Digitalization Consultancy</h3>
-        <p class="text-sm text-slate-600">E3D & Smart 3D environments, data flows, dashboards.</p>
-      </article>
-      <article class="group rounded-2xl border bg-white p-6 shadow-sm hover:shadow-md transition">
-        <h3 class="font-semibold mb-2">Cybersecurity Consultancy</h3>
-        <p class="text-sm text-slate-600">Policy, awareness, endpoint & network hardening.</p>
-      </article>
-      <article class="group rounded-2xl border bg-white p-6 shadow-sm hover:shadow-md transition">
-        <h3 class="font-semibold mb-2">General Construction & Supply Trading</h3>
-        <p class="text-sm text-slate-600">Materials, vendor coordination, QA/QC, delivery logistics.</p>
-      </article>
-    </div>
+    <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6 mt-4">
+      <a href="{{ url_for('main.services_manpower') }}"
+   class="group relative block rounded-2xl border bg-white p-6 shadow-sm overflow-hidden hover:shadow-md transition rm-safe text-center">
+  <!-- Hover image -->
+  <img src="{{ url_for('static', filename='img/2584721_XL.jpg') }}"
+       alt="Professional & Technical Manpower"
+       class="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-0 scale-105
+              transition duration-500 ease-out group-hover:opacity-100 group-hover:scale-100">
+  <!-- Overlay -->
+  <div class="pointer-events-none absolute inset-0 bg-black/0 transition duration-500 ease-out
+              group-hover:bg-black/35"></div>
+  <!-- Text (centered) -->
+  <div class="relative z-10 flex flex-col items-center justify-center h-full transition duration-500 ease-out group-hover:opacity-0">
+    <div class="text-xl font-semibold">PROFESSIONAL & TECHNICAL MANPOWER SERVICES</div>
+    <p class="text-sm text-slate-600">Materials sourcing, event logistics and trading services.</p>
   </div>
-</section>
-<section class="pb-28 text-center bg-slate-50">
-  <div class="max-w-5xl mx-auto px-6">
-    <h2 class="text-2xl font-semibold">Engagement Models</h2>
-    <p class="mt-3 text-slate-600 max-w-2xl mx-auto">Flexible structures to match your project phase and risk profile.</p>
-    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 mt-10">
-      <div class="p-5 rounded-2xl border bg-white shadow-sm">
-        <h3 class="font-semibold mb-1">Fixed Scope</h3>
-        <p class="text-xs text-slate-600">Defined deliverables & milestones.</p>
-      </div>
-      <div class="p-5 rounded-2xl border bg-white shadow-sm">
-        <h3 class="font-semibold mb-1">Capacity Augmentation</h3>
-        <p class="text-xs text-slate-600">Rapid resource scaling.</p>
-      </div>
-      <div class="p-5 rounded-2xl border bg-white shadow-sm">
-        <h3 class="font-semibold mb-1">Retainer Advisory</h3>
-        <p class="text-xs text-slate-600">Ongoing domain support.</p>
-      </div>
-      <div class="p-5 rounded-2xl border bg-white shadow-sm">
-        <h3 class="font-semibold mb-1">Hybrid Blended</h3>
-        <p class="text-xs text-slate-600">Embedded + remote synergy.</p>
-      </div>
+</a>
+<a href="{{ url_for('main.services_engineering') }}"
+   class="group relative block rounded-2xl border bg-white p-6 shadow-sm overflow-hidden hover:shadow-md transition rm-safe text-center">
+  <!-- Hover image -->
+  <img src="{{ url_for('static', filename='img/2584721_XL.jpg') }}"
+       alt="Professional & Technical Manpower"
+       class="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-0 scale-105
+              transition duration-500 ease-out group-hover:opacity-100 group-hover:scale-100">
+  <!-- Overlay -->
+  <div class="pointer-events-none absolute inset-0 bg-black/0 transition duration-500 ease-out
+              group-hover:bg-black/35"></div>
+  <!-- Text (centered) -->
+  <div class="relative z-10 flex flex-col items-center justify-center h-full transition duration-500 ease-out group-hover:opacity-0">
+    <div class="text-xl font-semibold">ENGINEERING SOLUTIONS</div>
+    <p class="text-sm text-slate-600">Materials sourcing, event logistics and trading services.</p>
+  </div>
+</a>
+<a href="{{ url_for('main.services_digital') }}"
+   class="group relative block rounded-2xl border bg-white p-6 shadow-sm overflow-hidden hover:shadow-md transition rm-safe text-center">
+  <!-- Hover image -->
+  <img src="{{ url_for('static', filename='img/2584721_XL.jpg') }}"
+       alt="Professional & Technical Manpower"
+       class="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-0 scale-105
+              transition duration-500 ease-out group-hover:opacity-100 group-hover:scale-100">
+  <!-- Overlay -->
+  <div class="pointer-events-none absolute inset-0 bg-black/0 transition duration-500 ease-out
+              group-hover:bg-black/35"></div>
+  <!-- Text (centered) -->
+  <div class="relative z-10 flex flex-col items-center justify-center h-full transition duration-500 ease-out group-hover:opacity-0">
+    <div class="text-xl font-semibold">DIGITAL SOLUTIONS & CYBERSECURITY CONSULTANCY</div>
+    <p class="text-sm text-slate-600">Materials sourcing, event logistics and trading services.</p>
+  </div>
+</a>
+<a href="{{ url_for('main.services_inspection') }}"
+   class="group relative block rounded-2xl border bg-white p-6 shadow-sm overflow-hidden hover:shadow-md transition rm-safe text-center">
+  <!-- Hover image -->
+  <img src="{{ url_for('static', filename='img/2584721_XL.jpg') }}"
+       alt="Professional & Technical Manpower"
+       class="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-0 scale-105
+              transition duration-500 ease-out group-hover:opacity-100 group-hover:scale-100">
+  <!-- Overlay -->
+  <div class="pointer-events-none absolute inset-0 bg-black/0 transition duration-500 ease-out
+              group-hover:bg-black/35"></div>
+  <!-- Text (centered) -->
+  <div class="relative z-10 flex flex-col items-center justify-center h-full transition duration-500 ease-out group-hover:opacity-0">
+    <div class="text-xl font-semibold">SPECIALIZED INSPECTION SERVICES</div>
+    <p class="text-sm text-slate-600">Materials sourcing, event logistics and trading services.</p>
+  </div>
+</a>
+<a href="{{ url_for('main.services_construction') }}"
+   class="group relative block rounded-2xl border bg-white p-6 shadow-sm overflow-hidden hover:shadow-md transition rm-safe text-center">
+  <!-- Hover image -->
+  <img src="{{ url_for('static', filename='img/2584721_XL.jpg') }}"
+       alt="Professional & Technical Manpower"
+       class="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-0 scale-105
+              transition duration-500 ease-out group-hover:opacity-100 group-hover:scale-100">
+  <!-- Overlay -->
+  <div class="pointer-events-none absolute inset-0 bg-black/0 transition duration-500 ease-out
+              group-hover:bg-black/35"></div>
+  <!-- Text (centered) -->
+  <div class="relative z-10 flex flex-col items-center justify-center h-full transition duration-500 ease-out group-hover:opacity-0">
+    <div class="text-xl font-semibold">GENERAL CONSTRUCTION SERVICES</div>
+    <p class="text-sm text-slate-600">Materials sourcing, event logistics and trading services.</p>
+  </div>
+</a>
+<a href="{{ url_for('main.services_supply') }}"
+   class="group relative block rounded-2xl border bg-white p-6 shadow-sm overflow-hidden hover:shadow-md transition rm-safe text-center">
+  <!-- Hover image -->
+  <img src="{{ url_for('static', filename='img/2584721_XL.jpg') }}"
+       alt="Professional & Technical Manpower"
+       class="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-0 scale-105
+              transition duration-500 ease-out group-hover:opacity-100 group-hover:scale-100">
+  <!-- Overlay -->
+  <div class="pointer-events-none absolute inset-0 bg-black/0 transition duration-500 ease-out
+              group-hover:bg-black/35"></div>
+  <!-- Text (centered) -->
+  <div class="relative z-10 flex flex-col items-center justify-center h-full transition duration-500 ease-out group-hover:opacity-0">
+    <div class="text-xl font-semibold">SUPPLY TRADING & EVENT MANAGEMENT</div>
+    <p class="text-sm text-slate-600">Materials sourcing, event logistics and trading services.</p>
+  </div>
+</a>
     </div>
   </div>
 </section>
