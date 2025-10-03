@@ -10,3 +10,16 @@ a:hover { text-decoration:underline; }
 .skip-link { position:absolute; left:-999px; top:auto; width:1px; height:1px; overflow:hidden; }
 .skip-link:focus { left: var(--space-4); top: var(--space-4); width:auto; height:auto; background: var(--color-primary); color:#fff; padding: var(--space-2) var(--space-4); border-radius: var(--radius-sm); }
 :root[data-theme='dark'] { color-scheme: dark; }
+/* Global text styles (lighter gray) */
+p,
+ul,
+li {
+  color: #6B7280 !important;      /* slate-500: lighter gray */
+  font-size: 0.875rem !important; /* text-sm (~14px) */
+  line-height: 1.6;
+}
+
+p {
+  margin: 0.5rem 0;
+}
+

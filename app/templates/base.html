@@ -24,7 +24,9 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='css/modern.css') }}">
   {% block extra_head %}{% endblock %}
 </head>
-<body class="{{ page_class|default('') }} antialiased">
+
+<!-- ✅ Changed: make body a flex column, full screen -->
+<body class="{{ page_class|default('') }} antialiased flex flex-col min-h-screen">
 
   <a href="#main-content" class="skip-link">Skip to content</a>
 
@@ -51,7 +53,7 @@
               <div class="rounded-xl border border-slate-200 shadow-lg bg-white p-2 flex flex-col gap-1 dropdown-panel">
                 <a href="/about/overview" class="dropdown-item" data-nav>Overview</a>
                 <a href="/about/history" class="dropdown-item" data-nav>History</a>
-                  <a href="/about/focus" class="dropdown-item">Focus</a>
+                <a href="/about/focus" class="dropdown-item">Focus</a>
                 <a href="/about/board" class="dropdown-item" data-nav>Board</a>
                 <a href="/about/affiliations" class="dropdown-item" data-nav>Affiliations</a>
                 <a href="/about/license-registration" class="dropdown-item" data-nav>License & Registration</a>
@@ -66,7 +68,6 @@
 
         <!-- Actions -->
         <div class="flex items-center gap-2 justify-end">
-          <!-- Theme toggle removed -->
           {% if not hide_contact_cta %}
           <a href="/contact" class="nav-cta" data-cta>
             <span>Get in touch</span>
@@ -110,23 +111,21 @@
     </div>
   </div>
 
-  <!-- Main content -->
-  <main id="main-content" class="site-main pt-24 md:pt-28 fade-in">
+  <!-- Main content (flex-grow so footer sticks) -->
+  <main id="main-content" class="site-main pt-24 md:pt-28 fade-in flex-grow">
     {% block content %}{% endblock %}
   </main>
 
-<footer class="site-footer pt-6 pb-10 -mt-px text-center text-sm text-slate-500 bg-[#030C69] text-white">
-  <div class="container flex flex-col gap-4">
-    <div class="text-xs opacity-100">© 2025 KLSB. All rights reserved.</div>
-  </div>
-</footer>
-
+  <!-- Footer -->
+  <footer class="site-footer pt-6 pb-10 -mt-px text-center text-sm text-slate-500 bg-[#030C69] text-white">
+    <div class="container flex flex-col gap-4">
+      <div class="text-xs opacity-100">© 2025 KLSB. All rights reserved.</div>
+    </div>
+  </footer>
 
   <!-- Scripts -->
   <script src="{{ url_for('static', filename='js/feature-cards.js') }}" defer></script>
   <script src="{{ url_for('static', filename='js/nav.js') }}" defer></script>
-  {# Provide a single outer block 'extra_body' that nests 'extra_scripts'. #}
-  {# This keeps backward compatibility for templates still using 'extra_body' #}
   {% block extra_body %}
     {% block extra_scripts %}{% endblock %}
   {% endblock %}
