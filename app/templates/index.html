@@ -125,112 +125,115 @@
   <p class="mt-5 text-slate-600 text-lg">We combine certified technical talent, disciplined project governance, and multi-domain capability to accelerate execution while de-risking delivery for engineering, energy and industrial stakeholders.</p>
     </div>
 
-    <!-- Value pillars -->
+    <!-- Value pillars with small popups -->
     <div class="mt-14 feature-grid-enhanced md:grid-cols-2 lg:grid-cols-4">
-      <button class="feature-card text-left cursor-pointer" data-modal-target="feature-certified" aria-haspopup="dialog" aria-controls="modal-feature-certified">
-        <div class="feature-card-media">
-          <img src="{{ url_for('static', filename='img/hero.jpg') }}" alt="Certified expertise visual" loading="lazy">
+      <div class="relative">
+        <button class="feature-card text-left cursor-pointer" data-pillar="feature-certified" aria-haspopup="dialog">
+          <div class="feature-card-media">
+            <img src="{{ url_for('static', filename='img/hero.jpg') }}" alt="Certified expertise visual" loading="lazy">
+          </div>
+          <h3 class="font-semibold mb-2 flex items-center justify-center">Certified Expertise</h3>
+          <p class="text-sm text-slate-600">Platform & discipline certified personnel with multi-environment execution history.</p>
+        </button>
+        <div id="pillar-popup-feature-certified" class="pillar-pop hidden absolute z-40 top-full left-1/2 -translate-x-1/2 mt-3 w-72 max-w-xs bg-white border border-slate-200 shadow-xl rounded-xl p-4 text-sm leading-relaxed">
+          <div class="flex items-start gap-2">
+            <h4 class="font-semibold text-slate-800 flex-1 pr-4">Certified Expertise</h4>
+            <button type="button" class="pillar-close text-slate-400 hover:text-teal-600 text-lg leading-none font-bold" aria-label="Close">&times;</button>
+          </div>
+          <ul class="list-disc pl-5 mt-2 space-y-1">
+            <li>Multi-platform (Aveva / Hexagon) stewardship</li>
+            <li>Discipline cross-check & interfaces</li>
+            <li>As-built reconciliation & metadata hygiene</li>
+            <li>Mentored onboarding acceleration</li>
+          </ul>
         </div>
-        <h3 class="font-semibold mb-2 flex items-center gap-2">Certified Expertise <span class="inline-block text-[10px] font-medium tracking-wide px-2 py-0.5 rounded-full bg-slate-900 text-white">Details</span></h3>
-        <p class="text-sm text-slate-600">Platform & discipline certified personnel with multi-environment execution history.</p>
-      </button>
-      <button class="feature-card text-left cursor-pointer" data-modal-target="feature-execution" aria-haspopup="dialog" aria-controls="modal-feature-execution">
-        <div class="feature-card-media">
-          <img src="{{ url_for('static', filename='img/2584721_XL.jpg') }}" alt="Execution discipline process" loading="lazy">
+      </div>
+      <div class="relative">
+        <button class="feature-card text-left cursor-pointer" data-pillar="feature-execution" aria-haspopup="dialog">
+          <div class="feature-card-media">
+            <img src="{{ url_for('static', filename='img/2584721_XL.jpg') }}" alt="Execution discipline process" loading="lazy">
+          </div>
+          <h3 class="font-semibold mb-2 flex items-center justify-center">Execution Discipline</h3>
+          <p class="text-sm text-slate-600">Structured governance & QA/QC loops enable predictability.</p>
+        </button>
+        <div id="pillar-popup-feature-execution" class="pillar-pop hidden absolute z-40 top-full left-1/2 -translate-x-1/2 mt-3 w-72 max-w-xs bg-white border border-slate-200 shadow-xl rounded-xl p-4 text-sm leading-relaxed">
+          <div class="flex items-start gap-2">
+            <h4 class="font-semibold text-slate-800 flex-1 pr-4">Execution Discipline</h4>
+            <button type="button" class="pillar-close text-slate-400 hover:text-teal-600 text-lg leading-none font-bold" aria-label="Close">&times;</button>
+          </div>
+          <ol class="list-decimal pl-5 mt-2 space-y-1">
+            <li>Structured kickoff & interface matrix</li>
+            <li>Milestone dashboards & variance surfacing</li>
+            <li>QA/QC gates with defect taxonomy</li>
+            <li>Change impact logging & mitigation</li>
+          </ol>
         </div>
-        <h3 class="font-semibold mb-2 flex items-center gap-2">Execution Discipline <span class="inline-block text-[10px] font-medium tracking-wide px-2 py-0.5 rounded-full bg-slate-900 text-white">Details</span></h3>
-        <p class="text-sm text-slate-600">Structured governance & QA/QC loops enable predictability.</p>
-      </button>
-      <button class="feature-card text-left cursor-pointer" data-modal-target="feature-integrated" aria-haspopup="dialog" aria-controls="modal-feature-integrated">
-        <div class="feature-card-media">
-          <img src="{{ url_for('static', filename='img/business-2717427.jpg') }}" alt="Integrated capability collaboration" loading="lazy">
+      </div>
+      <div class="relative">
+        <button class="feature-card text-left cursor-pointer" data-pillar="feature-integrated" aria-haspopup="dialog">
+          <div class="feature-card-media">
+            <img src="{{ url_for('static', filename='img/business-2717427.jpg') }}" alt="Integrated capability collaboration" loading="lazy">
+          </div>
+            <h3 class="font-semibold mb-2 flex items-center justify-center">Integrated Capability</h3>
+          <p class="text-sm text-slate-600">Cross-domain services under unified coordination.</p>
+        </button>
+        <div id="pillar-popup-feature-integrated" class="pillar-pop hidden absolute z-40 top-full left-1/2 -translate-x-1/2 mt-3 w-72 max-w-xs bg-white border border-slate-200 shadow-xl rounded-xl p-4 text-sm leading-relaxed">
+          <div class="flex items-start gap-2">
+            <h4 class="font-semibold text-slate-800 flex-1 pr-4">Integrated Capability</h4>
+            <button type="button" class="pillar-close text-slate-400 hover:text-teal-600 text-lg leading-none font-bold" aria-label="Close">&times;</button>
+          </div>
+          <ul class="list-disc pl-5 mt-2 space-y-1">
+            <li>Consolidated multi-domain reporting</li>
+            <li>Shared standards & knowledge base</li>
+            <li>Unified escalation & risk register</li>
+            <li>Toolchain alignment & credential governance</li>
+          </ul>
         </div>
-        <h3 class="font-semibold mb-2 flex items-center gap-2">Integrated Capability <span class="inline-block text-[10px] font-medium tracking-wide px-2 py-0.5 rounded-full bg-slate-900 text-white">Details</span></h3>
-        <p class="text-sm text-slate-600">Cross-domain services under unified coordination.</p>
-      </button>
-      <button class="feature-card text-left cursor-pointer" data-modal-target="feature-adaptive" aria-haspopup="dialog" aria-controls="modal-feature-adaptive">
-        <div class="feature-card-media">
-          <img src="{{ url_for('static', filename='img/shutterstock_744825085-min.jpg') }}" alt="Adaptive engagement flexibility" loading="lazy">
+      </div>
+      <div class="relative">
+        <button class="feature-card text-left cursor-pointer" data-pillar="feature-adaptive" aria-haspopup="dialog">
+          <div class="feature-card-media">
+            <img src="{{ url_for('static', filename='img/shutterstock_744825085-min.jpg') }}" alt="Adaptive engagement flexibility" loading="lazy">
+          </div>
+          <h3 class="font-semibold mb-2 flex items-center justify-center">Adaptive Engagement</h3>
+          <p class="text-sm text-slate-600">Engagement models aligned to phase & risk appetite.</p>
+        </button>
+        <div id="pillar-popup-feature-adaptive" class="pillar-pop hidden absolute z-40 top-full left-1/2 -translate-x-1/2 mt-3 w-80 max-w-sm bg-white border border-slate-200 shadow-xl rounded-xl p-4 text-xs leading-relaxed">
+          <div class="flex items-start gap-2">
+            <h4 class="font-semibold text-slate-800 flex-1 pr-4">Adaptive Engagement</h4>
+            <button type="button" class="pillar-close text-slate-400 hover:text-teal-600 text-lg leading-none font-bold" aria-label="Close">&times;</button>
+          </div>
+          <table class="w-full mt-2 border-collapse">
+            <thead>
+              <tr class="text-left text-slate-600 border-b">
+                <th class="py-1 pr-3 font-semibold">Model</th>
+                <th class="py-1 pr-3 font-semibold">Best For</th>
+                <th class="py-1 font-semibold">Advantage</th>
+              </tr>
+            </thead>
+            <tbody class="align-top">
+              <tr class="border-b">
+                <td class="py-1 pr-3">Capacity Aug</td>
+                <td class="py-1 pr-3">Scaling workflows</td>
+                <td class="py-1">Rapid ramp, low friction</td>
+              </tr>
+              <tr class="border-b">
+                <td class="py-1 pr-3">Fixed Scope</td>
+                <td class="py-1 pr-3">Defined deliverables</td>
+                <td class="py-1">Predictable cost</td>
+              </tr>
+              <tr>
+                <td class="py-1 pr-3">Hybrid / Retainer</td>
+                <td class="py-1 pr-3">Evolving backlog</td>
+                <td class="py-1">Continuity & elasticity</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-        <h3 class="font-semibold mb-2 flex items-center gap-2">Adaptive Engagement <span class="inline-block text-[10px] font-medium tracking-wide px-2 py-0.5 rounded-full bg-slate-900 text-white">Details</span></h3>
-        <p class="text-sm text-slate-600">Engagement models aligned to phase & risk appetite.</p>
-      </button>
+      </div>
     </div>
 
-    <!-- Hidden detailed content (modal sources) -->
-    <div class="hidden" id="modal-source-feature-certified">
-      <div class="modal-hero">
-        <img src="{{ url_for('static', filename='img/hero.jpg') }}" alt="Certified expertise imagery" loading="lazy">
-      </div>
-      <h2 class="modal-title">Certified Expertise</h2>
-      <p>Our personnel hold platform and discipline certifications across E3D, Smart3D, SPI, cybersecurity frameworks and more, combining design office rigor with field commissioning exposure.</p>
-      <ul class="list-disc pl-5 mt-4 text-sm leading-relaxed space-y-1">
-        <li>Multi-platform (Aveva / Hexagon) model stewardship</li>
-        <li>Discipline cross-check & interface management</li>
-        <li>As-built reconciliation & metadata hygiene</li>
-        <li>Mentored onboarding for junior augmentation</li>
-      </ul>
-    </div>
-    <div class="hidden" id="modal-source-feature-execution">
-      <div class="modal-hero">
-        <img src="{{ url_for('static', filename='img/2584721_XL.jpg') }}" alt="Execution process visual" loading="lazy">
-      </div>
-      <h2 class="modal-title">Execution Discipline</h2>
-      <p>We embed cadence, visibility and quality loops to reduce variance and surface risk early.</p>
-      <ol class="list-decimal pl-5 mt-4 text-sm leading-relaxed space-y-1">
-        <li>Structured kickoff & interface matrix</li>
-        <li>Sprint / milestone progress dashboards</li>
-        <li>QA/QC gates with defect categorization</li>
-        <li>Change impact + mitigation logging</li>
-      </ol>
-    </div>
-    <div class="hidden" id="modal-source-feature-integrated">
-      <div class="modal-hero">
-        <img src="{{ url_for('static', filename='img/business-2717427.jpg') }}" alt="Integrated capability collaboration image" loading="lazy">
-      </div>
-      <h2 class="modal-title">Integrated Capability</h2>
-      <p>Unified coordination layer spanning manpower, digitalization, cybersecurity and supply & trading.</p>
-      <p class="mt-3 text-sm">This reduces transactional overhead and misalignment across workstreams while improving traceability.</p>
-      <ul class="list-disc pl-5 mt-4 text-sm leading-relaxed space-y-1">
-        <li>Consolidated reporting across domains</li>
-        <li>Shared knowledge & standards repository</li>
-        <li>Common escalation & risk register</li>
-        <li>Toolchain alignment & credential governance</li>
-      </ul>
-    </div>
-    <div class="hidden" id="modal-source-feature-adaptive">
-      <div class="modal-hero">
-        <img src="{{ url_for('static', filename='img/shutterstock_744825085-min.jpg') }}" alt="Adaptive engagement flexibility image" loading="lazy">
-      </div>
-      <h2 class="modal-title">Adaptive Engagement</h2>
-      <p>Flexible commercial and delivery structures tailored to uncertainty and phase maturity.</p>
-      <table class="w-full text-sm mt-4 border-collapse">
-        <thead>
-          <tr class="text-left border-b">
-            <th class="py-1 pr-3 font-semibold">Model</th>
-            <th class="py-1 pr-3 font-semibold">Best For</th>
-            <th class="py-1 font-semibold">Advantages</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr class="border-b align-top">
-            <td class="py-2 pr-3">Capacity Augmentation</td>
-            <td class="py-2 pr-3">Scaling established workflows</td>
-            <td class="py-2">Rapid ramp, lower onboarding friction</td>
-          </tr>
-          <tr class="border-b align-top">
-            <td class="py-2 pr-3">Fixed Scope</td>
-            <td class="py-2 pr-3">Well-defined deliverables</td>
-            <td class="py-2">Predictable cost, milestone clarity</td>
-          </tr>
-          <tr class="align-top">
-            <td class="py-2 pr-3">Hybrid / Retainer</td>
-            <td class="py-2 pr-3">Evolving backlog & advisory</td>
-            <td class="py-2">Strategic continuity & elasticity</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+   
 
     <!-- Metrics / Indicators -->
     <div class="mt-24">
@@ -263,6 +266,8 @@
   </div>
 </section>
 
+<!-- (Removed large overlay modal; using small anchored popups instead) -->
+
 
 <!-- Clients -->
 <section id="clients" class="pt-20 pb-12 bg-slate-50 text-center">
@@ -277,4 +282,60 @@
 </section>
 
 
+<script>
+(function(){
+  const triggers = document.querySelectorAll('[data-pillar]');
+  let openPopup = null;
+  let lastTrigger = null;
+
+  function showPopup(id, trigger){
+    const popup = document.getElementById('pillar-popup-' + id);
+    if(!popup) return;
+    // Close current
+    if(openPopup && openPopup !== popup){ hidePopup(openPopup); }
+    if(popup.classList.contains('hidden')){
+      popup.classList.remove('hidden');
+      popup.setAttribute('data-open','');
+      openPopup = popup;
+      lastTrigger = trigger;
+      // simple fade/scale
+      popup.style.opacity = 0; popup.style.transform += ' translate-y-1';
+      requestAnimationFrame(()=>{
+        popup.style.transition='opacity .18s ease, transform .18s ease';
+        popup.style.opacity=1; popup.style.transform = popup.style.transform.replace(' translate-y-1','');
+      });
+      // focus heading
+      const focusEl = popup.querySelector('h4,button,table,ul,ol');
+      focusEl && focusEl.focus && setTimeout(()=>focusEl.focus(),30);
+    } else {
+      hidePopup(popup);
+    }
+  }
+  function hidePopup(p){
+    if(!p) return;
+    p.style.opacity=0; p.style.transform += ' translate-y-1';
+    setTimeout(()=>{
+      p.classList.add('hidden');
+      p.removeAttribute('data-open');
+      p.style.transition='';
+      p.style.transform='';
+      if(p===openPopup){ openPopup=null; lastTrigger && lastTrigger.focus(); }
+    },160);
+  }
+  triggers.forEach(btn=>{
+    btn.addEventListener('click',()=> showPopup(btn.getAttribute('data-pillar'), btn));
+    btn.addEventListener('keydown',e=>{ if(e.key==='Enter' || e.key===' '){ e.preventDefault(); showPopup(btn.getAttribute('data-pillar'), btn);} });
+  });
+  document.addEventListener('click',e=>{
+    if(openPopup){
+      const within = openPopup.contains(e.target) || (lastTrigger && lastTrigger.contains(e.target));
+      if(!within) hidePopup(openPopup);
+      if(e.target.classList && e.target.classList.contains('pillar-close')) hidePopup(openPopup);
+    }
+  });
+  document.addEventListener('keydown',e=>{ if(e.key==='Escape' && openPopup){ hidePopup(openPopup);} });
+})();
+</script>
+
 {% endblock %}
+
