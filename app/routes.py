@@ -114,6 +114,10 @@ def about_affiliations():
 def about_focus():
     return render_template('About Us/about_focus.html', page_class="home-page center-content")
 
+@main_bp.route('/about/license-registration')
+def about_license_registration():
+    return render_template('About Us/about_license.html', page_class="home-page center-content")
+
 @main_bp.route("/healthz")
 def healthz():
     return jsonify(status="ok")
