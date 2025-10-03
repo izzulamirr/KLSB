@@ -108,3 +108,16 @@ body { transition: background .5s var(--easing), color .5s var(--easing); }
   * { animation-duration: .01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important; }
   html { scroll-behavior:auto; }
 }
+
+/* Global list normalization */
+ul, ol {
+  list-style-position: outside !important;
+  padding-left: 1.25rem !important;
+  margin: 0.5rem 0 !important;
+  text-align: left !important;
+}
+li {
+  margin: 0.25rem 0 !important;
+  text-align: left !important;
+}
+ul.list-inside, ol.list-inside { list-style-position: outside !important; }
