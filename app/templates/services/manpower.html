@@ -2,29 +2,32 @@
 {% block title %}KLSB — Professional & Technical Manpower{% endblock %}
 {% block content %}
 
-<section class="py-16 bg-white">
+
+<section class="relative min-h-[280px] sm:min-h-[340px] flex items-center justify-center text-center">
+  <div class="absolute inset-0 -z-10 bg-cover bg-center" style="background-image: url('{{ url_for('static', filename='img/2584721_XL.jpg') }}');"></div>
+  <div class="absolute inset-0 -z-10 bg-black/40"></div>
+</div>
+  <div class="w-full px-4 sm:px-6 lg:px-8 py-16 flex flex-col items-center justify-center">
+  <h1 class="text-3xl sm:text-4xl font-bold text-white drop-shadow-lg mb-4">Professional &amp; Technical Manpower</h1>
+  <p class="text-lg max-w-2xl mx-auto drop-shadow-md" style="color:#fff !important;">Based on a thorough understanding of the job specifications, organization culture, education & skill requirement, safety awareness and other critical attributes required for the specific position. We focus on productivity and efficiency improvement through training, skill enhancement program and also focus on key result area & cost optimization solution.</p>
+  </div>
+</section>
+
+<!-- Back to all services: left-aligned under hero, outside main content -->
+<div class="bg-white">
+  <div style="height:2.5rem;"></div>
+  <nav class="text-sm text-slate-500 mb-6 text-left" style="margin-left:0; padding-left:0;">
+    <a href="{{ url_for('main.services_page') }}" class="hover:text-slate-700" style="margin-left:0; padding-left:1.5rem; display:inline-block;">← Back to all services</a>
+  </nav>
+</div>
+<section class="py-8 bg-white">
   <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
 
-    <!-- ✅ Back to all services -->
-    <nav class="text-sm text-slate-500 mb-6 text-left">
-      <a href="{{ url_for('main.services_page') }}" class="hover:text-slate-700">← Back to all services</a>
-    </nav>
 
-    <!-- Header -->
-    <h1 class="text-3xl sm:text-4xl font-bold mb-6">Professional &amp; Technical Manpower</h1>
-    <p class="text-slate-600 mb-12">
-      We deliver professional and technical manpower for engineering, project management, and construction—
-      tailored to your scope, timeline, and budget. Our resourcing model covers on-site, hybrid, and remote,
-      with quick onboarding and clear SLAs.
-    </p>
 
-    <!-- Top CTA -->
-    <div class="mb-14">
-      <a href="{{ url_for('main.services_manpower_send_cv') }}"
-         class="inline-flex items-center rounded-2xl bg-slate-900 text-white px-6 py-3 font-medium hover:bg-slate-800">
-        Send CV
-      </a>
-    </div>
+    <!-- Header removed, now in hero section -->
+
+
 
     <!-- Scope of Work -->
     <div class="space-y-12 text-left">
@@ -50,7 +53,17 @@
         </div>
       </section>
 
+
+
       <h1 class="text-3xl sm:text-4xl font-bold mb-6">Specialized Top-tier Professional Technical Manpower</h1>
+      <div class="mb-10 flex justify-center">
+        <a href="{{ url_for('main.services_manpower_send_cv') }}"
+           class="inline-flex items-center rounded-2xl text-white px-6 py-3 font-medium shadow hover:shadow-md transition"
+           style="background:#030C69; border:none;">
+          Send CV
+        </a>
+      </div>
+
 
       <!-- Manpower -->
       <section class="rounded-2xl border bg-white p-6 shadow-sm">
@@ -251,53 +264,58 @@
         </div>
       </section>
 
-      <!-- Payroll Servicess -->
-      <section class="rounded-2xl border bg-white p-6 shadow-sm">
-        <h2 class="text-2xl font-semibold text-center mb-2">Payroll Services</h2>
-        <p class="text-slate-600 text-center mb-5">
-          Managing payroll and related tasks for the workers placed with client companies
-        </p>
-        <div class="grid sm:grid-cols-2 gap-6 text-slate-700">
-          <div class="rounded-xl border p-4">
-            <h3 class="font-semibold">Payroll Processing</h3>
-            <p class="mt-2 text-sm">KLSB manages the processing of payroll for the workers, which includes calculating their pay, deductions, and taxes.</p>
+      <!-- Scope of Work -->
+      <div class="space-y-12 text-left">
+        <section class="rounded-2xl border bg-white p-6 shadow-sm [p]:text-justify">
+          <h2 class="text-2xl font-semibold text-center mb-2">Scope of Work</h2>
+          <div class="grid sm:grid-cols-4 gap-6 text-slate-700">
+             <div class="rounded-xl border p-4">
+              <h3 class="font-semibold">TOTAL SCOPE OUTSOURCE</h3>
+              <p class="mt-2 text-sm" style="text-align: center;">Specialised Engineering Study, 3D Modelling etc.</p>
+            </div>
+            <div class="rounded-xl border p-4">
+              <h3 class="font-semibold">MANPOWER + WORKSTATION</h3>
+              <p class="mt-2 text-sm" style="text-align: center;">Manpower supply and workstation to be stationed at Client Office</p>
+            </div>
+            <div class="rounded-xl border p-4">
+              <h3 class="font-semibold">MANPOWER + WORKSTATION + SOFTWARE</h3>
+              <p class="mt-2 text-sm" style="text-align: center;">Manpower supply, workstation and any required software to be stationed at Client Office</p>
+            </div>
+            <div class="rounded-xl border p-4">
+              <h3 class="font-semibold">MANPOWER SUPPLY BODY ONLY</h3>
+              <p class="mt-2 text-sm" style="text-align: center;">Manpower supply for all disicipline as required. Short term basis, hourly rate, monthly rate etc</p>
+            </div>
           </div>
-          <div class="rounded-xl border p-4">
-            <h3 class="font-semibold">Time and Attendance Tracking</h3>
-            <p class="mt-2 text-sm">The agency tracks the hours worked by each worker as well as any time off they take.</p>
-          </div>
-          <div class="rounded-xl border p-4">
-            <h3 class="font-semibold">Payroll Tax Filing</h3>
-            <p class="mt-2 text-sm">KLSB files all payrol taxes on behalf of the workers and the client company.</p>
-          </div>
-          <div class="rounded-xl border p-4">
-            <h3 class="font-semibold">Compliance Management</h3>
-            <p class="mt-2 text-sm">KLSB will ensures that all payroll-related activities are in compliance with federal and state laws and regulations.</p>
-          </div>
-        </div>
-        <p class="mt-2 text-sm">Outsourcing payroll services to a manpower agency allows client companies to save time, minimize administrative workload, and ensure payroll tasks are managed accurately while remaining compliant with all relevant laws and regulations.</p>
-      </section>
+        </section>
 
-      <!-- Why Choose KLSB -->
-      <section class="rounded-2xl border bg-white p-6 shadow-sm">
-        <h2 class="text-2xl font-semibold text-center mb-2">Why Choose KLSB</h2>
-        <div class="grid sm:grid-cols-2 gap-6 text-slate-700">
-          <div class="rounded-xl border p-4">
-            <h3 class="font-semibold">Expertise</h3>
-            <p class="mt-2 text-sm">Qualified specialists with strong domain knowledge and toolsets.</p>
+        <!-- Manpower -->
+        <section class="rounded-2xl border bg-white p-6 shadow-sm">
+          <h2 class="text-2xl font-semibold text-center mb-2">Manpower Project Management Services</h2>
+          <div class="grid sm:grid-cols-2 gap-6">
+            <ul class="list-disc list-outside pl-5 text-left">
+              <li class="text-left">Project Director</li>
+              <li class="text-left">Project Manager</li>
+              <li class="text-left">Contract Manager</li>
+              <li class="text-left">Commissioning Manager</li>
+              <li class="text-left">HSSE Manager</li>
+            </ul>
+            <ul class="list-disc list-outside pl-5 text-left">
+              <li class="text-left">QA/QC Manager</li>
+              <li class="text-left">Engineering Manager</li>
+              <li class="text-left">Procurement Manager</li>
+              <li class="text-left">Planning & Control</li>
+              <li class="text-left">Construction Manager</li>
+            </ul>
           </div>
-          <div class="rounded-xl border p-4">
-            <h3 class="font-semibold">Customization</h3>
-            <p class="mt-2 text-sm">Resourcing matched to your scope, delivery model, and schedule.</p>
-          </div>
-          <div class="rounded-xl border p-4">
-            <h3 class="font-semibold">Quality &amp; Safety</h3>
-            <p class="mt-2 text-sm">Certified personnel and robust HSE practices for dependable delivery.</p>
-          </div>
-          <div class="rounded-xl border p-4">
-            <h3 class="font-semibold">Reliability</h3>
-            <p class="mt-2 text-sm">Track record of on-time delivery backed by clear metrics and reviews.</p>
-          </div>
+        </section>
+        <div class="mb-10 flex justify-center">
+          <a href="{{ url_for('main.services_manpower_send_cv') }}"
+             class="inline-flex items-center rounded-2xl text-white px-6 py-3 font-medium shadow hover:shadow-md transition"
+             style="background:#030C69; border:none;">
+            Send CV
+          </a>
+        </div>
+      </div>
         </div>
       </section>
 
@@ -308,9 +326,9 @@
       <p class="text-slate-600 mb-6">
         Need certified, project-ready personnel? Tell us your timeline and scope.
       </p>
-      <a href="/contact"
-         class="inline-flex items-center rounded-2xl bg-slate-900 text-white px-6 py-3 font-medium hover:bg-slate-800">
-        Request a proposal
+  <a href="/get-in-touch"
+    class="inline-flex items-center rounded-2xl text-white px-6 py-3 font-medium transition" style="background:#030C69; border:none;">
+  Request a proposal
       </a>
     </div>
 

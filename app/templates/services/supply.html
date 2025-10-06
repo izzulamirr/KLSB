@@ -2,21 +2,29 @@
 {% block title %}KLSB — Supply & Support Services{% endblock %}
 {% block content %}
 
-<section class="py-16 bg-white">
+
+<section class="relative min-h-[280px] sm:min-h-[340px] flex items-center justify-center text-center">
+  <div class="absolute inset-0 -z-10 bg-cover bg-center" style="background-image: url('{{ url_for('static', filename='img/2584721_XL.jpg') }}');"></div>
+  <div class="absolute inset-0 -z-10 bg-black/40"></div>
+</div>
+  <div class="w-full px-4 sm:px-6 lg:px-8 py-16 flex flex-col items-center justify-center">
+  <h1 class="text-3xl sm:text-4xl font-bold text-white drop-shadow-lg mb-4">Supply &amp; Trading Services</h1>
+  <p class="text-lg max-w-2xl mx-auto drop-shadow-md" style="color:#fff !important;">End-to-end support for your operations from IT equipment &amp; peripherals to event management and authority liaison services delivered with reliable logistics, responsive service, and competitive pricing.</p>
+  </div>
+</section>
+<!-- Back to all services: left-aligned between hero and content -->
+<div class="bg-white">
+  <div style="height:2.5rem;"></div>
+  <nav class="text-sm text-slate-500 mb-6 text-left" style="margin-left:0; padding-left:0;">
+    <a href="{{ url_for('main.services_page') }}" class="hover:text-slate-700" style="margin-left:0; padding-left:1.5rem; display:inline-block;">← Back to all services</a>
+  </nav>
+</div>
+
+<section class="py-8 bg-white">
   <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
 
-    <!-- Back to all services -->
-    <nav class="text-sm text-slate-500 mb-6 text-left">
-      <a href="{{ url_for('main.services_page') }}" class="hover:text-slate-700">← Back to all services</a>
-    </nav>
 
-    <!-- Header -->
-    <h1 class="text-3xl sm:text-4xl font-bold mb-6">Supply &amp; Support Services</h1>
-    <p class="text-slate-600 mb-12">
-      End-to-end support for your operations from <strong>IT equipment &amp; peripherals</strong> to
-      <strong>event management</strong> and <strong>authority liaison</strong> services delivered with reliable logistics,
-      responsive service, and competitive pricing.
-    </p>
+    <!-- Header removed, now in hero section -->
 
     <!-- Content -->
     <div class="space-y-12 text-left">
@@ -99,9 +107,9 @@
       <p class="text-slate-600 mb-6">
         Tell us your requirements (items, quantities, event scope, or permits) and timeline — we’ll tailor a package for you.
       </p>
-      <a href="/contact"
-         class="inline-flex items-center rounded-2xl bg-slate-900 text-white px-6 py-3 font-medium hover:bg-slate-800">
-        Request a proposal
+  <a href="/get-in-touch"
+    class="inline-flex items-center rounded-2xl text-white px-6 py-3 font-medium transition" style="background:#030C69; border:none;">
+  Request a proposal
       </a>
     </div>
 

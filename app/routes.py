@@ -120,3 +120,24 @@ def about_license_registration():
 @main_bp.route("/healthz")
 def healthz():
     return jsonify(status="ok")
+
+@main_bp.route("/get-in-touch", methods=["GET", "POST"])
+def get_in_touch():
+    from flask import request, flash
+    errors = []
+    if request.method == "POST":
+        email = request.form.get("email", "").strip()
+        company = request.form.get("company", "").strip()
+        services = request.form.getlist("services")
+        remarks = request.form.get("remarks", "").strip()
+        if not email:
+            errors.append("Email is required.")
+        if not company:
+            errors.append("Company name is required.")
+        if not services:
+            errors.append("Please select at least one core service.")
+        if errors:
+            return render_template("get_in_touch.html", errors=errors, form=request.form)
+        # In a real app, save or send the data here
+        return render_template("get_in_touch.html", success=True)
+    return render_template("get_in_touch.html")
