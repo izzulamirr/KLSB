@@ -101,8 +101,8 @@ def contact():
 def about_overview():
     return render_template("about_overview.html", page_class="home-page center-content")
 
-@main_bp.route("/about/board")
-def about_board():
+@main_bp.route("/about/management")
+def about_management():
     return render_template("About Us/about_board.html", page_class="home-page center-content")
 
 @main_bp.route("/about/affiliations")
