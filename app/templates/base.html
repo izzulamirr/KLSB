@@ -17,9 +17,9 @@
   <script src="https://cdn.tailwindcss.com" defer></script>
   <!-- Core layered styles -->
   <!-- Favicons -->
-  <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='logo/KLSB Diamond 1 .png') }}">
-  <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='logo/KLSB Diamond 1 .png') }}">
-  <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='logo/KLSB Diamond 1 .png') }}">
+  <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='img/logo/KLSB Diamond 1 .png') }}">
+  <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='img/logo/KLSB Diamond 1 .png') }}">
+  <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='img/logo/KLSB Diamond 1 .png') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/variables.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/layout.css') }}">
@@ -53,8 +53,9 @@
             <button class="nav-link inline-flex items-center gap-1" aria-haspopup="true" aria-expanded="false">About Us
               <svg width="14" height="14" viewBox="0 0 20 20" fill="none" class="transition-transform group-hover:translate-y-[1px]"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </button>
-            <div class="invisible opacity-0 group-hover:opacity-100 group-hover:visible transition duration-200 absolute left-0 top-full pt-3 min-w-[220px]">
-              <div class="rounded-xl border border-slate-200 shadow-lg bg-white p-2 flex flex-col gap-1 dropdown-panel">
+            <div class="invisible opacity-0 group-hover:opacity-100 group-hover:visible transition duration-200 absolute left-1/2 transform -translate-x-1/2 top-full pt-3">
+              <div class="rounded-xl border border-slate-200 shadow-lg bg-white p-2 flex flex-col gap-1 dropdown-panel" style="min-width:220px;">
+                <div class="dropdown-arrow" aria-hidden="true"></div>
                 <a href="/about/overview" class="dropdown-item" data-nav>Overview</a>
                 <a href="/about/focus" class="dropdown-item">Focus</a>
                 <a href="/about/board" class="dropdown-item" data-nav>Board</a>

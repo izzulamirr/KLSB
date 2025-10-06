@@ -128,12 +128,14 @@
     <!-- Value pillars with small popups -->
     <div class="mt-14 feature-grid-enhanced md:grid-cols-2 lg:grid-cols-4">
       <div class="relative">
-        <button class="feature-card text-left cursor-pointer" data-pillar="feature-certified" aria-haspopup="dialog">
+        <button class="feature-card h-card text-left cursor-pointer" data-pillar="feature-certified" aria-haspopup="dialog">
           <div class="feature-card-media">
             <img src="{{ url_for('static', filename='img/hero.jpg') }}" alt="Certified expertise visual" loading="lazy">
           </div>
-          <h3 class="font-semibold mb-2 flex items-center justify-center">Certified Expertise</h3>
-          <p class="text-sm text-slate-600">Platform & discipline certified personnel with multi-environment execution history.</p>
+          <div class="vcenter">
+            <h3 class="font-semibold mb-2 flex items-center justify-center">Certified Expertise</h3>
+            <p class="text-sm text-slate-600">Certified personnel with proven execution history.</p>
+          </div>
         </button>
       </div>
       <div class="relative">
@@ -171,72 +173,74 @@
     <!-- Pillar modals (full-window centered) -->
     <div id="pillar-popup-feature-certified" class="pillar-modal hidden fixed inset-0 z-50 flex items-center justify-center" role="dialog" aria-modal="true" aria-labelledby="pillar-title-certified">
       <div class="absolute inset-0 bg-black/50" aria-hidden="true"></div>
-      <div class="relative z-10 max-w-xl w-[min(92%,720px)] bg-white rounded-xl shadow-xl p-6">
-        <div class="flex items-start justify-between gap-4">
-          <h3 id="pillar-title-certified" class="text-xl font-semibold">Digital Model Integration</h3>
-          <button type="button" class="pillar-close text-slate-400 hover:text-teal-600 text-2xl leading-none font-bold" aria-label="Close">&times;</button>
+      <div class="relative z-10 max-w-xl w-[min(92%,720px)] bg-white rounded-xl shadow-xl p-6 pillar-panel">
+        <div class="relative">
+          <div class="text-center">
+            <h3 id="pillar-title-certified" class="text-xl font-semibold inline-block">Certified Expertise</h3>
+          </div>
+          <button type="button" class="pillar-close absolute right-4 top-4 text-slate-400 hover:text-teal-600 text-2xl leading-none font-bold" aria-label="Close">&times;</button>
         </div>
-        <div class="modal-hero mt-4"><img src="{{ url_for('static', filename='img/hero.jpg') }}" alt="Model integration" class="w-full h-48 object-cover rounded-md"></div>
-        <p class="mt-4 text-sm text-slate-700">Consolidated multi-discipline 3D model stewardship improving interface clarity and reducing engineering iteration churn.</p>
+        <div class="modal-hero mt-4"><img src="{{ url_for('static', filename='img/hero.jpg') }}" alt="Certified experts" class="w-full h-48 object-cover rounded-md"></div>
+        <p class="mt-4 text-sm text-slate-700">Our teams hold platform and discipline certifications and follow documented competency programs so you get experienced practitioners who deliver to standards.</p>
         <ul class="list-disc pl-5 mt-4 text-sm space-y-1">
-          <li>Cross-platform (Aveva/Hexagon) reconciliation</li>
-          <li>Metadata hygiene & revision control</li>
-          <li>As-built alignment & deviation logging</li>
-          <li>Dashboards surfacing clash / status KPIs</li>
+          <li>Platform & discipline certifications (Aveva, Hexagon and others)</li>
+          <li>Continuous training programs and competency matrices</li>
+          <li>Quality gates, peer reviews and audit trails</li>
+          <li>Access to domain SMEs for technical escalation</li>
         </ul>
       </div>
     </div>
 
     <div id="pillar-popup-feature-execution" class="pillar-modal hidden fixed inset-0 z-50 flex items-center justify-center" role="dialog" aria-modal="true" aria-labelledby="pillar-title-execution">
       <div class="absolute inset-0 bg-black/50" aria-hidden="true"></div>
-      <div class="relative z-10 max-w-xl w-[min(92%,720px)] bg-white rounded-xl shadow-xl p-6">
+      <div class="relative z-10 max-w-xl w-[min(92%,720px)] bg-white rounded-xl shadow-xl p-6 pillar-panel">
         <div class="flex items-start justify-between gap-4">
-          <h3 id="pillar-title-execution" class="text-xl font-semibold">Digital Model Integration</h3>
+          <h3 id="pillar-title-execution" class="text-xl font-semibold">Execution Discipline</h3>
           <button type="button" class="pillar-close text-slate-400 hover:text-teal-600 text-2xl leading-none font-bold" aria-label="Close">&times;</button>
         </div>
-        <div class="modal-hero mt-4"><img src="{{ url_for('static', filename='img/hero.jpg') }}" alt="Model integration" class="w-full h-48 object-cover rounded-md"></div>
-        <p class="mt-4 text-sm text-slate-700">Consolidated multi-discipline 3D model stewardship improving interface clarity and reducing engineering iteration churn.</p>
+        <div class="modal-hero mt-4"><img src="{{ url_for('static', filename='img/2584721_XL.jpg') }}" alt="Execution discipline" class="w-full h-48 object-cover rounded-md"></div>
+        <p class="mt-4 text-sm text-slate-700">We apply proven governance, QA/QC and schedule discipline to keep projects predictable and on track — minimising rework and commercial surprises.</p>
         <ul class="list-disc pl-5 mt-4 text-sm space-y-1">
-          <li>Cross-platform (Aveva/Hexagon) reconciliation</li>
-          <li>Metadata hygiene & revision control</li>
-          <li>As-built alignment & deviation logging</li>
-          <li>Dashboards surfacing clash / status KPIs</li>
+          <li>Governance frameworks and stage-gate controls</li>
+          <li>Integrated schedule and resource tracking</li>
+          <li>Risk registers with clear mitigation owners</li>
+          <li>Client-facing status dashboards and KPIs</li>
         </ul>
       </div>
     </div>
 
     <div id="pillar-popup-feature-integrated" class="pillar-modal hidden fixed inset-0 z-50 flex items-center justify-center" role="dialog" aria-modal="true" aria-labelledby="pillar-title-integrated">
       <div class="absolute inset-0 bg-black/50" aria-hidden="true"></div>
-      <div class="relative z-10 max-w-xl w-[min(92%,720px)] bg-white rounded-xl shadow-xl p-6">
+      <div class="relative z-10 max-w-xl w-[min(92%,720px)] bg-white rounded-xl shadow-xl p-6 pillar-panel">
         <div class="flex items-start justify-between gap-4">
-          <h3 id="pillar-title-integrated" class="text-xl font-semibold">Digital Model Integration</h3>
+          <h3 id="pillar-title-integrated" class="text-xl font-semibold">Integrated Capability</h3>
           <button type="button" class="pillar-close text-slate-400 hover:text-teal-600 text-2xl leading-none font-bold" aria-label="Close">&times;</button>
         </div>
-        <div class="modal-hero mt-4"><img src="{{ url_for('static', filename='img/hero.jpg') }}" alt="Model integration" class="w-full h-48 object-cover rounded-md"></div>
-        <p class="mt-4 text-sm text-slate-700">Consolidated multi-discipline 3D model stewardship improving interface clarity and reducing engineering iteration churn.</p>
+        <div class="modal-hero mt-4"><img src="{{ url_for('static', filename='img/business-2717427.jpg') }}" alt="Integrated capability" class="w-full h-48 object-cover rounded-md"></div>
+        <p class="mt-4 text-sm text-slate-700">We combine manpower, engineering and digital capability to provide single-source accountability and smoother handovers across project stages.</p>
         <ul class="list-disc pl-5 mt-4 text-sm space-y-1">
-          <li>Cross-platform (Aveva/Hexagon) reconciliation</li>
-          <li>Metadata hygiene & revision control</li>
-          <li>As-built alignment & deviation logging</li>
-          <li>Dashboards surfacing clash / status KPIs</li>
+          <li>Cross-discipline coordination and single-source accountability</li>
+          <li>Integrated data and model handover processes</li>
+          <li>Supply and construction interface management</li>
+          <li>Lifecycle support from design through to handover</li>
         </ul>
       </div>
     </div>
 
     <div id="pillar-popup-feature-adaptive" class="pillar-modal hidden fixed inset-0 z-50 flex items-center justify-center" role="dialog" aria-modal="true" aria-labelledby="pillar-title-adaptive">
       <div class="absolute inset-0 bg-black/50" aria-hidden="true"></div>
-      <div class="relative z-10 max-w-2xl w-[min(96%,960px)] bg-white rounded-xl shadow-xl p-6">
+      <div class="relative z-10 max-w-2xl w-[min(96%,960px)] bg-white rounded-xl shadow-xl p-6 pillar-panel">
         <div class="flex items-start justify-between gap-4">
-          <h3 id="pillar-title-adaptive" class="text-xl font-semibold">Digital Model Integration</h3>
+          <h3 id="pillar-title-adaptive" class="text-xl font-semibold">Adaptive Engagement</h3>
           <button type="button" class="pillar-close text-slate-400 hover:text-teal-600 text-2xl leading-none font-bold" aria-label="Close">&times;</button>
         </div>
-        <div class="modal-hero mt-4"><img src="{{ url_for('static', filename='img/hero.jpg') }}" alt="Model integration" class="w-full h-56 object-cover rounded-md"></div>
-        <p class="mt-4 text-sm text-slate-700">Consolidated multi-discipline 3D model stewardship improving interface clarity and reducing engineering iteration churn.</p>
+        <div class="modal-hero mt-4"><img src="{{ url_for('static', filename='img/shutterstock_744825085-min.jpg') }}" alt="Adaptive engagement" class="w-full h-56 object-cover rounded-md"></div>
+        <p class="mt-4 text-sm text-slate-700">Flexible commercial models and resourcing aligned to project phase and risk appetite, so clients get the capacity and capability they need when they need it.</p>
         <ul class="list-disc pl-5 mt-4 text-sm space-y-1">
-          <li>Cross-platform (Aveva/Hexagon) reconciliation</li>
-          <li>Metadata hygiene & revision control</li>
-          <li>As-built alignment & deviation logging</li>
-          <li>Dashboards surfacing clash / status KPIs</li>
+          <li>Fixed-scope, hybrid and time-and-materials engagement options</li>
+          <li>Scaled teams to match demand and deliverables</li>
+          <li>Local + international resourcing for specialist roles</li>
+          <li>Rapid ramp-up and controlled ramp-down to manage cost</li>
         </ul>
       </div>
     </div>
@@ -247,17 +251,17 @@
       <h3 class="text-xl font-semibold tracking-tight">Delivery Footprint</h3>
       <p class="mt-2 text-slate-600 max-w-2xl">Growing multi-industry support with scalable resource pools and active project governance.</p>
       <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        <div class="rounded-2xl bg-slate-900 text-white p-6 shadow-sm flex flex-col items-start">
+        <div class="rounded-2xl bg-slate-900 text-white p-6 shadow-sm flex flex-col items-center text-center">
           <div class="text-4xl font-bold leading-none" data-metric="clients">12+</div>
           <div class="mt-2 text-xs uppercase tracking-wide text-slate-300">Active Clients</div>
           <p class="mt-3 text-sm text-slate-200">Regional EPCs & operators (expanding).</p>
         </div>
-        <div class="rounded-2xl bg-white border p-6 shadow-sm flex flex-col items-start">
+        <div class="rounded-2xl bg-white border p-6 shadow-sm flex flex-col items-center text-center">
           <div class="text-4xl font-bold leading-none" data-metric="projects">7</div>
           <div class="mt-2 text-xs uppercase tracking-wide text-slate-500">Projects Running</div>
           <p class="mt-3 text-sm text-slate-600">Design, modelling, security & supply tracks.</p>
         </div>
-        <div class="rounded-2xl bg-white border p-6 shadow-sm flex flex-col items-start">
+        <div class="rounded-2xl bg-white border p-6 shadow-sm flex flex-col items-center text-center">
           <div class="text-4xl font-bold leading-none" data-metric="industries">5</div>
           <div class="mt-2 text-xs uppercase tracking-wide text-slate-500">Industries Served</div>
           <p class="mt-3 text-sm text-slate-600">Energy, petrochem, infra, marine, utilities.</p>
@@ -306,6 +310,8 @@
         popup.style.transition='opacity .18s ease, transform .18s ease';
         popup.style.opacity=1; popup.style.transform = popup.style.transform.replace(' translate-y-1','');
       });
+      // lock background scroll
+      document.body.style.overflow = 'hidden';
       // focus heading
       const focusEl = popup.querySelector('h4,button,table,ul,ol');
       focusEl && focusEl.focus && setTimeout(()=>focusEl.focus(),30);
@@ -322,6 +328,8 @@
       p.style.transition='';
       p.style.transform='';
       if(p===openPopup){ openPopup=null; lastTrigger && lastTrigger.focus(); }
+      // restore background scroll
+      document.body.style.overflow = '';
     },160);
   }
   triggers.forEach(btn=>{
