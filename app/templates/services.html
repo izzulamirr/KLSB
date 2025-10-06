@@ -1,10 +1,13 @@
 {% extends 'base.html' %}
 {% block title %}KLSB — Services{% endblock %}
 {% block content %}
-<section class="relative overflow-hidden text-center pt-40 pb-16">
-  <div class="max-w-4xl mx-auto px-6">
-    <h1 class="text-5xl font-bold tracking-tight">Services</h1>
-    <p class="mt-6 text-lg text-slate-600 max-w-2xl mx-auto">Tailored to your project requirements with clear deliverables, transparent collaboration and measurable outcomes.</p>
+<section class="relative min-h-[280px] sm:min-h-[340px] flex items-center justify-center text-center">
+  <div class="absolute inset-0 -z-10 bg-cover bg-center" style="background-image: url('{{ url_for('static', filename='img/2584721_XL.jpg') }}');"></div>
+  <div class="absolute inset-0 -z-10 bg-black/40"></div>
+</div>
+  <div class="w-full px-4 sm:px-6 lg:px-8 py-16 flex flex-col items-center justify-center">
+  <h1 class="text-3xl sm:text-4xl font-bold text-white drop-shadow-lg mb-4">Services</h1>
+  <p class="text-lg max-w-2xl mx-auto drop-shadow-md" style="color:#fff !important;">Tailored to your project requirements with clear deliverables, transparent collaboration and measurable outcomes.</p>
   </div>
 </section>
 <section class="pb-28 text-center">
@@ -23,7 +26,7 @@
   <!-- Text (centered) -->
   <div class="relative z-10 flex flex-col items-center justify-center h-full transition duration-500 ease-out group-hover:opacity-0">
     <div class="text-xl font-semibold">PROFESSIONAL & TECHNICAL MANPOWER SERVICES</div>
-    <p class="text-sm text-slate-600">Materials sourcing, event logistics and trading services.</p>
+  <p class="text-sm text-slate-600">Skilled manpower for engineering and technical projects.</p>
   </div>
 </a>
 <a href="{{ url_for('main.services_engineering') }}"
@@ -39,7 +42,7 @@
   <!-- Text (centered) -->
   <div class="relative z-10 flex flex-col items-center justify-center h-full transition duration-500 ease-out group-hover:opacity-0">
     <div class="text-xl font-semibold">ENGINEERING SOLUTIONS</div>
-    <p class="text-sm text-slate-600">Materials sourcing, event logistics and trading services.</p>
+  <p class="text-sm text-slate-600">Engineering design, 3D modelling, and consultancy.</p>
   </div>
 </a>
 <a href="{{ url_for('main.services_digital') }}"
@@ -55,7 +58,7 @@
   <!-- Text (centered) -->
   <div class="relative z-10 flex flex-col items-center justify-center h-full transition duration-500 ease-out group-hover:opacity-0">
     <div class="text-xl font-semibold">DIGITAL SOLUTIONS & CYBERSECURITY CONSULTANCY</div>
-    <p class="text-sm text-slate-600">Materials sourcing, event logistics and trading services.</p>
+  <p class="text-sm text-slate-600">Digital solutions and cybersecurity expertise.</p>
   </div>
 </a>
 <a href="{{ url_for('main.services_inspection') }}"
@@ -71,7 +74,7 @@
   <!-- Text (centered) -->
   <div class="relative z-10 flex flex-col items-center justify-center h-full transition duration-500 ease-out group-hover:opacity-0">
     <div class="text-xl font-semibold">SPECIALIZED INSPECTION SERVICES</div>
-    <p class="text-sm text-slate-600">Materials sourcing, event logistics and trading services.</p>
+  <p class="text-sm text-slate-600">Industrial inspection for safety and compliance.</p>
   </div>
 </a>
 <a href="{{ url_for('main.services_construction') }}"
@@ -87,7 +90,7 @@
   <!-- Text (centered) -->
   <div class="relative z-10 flex flex-col items-center justify-center h-full transition duration-500 ease-out group-hover:opacity-0">
     <div class="text-xl font-semibold">GENERAL CONSTRUCTION SERVICES</div>
-    <p class="text-sm text-slate-600">Materials sourcing, event logistics and trading services.</p>
+  <p class="text-sm text-slate-600">Industrial construction and infrastructure works.</p>
   </div>
 </a>
 <a href="{{ url_for('main.services_supply') }}"
@@ -102,8 +105,8 @@
               group-hover:bg-black/35"></div>
   <!-- Text (centered) -->
   <div class="relative z-10 flex flex-col items-center justify-center h-full transition duration-500 ease-out group-hover:opacity-0">
-    <div class="text-xl font-semibold">SUPPLY TRADING & EVENT MANAGEMENT</div>
-    <p class="text-sm text-slate-600">Materials sourcing, event logistics and trading services.</p>
+    <div class="text-xl font-semibold">SUPPLY & TRADING</div>
+  <p class="text-sm text-slate-600">IT supply, logistics, and trading support.</p>
   </div>
 </a>
     </div>
@@ -113,7 +116,7 @@
   <div class="max-w-xl mx-auto px-6">
     <h2 class="text-2xl font-semibold">Need a tailored scope?</h2>
     <p class="mt-3 text-slate-600">Share your project requirements and we’ll propose an engagement model that balances flexibility and assurance.</p>
-  <a href="/contact" class="mt-8 inline-flex rounded-2xl bg-slate-900 text-white px-6 py-3 text-sm font-medium shadow hover:shadow-md transition">Request a proposal</a>
+  <a href="/get-in-touch" class="mt-8 inline-flex rounded-2xl text-white px-6 py-3 text-sm font-medium shadow hover:shadow-md transition" style="background:#030C69; border:none;">Request a proposal</a>
   </div>
 </section>
 {% endblock %}
