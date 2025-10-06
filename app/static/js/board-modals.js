@@ -68,7 +68,7 @@
     document.addEventListener('keydown', onKey);
 
     // ensure title has an id for aria-labelledby
-    const title = content.querySelector('.modal-title');
+    const title = bodyWrap.querySelector('.modal-title');
     if(title){
       const titleId = 'modal-title-' + Math.random().toString(36).slice(2,9);
       title.id = titleId;

@@ -21,9 +21,9 @@
       <a href="/services" class="rounded-2xl bg-[#030C69] text-white px-6 py-3 text-sm font-medium shadow hover:shadow-md transition">Explore services</a>
   <a href="/get-in-touch" class="rounded-2xl border border-white/60 text-white px-6 py-3 text-sm font-medium transition" style="background:#030C69; border:none;">Request a proposal</a>
     </div>
-  <div class="mt-14 grid gap-6 sm:grid-cols-3 text-center hero-cards">
-      <a href="{{ url_for('main.services_manpower') }}"
-   class="group relative block rounded-2xl border bg-white p-6 shadow-sm overflow-hidden hover:shadow-md transition rm-safe text-center">
+    <div class="mt-14 grid gap-6 sm:grid-cols-3 text-center hero-cards">
+    <a href="{{ url_for('main.services_manpower') }}"
+  class="group no-underline relative block rounded-2xl border bg-white p-2 shadow-sm overflow-hidden hover:shadow-md transition rm-safe text-center h-28 sm:h-36">
   <!-- Hover image -->
   <img src="{{ url_for('static', filename='img/2584721_XL.jpg') }}"
        alt="Professional & Technical Manpower"
@@ -33,14 +33,15 @@
   <div class="pointer-events-none absolute inset-0 bg-black/0 transition duration-500 ease-out
               group-hover:bg-black/35"></div>
   <!-- Text (centered) -->
-  <div class="relative z-10 flex flex-col items-center justify-center h-full transition duration-500 ease-out group-hover:opacity-0">
-    <div class="text-xl font-semibold">PROFESSIONAL & TECHNICAL MANPOWER SERVICES</div>
+  <div class="relative z-10 flex flex-col items-center justify-center h-full transition duration-500 ease-out">
+  <div class="text-lg font-semibold no-underline group-hover:no-underline transition-colors duration-200 ease-out group-hover:text-white">PROFESSIONAL & TECHNICAL MANPOWER SERVICES</div>
+  <p class="text-sm text-slate-600 transition-opacity duration-200 ease-out group-hover:opacity-0">Skilled manpower for engineering and technical projects.</p>
   </div>
 </a>
 <a href="{{ url_for('main.services_engineering') }}"
-   class="group relative block rounded-2xl border bg-white p-6 shadow-sm overflow-hidden hover:shadow-md transition rm-safe text-center">
+  class="group no-underline relative block rounded-2xl border bg-white p-2 shadow-sm overflow-hidden hover:shadow-md transition rm-safe text-center h-28 sm:h-36">
   <!-- Hover image -->
-  <img src="{{ url_for('static', filename='img/2584721_XL.jpg') }}"
+  <img src="{{ url_for('static', filename='img/eng.jpg') }}"
        alt="Professional & Technical Manpower"
        class="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-0 scale-105
               transition duration-500 ease-out group-hover:opacity-100 group-hover:scale-100">
@@ -48,14 +49,15 @@
   <div class="pointer-events-none absolute inset-0 bg-black/0 transition duration-500 ease-out
               group-hover:bg-black/35"></div>
   <!-- Text (centered) -->
-  <div class="relative z-10 flex flex-col items-center justify-center h-full transition duration-500 ease-out group-hover:opacity-0">
-    <div class="text-xl font-semibold">ENGINEERING SOLUTIONS</div>
+  <div class="relative z-10 flex flex-col items-center justify-center h-full transition duration-500 ease-out">
+  <div class="text-lg font-semibold no-underline group-hover:no-underline transition-colors duration-200 ease-out group-hover:text-white">ENGINEERING SOLUTIONS</div>
+  <p class="text-sm text-slate-600 transition-opacity duration-200 ease-out group-hover:opacity-0">Engineering design, 3D modelling, and consultancy.</p>
   </div>
 </a>
 <a href="{{ url_for('main.services_digital') }}"
-   class="group relative block rounded-2xl border bg-white p-6 shadow-sm overflow-hidden hover:shadow-md transition rm-safe text-center">
+  class="group no-underline relative block rounded-2xl border bg-white p-2 shadow-sm overflow-hidden hover:shadow-md transition rm-safe text-center h-28 sm:h-36">
   <!-- Hover image -->
-  <img src="{{ url_for('static', filename='img/2584721_XL.jpg') }}"
+  <img src="{{ url_for('static', filename='img/digital.jpg') }}"
        alt="Professional & Technical Manpower"
        class="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-0 scale-105
               transition duration-500 ease-out group-hover:opacity-100 group-hover:scale-100">
@@ -63,14 +65,15 @@
   <div class="pointer-events-none absolute inset-0 bg-black/0 transition duration-500 ease-out
               group-hover:bg-black/35"></div>
   <!-- Text (centered) -->
-  <div class="relative z-10 flex flex-col items-center justify-center h-full transition duration-500 ease-out group-hover:opacity-0">
-    <div class="text-xl font-semibold">DIGITAL SOLUTIONS & CYBERSECURITY CONSULTANCY</div>
+  <div class="relative z-10 flex flex-col items-center justify-center h-full transition duration-500 ease-out">
+  <div class="text-lg font-semibold no-underline group-hover:no-underline transition-colors duration-200 ease-out group-hover:text-white">DIGITAL SOLUTIONS & CYBERSECURITY CONSULTANCY</div>
+  <p class="text-sm text-slate-600 transition-opacity duration-200 ease-out group-hover:opacity-0">Digital solutions and cybersecurity expertise.</p>
   </div>
 </a>
 <a href="{{ url_for('main.services_inspection') }}"
-   class="group relative block rounded-2xl border bg-white p-6 shadow-sm overflow-hidden hover:shadow-md transition rm-safe text-center">
+  class="group no-underline relative block rounded-2xl border bg-white p-2 shadow-sm overflow-hidden hover:shadow-md transition rm-safe text-center h-28 sm:h-36">
   <!-- Hover image -->
-  <img src="{{ url_for('static', filename='img/2584721_XL.jpg') }}"
+  <img src="{{ url_for('static', filename='img/inspection.jpg') }}"
        alt="Professional & Technical Manpower"
        class="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-0 scale-105
               transition duration-500 ease-out group-hover:opacity-100 group-hover:scale-100">
@@ -78,14 +81,15 @@
   <div class="pointer-events-none absolute inset-0 bg-black/0 transition duration-500 ease-out
               group-hover:bg-black/35"></div>
   <!-- Text (centered) -->
-  <div class="relative z-10 flex flex-col items-center justify-center h-full transition duration-500 ease-out group-hover:opacity-0">
-    <div class="text-xl font-semibold">SPECIALIZED INSPECTION SERVICES</div>
+  <div class="relative z-10 flex flex-col items-center justify-center h-full transition duration-500 ease-out">
+  <div class="text-lg font-semibold no-underline group-hover:no-underline transition-colors duration-200 ease-out group-hover:text-white">SPECIALIZED INSPECTION SERVICES</div>
+  <p class="text-sm text-slate-600 transition-opacity duration-200 ease-out group-hover:opacity-0">Industrial inspection for safety and compliance.</p>
   </div>
 </a>
 <a href="{{ url_for('main.services_construction') }}"
-   class="group relative block rounded-2xl border bg-white p-6 shadow-sm overflow-hidden hover:shadow-md transition rm-safe text-center">
+  class="group no-underline relative block rounded-2xl border bg-white p-2 shadow-sm overflow-hidden hover:shadow-md transition rm-safe text-center h-28 sm:h-36">
   <!-- Hover image -->
-  <img src="{{ url_for('static', filename='img/2584721_XL.jpg') }}"
+  <img src="{{ url_for('static', filename='img/construction.jpg') }}"
        alt="Professional & Technical Manpower"
        class="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-0 scale-105
               transition duration-500 ease-out group-hover:opacity-100 group-hover:scale-100">
@@ -93,14 +97,15 @@
   <div class="pointer-events-none absolute inset-0 bg-black/0 transition duration-500 ease-out
               group-hover:bg-black/35"></div>
   <!-- Text (centered) -->
-  <div class="relative z-10 flex flex-col items-center justify-center h-full transition duration-500 ease-out group-hover:opacity-0">
-    <div class="text-xl font-semibold">GENERAL CONSTRUCTION SERVICES</div>
+  <div class="relative z-10 flex flex-col items-center justify-center h-full transition duration-500 ease-out">
+  <div class="text-lg font-semibold no-underline group-hover:no-underline transition-colors duration-200 ease-out group-hover:text-white">GENERAL CONSTRUCTION SERVICES</div>
+  <p class="text-sm text-slate-600 transition-opacity duration-200 ease-out group-hover:opacity-0">Industrial construction and infrastructure works.</p>
   </div>
 </a>
 <a href="{{ url_for('main.services_supply') }}"
-   class="group relative block rounded-2xl border bg-white p-6 shadow-sm overflow-hidden hover:shadow-md transition rm-safe text-center">
+  class="group no-underline relative block rounded-2xl border bg-white p-2 shadow-sm overflow-hidden hover:shadow-md transition rm-safe text-center h-28 sm:h-36">
   <!-- Hover image -->
-  <img src="{{ url_for('static', filename='img/2584721_XL.jpg') }}"
+  <img src="{{ url_for('static', filename='img/supply.jpg') }}"
        alt="Professional & Technical Manpower"
        class="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-0 scale-105
               transition duration-500 ease-out group-hover:opacity-100 group-hover:scale-100">
@@ -108,8 +113,9 @@
   <div class="pointer-events-none absolute inset-0 bg-black/0 transition duration-500 ease-out
               group-hover:bg-black/35"></div>
   <!-- Text (centered) -->
-  <div class="relative z-10 flex flex-col items-center justify-center h-full transition duration-500 ease-out group-hover:opacity-0">
-    <div class="text-xl font-semibold">SUPPLY & TRADING</div>
+  <div class="relative z-10 flex flex-col items-center justify-center h-full transition duration-500 ease-out">
+  <div class="text-lg font-semibold no-underline group-hover:no-underline transition-colors duration-200 ease-out group-hover:text-white">SUPPLY & TRADING</div>
+  <p class="text-sm text-slate-600 transition-opacity duration-200 ease-out group-hover:opacity-0">IT supply, logistics, and trading support.</p>
   </div>
 </a>
     </div>
