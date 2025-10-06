@@ -128,25 +128,15 @@
     <!-- Value pillars with small popups -->
     <div class="mt-14 feature-grid-enhanced md:grid-cols-2 lg:grid-cols-4">
       <div class="relative">
-        <button class="feature-card text-left cursor-pointer" data-pillar="feature-certified" aria-haspopup="dialog">
+        <button class="feature-card h-card text-left cursor-pointer" data-pillar="feature-certified" aria-haspopup="dialog">
           <div class="feature-card-media">
             <img src="{{ url_for('static', filename='img/hero.jpg') }}" alt="Certified expertise visual" loading="lazy">
           </div>
-          <h3 class="font-semibold mb-2 flex items-center justify-center">Certified Expertise</h3>
-          <p class="text-sm text-slate-600">Platform & discipline certified personnel with multi-environment execution history.</p>
-        </button>
-        <div id="pillar-popup-feature-certified" class="pillar-pop hidden absolute z-40 top-full left-1/2 -translate-x-1/2 mt-3 w-72 max-w-xs bg-white border border-slate-200 shadow-xl rounded-xl p-4 text-sm leading-relaxed">
-          <div class="flex items-start gap-2">
-            <h4 class="font-semibold text-slate-800 flex-1 pr-4">Certified Expertise</h4>
-            <button type="button" class="pillar-close text-slate-400 hover:text-teal-600 text-lg leading-none font-bold" aria-label="Close">&times;</button>
+          <div class="vcenter">
+            <h3 class="font-semibold mb-2 flex items-center justify-center">Certified Expertise</h3>
+            <p class="text-sm text-slate-600">Certified personnel with proven execution history.</p>
           </div>
-          <ul class="list-disc pl-5 mt-2 space-y-1">
-            <li>Multi-platform (Aveva / Hexagon) stewardship</li>
-            <li>Discipline cross-check & interfaces</li>
-            <li>As-built reconciliation & metadata hygiene</li>
-            <li>Mentored onboarding acceleration</li>
-          </ul>
-        </div>
+        </button>
       </div>
       <div class="relative">
         <button class="feature-card text-left cursor-pointer" data-pillar="feature-execution" aria-haspopup="dialog">
@@ -156,18 +146,7 @@
           <h3 class="font-semibold mb-2 flex items-center justify-center">Execution Discipline</h3>
           <p class="text-sm text-slate-600">Structured governance & QA/QC loops enable predictability.</p>
         </button>
-        <div id="pillar-popup-feature-execution" class="pillar-pop hidden absolute z-40 top-full left-1/2 -translate-x-1/2 mt-3 w-72 max-w-xs bg-white border border-slate-200 shadow-xl rounded-xl p-4 text-sm leading-relaxed">
-          <div class="flex items-start gap-2">
-            <h4 class="font-semibold text-slate-800 flex-1 pr-4">Execution Discipline</h4>
-            <button type="button" class="pillar-close text-slate-400 hover:text-teal-600 text-lg leading-none font-bold" aria-label="Close">&times;</button>
-          </div>
-          <ol class="list-decimal pl-5 mt-2 space-y-1">
-            <li>Structured kickoff & interface matrix</li>
-            <li>Milestone dashboards & variance surfacing</li>
-            <li>QA/QC gates with defect taxonomy</li>
-            <li>Change impact logging & mitigation</li>
-          </ol>
-        </div>
+        
       </div>
       <div class="relative">
         <button class="feature-card text-left cursor-pointer" data-pillar="feature-integrated" aria-haspopup="dialog">
@@ -177,18 +156,7 @@
             <h3 class="font-semibold mb-2 flex items-center justify-center">Integrated Capability</h3>
           <p class="text-sm text-slate-600">Cross-domain services under unified coordination.</p>
         </button>
-        <div id="pillar-popup-feature-integrated" class="pillar-pop hidden absolute z-40 top-full left-1/2 -translate-x-1/2 mt-3 w-72 max-w-xs bg-white border border-slate-200 shadow-xl rounded-xl p-4 text-sm leading-relaxed">
-          <div class="flex items-start gap-2">
-            <h4 class="font-semibold text-slate-800 flex-1 pr-4">Integrated Capability</h4>
-            <button type="button" class="pillar-close text-slate-400 hover:text-teal-600 text-lg leading-none font-bold" aria-label="Close">&times;</button>
-          </div>
-          <ul class="list-disc pl-5 mt-2 space-y-1">
-            <li>Consolidated multi-domain reporting</li>
-            <li>Shared standards & knowledge base</li>
-            <li>Unified escalation & risk register</li>
-            <li>Toolchain alignment & credential governance</li>
-          </ul>
-        </div>
+        
       </div>
       <div class="relative">
         <button class="feature-card text-left cursor-pointer" data-pillar="feature-adaptive" aria-haspopup="dialog">
@@ -198,67 +166,105 @@
           <h3 class="font-semibold mb-2 flex items-center justify-center">Adaptive Engagement</h3>
           <p class="text-sm text-slate-600">Engagement models aligned to phase & risk appetite.</p>
         </button>
-        <div id="pillar-popup-feature-adaptive" class="pillar-pop hidden absolute z-40 top-full left-1/2 -translate-x-1/2 mt-3 w-80 max-w-sm bg-white border border-slate-200 shadow-xl rounded-xl p-4 text-xs leading-relaxed">
-          <div class="flex items-start gap-2">
-            <h4 class="font-semibold text-slate-800 flex-1 pr-4">Adaptive Engagement</h4>
-            <button type="button" class="pillar-close text-slate-400 hover:text-teal-600 text-lg leading-none font-bold" aria-label="Close">&times;</button>
-          </div>
-          <table class="w-full mt-2 border-collapse">
-            <thead>
-              <tr class="text-left text-slate-600 border-b">
-                <th class="py-1 pr-3 font-semibold">Model</th>
-                <th class="py-1 pr-3 font-semibold">Best For</th>
-                <th class="py-1 font-semibold">Advantage</th>
-              </tr>
-            </thead>
-            <tbody class="align-top">
-              <tr class="border-b">
-                <td class="py-1 pr-3">Capacity Aug</td>
-                <td class="py-1 pr-3">Scaling workflows</td>
-                <td class="py-1">Rapid ramp, low friction</td>
-              </tr>
-              <tr class="border-b">
-                <td class="py-1 pr-3">Fixed Scope</td>
-                <td class="py-1 pr-3">Defined deliverables</td>
-                <td class="py-1">Predictable cost</td>
-              </tr>
-              <tr>
-                <td class="py-1 pr-3">Hybrid / Retainer</td>
-                <td class="py-1 pr-3">Evolving backlog</td>
-                <td class="py-1">Continuity & elasticity</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+        
       </div>
     </div>
 
+    <!-- Pillar modals (full-window centered) -->
+    <div id="pillar-popup-feature-certified" class="pillar-modal hidden fixed inset-0 z-50 flex items-center justify-center" role="dialog" aria-modal="true" aria-labelledby="pillar-title-certified">
+      <div class="absolute inset-0 bg-black/50" aria-hidden="true"></div>
+      <div class="relative z-10 max-w-xl w-[min(92%,720px)] bg-white rounded-xl shadow-xl p-6 pillar-panel">
+        <div class="relative">
+          <div class="text-center">
+            <h3 id="pillar-title-certified" class="text-xl font-semibold inline-block">Certified Expertise</h3>
+          </div>
+          <button type="button" class="pillar-close absolute right-4 top-4 text-slate-400 hover:text-teal-600 text-2xl leading-none font-bold" aria-label="Close">&times;</button>
+        </div>
+        <div class="modal-hero mt-4"><img src="{{ url_for('static', filename='img/hero.jpg') }}" alt="Certified experts" class="w-full h-48 object-cover rounded-md"></div>
+        <p class="mt-4 text-sm text-slate-700">Our teams hold platform and discipline certifications and follow documented competency programs so you get experienced practitioners who deliver to standards.</p>
+        <ul class="list-disc pl-5 mt-4 text-sm space-y-1">
+          <li>Platform & discipline certifications (Aveva, Hexagon and others)</li>
+          <li>Continuous training programs and competency matrices</li>
+          <li>Quality gates, peer reviews and audit trails</li>
+          <li>Access to domain SMEs for technical escalation</li>
+        </ul>
+      </div>
+    </div>
+
+    <div id="pillar-popup-feature-execution" class="pillar-modal hidden fixed inset-0 z-50 flex items-center justify-center" role="dialog" aria-modal="true" aria-labelledby="pillar-title-execution">
+      <div class="absolute inset-0 bg-black/50" aria-hidden="true"></div>
+      <div class="relative z-10 max-w-xl w-[min(92%,720px)] bg-white rounded-xl shadow-xl p-6 pillar-panel">
+        <div class="flex items-start justify-between gap-4">
+          <h3 id="pillar-title-execution" class="text-xl font-semibold">Execution Discipline</h3>
+          <button type="button" class="pillar-close text-slate-400 hover:text-teal-600 text-2xl leading-none font-bold" aria-label="Close">&times;</button>
+        </div>
+        <div class="modal-hero mt-4"><img src="{{ url_for('static', filename='img/2584721_XL.jpg') }}" alt="Execution discipline" class="w-full h-48 object-cover rounded-md"></div>
+        <p class="mt-4 text-sm text-slate-700">We apply proven governance, QA/QC and schedule discipline to keep projects predictable and on track — minimising rework and commercial surprises.</p>
+        <ul class="list-disc pl-5 mt-4 text-sm space-y-1">
+          <li>Governance frameworks and stage-gate controls</li>
+          <li>Integrated schedule and resource tracking</li>
+          <li>Risk registers with clear mitigation owners</li>
+          <li>Client-facing status dashboards and KPIs</li>
+        </ul>
+      </div>
+    </div>
+
+    <div id="pillar-popup-feature-integrated" class="pillar-modal hidden fixed inset-0 z-50 flex items-center justify-center" role="dialog" aria-modal="true" aria-labelledby="pillar-title-integrated">
+      <div class="absolute inset-0 bg-black/50" aria-hidden="true"></div>
+      <div class="relative z-10 max-w-xl w-[min(92%,720px)] bg-white rounded-xl shadow-xl p-6 pillar-panel">
+        <div class="flex items-start justify-between gap-4">
+          <h3 id="pillar-title-integrated" class="text-xl font-semibold">Integrated Capability</h3>
+          <button type="button" class="pillar-close text-slate-400 hover:text-teal-600 text-2xl leading-none font-bold" aria-label="Close">&times;</button>
+        </div>
+        <div class="modal-hero mt-4"><img src="{{ url_for('static', filename='img/business-2717427.jpg') }}" alt="Integrated capability" class="w-full h-48 object-cover rounded-md"></div>
+        <p class="mt-4 text-sm text-slate-700">We combine manpower, engineering and digital capability to provide single-source accountability and smoother handovers across project stages.</p>
+        <ul class="list-disc pl-5 mt-4 text-sm space-y-1">
+          <li>Cross-discipline coordination and single-source accountability</li>
+          <li>Integrated data and model handover processes</li>
+          <li>Supply and construction interface management</li>
+          <li>Lifecycle support from design through to handover</li>
+        </ul>
+      </div>
+    </div>
+
+    <div id="pillar-popup-feature-adaptive" class="pillar-modal hidden fixed inset-0 z-50 flex items-center justify-center" role="dialog" aria-modal="true" aria-labelledby="pillar-title-adaptive">
+      <div class="absolute inset-0 bg-black/50" aria-hidden="true"></div>
+      <div class="relative z-10 max-w-2xl w-[min(96%,960px)] bg-white rounded-xl shadow-xl p-6 pillar-panel">
+        <div class="flex items-start justify-between gap-4">
+          <h3 id="pillar-title-adaptive" class="text-xl font-semibold">Adaptive Engagement</h3>
+          <button type="button" class="pillar-close text-slate-400 hover:text-teal-600 text-2xl leading-none font-bold" aria-label="Close">&times;</button>
+        </div>
+        <div class="modal-hero mt-4"><img src="{{ url_for('static', filename='img/shutterstock_744825085-min.jpg') }}" alt="Adaptive engagement" class="w-full h-56 object-cover rounded-md"></div>
+        <p class="mt-4 text-sm text-slate-700">Flexible commercial models and resourcing aligned to project phase and risk appetite, so clients get the capacity and capability they need when they need it.</p>
+        <ul class="list-disc pl-5 mt-4 text-sm space-y-1">
+          <li>Fixed-scope, hybrid and time-and-materials engagement options</li>
+          <li>Scaled teams to match demand and deliverables</li>
+          <li>Local + international resourcing for specialist roles</li>
+          <li>Rapid ramp-up and controlled ramp-down to manage cost</li>
+        </ul>
+      </div>
+    </div>
    
 
     <!-- Metrics / Indicators -->
     <div class="mt-24">
       <h3 class="text-xl font-semibold tracking-tight">Delivery Footprint</h3>
       <p class="mt-2 text-slate-600 max-w-2xl">Growing multi-industry support with scalable resource pools and active project governance.</p>
-      <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-        <div class="rounded-2xl bg-slate-900 text-white p-6 shadow-sm flex flex-col items-start">
+      <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div class="rounded-2xl bg-slate-900 text-white p-6 shadow-sm flex flex-col items-center text-center">
           <div class="text-4xl font-bold leading-none" data-metric="clients">12+</div>
           <div class="mt-2 text-xs uppercase tracking-wide text-slate-300">Active Clients</div>
           <p class="mt-3 text-sm text-slate-200">Regional EPCs & operators (expanding).</p>
         </div>
-        <div class="rounded-2xl bg-white border p-6 shadow-sm flex flex-col items-start">
+        <div class="rounded-2xl bg-white border p-6 shadow-sm flex flex-col items-center text-center">
           <div class="text-4xl font-bold leading-none" data-metric="projects">7</div>
           <div class="mt-2 text-xs uppercase tracking-wide text-slate-500">Projects Running</div>
           <p class="mt-3 text-sm text-slate-600">Design, modelling, security & supply tracks.</p>
         </div>
-        <div class="rounded-2xl bg-white border p-6 shadow-sm flex flex-col items-start">
+        <div class="rounded-2xl bg-white border p-6 shadow-sm flex flex-col items-center text-center">
           <div class="text-4xl font-bold leading-none" data-metric="industries">5</div>
           <div class="mt-2 text-xs uppercase tracking-wide text-slate-500">Industries Served</div>
           <p class="mt-3 text-sm text-slate-600">Energy, petrochem, infra, marine, utilities.</p>
-        </div>
-        <div class="rounded-2xl bg-white border p-6 shadow-sm flex flex-col items-start">
-          <div class="text-4xl font-bold leading-none" data-metric="experts">20+</div>
-          <div class="mt-2 text-xs uppercase tracking-wide text-slate-500">Certified Specialists</div>
-          <p class="mt-3 text-sm text-slate-600">Disciplines across design, cyber & data.</p>
         </div>
       </div>
     </div>
@@ -304,6 +310,8 @@
         popup.style.transition='opacity .18s ease, transform .18s ease';
         popup.style.opacity=1; popup.style.transform = popup.style.transform.replace(' translate-y-1','');
       });
+      // lock background scroll
+      document.body.style.overflow = 'hidden';
       // focus heading
       const focusEl = popup.querySelector('h4,button,table,ul,ol');
       focusEl && focusEl.focus && setTimeout(()=>focusEl.focus(),30);
@@ -320,6 +328,8 @@
       p.style.transition='';
       p.style.transform='';
       if(p===openPopup){ openPopup=null; lastTrigger && lastTrigger.focus(); }
+      // restore background scroll
+      document.body.style.overflow = '';
     },160);
   }
   triggers.forEach(btn=>{

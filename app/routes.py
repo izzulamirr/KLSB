@@ -93,14 +93,13 @@ def contact():
     # Placeholder: on POST you could process form data / send email
     return render_template("contact.html", page_class="home-page center-content")
 
+
+
+
 # New routes to satisfy tests
 @main_bp.route("/about/overview")
 def about_overview():
     return render_template("about_overview.html", page_class="home-page center-content")
-
-@main_bp.route("/about/history")
-def about_history():
-    return render_template("About Us/about_history.html", page_class="home-page center-content")
 
 @main_bp.route("/about/board")
 def about_board():

@@ -12,6 +12,8 @@
 :root[data-theme='dark'] .site-header { background: linear-gradient(90deg, var(--color-bg-alt-dark) 0%, var(--color-bg-dark) 100%); border-color: var(--color-border-dark); }
 .site-main { padding-top:0; width:100%; }
 .site-footer { margin-top: var(--space-10); padding: var(--space-8) 0; border-top:1px solid var(--color-border); background: var(--color-bg-alt); }
+/* Ensure footer matches design token when utility class is present; provide a solid fallback color */
+.site-footer.bg-primary-fixed, .site-footer { background-color: #020866; }
 :root[data-theme='dark'] .site-footer { background: var(--color-bg-alt-dark); border-color: var(--color-border-dark); }
 /* branding logo sizing: constrain to header height (var --h) to avoid overflow */
 .branding-logo { max-height: var(--h, 96px); width:auto; display:block; object-fit:contain; height:auto; }
@@ -74,7 +76,7 @@
 .mobile-nav-links { display:flex; flex-direction:column; gap:.35rem; margin:0; padding:0; list-style:none; }
 .mobile-nav-links a { text-decoration:none; font-size:1rem; font-weight:500; padding:.9rem 1rem; border-radius:12px; color:#0f172a; position:relative; transition:background .3s, color .3s; }
 .mobile-nav-links a:hover { background:#f1f5f9; }
-.mobile-nav-links a.active { background:#0f172a; color:#ffffff; }
+	.mobile-nav-links a.active { background:#0f172a; color:#ffffff; }
 .mobile-footer { margin-top:auto; font-size:.7rem; color:#64748b; text-align:center; }
 
 /* Scroll shrink effect */
