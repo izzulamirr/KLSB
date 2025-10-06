@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block title %}KLSB — Services{% endblock %}
-{% set hero_bg = url_for('static', filename='img/2584721_XL.jpg') %}
+{% set hero_bg = url_for('static', filename='img/services.jpg') %}
 {% block content %}
 <section class="relative min-h-[280px] sm:min-h-[340px] flex items-center justify-center text-center">
   <div class="absolute inset-0 -z-10 bg-cover bg-center" style="background-image: url('{{ hero_bg }}');"></div>
@@ -13,9 +13,9 @@
 </section>
 <section class="pb-28 text-center">
   <div class="max-w-6xl mx-auto px-6">
-    <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6 mt-4">
+  <div class="mt-14 grid gap-6 sm:grid-cols-3 text-center hero-cards">
       <a href="{{ url_for('main.services_manpower') }}"
-   class="group relative block rounded-2xl border bg-white p-6 shadow-sm overflow-hidden hover:shadow-md transition rm-safe text-center">
+  class="group relative block rounded-2xl border bg-white p-2 shadow-sm overflow-hidden hover:shadow-md transition rm-safe text-center h-full min-h-[140px]">
   <!-- Hover image -->
   <img src="{{ url_for('static', filename='img/2584721_XL.jpg') }}"
        alt="Professional & Technical Manpower"
@@ -31,9 +31,9 @@
   </div>
 </a>
 <a href="{{ url_for('main.services_engineering') }}"
-   class="group relative block rounded-2xl border bg-white p-6 shadow-sm overflow-hidden hover:shadow-md transition rm-safe text-center">
+  class="group relative block rounded-2xl border bg-white p-2 shadow-sm overflow-hidden hover:shadow-md transition rm-safe text-center h-full min-h-[140px]">
   <!-- Hover image -->
-  <img src="{{ url_for('static', filename='img/2584721_XL.jpg') }}"
+  <img src="{{ url_for('static', filename='img/eng.jpg') }}"
        alt="Professional & Technical Manpower"
        class="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-0 scale-105
               transition duration-500 ease-out group-hover:opacity-100 group-hover:scale-100">
@@ -47,9 +47,9 @@
   </div>
 </a>
 <a href="{{ url_for('main.services_digital') }}"
-   class="group relative block rounded-2xl border bg-white p-6 shadow-sm overflow-hidden hover:shadow-md transition rm-safe text-center">
+  class="group relative block rounded-2xl border bg-white p-2 shadow-sm overflow-hidden hover:shadow-md transition rm-safe text-center h-full min-h-[140px]">
   <!-- Hover image -->
-  <img src="{{ url_for('static', filename='img/2584721_XL.jpg') }}"
+  <img src="{{ url_for('static', filename='img/digital.jpg') }}"
        alt="Professional & Technical Manpower"
        class="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-0 scale-105
               transition duration-500 ease-out group-hover:opacity-100 group-hover:scale-100">
@@ -63,9 +63,9 @@
   </div>
 </a>
 <a href="{{ url_for('main.services_inspection') }}"
-   class="group relative block rounded-2xl border bg-white p-6 shadow-sm overflow-hidden hover:shadow-md transition rm-safe text-center">
+  class="group relative block rounded-2xl border bg-white p-6 shadow-sm overflow-hidden hover:shadow-md transition rm-safe text-center h-full min-h-[320px]">
   <!-- Hover image -->
-  <img src="{{ url_for('static', filename='img/2584721_XL.jpg') }}"
+  <img src="{{ url_for('static', filename='img/inspection.jpg') }}"
        alt="Professional & Technical Manpower"
        class="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-0 scale-105
               transition duration-500 ease-out group-hover:opacity-100 group-hover:scale-100">
@@ -79,9 +79,9 @@
   </div>
 </a>
 <a href="{{ url_for('main.services_construction') }}"
-   class="group relative block rounded-2xl border bg-white p-6 shadow-sm overflow-hidden hover:shadow-md transition rm-safe text-center">
+  class="group relative block rounded-2xl border bg-white p-6 shadow-sm overflow-hidden hover:shadow-md transition rm-safe text-center h-full min-h-[320px]">
   <!-- Hover image -->
-  <img src="{{ url_for('static', filename='img/2584721_XL.jpg') }}"
+  <img src="{{ url_for('static', filename='img/construction.jpg') }}"
        alt="Professional & Technical Manpower"
        class="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-0 scale-105
               transition duration-500 ease-out group-hover:opacity-100 group-hover:scale-100">
@@ -95,9 +95,9 @@
   </div>
 </a>
 <a href="{{ url_for('main.services_supply') }}"
-   class="group relative block rounded-2xl border bg-white p-6 shadow-sm overflow-hidden hover:shadow-md transition rm-safe text-center">
+  class="group relative block rounded-2xl border bg-white p-6 shadow-sm overflow-hidden hover:shadow-md transition rm-safe text-center h-full min-h-[320px]">
   <!-- Hover image -->
-  <img src="{{ url_for('static', filename='img/2584721_XL.jpg') }}"
+  <img src="{{ url_for('static', filename='img/supply.jpg') }}"
        alt="Professional & Technical Manpower"
        class="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-0 scale-105
               transition duration-500 ease-out group-hover:opacity-100 group-hover:scale-100">
