@@ -32,8 +32,9 @@
 
 // Modal builder for project cards
 (function(){
-  const cards = Array.from(document.querySelectorAll('.project-card'));
-  if(cards.length===0) return;
+  const projectCards = Array.from(document.querySelectorAll('.project-card'));
+  const modalTargets = Array.from(document.querySelectorAll('[data-modal-target]'));
+  if(projectCards.length===0 && modalTargets.length===0) return;
 
   function buildModal(sourceEl){
   const overlay = document.createElement('div');
@@ -62,33 +63,50 @@
   panel.appendChild(content);
     overlay.appendChild(panel);
 
+    // lock body scroll while modal is open
+    document.body.style.overflow = 'hidden';
+
     // open animation
     requestAnimationFrame(()=> overlay.classList.add('open'));
 
+    // keep track of who opened the modal so we can return focus
+    const opener = document.activeElement;
+
     // close handlers
+    function onKey(e){ if(e.key==='Escape') close(); }
+    function onOverlayClick(e){ if(e.target === overlay) close(); }
     function close(){
       document.removeEventListener('keydown', onKey);
+      overlay.removeEventListener('click', onOverlayClick);
+      try{ closeBtn.removeEventListener('click', close); }catch(e){}
+      // restore body scroll
+      document.body.style.overflow = '';
       overlay.remove();
+      try{ if(opener && typeof opener.focus === 'function') opener.focus(); }catch(e){}
     }
-    function onKey(e){ if(e.key==='Escape') close(); }
-  overlay.addEventListener('click', e=>{ if(e.target===overlay) close(); });
+
+    overlay.addEventListener('click', onOverlayClick);
     closeBtn.addEventListener('click', close);
     document.addEventListener('keydown', onKey);
 
     return overlay;
   }
 
-  cards.forEach(card=>{
-    card.addEventListener('click', (e)=>{
-      // Prevent the global feature-cards handler from also opening a modal
+  function attach(el){
+    if(el._modalAttached) return;
+    el._modalAttached = true;
+    el.addEventListener('click', (e)=>{
       e.preventDefault();
       e.stopPropagation();
-      const target = card.getAttribute('data-modal-target');
+      const target = el.getAttribute('data-modal-target');
       if(!target) return;
       const src = document.getElementById('modal-source-' + target);
       if(!src) return;
       const modal = buildModal(src);
       document.body.appendChild(modal);
     });
-  });
+  }
+
+  projectCards.forEach(card=>{ if(card.getAttribute('data-modal-target')) attach(card); });
+  modalTargets.forEach(t=> attach(t));
 })();

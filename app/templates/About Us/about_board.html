@@ -5,36 +5,36 @@
   <div class="max-w-7xl mx-auto px-6">
     <h1 class="text-4xl font-bold tracking-tight text-center mb-12">Board of Directors</h1>
     <div class="grid gap-10 md:grid-cols-2 lg:grid-cols-4">
-      <button class="group director-card text-left rounded-3xl overflow-hidden bg-slate-100 shadow-lg hover:shadow-2xl focus:outline-none focus:ring-2 focus:ring-teal-600 transition" data-modal-target="director-bakke" aria-haspopup="dialog">
+  <button class="group director-card text-left rounded-3xl overflow-hidden bg-slate-100 shadow-lg hover:shadow-2xl focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 transition" data-modal-target="director-shazli" aria-haspopup="dialog">
         <div class="aspect-[4/3] w-full overflow-hidden">
-          <img src="{{ url_for('static', filename='img/hero.jpg') }}" alt="Tan Sri Dato’ Seri Mohd Bakke Salleh" class="w-full h-full object-cover group-hover:scale-[1.03] transition-transform" loading="lazy">
+          <img src="{{ url_for('static', filename='img/hero.jpg') }}" alt="SHazli Bin Razak" class="w-full h-full object-cover group-hover:scale-[1.03] transition-transform" loading="lazy">
         </div>
         <div class="p-8">
           <h3 class="font-semibold text-teal-700 leading-snug text-lg">Shazli Bin Razak</h3>
           <p class="mt-2 text-sm text-slate-600">Managing Director</p>
         </div>
       </button>
-      <button class="group director-card text-left rounded-3xl overflow-hidden bg-slate-100 shadow-lg hover:shadow-2xl focus:outline-none focus:ring-2 focus:ring-teal-600 transition" data-modal-target="director-taufik" aria-haspopup="dialog">
+  <button class="group director-card text-left rounded-3xl overflow-hidden bg-slate-100 shadow-lg hover:shadow-2xl focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 transition" data-modal-target="director-syahmy" aria-haspopup="dialog">
         <div class="aspect-[4/3] w-full overflow-hidden">
-          <img src="{{ url_for('static', filename='img/2584721_XL.jpg') }}" alt="YM Tan Sri Tengku Muhammad Taufik Tengku Kamadjaja Aziz" class="w-full h-full object-cover group-hover:scale-[1.03] transition-transform" loading="lazy">
+          <img src="{{ url_for('static', filename='img/2584721_XL.jpg') }}" alt="Ahmad Syahmy Bin Muhammad Shamsuddin" class="w-full h-full object-cover group-hover:scale-[1.03] transition-transform" loading="lazy">
         </div>
         <div class="p-8">
           <h3 class="font-semibold text-teal-700 leading-snug text-lg">Ahmad Syahmy Bin Muhammad Shamsuddin</h3>
           <p class="mt-2 text-sm text-slate-600">Executive Director</p>
         </div>
       </button>
-      <button class="group director-card text-left rounded-3xl overflow-hidden bg-slate-100 shadow-lg hover:shadow-2xl focus:outline-none focus:ring-2 focus:ring-teal-600 transition" data-modal-target="director-dummy" aria-haspopup="dialog">
+  <button class="group director-card text-left rounded-3xl overflow-hidden bg-slate-100 shadow-lg hover:shadow-2xl focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 transition" data-modal-target="director-faizal" aria-haspopup="dialog">
         <div class="aspect-[4/3] w-full overflow-hidden">
-          <img src="{{ url_for('static', filename='img/business-2717427.jpg') }}" alt="Director Name Placeholder" class="w-full h-full object-cover group-hover:scale-[1.03] transition-transform" loading="lazy">
+          <img src="{{ url_for('static', filename='img/business-2717427.jpg') }}" alt="Mohd Faizal Bin Rifae" class="w-full h-full object-cover group-hover:scale-[1.03] transition-transform" loading="lazy">
         </div>
         <div class="p-8">
           <h3 class="font-semibold text-teal-700 leading-snug text-lg">Mohd Faizal Bin Rifae</h3>
           <p class="mt-2 text-sm text-slate-600">Operation Director</p>
         </div>
       </button>
-      <button class="group director-card text-left rounded-3xl overflow-hidden bg-slate-100 shadow-lg hover:shadow-2xl focus:outline-none focus:ring-2 focus:ring-teal-600 transition" data-modal-target="director-dummy" aria-haspopup="dialog">
+  <button class="group director-card text-left rounded-3xl overflow-hidden bg-slate-100 shadow-lg hover:shadow-2xl focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 transition" data-modal-target="director-amir" aria-haspopup="dialog">
         <div class="aspect-[4/3] w-full overflow-hidden">
-          <img src="{{ url_for('static', filename='img/Management/BD-dir.jpeg') }}" alt="Director Name Placeholder" class="w-full h-full object-cover group-hover:scale-[1.03] transition-transform" loading="lazy">
+          <img src="{{ url_for('static', filename='img/Management/BD-dir.png') }}" alt="Ts. Amir Hisham Albakri" class="w-full h-full object-cover group-hover:scale-[1.03] transition-transform" loading="lazy">
         </div>
         <div class="p-8">
           <h3 class="font-semibold text-teal-700 leading-snug text-lg">Ts. Amir Hisham Albakri</h3>
@@ -45,50 +45,101 @@
   </div>
 </section>
 
+<!-- Hidden Modal Sources for Board Directors -->
+<div class="hidden" id="modal-source-director-shazli">
+  <div class="modal-hero -mx-6 -mt-6 overflow-hidden rounded-t-xl">
+    <img src="{{ url_for('static', filename='img/hero.jpg') }}" alt="Shazli Bin Razak" class="w-full h-72 object-cover block">
+  </div>
+  <h2 class="modal-title">Shazli Bin Razak — Managing Director</h2>
+  <p>Shazli brings strategic leadership and extensive experience in large-scale project delivery across the region, focusing on aligning commercial outcomes with engineering execution.</p>
+  <ul class="list-disc pl-5 mt-4 text-sm space-y-1">
+    <li>20+ years in engineering and project management</li>
+    <li>Specialist in multi-discipline delivery coordination</li>
+    <li>Trusted advisor to major EPCs and operators</li>
+  </ul>
+</div>
+<div class="hidden" id="modal-source-director-syahmy">
+  <div class="modal-hero -mx-6 -mt-6 overflow-hidden rounded-t-xl">
+    <img src="{{ url_for('static', filename='img/2584721_XL.jpg') }}" alt="Ahmad Syahmy Bin Muhammad Shamsuddin" class="w-full h-72 object-cover block">
+  </div>
+  <h2 class="modal-title">Ahmad Syahmy Bin Muhammad Shamsuddin — Executive Director</h2>
+  <p>Ahmad Syahmy leads operational excellence and ensures delivery quality through rigorous processes and a focus on capability development.</p>
+  <ul class="list-disc pl-5 mt-4 text-sm space-y-1">
+    <li>Proven track record in operations leadership</li>
+    <li>Expertise in resource planning and optimisation</li>
+    <li>Champion for training and technical competency</li>
+  </ul>
+</div>
+<div class="hidden" id="modal-source-director-faizal">
+  <div class="modal-hero -mx-6 -mt-6 overflow-hidden rounded-t-xl">
+    <img src="{{ url_for('static', filename='img/Management/BD-dir-faizal.jpg') }}" alt="Mohd Faizal Bin Rifae" class="w-full h-72 object-cover block" class="w-full h-80 object-cover object-center block">
+  </div>
+  <h2 class="modal-title">Mohd Faizal Bin Rifae — Operation Director</h2>
+  <p>Mohd Faizal oversees day-to-day operational delivery and coordination between project teams, suppliers and stakeholders to maintain schedule adherence.</p>
+  <ul class="list-disc pl-5 mt-4 text-sm space-y-1">
+    <li>Operational leadership across field and office teams</li>
+    <li>Focus on process integration and KPI delivery</li>
+    <li>Experienced in vendor and subcontractor coordination</li>
+  </ul>
+</div>
+<div class="hidden" id="modal-source-director-amir">
+  <div class="modal-hero -mx-6 -mt-6 overflow-hidden">
+    <img src="{{ url_for('static', filename='img/Management/BD-dir-full.jpeg') }}" alt="Ts Amir Hisham Albakri" class="w-full h-72 object-cover block">
+  </div>
+  <h2 class="modal-title">Ts Amir Hisham Albakri — Sales & BD Director</h2>
+  <p>Ts Amir Hisham oversees business development, client relationships and strategic partnerships to support commercial growth.</p>
+  <ul class="list-disc pl-5 mt-4 text-sm space-y-1">
+    <li>Operational leadership across field and office teams</li>
+    <li>Focus on process integration and KPI delivery</li>
+    <li>Experienced in vendor and subcontractor coordination</li>
+  </ul>
+</div>
+
+
 <!-- Management (Manager Level) -->
 <section class="py-24 bg-white" id="Manager">
   <div class="max-w-7xl mx-auto px-6">
     <h1 class="text-4xl font-bold tracking-tight text-center mb-12">Board of Managers</h1>
     <div class="grid gap-10 md:grid-cols-2 lg:grid-cols-5">
-      <button class="group director-card text-left rounded-3xl overflow-hidden bg-slate-100 shadow-lg hover:shadow-2xl focus:outline-none focus:ring-2 focus:ring-teal-600 transition" data-modal-target="director-bakke" aria-haspopup="dialog">
+  <button class="group director-card text-left rounded-3xl overflow-hidden bg-slate-100 shadow-lg hover:shadow-2xl focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 transition">
         <div class="aspect-[4/3] w-full overflow-hidden">
-          <img src="{{ url_for('static', filename='img/hero.jpg') }}" alt="Tan Sri Dato’ Seri Mohd Bakke Salleh" class="w-full h-full object-cover group-hover:scale-[1.03] transition-transform" loading="lazy">
+          <img src="{{ url_for('static', filename='img/hero.jpg') }}" class="w-full h-full object-cover group-hover:scale-[1.03] transition-transform" loading="lazy">
         </div>
         <div class="p-8">
           <h3 class="font-semibold text-teal-700 leading-snug text-lg">Ahmad Sobry</h3>
           <p class="mt-2 text-sm text-slate-600">Project Manager</p>
         </div>
       </button>
-      <button class="group director-card text-left rounded-3xl overflow-hidden bg-slate-100 shadow-lg hover:shadow-2xl focus:outline-none focus:ring-2 focus:ring-teal-600 transition" data-modal-target="director-taufik" aria-haspopup="dialog">
+  <button class="group director-card text-left rounded-3xl overflow-hidden bg-slate-100 shadow-lg hover:shadow-2xl focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 transition">
         <div class="aspect-[4/3] w-full overflow-hidden">
-          <img src="{{ url_for('static', filename='img/2584721_XL.jpg') }}" alt="YM Tan Sri Tengku Muhammad Taufik Tengku Kamadjaja Aziz" class="w-full h-full object-cover group-hover:scale-[1.03] transition-transform" loading="lazy">
+          <img src="{{ url_for('static', filename='img/2584721_XL.jpg') }}" class="w-full h-full object-cover group-hover:scale-[1.03] transition-transform" loading="lazy">
         </div>
         <div class="p-8">
           <h3 class="font-semibold text-teal-700 leading-snug text-lg">Hafiz Azizan</h3>
           <p class="mt-2 text-sm text-slate-600">Talent & Recruitment Manager</p>
         </div>
       </button>
-      <button class="group director-card text-left rounded-3xl overflow-hidden bg-slate-100 shadow-lg hover:shadow-2xl focus:outline-none focus:ring-2 focus:ring-teal-600 transition" data-modal-target="director-dummy" aria-haspopup="dialog">
+  <button class="group director-card text-left rounded-3xl overflow-hidden bg-slate-100 shadow-lg hover:shadow-2xl focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 transition">
         <div class="aspect-[4/3] w-full overflow-hidden">
-          <img src="{{ url_for('static', filename='img/business-2717427.jpg') }}" alt="Director Name Placeholder" class="w-full h-full object-cover group-hover:scale-[1.03] transition-transform" loading="lazy">
+          <img src="{{ url_for('static', filename='img/business-2717427.jpg') }}" class="w-full h-full object-cover group-hover:scale-[1.03] transition-transform" loading="lazy">
         </div>
         <div class="p-8">
           <h3 class="font-semibold text-teal-700 leading-snug text-lg">Sabaruddin Sabri</h3>
           <p class="mt-2 text-sm text-slate-600">Engineering Manager</p>
         </div>
       </button>
-      <button class="group director-card text-left rounded-3xl overflow-hidden bg-slate-100 shadow-lg hover:shadow-2xl focus:outline-none focus:ring-2 focus:ring-teal-600 transition" data-modal-target="director-dummy" aria-haspopup="dialog">
+  <button class="group director-card text-left rounded-3xl overflow-hidden bg-slate-100 shadow-lg hover:shadow-2xl focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 transition">
         <div class="aspect-[4/3] w-full overflow-hidden">
-          <img src="{{ url_for('static', filename='img/business-2717427.jpg') }}" alt="Director Name Placeholder" class="w-full h-full object-cover group-hover:scale-[1.03] transition-transform" loading="lazy">
+          <img src="{{ url_for('static', filename='img/business-2717427.jpg') }}" class="w-full h-full object-cover group-hover:scale-[1.03] transition-transform" loading="lazy">
         </div>
         <div class="p-8">
           <h3 class="font-semibold text-teal-700 leading-snug text-lg">Asrul Azizie</h3>
           <p class="mt-2 text-sm text-slate-600">IT Manager</p>
         </div>
       </button>
-      <button class="group director-card text-left rounded-3xl overflow-hidden bg-slate-100 shadow-lg hover:shadow-2xl focus:outline-none focus:ring-2 focus:ring-teal-600 transition" data-modal-target="director-dummy" aria-haspopup="dialog">
+      <button class="group director-card text-left rounded-3xl overflow-hidden bg-slate-100 shadow-lg hover:shadow-2xl focus:outline-none focus:ring-2 focus:ring-teal-600 transition">
         <div class="aspect-[4/3] w-full overflow-hidden">
-          <img src="{{ url_for('static', filename='img/business-2717427.jpg') }}" alt="Director Name Placeholder" class="w-full h-full object-cover group-hover:scale-[1.03] transition-transform" loading="lazy">
+          <img src="{{ url_for('static', filename='img/business-2717427.jpg') }}" class="w-full h-full object-cover group-hover:scale-[1.03] transition-transform" loading="lazy">
         </div>
         <div class="p-8">
           <h3 class="font-semibold text-teal-700 leading-snug text-lg">Shazarina Shafiee</h3>
@@ -100,4 +151,7 @@
 </section>
 
 
+{% endblock %}
+{% block extra_body %}
+  <script src="{{ url_for('static', filename='js/board-modals.js') }}" defer></script>
 {% endblock %}
