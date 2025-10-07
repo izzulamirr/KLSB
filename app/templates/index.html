@@ -4,17 +4,17 @@
 {% set hero_image = url_for('static', filename='img/hero.jpg') %}
 {% set img_manpower = url_for('static', filename='img/2584721_XL.jpg') %}
 {% set img_engineering = url_for('static', filename='img/eng.jpg') %}
-{% set img_digital = url_for('static', filename='img/digital.jpg') %}
+{% set img_digital = url_for('static', filename='img/digital.jpeg') %}
 {% set img_inspection = url_for('static', filename='img/inspection.jpg') %}
 {% set img_construction = url_for('static', filename='img/construction.jpg') %}
 {% set img_supply = url_for('static', filename='img/supply.jpg') %}
 
 <!-- Hero -->
 <section class="relative min-h-screen overflow-hidden text-center flex items-center">
-  <div class="absolute inset-0 -z-10 bg-cover bg-center" style="background-image: url('{{ hero_image }}');"></div>
+  <div class="absolute inset-0 -z-10 bg-cover bg-center" style="background-image: url('{{ hero_image }}'); background-position: center center;"></div>
   <div class="absolute inset-0 -z-10 bg-black/50"></div>
   <div class="w-full max-w-5xl mx-auto px-6 py-28">
-    <h1 class="text-4xl sm:text-6xl uppercase font-bold text-white"
+  <h1 class="text-4xl sm:text-6xl uppercase font-bold text-white font-montserrat"
     style="text-shadow: 0 0 6px rgba(173, 216, 230, 0.8),   /* lightblue */
            0 0 12px rgba(173, 216, 230, 0.5),
            0 0 18px rgba(173, 216, 230, 0.3);">Your Partner to Strategic Value Creation</h1>
@@ -30,59 +30,75 @@
     <div class="mt-14 grid gap-6 sm:grid-cols-3 text-center hero-cards">
     <a href="{{ url_for('main.services_manpower') }}" class="group no-underline relative block rounded-2xl overflow-hidden shadow-lg bg-white/20 backdrop-blur-sm border border-transparent hover:border-indigo-100 transition-transform duration-300 ease-out hover:scale-105 hover:-translate-y-1 text-center h-28 sm:h-36">
       <!-- Background image -->
-  <div class="absolute inset-0 bg-cover bg-center transform transition-transform duration-500 group-hover:scale-105" style="background-image: url('{{ img_manpower }}');"></div>
+  <div class="absolute inset-0 bg-cover bg-center transform transition-transform duration-500 group-hover:scale-105" style="background-image: url('{{ img_manpower }}'); background-position: center center;"></div>
       <!-- Gradient overlay -->
-      <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/20 group-hover:from-black/50"></div>
+    <div class="absolute inset-0 z-30 bg-gradient-to-r from-black/70 to-transparent opacity-80 group-hover:opacity-95 pointer-events-none"></div>
+    <div class="absolute inset-0 z-30 bg-gradient-to-t from-black/40 via-transparent to-black/25 group-hover:from-black/60 pointer-events-none"></div>
   <!-- Accent badge removed -->
       <!-- Text (centered) -->
-      <div class="relative z-20 flex items-center justify-center h-full">
-        <div class="text-white text-base sm:text-lg font-semibold drop-shadow-md">PROFESSIONAL & TECHNICAL MANPOWER</div>
-      </div>
+  <div class="relative z-40 flex items-center justify-center h-full">
+  <div class="text-base sm:text-lg font-semibold text-white drop-shadow-md">PROFESSIONAL & TECHNICAL MANPOWER</div>
+    </div>
     </a>
 
     <a href="{{ url_for('main.services_engineering') }}" class="group no-underline relative block rounded-2xl overflow-hidden shadow-lg bg-white/20 backdrop-blur-sm border border-transparent hover:border-indigo-100 transition-transform duration-300 ease-out hover:scale-105 hover:-translate-y-1 text-center h-28 sm:h-36">
-  <div class="absolute inset-0 bg-cover bg-center transform transition-transform duration-500 group-hover:scale-105" style="background-image: url('{{ img_engineering }}');"></div>
-      <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/20 group-hover:from-black/50"></div>
+  <div class="absolute inset-0 bg-cover bg-center transform transition-transform duration-500 group-hover:scale-105" style="background-image: url('{{ img_engineering }}'); background-position: center center;"></div>
+  <div class="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent opacity-40 group-hover:opacity-60 pointer-events-none"></div>
+  <div class="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-black/20 group-hover:from-black/50 pointer-events-none"></div>
+  <div class="absolute inset-0 z-30 bg-gradient-to-r from-black/70 to-transparent opacity-80 group-hover:opacity-95 pointer-events-none"></div>
+  <div class="absolute inset-0 z-30 bg-gradient-to-t from-black/40 via-transparent to-black/25 group-hover:from-black/60 pointer-events-none"></div>
   <!-- Accent badge removed -->
-      <div class="relative z-20 flex items-center justify-center h-full">
-        <div class="text-white text-base sm:text-lg font-semibold drop-shadow-md">ENGINEERING SOLUTIONS</div>
-      </div>
+    <div class="relative z-40 flex items-center justify-center h-full">
+  <div class="text-base sm:text-lg font-semibold text-white drop-shadow-md">ENGINEERING SOLUTIONS</div>
+    </div>
     </a>
 
     <a href="{{ url_for('main.services_digital') }}" class="group no-underline relative block rounded-2xl overflow-hidden shadow-lg bg-white/20 backdrop-blur-sm border border-transparent hover:border-indigo-100 transition-transform duration-300 ease-out hover:scale-105 hover:-translate-y-1 text-center h-28 sm:h-36">
-  <div class="absolute inset-0 bg-cover bg-center transform transition-transform duration-500 group-hover:scale-105" style="background-image: url('{{ img_digital }}');"></div>
-      <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/20 group-hover:from-black/50"></div>
+  <div class="absolute inset-0 bg-cover bg-center transform transition-transform duration-500 group-hover:scale-105" style="background-image: url('{{ img_digital }}'); background-position: center center;"></div>
+  <div class="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent opacity-40 group-hover:opacity-60 pointer-events-none"></div>
+  <div class="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-black/20 group-hover:from-black/50 pointer-events-none"></div>
+  <div class="absolute inset-0 z-30 bg-gradient-to-r from-black/70 to-transparent opacity-80 group-hover:opacity-95 pointer-events-none"></div>
+  <div class="absolute inset-0 z-30 bg-gradient-to-t from-black/40 via-transparent to-black/25 group-hover:from-black/60 pointer-events-none"></div>
   <!-- Accent badge removed -->
-      <div class="relative z-20 flex items-center justify-center h-full">
-        <div class="text-white text-base sm:text-lg font-semibold drop-shadow-md">DIGITAL SOLUTIONS & CYBERSECURITY</div>
-      </div>
+    <div class="relative z-40 flex items-center justify-center h-full">
+  <div class="text-base sm:text-lg font-semibold text-white drop-shadow-md">DIGITAL SOLUTIONS & CYBERSECURITY</div>
+    </div>
     </a>
 
     <a href="{{ url_for('main.services_inspection') }}" class="group no-underline relative block rounded-2xl overflow-hidden shadow-lg bg-white/20 backdrop-blur-sm border border-transparent hover:border-indigo-100 transition-transform duration-300 ease-out hover:scale-105 hover:-translate-y-1 text-center h-28 sm:h-36">
-  <div class="absolute inset-0 bg-cover bg-center transform transition-transform duration-500 group-hover:scale-105" style="background-image: url('{{ img_inspection }}');"></div>
-      <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/20 group-hover:from-black/50"></div>
+  <div class="absolute inset-0 bg-cover bg-center transform transition-transform duration-500 group-hover:scale-105" style="background-image: url('{{ img_inspection }}'); background-position: center center;"></div>
+  <div class="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent opacity-40 group-hover:opacity-60 pointer-events-none"></div>
+  <div class="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-black/20 group-hover:from-black/50 pointer-events-none"></div>
+  <div class="absolute inset-0 z-30 bg-gradient-to-r from-black/70 to-transparent opacity-80 group-hover:opacity-95 pointer-events-none"></div>
+  <div class="absolute inset-0 z-30 bg-gradient-to-t from-black/40 via-transparent to-black/25 group-hover:from-black/60 pointer-events-none"></div>
   <!-- Accent badge removed -->
-      <div class="relative z-20 flex items-center justify-center h-full">
-        <div class="text-white text-base sm:text-lg font-semibold drop-shadow-md">SPECIALIZED INSPECTION</div>
-      </div>
+    <div class="relative z-40 flex items-center justify-center h-full">
+  <div class="text-base sm:text-lg font-semibold text-white drop-shadow-md">SPECIALIZED INSPECTION</div>
+    </div>
     </a>
 
     <a href="{{ url_for('main.services_construction') }}" class="group no-underline relative block rounded-2xl overflow-hidden shadow-lg bg-white/20 backdrop-blur-sm border border-transparent hover:border-indigo-100 transition-transform duration-300 ease-out hover:scale-105 hover:-translate-y-1 text-center h-28 sm:h-36">
-  <div class="absolute inset-0 bg-cover bg-center transform transition-transform duration-500 group-hover:scale-105" style="background-image: url('{{ img_construction }}');"></div>
-      <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/20 group-hover:from-black/50"></div>
+  <div class="absolute inset-0 bg-cover bg-center transform transition-transform duration-500 group-hover:scale-105" style="background-image: url('{{ img_construction }}'); background-position: center center;"></div>
+  <div class="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent opacity-40 group-hover:opacity-60 pointer-events-none"></div>
+  <div class="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-black/20 group-hover:from-black/50 pointer-events-none"></div>
+  <div class="absolute inset-0 z-30 bg-gradient-to-r from-black/70 to-transparent opacity-80 group-hover:opacity-95 pointer-events-none"></div>
+  <div class="absolute inset-0 z-30 bg-gradient-to-t from-black/40 via-transparent to-black/25 group-hover:from-black/60 pointer-events-none"></div>
   <!-- Accent badge removed -->
-      <div class="relative z-20 flex items-center justify-center h-full">
-        <div class="text-white text-base sm:text-lg font-semibold drop-shadow-md">GENERAL CONSTRUCTION</div>
-      </div>
+    <div class="relative z-40 flex items-center justify-center h-full">
+  <div class="text-base sm:text-lg font-semibold text-white drop-shadow-md">GENERAL CONSTRUCTION</div>
+    </div>
     </a>
 
     <a href="{{ url_for('main.services_supply') }}" class="group no-underline relative block rounded-2xl overflow-hidden shadow-lg bg-white/20 backdrop-blur-sm border border-transparent hover:border-indigo-100 transition-transform duration-300 ease-out hover:scale-105 hover:-translate-y-1 text-center h-28 sm:h-36">
-  <div class="absolute inset-0 bg-cover bg-center transform transition-transform duration-500 group-hover:scale-105" style="background-image: url('{{ img_supply }}');"></div>
-      <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/20 group-hover:from-black/50"></div>
+  <div class="absolute inset-0 bg-cover bg-center transform transition-transform duration-500 group-hover:scale-105" style="background-image: url('{{ img_supply }}'); background-position: center center;"></div>
+  <div class="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent opacity-40 group-hover:opacity-60 pointer-events-none"></div>
+  <div class="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-black/20 group-hover:from-black/50 pointer-events-none"></div>
+  <div class="absolute inset-0 z-30 bg-gradient-to-r from-black/70 to-transparent opacity-80 group-hover:opacity-95 pointer-events-none"></div>
+  <div class="absolute inset-0 z-30 bg-gradient-to-t from-black/40 via-transparent to-black/25 group-hover:from-black/60 pointer-events-none"></div>
   <!-- Accent badge removed -->
-      <div class="relative z-20 flex items-center justify-center h-full">
-        <div class="text-white text-base sm:text-lg font-semibold drop-shadow-md">SUPPLY & TRADING</div>
-      </div>
+    <div class="relative z-40 flex items-center justify-center h-full">
+  <div class="text-base sm:text-lg font-semibold text-white drop-shadow-md">SUPPLY & TRADING</div>
+    </div>
     </a>
     </div>
   </div>
