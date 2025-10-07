@@ -13,7 +13,13 @@ class BaseConfig:
     if DB_USER and DB_PASS and DB_NAME:
         SQLALCHEMY_DATABASE_URI = f"mysql+pymysql://{DB_USER}:{DB_PASS}@{DB_HOST}/{DB_NAME}"
     else:
-        SQLALCHEMY_DATABASE_URI = None
+        # If explicit DB connection info isn't provided, fall back to a
+        # developer-friendly SQLite database file so the app can run locally.
+        # Allow overriding via environment variables commonly used in deploys.
+        SQLALCHEMY_DATABASE_URI = os.environ.get(
+            'SQLALCHEMY_DATABASE_URI',
+            os.environ.get('DATABASE_URL', 'sqlite:///klsb.db')
+        )
 
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
