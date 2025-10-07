@@ -2,6 +2,8 @@
 {% block title %}KLSB — Engineering Services{% endblock %}
 {% set hero_bg = url_for('static', filename='img/eng.jpg') %}
 {% set eng3_bg = url_for('static', filename='img/eng_2.jpg') %}
+{% set eng_consult_bg = url_for('static', filename='img/eng_consult.jpg') %}
+{% set awp_bg = url_for('static', filename='img/AWP.jpeg') %}
 {% block content %}
 
 <section class="relative min-h-[280px] sm:min-h-[340px] flex items-center justify-center text-center">
@@ -32,8 +34,13 @@
     <div class="space-y-12 text-left">
 
       <!-- Engineering Consultancy -->
-      <section class="rounded-2xl border bg-white p-6 shadow-sm">
-        <h2 class="text-2xl font-semibold text-center mb-2">Engineering Consultancy</h2>
+      <section class="rounded-2xl border bg-white p-6 shadow-sm relative overflow-hidden">
+        <!-- clearer image: remove image opacity and soften overlays -->
+        <div class="absolute inset-0 z-0 bg-cover bg-center" style="background-image: url('{{ eng_consult_bg }}'); opacity: 1;"></div>
+          <div class="absolute inset-0 z-10 bg-gradient-to-r from-black/70 to-transparent opacity-60 pointer-events-none"></div>
+          <div class="absolute inset-0 z-10 bg-gradient-to-t from-black/40 via-transparent to-black/25 opacity-50 pointer-events-none"></div>
+        <div class="relative z-20">
+  <h2 class="text-2xl font-semibold text-center mb-2 text-white drop-shadow-lg">Engineering Consultancy</h2>
         <div class="grid sm:grid-cols-2 gap-6">
           <div class="rounded-xl bg-indigo-100 p-4">
             <h3 class="font-semibold">Piping Engineering</h3>
@@ -60,6 +67,7 @@
               <li>Material Handling Study</li>
             </ul>
           </div>
+        </div>
         </div>
       </section>
 
@@ -184,7 +192,9 @@
 </section>
 
       <!-- AWP -->
-      <section class="rounded-2xl border bg-white p-6 shadow-sm">
+      <section class="rounded-2xl border bg-white p-6 shadow-sm relative overflow-hidden">
+        <div class="absolute inset-0 z-0 bg-cover bg-center" style="background-image: url('{{ awp_bg }}'); opacity: .25;"></div>
+        <div class="relative z-10">
         <h2 class="text-2xl font-semibold text-center mb-2">Advanced Work Packaging (AWP)</h2>
         <p class="text-slate-600 text-center mb-5">
           Structured project execution through defined work packages, integrated planning and data-driven readiness for efficient delivery.
@@ -204,6 +214,7 @@
               <li>Consultancy, implementation &amp; tailored training programmes</li>
             </ul>
           </div>
+        </div>
         </div>
       </section>
 
