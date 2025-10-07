@@ -1,11 +1,20 @@
 from flask import Flask
 import os
+from flask_sqlalchemy import SQLAlchemy
+from config import ProdConfig
 
+db = SQLAlchemy()  # Create SQLAlchemy instance
 
 def create_app():
-    app = Flask(__name__)  # factory pattern
+    app = Flask(__name__)
 
-    # (Optional but helpful in dev)
+    # Load production config
+    app.config.from_object(ProdConfig)
+
+    # Initialize database
+    db.init_app(app)
+
+    # (Optional but helpful)
     app.config["TEMPLATES_AUTO_RELOAD"] = True
     app.config["SEND_FILE_MAX_AGE_DEFAULT"] = 0
 
