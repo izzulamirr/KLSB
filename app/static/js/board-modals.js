@@ -1,9 +1,7 @@
 // board-modals.js - page-scoped modal handlers for About → Board
 (function(){
-  const board = document.getElementById('board');
-  if(!board) return;
-
-  const targets = Array.from(board.querySelectorAll('[data-modal-target]'));
+  // find all modal triggers on the page (directors and managers)
+  const targets = Array.from(document.querySelectorAll('[data-modal-target]'));
   if(targets.length === 0) return;
 
   function buildModalFromSource(sourceEl){
