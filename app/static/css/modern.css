@@ -56,22 +56,52 @@ body { transition: background .5s var(--easing), color .5s var(--easing); }
 .mobile-sheet { transition: transform .55s var(--easing), opacity .55s var(--easing); }
 
 /* Interactive value pillar cards */
-.feature-card { position:relative; background: var(--color-bg-alt); border:1px solid var(--color-border); border-radius: 1.25rem; padding:1.5rem; transition: background .6s var(--easing), box-shadow .5s var(--easing), transform .55s var(--easing), border-color .5s var(--easing); overflow:hidden; }
-.feature-card::before { content:""; position:absolute; inset:0; background: radial-gradient(circle at 120% -10%, rgba(3,65,201,0.18), transparent 60%); opacity:0; transition: opacity .6s var(--easing); }
-.feature-card::after { content:""; position:absolute; top:0; left:0; width:0; height:3px; background: linear-gradient(90deg,#0341c9,#1d4ed8 60%,#b08904); transition: width .6s var(--easing); }
-.feature-card:hover::after, .feature-card:focus-within::after { width:100%; }
-.feature-card:hover, .feature-card:focus-within { background: #ffffff; box-shadow: 0 8px 28px -8px rgba(0,0,0,0.15), 0 4px 10px -2px rgba(0,0,0,0.08); transform: translateY(-4px); border-color:#cbd5e1; }
-.feature-card:hover::before, .feature-card:focus-within::before { opacity:1; }
+.feature-card { position:relative; /* make cards plain white by default */ background: #ffffff; border:1px solid var(--color-border); border-radius: 1.25rem; padding:1.5rem; transition: background .3s var(--easing), box-shadow .25s var(--easing), transform .25s var(--easing), border-color .25s var(--easing); overflow:hidden; }
+.feature-card::before { /* animated sheen overlay for modern hover */
+  content:""; position:absolute; inset:0; pointer-events:none; mix-blend-mode:overlay;
+  background: linear-gradient(90deg, rgba(255,255,255,0.0) 0%, rgba(255,255,255,0.85) 45%, rgba(255,255,255,0.0) 80%);
+  transform: translateX(-110%); opacity:0; transition: transform .9s cubic-bezier(.2,.9,.2,1), opacity .5s var(--easing);
+}
+.feature-card::after { display:none; }
+.feature-card { transform-style:preserve-3d; perspective:1000px; }
+.feature-card:hover, .feature-card:focus-within {
+  background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(250,250,252,0.96));
+  box-shadow: 0 30px 70px -28px rgba(12,15,30,0.20), 0 14px 36px -16px rgba(12,15,30,0.12);
+  transform: translateY(-12px) scale(1.03) rotateX(var(--rx,6deg)) rotateY(var(--ry,-2deg));
+  border-color: rgba(14,60,120,0.06);
+}
+.feature-card:hover::before, .feature-card:focus-within::before { transform: translateX(110%); opacity: .18; }
 .feature-card h3 { margin-top:0; font-weight:600; letter-spacing:.25px; }
 .feature-card p { margin:0; font-size:.85rem; line-height:1.5; color: var(--color-text); }
 .feature-grid-enhanced { display:grid; gap:2rem; grid-template-columns: repeat(auto-fit,minmax(200px,1fr)); }
 .feature-card:focus-within { outline:3px solid var(--ring-color); outline-offset:4px; }
 
+/* Hover / focus interaction for feature cards */
+.feature-card { will-change: transform, box-shadow; }
+.feature-card { will-change: transform, box-shadow; --hover-scale: 1.06; }
+.feature-card .logo-holder img { transition: transform .55s cubic-bezier(.2,.9,.2,1), filter .55s cubic-bezier(.2,.9,.2,1); transform-origin:center center; }
+.feature-card:hover .logo-holder img, .feature-card:focus-within .logo-holder img {
+  transform: translateZ(0) scale(calc(var(--hover-scale) * 1.02));
+  filter: brightness(1.06) saturate(1.06);
+}
+
+/* Accessible focus ring (keyboard) */
+.feature-card:focus-visible { outline: 3px solid var(--ring-color); outline-offset:6px; }
+
+@media (prefers-reduced-motion: reduce){
+  .feature-card, .feature-card .logo-holder img, .feature-card::before { transition: none !important; transform: none !important; }
+}
+
 /* Feature card media */
-.feature-card-media { position:relative; width:100%; aspect-ratio: 16/9; border-radius:14px; overflow:hidden; margin:-.25rem 0 .9rem; background:#f1f5f9; }
+.feature-card-media { position:relative; width:100%; aspect-ratio: 16/9; border-radius:14px; overflow:hidden; margin:-.25rem 0 .9rem; background:transparent; }
 .feature-card-media img { width:100%; height:100%; object-fit:cover; transition: transform .9s var(--easing), filter .9s var(--easing); display:block; }
 .feature-card:hover .feature-card-media img, .feature-card:focus-within .feature-card-media img { transform: scale(1.07); filter:brightness(1.05); }
 .feature-card-media::after { content:""; position:absolute; inset:0; background:linear-gradient(180deg,rgba(0,0,0,0) 40%,rgba(0,0,0,0.25)); opacity:.4; pointer-events:none; }
+
+/* Logo holder used in value-pillar cards (homepage) */
+.logo-holder { display:flex; align-items:center; justify-content:center; background:transparent; padding:0.5rem; border-radius:1rem; overflow:hidden; }
+.logo-holder img { max-width:86%; max-height:86%; width:auto; height:auto; object-fit:contain; display:block; }
+
 
 @media (prefers-reduced-motion: reduce){
   .feature-card { transition:none; }

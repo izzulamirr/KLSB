@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="120" viewBox="0 0 400 120" role="img" aria-label="Execution logo">
+  <defs>
+    <linearGradient id="g2" x1="0" x2="1">
+      <stop offset="0" stop-color="#0ea5a3" />
+      <stop offset="1" stop-color="#06b6d4" />
+    </linearGradient>
+  </defs>
+  <g transform="translate(12,16)">
+    <rect x="0" y="0" width="72" height="72" rx="12" fill="url(#g2)" />
+    <path d="M20 36 h10 v10 h20" stroke="#fff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    <text x="96" y="46" font-family="Inter, Roboto, Arial, sans-serif" font-size="20" fill="#0f172a" font-weight="700">Execution</text>
+    <text x="96" y="70" font-family="Inter, Roboto, Arial, sans-serif" font-size="12" fill="#475569">Governance • QA • Delivery</text>
+  </g>
+</svg>
