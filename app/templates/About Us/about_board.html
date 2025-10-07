@@ -1,6 +1,26 @@
 {% extends 'base.html' %}
 {% block title %}Board of Directors — KLSB{% endblock %}
 {% block content %}
+{% block extra_head %}
+<style>
+  /* Page-scoped override: force modal text to black and normalize blend-mode for this page only */
+  .board-modal-overlay p,
+  .board-modal-overlay .modal-title,
+  .board-modal-overlay ul,
+  .board-modal-overlay li,
+  .board-modal-overlay h2 {
+    color: #000 !important;
+    mix-blend-mode: normal !important;
+  }
+  /* Force paragraph text inside card buttons (used for both directors and managers) to black */
+  .director-card p,
+  button.director-card p {
+    color: #000 !important;
+    -webkit-text-fill-color: #000 !important;
+    mix-blend-mode: normal !important;
+  }
+</style>
+{% endblock %}
 <section class="py-24 bg-white" id="board">
   <div class="max-w-7xl mx-auto px-6">
     <h1 class="text-4xl font-bold tracking-tight text-center mb-12">Board of Directors</h1>
@@ -10,7 +30,7 @@
             <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent pointer-events-none"></div>
             <div class="absolute bottom-0 left-0 right-0 p-6 z-10">
               <h3 class="font-semibold text-white leading-snug text-lg">Shazli Bin Razak</h3>
-              <p class="mt-1 text-sm text-white/90">Managing Director</p>
+              <p class="mt-1 text-sm text-black">Managing Director</p>
             </div>
           </button>
   <button class="relative group director-card rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 transition h-80 md:h-96 lg:h-[28rem]" data-modal-target="manager-hafiz" aria-haspopup="dialog">
@@ -18,7 +38,7 @@
         <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent pointer-events-none"></div>
         <div class="absolute bottom-0 left-0 right-0 p-6 z-10">
           <h3 class="font-semibold text-white leading-snug text-lg">Ahmad Syahmy Bin Muhammad Shamsuddin</h3>
-          <p class="mt-1 text-sm text-white/90">Executive Director</p>
+          <p class="mt-1 text-sm text-black">Executive Director</p>
         </div>
       </button>
   <button class="relative group director-card rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 transition h-80 md:h-96 lg:h-[28rem]" data-modal-target="manager-sabaruddin" aria-haspopup="dialog">
@@ -26,7 +46,7 @@
         <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent pointer-events-none"></div>
         <div class="absolute bottom-0 left-0 right-0 p-6 z-10">
           <h3 class="font-semibold text-white leading-snug text-lg">Mohd Faizal Bin Rifae</h3>
-          <p class="mt-1 text-sm text-white/90">Operation Director</p>
+          <p class="mt-1 text-sm text-black">Operation Director</p>
         </div>
       </button>
   <button class="relative group director-card rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 transition h-80 md:h-96 lg:h-[28rem]" data-modal-target="manager-asrul" aria-haspopup="dialog">
@@ -34,7 +54,7 @@
         <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent pointer-events-none"></div>
         <div class="absolute bottom-0 left-0 right-0 p-6 z-10">
           <h3 class="font-semibold text-white leading-snug text-lg">Ts. Amir Hisham Albakri</h3>
-          <p class="mt-1 text-sm text-white/90">Sales & BD Director</p>
+          <p class="mt-1 text-sm text-black">Sales & BD Director</p>
         </div>
       </button>
     </div>
@@ -49,7 +69,7 @@
             <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent pointer-events-none"></div>
             <div class="absolute bottom-0 left-0 right-0 p-4 z-10">
               <h3 class="font-semibold text-white leading-snug text-base">Ahmad Sobry</h3>
-              <p class="mt-1 text-xs text-white/90">Project Manager</p>
+              <p class="mt-1 text-xs text-black">Project Manager</p>
             </div>
           </button>
       <button class="relative group director-card rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 transition h-56 md:h-60 lg:h-64" data-modal-target="manager-hafiz" aria-haspopup="dialog">
@@ -57,7 +77,7 @@
         <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent pointer-events-none"></div>
         <div class="absolute bottom-0 left-0 right-0 p-4 z-10">
           <h3 class="font-semibold text-white leading-snug text-base">Hafiz Azizan</h3>
-          <p class="mt-1 text-xs text-white/90">Talent & Recruitment Manager</p>
+          <p class="mt-1 text-xs text-black">Talent & Recruitment Manager</p>
         </div>
       </button>
       <button class="relative group director-card rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 transition h-56 md:h-60 lg:h-64" data-modal-target="manager-sabaruddin" aria-haspopup="dialog">
@@ -65,7 +85,7 @@
         <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent pointer-events-none"></div>
         <div class="absolute bottom-0 left-0 right-0 p-4 z-10">
           <h3 class="font-semibold text-white leading-snug text-base">Sabaruddin Sabri</h3>
-          <p class="mt-1 text-xs text-white/90">Engineering Manager</p>
+          <p class="mt-1 text-xs text-black">Engineering Manager</p>
         </div>
       </button>
   <button class="relative group director-card rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 transition h-56 md:h-60 lg:h-64" data-modal-target="manager-asrul" aria-haspopup="dialog">
@@ -73,7 +93,7 @@
         <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent pointer-events-none"></div>
         <div class="absolute bottom-0 left-0 right-0 p-4 z-10">
           <h3 class="font-semibold text-white leading-snug text-base">Asrul Azizie</h3>
-          <p class="mt-1 text-xs text-white/90">IT Manager</p>
+          <p class="mt-1 text-xs text-black">IT Manager</p>
         </div>
       </button>
       <button class="relative group director-card rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 transition h-56 md:h-60 lg:h-64" data-modal-target="manager-shazarina" aria-haspopup="dialog">
@@ -81,7 +101,7 @@
         <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent pointer-events-none"></div>
         <div class="absolute bottom-0 left-0 right-0 p-4 z-10">
           <h3 class="font-semibold text-white leading-snug text-base">Shazarina Shafiee</h3>
-          <p class="mt-1 text-xs text-white/90">HR Admin & Finance Manager</p>
+          <p class="mt-1 text-xs text-black">HR Admin & Finance Manager</p>
         </div>
       </button>
     </div>
@@ -128,7 +148,7 @@
   <img src="{{ url_for('static', filename='img/Management/org.jpg') }}" alt="Shazli Bin Razak" class="w-full h-72 object-cover block">
   </div>
   <h2 class="modal-title">Shazli Bin Razak — Managing Director</h2>
-  <p>Shazli brings strategic leadership and extensive experience in large-scale project delivery across the region, focusing on aligning commercial outcomes with engineering execution.</p>
+  <p class="text-black" style="color:#000 !important">Shazli brings strategic leadership and extensive experience in large-scale project delivery across the region, focusing on aligning commercial outcomes with engineering execution.</p>
   <ul class="list-disc pl-5 mt-4 text-sm space-y-1">
     <li>20+ years in engineering and project management</li>
     <li>Specialist in multi-discipline delivery coordination</li>
@@ -140,7 +160,7 @@
   <img src="{{ url_for('static', filename='img/Management/org.jpg') }}" alt="Ahmad Syahmy Bin Muhammad Shamsuddin" class="w-full h-72 object-cover block">
   </div>
   <h2 class="modal-title">Ahmad Syahmy Bin Muhammad Shamsuddin — Executive Director</h2>
-  <p>Ahmad Syahmy leads operational excellence and ensures delivery quality through rigorous processes and a focus on capability development.</p>
+  <p class="text-black" style="color:#000 !important">Ahmad Syahmy leads operational excellence and ensures delivery quality through rigorous processes and a focus on capability development.</p>
   <ul class="list-disc pl-5 mt-4 text-sm space-y-1">
     <li>Proven track record in operations leadership</li>
     <li>Expertise in resource planning and optimisation</li>
@@ -152,7 +172,7 @@
   <img src="{{ url_for('static', filename='img/Management/org.jpg') }}" alt="Sabaruddin Sabri" class="w-full h-72 object-cover block">
   </div>
   <h2 class="modal-title">Sabaruddin Sabri — Engineering Manager</h2>
-  <p>Sabaruddin manages engineering teams, ensuring technical quality and delivery across projects.</p>
+  <p class="text-black" style="color:#000 !important">Sabaruddin manages engineering teams, ensuring technical quality and delivery across projects.</p>
   <ul class="list-disc pl-5 mt-4 text-sm space-y-1">
     <li>Technical leadership and mentoring</li>
     <li>Quality assurance and compliance</li>
@@ -164,7 +184,7 @@
   <img src="{{ url_for('static', filename='img/Management/org.jpg') }}" alt="Asrul Azizie" class="w-full h-72 object-cover block">
   </div>
   <h2 class="modal-title">Asrul Azizie — IT Manager</h2>
-  <p>Asrul oversees IT operations, infrastructure and supports systems that keep the business running smoothly.</p>
+  <p class="text-black" style="color:#000 !important">Asrul oversees IT operations, infrastructure and supports systems that keep the business running smoothly.</p>
   <ul class="list-disc pl-5 mt-4 text-sm space-y-1">
     <li>Systems administration and support</li>
     <li>Infrastructure planning and security</li>
@@ -176,7 +196,7 @@
   <img src="{{ url_for('static', filename='img/Management/org.jpg') }}" alt="Mohd Faizal Bin Rifae" class="w-full h-80 object-cover object-center block">
   </div>
   <h2 class="modal-title">Shazarina Shafiee — HR Admin & Finance Manager</h2>
-  <p>Handles HR administration and financial support functions.</p>
+  <p class="text-black" style="color:#000 !important">Handles HR administration and financial support functions.</p>
 </div>
 {% endblock %}
 {% block extra_body %}
