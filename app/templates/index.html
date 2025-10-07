@@ -2,6 +2,12 @@
 {% block title %}Kemuncak Lanai{% endblock %}
 {% block content %}
 {% set hero_image = url_for('static', filename='img/hero.jpg') %}
+{% set img_manpower = url_for('static', filename='img/2584721_XL.jpg') %}
+{% set img_engineering = url_for('static', filename='img/eng.jpg') %}
+{% set img_digital = url_for('static', filename='img/digital.jpg') %}
+{% set img_inspection = url_for('static', filename='img/inspection.jpg') %}
+{% set img_construction = url_for('static', filename='img/construction.jpg') %}
+{% set img_supply = url_for('static', filename='img/supply.jpg') %}
 
 <!-- Hero -->
 <section class="relative min-h-screen overflow-hidden text-center flex items-center">
@@ -22,102 +28,62 @@
   <a href="/get-in-touch" class="rounded-2xl border border-white/60 text-white px-6 py-3 text-sm font-medium transition" style="background:#030C69; border:none;">Request a proposal</a>
     </div>
     <div class="mt-14 grid gap-6 sm:grid-cols-3 text-center hero-cards">
-    <a href="{{ url_for('main.services_manpower') }}"
-  class="group no-underline relative block rounded-2xl border bg-white p-2 shadow-sm overflow-hidden hover:shadow-md transition rm-safe text-center h-28 sm:h-36">
-  <!-- Hover image -->
-  <img src="{{ url_for('static', filename='img/2584721_XL.jpg') }}"
-       alt="Professional & Technical Manpower"
-       class="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-0 scale-105
-              transition duration-500 ease-out group-hover:opacity-100 group-hover:scale-100">
-  <!-- Overlay -->
-  <div class="pointer-events-none absolute inset-0 bg-black/0 transition duration-500 ease-out
-              group-hover:bg-black/35"></div>
-  <!-- Text (centered) -->
-  <div class="relative z-10 flex flex-col items-center justify-center h-full transition duration-500 ease-out">
-  <div class="text-lg font-semibold no-underline group-hover:no-underline transition-colors duration-200 ease-out group-hover:text-white">PROFESSIONAL & TECHNICAL MANPOWER SERVICES</div>
-  <p class="text-sm text-slate-600 transition-opacity duration-200 ease-out group-hover:opacity-0">Skilled manpower for engineering and technical projects.</p>
-  </div>
-</a>
-<a href="{{ url_for('main.services_engineering') }}"
-  class="group no-underline relative block rounded-2xl border bg-white p-2 shadow-sm overflow-hidden hover:shadow-md transition rm-safe text-center h-28 sm:h-36">
-  <!-- Hover image -->
-  <img src="{{ url_for('static', filename='img/eng.jpg') }}"
-       alt="Professional & Technical Manpower"
-       class="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-0 scale-105
-              transition duration-500 ease-out group-hover:opacity-100 group-hover:scale-100">
-  <!-- Overlay -->
-  <div class="pointer-events-none absolute inset-0 bg-black/0 transition duration-500 ease-out
-              group-hover:bg-black/35"></div>
-  <!-- Text (centered) -->
-  <div class="relative z-10 flex flex-col items-center justify-center h-full transition duration-500 ease-out">
-  <div class="text-lg font-semibold no-underline group-hover:no-underline transition-colors duration-200 ease-out group-hover:text-white">ENGINEERING SOLUTIONS</div>
-  <p class="text-sm text-slate-600 transition-opacity duration-200 ease-out group-hover:opacity-0">Engineering design, 3D modelling, and consultancy.</p>
-  </div>
-</a>
-<a href="{{ url_for('main.services_digital') }}"
-  class="group no-underline relative block rounded-2xl border bg-white p-2 shadow-sm overflow-hidden hover:shadow-md transition rm-safe text-center h-28 sm:h-36">
-  <!-- Hover image -->
-  <img src="{{ url_for('static', filename='img/digital.jpg') }}"
-       alt="Professional & Technical Manpower"
-       class="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-0 scale-105
-              transition duration-500 ease-out group-hover:opacity-100 group-hover:scale-100">
-  <!-- Overlay -->
-  <div class="pointer-events-none absolute inset-0 bg-black/0 transition duration-500 ease-out
-              group-hover:bg-black/35"></div>
-  <!-- Text (centered) -->
-  <div class="relative z-10 flex flex-col items-center justify-center h-full transition duration-500 ease-out">
-  <div class="text-lg font-semibold no-underline group-hover:no-underline transition-colors duration-200 ease-out group-hover:text-white">DIGITAL SOLUTIONS & CYBERSECURITY CONSULTANCY</div>
-  <p class="text-sm text-slate-600 transition-opacity duration-200 ease-out group-hover:opacity-0">Digital solutions and cybersecurity expertise.</p>
-  </div>
-</a>
-<a href="{{ url_for('main.services_inspection') }}"
-  class="group no-underline relative block rounded-2xl border bg-white p-2 shadow-sm overflow-hidden hover:shadow-md transition rm-safe text-center h-28 sm:h-36">
-  <!-- Hover image -->
-  <img src="{{ url_for('static', filename='img/inspection.jpg') }}"
-       alt="Professional & Technical Manpower"
-       class="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-0 scale-105
-              transition duration-500 ease-out group-hover:opacity-100 group-hover:scale-100">
-  <!-- Overlay -->
-  <div class="pointer-events-none absolute inset-0 bg-black/0 transition duration-500 ease-out
-              group-hover:bg-black/35"></div>
-  <!-- Text (centered) -->
-  <div class="relative z-10 flex flex-col items-center justify-center h-full transition duration-500 ease-out">
-  <div class="text-lg font-semibold no-underline group-hover:no-underline transition-colors duration-200 ease-out group-hover:text-white">SPECIALIZED INSPECTION SERVICES</div>
-  <p class="text-sm text-slate-600 transition-opacity duration-200 ease-out group-hover:opacity-0">Industrial inspection for safety and compliance.</p>
-  </div>
-</a>
-<a href="{{ url_for('main.services_construction') }}"
-  class="group no-underline relative block rounded-2xl border bg-white p-2 shadow-sm overflow-hidden hover:shadow-md transition rm-safe text-center h-28 sm:h-36">
-  <!-- Hover image -->
-  <img src="{{ url_for('static', filename='img/construction.jpg') }}"
-       alt="Professional & Technical Manpower"
-       class="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-0 scale-105
-              transition duration-500 ease-out group-hover:opacity-100 group-hover:scale-100">
-  <!-- Overlay -->
-  <div class="pointer-events-none absolute inset-0 bg-black/0 transition duration-500 ease-out
-              group-hover:bg-black/35"></div>
-  <!-- Text (centered) -->
-  <div class="relative z-10 flex flex-col items-center justify-center h-full transition duration-500 ease-out">
-  <div class="text-lg font-semibold no-underline group-hover:no-underline transition-colors duration-200 ease-out group-hover:text-white">GENERAL CONSTRUCTION SERVICES</div>
-  <p class="text-sm text-slate-600 transition-opacity duration-200 ease-out group-hover:opacity-0">Industrial construction and infrastructure works.</p>
-  </div>
-</a>
-<a href="{{ url_for('main.services_supply') }}"
-  class="group no-underline relative block rounded-2xl border bg-white p-2 shadow-sm overflow-hidden hover:shadow-md transition rm-safe text-center h-28 sm:h-36">
-  <!-- Hover image -->
-  <img src="{{ url_for('static', filename='img/supply.jpg') }}"
-       alt="Professional & Technical Manpower"
-       class="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-0 scale-105
-              transition duration-500 ease-out group-hover:opacity-100 group-hover:scale-100">
-  <!-- Overlay -->
-  <div class="pointer-events-none absolute inset-0 bg-black/0 transition duration-500 ease-out
-              group-hover:bg-black/35"></div>
-  <!-- Text (centered) -->
-  <div class="relative z-10 flex flex-col items-center justify-center h-full transition duration-500 ease-out">
-  <div class="text-lg font-semibold no-underline group-hover:no-underline transition-colors duration-200 ease-out group-hover:text-white">SUPPLY & TRADING</div>
-  <p class="text-sm text-slate-600 transition-opacity duration-200 ease-out group-hover:opacity-0">IT supply, logistics, and trading support.</p>
-  </div>
-</a>
+    <a href="{{ url_for('main.services_manpower') }}" class="group no-underline relative block rounded-2xl overflow-hidden shadow-lg bg-white/20 backdrop-blur-sm border border-transparent hover:border-indigo-100 transition-transform duration-300 ease-out hover:scale-105 hover:-translate-y-1 text-center h-28 sm:h-36">
+      <!-- Background image -->
+  <div class="absolute inset-0 bg-cover bg-center transform transition-transform duration-500 group-hover:scale-105" style="background-image: url('{{ img_manpower }}');"></div>
+      <!-- Gradient overlay -->
+      <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/20 group-hover:from-black/50"></div>
+  <!-- Accent badge removed -->
+      <!-- Text (centered) -->
+      <div class="relative z-20 flex items-center justify-center h-full">
+        <div class="text-white text-base sm:text-lg font-semibold drop-shadow-md">PROFESSIONAL & TECHNICAL MANPOWER</div>
+      </div>
+    </a>
+
+    <a href="{{ url_for('main.services_engineering') }}" class="group no-underline relative block rounded-2xl overflow-hidden shadow-lg bg-white/20 backdrop-blur-sm border border-transparent hover:border-indigo-100 transition-transform duration-300 ease-out hover:scale-105 hover:-translate-y-1 text-center h-28 sm:h-36">
+  <div class="absolute inset-0 bg-cover bg-center transform transition-transform duration-500 group-hover:scale-105" style="background-image: url('{{ img_engineering }}');"></div>
+      <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/20 group-hover:from-black/50"></div>
+  <!-- Accent badge removed -->
+      <div class="relative z-20 flex items-center justify-center h-full">
+        <div class="text-white text-base sm:text-lg font-semibold drop-shadow-md">ENGINEERING SOLUTIONS</div>
+      </div>
+    </a>
+
+    <a href="{{ url_for('main.services_digital') }}" class="group no-underline relative block rounded-2xl overflow-hidden shadow-lg bg-white/20 backdrop-blur-sm border border-transparent hover:border-indigo-100 transition-transform duration-300 ease-out hover:scale-105 hover:-translate-y-1 text-center h-28 sm:h-36">
+  <div class="absolute inset-0 bg-cover bg-center transform transition-transform duration-500 group-hover:scale-105" style="background-image: url('{{ img_digital }}');"></div>
+      <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/20 group-hover:from-black/50"></div>
+  <!-- Accent badge removed -->
+      <div class="relative z-20 flex items-center justify-center h-full">
+        <div class="text-white text-base sm:text-lg font-semibold drop-shadow-md">DIGITAL SOLUTIONS & CYBERSECURITY</div>
+      </div>
+    </a>
+
+    <a href="{{ url_for('main.services_inspection') }}" class="group no-underline relative block rounded-2xl overflow-hidden shadow-lg bg-white/20 backdrop-blur-sm border border-transparent hover:border-indigo-100 transition-transform duration-300 ease-out hover:scale-105 hover:-translate-y-1 text-center h-28 sm:h-36">
+  <div class="absolute inset-0 bg-cover bg-center transform transition-transform duration-500 group-hover:scale-105" style="background-image: url('{{ img_inspection }}');"></div>
+      <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/20 group-hover:from-black/50"></div>
+  <!-- Accent badge removed -->
+      <div class="relative z-20 flex items-center justify-center h-full">
+        <div class="text-white text-base sm:text-lg font-semibold drop-shadow-md">SPECIALIZED INSPECTION</div>
+      </div>
+    </a>
+
+    <a href="{{ url_for('main.services_construction') }}" class="group no-underline relative block rounded-2xl overflow-hidden shadow-lg bg-white/20 backdrop-blur-sm border border-transparent hover:border-indigo-100 transition-transform duration-300 ease-out hover:scale-105 hover:-translate-y-1 text-center h-28 sm:h-36">
+  <div class="absolute inset-0 bg-cover bg-center transform transition-transform duration-500 group-hover:scale-105" style="background-image: url('{{ img_construction }}');"></div>
+      <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/20 group-hover:from-black/50"></div>
+  <!-- Accent badge removed -->
+      <div class="relative z-20 flex items-center justify-center h-full">
+        <div class="text-white text-base sm:text-lg font-semibold drop-shadow-md">GENERAL CONSTRUCTION</div>
+      </div>
+    </a>
+
+    <a href="{{ url_for('main.services_supply') }}" class="group no-underline relative block rounded-2xl overflow-hidden shadow-lg bg-white/20 backdrop-blur-sm border border-transparent hover:border-indigo-100 transition-transform duration-300 ease-out hover:scale-105 hover:-translate-y-1 text-center h-28 sm:h-36">
+  <div class="absolute inset-0 bg-cover bg-center transform transition-transform duration-500 group-hover:scale-105" style="background-image: url('{{ img_supply }}');"></div>
+      <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/20 group-hover:from-black/50"></div>
+  <!-- Accent badge removed -->
+      <div class="relative z-20 flex items-center justify-center h-full">
+        <div class="text-white text-base sm:text-lg font-semibold drop-shadow-md">SUPPLY & TRADING</div>
+      </div>
+    </a>
     </div>
   </div>
 </section>
