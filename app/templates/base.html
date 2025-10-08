@@ -19,6 +19,20 @@
     /* Small helper: apply Montserrat to elements that opt-in */
     .font-montserrat { font-family: 'Montserrat', Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; }
   </style>
+  <style>
+    /* Mobile header tweaks: hide desktop nav, show hamburger, tighten logo */
+    @media (max-width: 640px){
+      .nav-links{ display: none !important; }
+      .nav-links a{ display: none !important; }
+      .nav-toggle{ display: inline-flex !important; position: absolute !important; right: 14px; top: 10px; z-index:60 !important; }
+      /* ensure header uses a simple flex layout on small screens so branding stays left and toggle right */
+      .nav-bar{ display:flex !important; grid-template-columns: none !important; justify-content:space-between !important; align-items:center !important; }
+      .branding-logo{ max-height:44px !important; width:auto !important; display:block !important; visibility:visible !important; }
+      .site-header{ padding-top:0.25rem; padding-bottom:0.25rem; background: rgba(255,255,255,0.92); }
+      /* ensure mobile panel is full width when opened */
+      .mobile-panel{ inset:0 0 auto 0; }
+    }
+  </style>
   <!-- Core layered styles -->
   <!-- Favicons -->
   <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='img/logo/KLSB_icon.png') }}">
@@ -50,7 +64,7 @@
         </div>
 
         <!-- Primary navigation (centered) -->
-        <nav class="nav-links flex justify-center" aria-label="Main navigation">
+  <nav class="nav-links hidden sm:flex justify-center" aria-label="Main navigation">
           <a href="/" class="nav-link" data-nav>Home</a>
           <a href="/services" class="nav-link" data-nav>Services</a>
           <div class="relative group" data-nav-parent>
@@ -97,13 +111,19 @@
       <nav aria-label="Mobile navigation">
         <ul class="mobile-nav-links">
           <li><a href="/services" data-nav>Services</a></li>
-          <li><a href="{{ url_for('main.services_inspection') }}" data-nav>Inspection</a></li>
-          <li><a href="{{ url_for('main.services_construction') }}" data-nav>Construction</a></li>
-          <li><a href="{{ url_for('main.services_supply') }}" data-nav>Supply</a></li>
+          <!-- About Us group: mirrored from desktop dropdown -->
           <li><a href="{{ url_for('main.services_manpower') }}" data-nav>Manpower</a></li>
           <li><a href="{{ url_for('main.services_engineering') }}" data-nav>Engineering</a></li>
           <li><a href="{{ url_for('main.services_digital') }}" data-nav>Digital</a></li>
-          <li><a href="{{ url_for('main.profile') }}" data-nav>Profile</a></li>
+          <li><a href="{{ url_for('main.services_inspection') }}" data-nav>Inspection</a></li>
+          <li><a href="{{ url_for('main.services_construction') }}" data-nav>Construction</a></li>
+          <li><a href="{{ url_for('main.services_supply') }}" data-nav>Supply</a></li>
+          <li class="mobile-group-heading text-xs text-slate-400 mt-2 px-1">About Us</li>
+          <li><a href="/about/overview" data-nav>Overview</a></li>
+          <li><a href="/about/focus" data-nav>Focus</a></li>
+          <li><a href="/about/management" data-nav>Management</a></li>
+          <li><a href="/about/affiliations" data-nav>Affiliations</a></li>
+          <li><a href="/about/license-registration" data-nav>License &amp; Registration</a></li>
           <li><a href="{{ url_for('main.projects') }}" data-nav>Projects</a></li>
           {% if not hide_contact_cta %}
           <li><a href="/contact" data-nav>Contact</a></li>
