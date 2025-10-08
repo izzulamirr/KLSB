@@ -1,9 +1,7 @@
 // board-modals.js - page-scoped modal handlers for About → Board
 (function(){
-  const board = document.getElementById('board');
-  if(!board) return;
-
-  const targets = Array.from(board.querySelectorAll('[data-modal-target]'));
+  // find all modal triggers on the page (directors and managers)
+  const targets = Array.from(document.querySelectorAll('[data-modal-target]'));
   if(targets.length === 0) return;
 
   function buildModalFromSource(sourceEl){
@@ -68,7 +66,7 @@
     document.addEventListener('keydown', onKey);
 
     // ensure title has an id for aria-labelledby
-    const title = content.querySelector('.modal-title');
+    const title = bodyWrap.querySelector('.modal-title');
     if(title){
       const titleId = 'modal-title-' + Math.random().toString(36).slice(2,9);
       title.id = titleId;

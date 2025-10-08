@@ -1,10 +1,13 @@
 {% extends "base.html" %}
 {% block title %}KLSB — Engineering Services{% endblock %}
+{% set hero_bg = url_for('static', filename='img/eng.jpg') %}
+{% set eng3_bg = url_for('static', filename='img/eng_2.jpg') %}
+{% set eng_consult_bg = url_for('static', filename='img/eng_consult.jpg') %}
+{% set awp_bg = url_for('static', filename='img/AWP.jpeg') %}
 {% block content %}
 
-
 <section class="relative min-h-[280px] sm:min-h-[340px] flex items-center justify-center text-center">
-  <div class="absolute inset-0 -z-10 bg-cover bg-center" style="background-image: url('{{ url_for('static', filename='img/2584721_XL.jpg') }}');"></div>
+  <div class="absolute inset-0 -z-10 bg-cover bg-center" style="background-image: url('{{ hero_bg }}');"></div>
   <div class="absolute inset-0 -z-10 bg-black/40"></div>
 </div>
   <div class="w-full px-4 sm:px-6 lg:px-8 py-16 flex flex-col items-center justify-center">
@@ -31,10 +34,15 @@
     <div class="space-y-12 text-left">
 
       <!-- Engineering Consultancy -->
-  <section class="rounded-2xl border bg-indigo-50 text-indigo-900 p-6 shadow-sm border-indigo-100">
-        <h2 class="text-2xl font-semibold text-center mb-2">Engineering Consultancy</h2>
+      <section class="rounded-2xl border bg-white p-6 shadow-sm relative overflow-hidden">
+        <!-- clearer image: remove image opacity and soften overlays -->
+        <div class="absolute inset-0 z-0 bg-cover bg-center" style="background-image: url('{{ eng_consult_bg }}'); opacity: 1;"></div>
+          <div class="absolute inset-0 z-10 bg-gradient-to-r from-black/70 to-transparent opacity-60 pointer-events-none"></div>
+          <div class="absolute inset-0 z-10 bg-gradient-to-t from-black/40 via-transparent to-black/25 opacity-50 pointer-events-none"></div>
+        <div class="relative z-20">
+  <h2 class="text-2xl font-semibold text-center mb-2 text-white drop-shadow-lg">Engineering Consultancy</h2>
         <div class="grid sm:grid-cols-2 gap-6">
-          <div>
+          <div class="rounded-xl bg-indigo-100 p-4">
             <h3 class="font-semibold">Piping Engineering</h3>
             <ul class="mt-2 list-disc list-inside text-indigo-800 space-y-1">
               <li>Piping Engineering & Layout Design</li>
@@ -48,7 +56,7 @@
               <li>3D as-built</li>
             </ul>
           </div>
-          <div>
+          <div class="rounded-xl bg-indigo-100 p-4">
             <h3 class="font-semibold">Mechanical Engineering</h3>
             <ul class="mt-2 list-disc list-inside text-indigo-800 space-y-1">
               <li>Mechanical Design in static & Rotating Equipment</li>
@@ -60,16 +68,19 @@
             </ul>
           </div>
         </div>
+        </div>
       </section>
 
-      <!-- 3D Modelling -->
-  <section class="rounded-2xl border bg-indigo-50 text-indigo-900 p-6 shadow-sm border-indigo-100">
+  <!-- 3D Modelling -->
+  <section class="rounded-2xl border bg-white p-6 shadow-sm relative overflow-hidden">
+  <div class="absolute inset-0 z-0 bg-cover bg-center" style="background-image: url('{{ eng3_bg }}'); opacity: .25;"></div>
+  <div class="relative z-10">
         <h2 class="text-2xl font-semibold text-center mb-2">3D Modelling</h2>
   <p class="text-indigo-800 text-center mb-5">
           Advanced modelling across Autodesk, AVEVA, Hexagon, Dassault, SketchUp ecosystems to support planning, design and execution.
         </p>
         <div class="grid lg:grid-cols-2 gap-6">
-          <div>
+          <div class="rounded-xl bg-indigo-100 p-4">
             <h3 class="font-semibold">Oil &amp; Gas</h3>
             <ul class="mt-2 list-disc list-inside text-indigo-800 space-y-1">
               <li>Pipeline systems (layout, design, analysis)</li>
@@ -84,7 +95,7 @@
               <li>Models for upgrades &amp; maintenance planning</li>
             </ul>
           </div>
-          <div>
+          <div class="rounded-xl bg-indigo-100 p-4">
             <h3 class="font-semibold">Petrochemical</h3>
             <ul class="mt-2 list-disc list-inside text-indigo-800 space-y-1">
               <li>Process plants (reactors, separators, heat exchangers)</li>
@@ -101,16 +112,17 @@
             </ul>
           </div>
         </div>
+    </div>
       </section>
 
       <h1 class="text-3xl sm:text-4xl font-bold mb-6">Engineering Software Solutions</h1>
 
-      <!-- Engineering Consultancy -->
-  <section class="rounded-2xl border bg-indigo-50 text-indigo-900 p-6 shadow-sm border-indigo-100">
+  <!-- Engineering Consultancy -->
+  <section class="rounded-2xl border bg-white p-6 shadow-sm">
         <h2 class="text-2xl font-semibold text-center mb-2">List of Software</h2>
         <div class="grid sm:grid-cols-2 gap-6">
-          <div>
-            <ul class="mt-2 list-disc list-inside text-indigo-800 space-y-1">
+          <div class="rounded-xl bg-indigo-100 p-4">
+            <ul class="mt-2 list-disc list-inside text-slate-700 space-y-1">
               <li>AVEVA PDMS</li>
               <li>AVEVA E3D</li>
               <li>AVEVA P&ID</li>
@@ -118,16 +130,16 @@
               <li>AVEVA Instrument</li>
             </ul>
           </div>
-          <div>
-            <ul class="mt-2 list-disc list-inside text-indigo-800 space-y-1">
+          <div class="rounded-xl bg-indigo-100 p-4">
+            <ul class="mt-2 list-disc list-inside text-slate-700 space-y-1">
               <li>Smart Plant 3D (SP3D)</li>
               <li>Smart Plant P&ID (SPPID)</li>
               <li>Smart Plant Instrumentation (SPI)</li>
               <li>Smart Plant Electrical (SPEL)</li>
             </ul>
           </div>
-          <div>
-            <ul class="mt-2 list-disc list-inside text-indigo-800 space-y-1">
+          <div class="rounded-xl bg-indigo-100 p-4">
+            <ul class="mt-2 list-disc list-inside text-slate-700 space-y-1">
               <li>AutoCAD Plant 3D</li>
               <li>BOCAD</li>
               <li>CEASAR 2 (Pipe Stress)</li>
@@ -137,56 +149,72 @@
         </div>
       </section>
 
-      <!-- AVEVA Solutions -->
-  <section class="rounded-2xl border bg-indigo-50 text-indigo-900 p-6 shadow-sm border-indigo-100">
+  <!-- AVEVA Solutions -->
+  <section class="rounded-2xl border bg-white p-6 shadow-sm">
         <h2 class="text-2xl font-semibold text-center mb-2">AVEVA Solutions</h2>
   <p class="text-indigo-800 text-center mb-5">We're proud to be a <strong>Specialist Solutions Provider (SSP) of AVEVA</strong>, a global leader in engineering and industrial software.
         </p>
-  <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 text-indigo-800">
-          <div class="rounded-xl border p-4">
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 text-slate-700">
+          <div class="rounded-xl bg-indigo-100 p-4">
             <h3 class="font-semibold">Implementation Expertise</h3>
             <p class="mt-2 text-sm">Seamless deployments and optimal use of the AVEVA stack.</p>
           </div>
-          <div class="rounded-xl border p-4">
+          <div class="rounded-xl bg-indigo-100 p-4">
             <h3 class="font-semibold">Tailored Solutions</h3>
             <p class="mt-2 text-sm">Aligned to your objectives and operational context.</p>
           </div>
-          <div class="rounded-xl border p-4">
+          <div class="rounded-xl bg-indigo-100 p-4">
             <h3 class="font-semibold">End-to-End Support</h3>
             <p class="mt-2 text-sm">Consultation through implementation and optimisation.</p>
           </div>
-          <div class="rounded-xl border p-4">
+          <div class="rounded-xl bg-indigo-100 p-4">
             <h3 class="font-semibold">Innovative &amp; Current</h3>
             <p class="mt-2 text-sm">Leveraging the latest AVEVA features and updates.</p>
           </div>
-          <div class="rounded-xl border p-4">
+          <div class="rounded-xl bg-indigo-100 p-4">
             <h3 class="font-semibold">Strong Partnership</h3>
             <p class="mt-2 text-sm">Close collaboration for best practices and insights.</p>
           </div>
-          <div class="rounded-xl border p-4">
+          <div class="rounded-xl bg-indigo-100 p-4">
             <h3 class="font-semibold">Proven Track Record</h3>
             <p class="mt-2 text-sm">Successful projects with dedicated customer support.</p>
           </div>
         </div>
       </section>
 
+      <section id="clients" class="py-20 bg-slate-50 text-center">
+  <div class="max-w-6xl mx-auto px-6">
+    <h2 class="text-3xl font-semibold"> AVEVA CERTIFICATE</h2>
+    <div class="mt-8 flex justify-center">
+      <img src="{{ url_for('static', filename='img/AVEVA.jpg') }}" alt="Major client" class="w-full max-w-4xl mx-auto rounded-lg shadow-lg object-contain">
+    </div>
+  </div>
+</section>
+
       <!-- AWP -->
-  <section class="rounded-2xl border bg-indigo-50 text-indigo-900 p-6 shadow-sm border-indigo-100">
+      <section class="rounded-2xl border bg-white p-6 shadow-sm relative overflow-hidden">
+        <div class="absolute inset-0 z-0 bg-cover bg-center" style="background-image: url('{{ awp_bg }}'); opacity: .25;"></div>
+        <div class="relative z-10">
         <h2 class="text-2xl font-semibold text-center mb-2">Advanced Work Packaging (AWP)</h2>
   <p class="text-indigo-800 text-center mb-5">
           Structured project execution through defined work packages, integrated planning and data-driven readiness for efficient delivery.
         </p>
         <div class="grid sm:grid-cols-2 gap-6">
-          <ul class="list-disc list-inside text-indigo-800 space-y-1">
-            <li>Work Packaging with clear scope, deliverables &amp; requirements</li>
-            <li>Integrated Planning across disciplines and stakeholders</li>
-            <li>Data &amp; Information Management across design, procurement, construction</li>
-          </ul>
-          <ul class="list-disc list-inside text-indigo-800 space-y-1">
-            <li>Execution Readiness (resources, materials, information in place)</li>
-            <li>Performance Monitoring for schedule, cost &amp; progress control</li>
-            <li>Consultancy, implementation &amp; tailored training programmes</li>
-          </ul>
+          <div class="rounded-xl bg-indigo-100 p-4">
+            <ul class="list-disc list-inside text-slate-700 space-y-1">
+              <li>Work Packaging with clear scope, deliverables &amp; requirements</li>
+              <li>Integrated Planning across disciplines and stakeholders</li>
+              <li>Data &amp; Information Management across design, procurement, construction</li>
+            </ul>
+          </div>
+          <div class="rounded-xl bg-indigo-100 p-4">
+            <ul class="list-disc list-inside text-slate-700 space-y-1">
+              <li>Execution Readiness (resources, materials, information in place)</li>
+              <li>Performance Monitoring for schedule, cost &amp; progress control</li>
+              <li>Consultancy, implementation &amp; tailored training programmes</li>
+            </ul>
+          </div>
+        </div>
         </div>
       </section>
 

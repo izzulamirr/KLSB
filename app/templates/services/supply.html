@@ -1,10 +1,10 @@
 {% extends "base.html" %}
 {% block title %}KLSB — Supply & Support Services{% endblock %}
+{% set hero_bg = url_for('static', filename='img/supply.jpg') %}
 {% block content %}
 
-
 <section class="relative min-h-[280px] sm:min-h-[340px] flex items-center justify-center text-center">
-  <div class="absolute inset-0 -z-10 bg-cover bg-center" style="background-image: url('{{ url_for('static', filename='img/2584721_XL.jpg') }}');"></div>
+  <div class="absolute inset-0 -z-10 bg-cover bg-center" style="background-image: url('{{ hero_bg }}');"></div>
   <div class="absolute inset-0 -z-10 bg-black/40"></div>
 </div>
   <div class="w-full px-4 sm:px-6 lg:px-8 py-16 flex flex-col items-center justify-center">
@@ -35,20 +35,22 @@
         <p class="text-slate-600 text-center mb-5">
           Wide selection from leading brands with expert guidance and timely delivery.
         </p>
-        <div class="grid sm:grid-cols-2 gap-6">
-          <ul class="list-disc list-inside text-slate-700 space-y-1">
-            <li>Computers, workstations, laptops &amp; monitors</li>
-            <li>Servers, storage &amp; networking devices</li>
-            <li>Printers, scanners &amp; specialized peripherals</li>
-            <li>Keyboards, mice, headsets &amp; accessories</li>
-          </ul>
-          <div class="rounded-xl border p-4 text-sm">
-            <h3 class="font-semibold">Why us?</h3>
-            <ul class="mt-2 list-disc list-inside space-y-1">
-              <li>Tailored recommendations &amp; expert advice</li>
-              <li>Competitive pricing and dependable lead times</li>
-              <li>After-sales support &amp; technical assistance</li>
+        <div class="rounded-xl bg-indigo-50 p-4 mt-3">
+          <div class="grid sm:grid-cols-2 gap-6">
+            <ul class="list-disc list-inside text-slate-700 space-y-1">
+              <li>Computers, workstations, laptops &amp; monitors</li>
+              <li>Servers, storage &amp; networking devices</li>
+              <li>Printers, scanners &amp; specialized peripherals</li>
+              <li>Keyboards, mice, headsets &amp; accessories</li>
             </ul>
+            <div class="rounded-xl bg-indigo-50 p-4 text-sm">
+              <h3 class="font-semibold">Why us?</h3>
+              <ul class="mt-2 list-disc list-inside space-y-1">
+                <li>Tailored recommendations &amp; expert advice</li>
+                <li>Competitive pricing and dependable lead times</li>
+                <li>After-sales support &amp; technical assistance</li>
+              </ul>
+            </div>
           </div>
         </div>
       </section>
@@ -59,20 +61,22 @@
         <p class="text-slate-600 text-center mb-5">
           End-to-end planning and on-site coordination for corporate and technical events.
         </p>
-        <div class="grid sm:grid-cols-2 gap-6">
-          <ul class="list-disc list-inside text-slate-700 space-y-1">
-            <li>Concept development &amp; program design</li>
-            <li>Venue selection &amp; vendor management</li>
-            <li>Logistics, registration &amp; on-site ops</li>
-            <li>AV support, catering &amp; collateral</li>
-          </ul>
-          <div class="rounded-xl border p-4 text-sm">
-            <h3 class="font-semibold">Benefits</h3>
-            <ul class="mt-2 list-disc list-inside space-y-1">
-              <li>Meticulous planning &amp; flawless execution</li>
-              <li>Customised to brand and objectives</li>
-              <li>Established supplier network &amp; cost control</li>
+        <div class="rounded-xl bg-indigo-50 p-4 mt-3">
+          <div class="grid sm:grid-cols-2 gap-6">
+            <ul class="list-disc list-inside text-slate-700 space-y-1">
+              <li>Concept development &amp; program design</li>
+              <li>Venue selection &amp; vendor management</li>
+              <li>Logistics, registration &amp; on-site ops</li>
+              <li>AV support, catering &amp; collateral</li>
             </ul>
+            <div class="rounded-xl bg-indigo-50 p-4 text-sm">
+              <h3 class="font-semibold">Benefits</h3>
+              <ul class="mt-2 list-disc list-inside space-y-1">
+                <li>Meticulous planning &amp; flawless execution</li>
+                <li>Customised to brand and objectives</li>
+                <li>Established supplier network &amp; cost control</li>
+              </ul>
+            </div>
           </div>
         </div>
       </section>
@@ -83,19 +87,21 @@
         <p class="text-slate-600 text-center mb-5">
           Efficient interfacing with regulatory bodies (e.g., BOMBA, DOSH) to keep projects compliant and on schedule.
         </p>
-        <div class="grid sm:grid-cols-2 gap-6">
-          <ul class="list-disc list-inside text-slate-700 space-y-1">
-            <li>Permits, certifications &amp; approvals</li>
-            <li>Regulatory submissions &amp; clarifications</li>
-            <li>Issue resolution &amp; proactive compliance</li>
-          </ul>
-          <div class="rounded-xl border p-4 text-sm">
-            <h3 class="font-semibold">What you gain</h3>
-            <ul class="mt-2 list-disc list-inside space-y-1">
-              <li>Experienced guidance in complex requirements</li>
-              <li>Streamlined processes &amp; shorter cycle times</li>
-              <li>Established relationships with agencies</li>
+        <div class="rounded-xl bg-indigo-50 p-4 mt-3">
+          <div class="grid sm:grid-cols-2 gap-6">
+            <ul class="list-disc list-inside text-slate-700 space-y-1">
+              <li>Permits, certifications &amp; approvals</li>
+              <li>Regulatory submissions &amp; clarifications</li>
+              <li>Issue resolution &amp; proactive compliance</li>
             </ul>
+            <div class="rounded-xl bg-indigo-50 p-4 text-sm">
+              <h3 class="font-semibold">What you gain</h3>
+              <ul class="mt-2 list-disc list-inside space-y-1">
+                <li>Experienced guidance in complex requirements</li>
+                <li>Streamlined processes &amp; shorter cycle times</li>
+                <li>Established relationships with agencies</li>
+              </ul>
+            </div>
           </div>
         </div>
       </section>

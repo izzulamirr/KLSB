@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 120" width="320" height="120" aria-label="Why Choose KLSB Logo">
+  <defs>
+    <linearGradient id="klsbIndigo" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0341c9"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+  </defs>
+  <rect x="0" y="0" width="320" height="120" rx="24" fill="url(#klsbIndigo)"/>
+  <text x="50%" y="54%" text-anchor="middle" font-size="38" font-family="Segoe UI, Arial, sans-serif" font-weight="bold" fill="#fff" letter-spacing="2">
+    KLSB
+  </text>
+  <text x="50%" y="80%" text-anchor="middle" font-size="22" font-family="Segoe UI, Arial, sans-serif" fill="#b3c7f9">
+    Why Choose Us
+  </text>
+  <circle cx="40" cy="40" r="18" fill="#fff" opacity="0.18"/>
+  <circle cx="280" cy="90" r="14" fill="#fff" opacity="0.12"/>
+</svg>

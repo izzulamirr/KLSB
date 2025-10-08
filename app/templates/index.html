@@ -1,14 +1,51 @@
 {% extends "base.html" %}
 {% block title %}Kemuncak Lanai{% endblock %}
+{% block extra_head %}
+<style>
+  /* Keep hero card titles consistent across breakpoints
+     - vertically centered (already handled by flex)
+     - force single-line appearance on mobile to preserve layout
+     - use clamp() so text scales moderately between mobile and desktop
+  */
+  .hero-cards .hero-card-title{
+    /* allow up to two lines, then truncate - keeps layout but shows more of long titles */
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    overflow: hidden;
+    white-space: normal;
+    text-overflow: ellipsis;
+    text-align: center;
+  font-size: clamp(0.95rem, 3.2vw, 1.125rem) !important;
+  line-height: 1.15 !important;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+    padding: 0 0.75rem;
+    max-height: calc(1.15em * 2); /* ensures container doesn't grow beyond two lines */
+  }
+  /* Slight tweak for very narrow screens so the title has a tiny bit more breathing room */
+  @media (max-width:420px){
+    .hero-cards .hero-card-title{ font-size: 0.95rem !important; }
+  }
+</style>
+{% endblock %}
+
 {% block content %}
 {% set hero_image = url_for('static', filename='img/hero.jpg') %}
+{% set img_manpower = url_for('static', filename='img/2584721_XL.jpg') %}
+{% set img_engineering = url_for('static', filename='img/eng.jpg') %}
+{% set img_digital = url_for('static', filename='img/digital.jpeg') %}
+{% set img_inspection = url_for('static', filename='img/inspection.jpg') %}
+{% set img_construction = url_for('static', filename='img/construction.jpg') %}
+{% set img_supply = url_for('static', filename='img/supply.jpg') %}
 
 <!-- Hero -->
 <section class="relative min-h-screen overflow-hidden text-center flex items-center">
-  <div class="absolute inset-0 -z-10 bg-cover bg-center" style="background-image: url('{{ hero_image }}');"></div>
+  <div class="absolute inset-0 -z-10 bg-cover bg-center" style="background-image: url('{{ hero_image }}'); background-position: center center;"></div>
   <div class="absolute inset-0 -z-10 bg-black/50"></div>
   <div class="w-full max-w-5xl mx-auto px-6 py-28">
-    <h1 class="text-4xl sm:text-6xl uppercase font-bold text-white"
+  <h1 class="text-4xl sm:text-6xl uppercase font-bold text-white font-montserrat"
     style="text-shadow: 0 0 6px rgba(173, 216, 230, 0.8),   /* lightblue */
            0 0 12px rgba(173, 216, 230, 0.5),
            0 0 18px rgba(173, 216, 230, 0.3);">Your Partner to Strategic Value Creation</h1>
@@ -22,96 +59,78 @@
   <a href="/get-in-touch" class="rounded-2xl border border-white/60 text-white px-6 py-3 text-sm font-medium transition" style="background:#030C69; border:none;">Request a proposal</a>
     </div>
   <div class="mt-14 grid gap-6 sm:grid-cols-3 text-center hero-cards">
-      <a href="{{ url_for('main.services_manpower') }}"
-   class="group relative block rounded-2xl border bg-white p-6 shadow-sm overflow-hidden hover:shadow-md transition rm-safe text-center">
-  <!-- Hover image -->
-  <img src="{{ url_for('static', filename='img/2584721_XL.jpg') }}"
-       alt="Professional & Technical Manpower"
-       class="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-0 scale-105
-              transition duration-500 ease-out group-hover:opacity-100 group-hover:scale-100">
-  <!-- Overlay -->
-  <div class="pointer-events-none absolute inset-0 bg-black/0 transition duration-500 ease-out
-              group-hover:bg-black/35"></div>
-  <!-- Text (centered) -->
-  <div class="relative z-10 flex flex-col items-center justify-center h-full transition duration-500 ease-out group-hover:opacity-0">
-    <div class="text-xl font-semibold">PROFESSIONAL & TECHNICAL MANPOWER SERVICES</div>
-  </div>
-</a>
-<a href="{{ url_for('main.services_engineering') }}"
-   class="group relative block rounded-2xl border bg-white p-6 shadow-sm overflow-hidden hover:shadow-md transition rm-safe text-center">
-  <!-- Hover image -->
-  <img src="{{ url_for('static', filename='img/2584721_XL.jpg') }}"
-       alt="Professional & Technical Manpower"
-       class="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-0 scale-105
-              transition duration-500 ease-out group-hover:opacity-100 group-hover:scale-100">
-  <!-- Overlay -->
-  <div class="pointer-events-none absolute inset-0 bg-black/0 transition duration-500 ease-out
-              group-hover:bg-black/35"></div>
-  <!-- Text (centered) -->
-  <div class="relative z-10 flex flex-col items-center justify-center h-full transition duration-500 ease-out group-hover:opacity-0">
-    <div class="text-xl font-semibold">ENGINEERING SOLUTIONS</div>
-  </div>
-</a>
-<a href="{{ url_for('main.services_digital') }}"
-   class="group relative block rounded-2xl border bg-white p-6 shadow-sm overflow-hidden hover:shadow-md transition rm-safe text-center">
-  <!-- Hover image -->
-  <img src="{{ url_for('static', filename='img/2584721_XL.jpg') }}"
-       alt="Professional & Technical Manpower"
-       class="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-0 scale-105
-              transition duration-500 ease-out group-hover:opacity-100 group-hover:scale-100">
-  <!-- Overlay -->
-  <div class="pointer-events-none absolute inset-0 bg-black/0 transition duration-500 ease-out
-              group-hover:bg-black/35"></div>
-  <!-- Text (centered) -->
-  <div class="relative z-10 flex flex-col items-center justify-center h-full transition duration-500 ease-out group-hover:opacity-0">
-    <div class="text-xl font-semibold">DIGITAL SOLUTIONS & CYBERSECURITY CONSULTANCY</div>
-  </div>
-</a>
-<a href="{{ url_for('main.services_inspection') }}"
-   class="group relative block rounded-2xl border bg-white p-6 shadow-sm overflow-hidden hover:shadow-md transition rm-safe text-center">
-  <!-- Hover image -->
-  <img src="{{ url_for('static', filename='img/2584721_XL.jpg') }}"
-       alt="Professional & Technical Manpower"
-       class="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-0 scale-105
-              transition duration-500 ease-out group-hover:opacity-100 group-hover:scale-100">
-  <!-- Overlay -->
-  <div class="pointer-events-none absolute inset-0 bg-black/0 transition duration-500 ease-out
-              group-hover:bg-black/35"></div>
-  <!-- Text (centered) -->
-  <div class="relative z-10 flex flex-col items-center justify-center h-full transition duration-500 ease-out group-hover:opacity-0">
-    <div class="text-xl font-semibold">SPECIALIZED INSPECTION SERVICES</div>
-  </div>
-</a>
-<a href="{{ url_for('main.services_construction') }}"
-   class="group relative block rounded-2xl border bg-white p-6 shadow-sm overflow-hidden hover:shadow-md transition rm-safe text-center">
-  <!-- Hover image -->
-  <img src="{{ url_for('static', filename='img/2584721_XL.jpg') }}"
-       alt="Professional & Technical Manpower"
-       class="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-0 scale-105
-              transition duration-500 ease-out group-hover:opacity-100 group-hover:scale-100">
-  <!-- Overlay -->
-  <div class="pointer-events-none absolute inset-0 bg-black/0 transition duration-500 ease-out
-              group-hover:bg-black/35"></div>
-  <!-- Text (centered) -->
-  <div class="relative z-10 flex flex-col items-center justify-center h-full transition duration-500 ease-out group-hover:opacity-0">
-    <div class="text-xl font-semibold">GENERAL CONSTRUCTION SERVICES</div>
-  </div>
-</a>
-<a href="{{ url_for('main.services_supply') }}"
-   class="group relative block rounded-2xl border bg-white p-6 shadow-sm overflow-hidden hover:shadow-md transition rm-safe text-center">
-  <!-- Hover image -->
-  <img src="{{ url_for('static', filename='img/2584721_XL.jpg') }}"
-       alt="Professional & Technical Manpower"
-       class="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-0 scale-105
-              transition duration-500 ease-out group-hover:opacity-100 group-hover:scale-100">
-  <!-- Overlay -->
-  <div class="pointer-events-none absolute inset-0 bg-black/0 transition duration-500 ease-out
-              group-hover:bg-black/35"></div>
-  <!-- Text (centered) -->
-  <div class="relative z-10 flex flex-col items-center justify-center h-full transition duration-500 ease-out group-hover:opacity-0">
-    <div class="text-xl font-semibold">SUPPLY & TRADING</div>
-  </div>
-</a>
+  <a href="{{ url_for('main.services_manpower') }}" class="group no-underline relative block rounded-2xl overflow-hidden shadow-lg bg-white/20 backdrop-blur-sm border border-transparent hover:border-indigo-100 transition-transform duration-300 ease-out hover:scale-105 hover:-translate-y-1 text-center h-36">
+      <!-- Background image -->
+  <div class="absolute inset-0 bg-cover bg-center transform transition-transform duration-500 group-hover:scale-105" style="background-image: url('{{ img_manpower }}'); background-position: center center;"></div>
+      <!-- Gradient overlay -->
+    <div class="absolute inset-0 z-30 bg-gradient-to-r from-black/70 to-transparent opacity-80 group-hover:opacity-95 pointer-events-none"></div>
+    <div class="absolute inset-0 z-30 bg-gradient-to-t from-black/40 via-transparent to-black/25 group-hover:from-black/60 pointer-events-none"></div>
+  <!-- Accent badge removed -->
+      <!-- Text (centered) -->
+  <div class="relative z-40 flex items-center justify-center h-full">
+  <div class="hero-card-title text-base sm:text-lg font-semibold text-white drop-shadow-md">PROFESSIONAL & TECHNICAL MANPOWER</div>
+    </div>
+    </a>
+
+  <a href="{{ url_for('main.services_engineering') }}" class="group no-underline relative block rounded-2xl overflow-hidden shadow-lg bg-white/20 backdrop-blur-sm border border-transparent hover:border-indigo-100 transition-transform duration-300 ease-out hover:scale-105 hover:-translate-y-1 text-center h-36">
+  <div class="absolute inset-0 bg-cover bg-center transform transition-transform duration-500 group-hover:scale-105" style="background-image: url('{{ img_engineering }}'); background-position: center center;"></div>
+  <div class="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent opacity-40 group-hover:opacity-60 pointer-events-none"></div>
+  <div class="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-black/20 group-hover:from-black/50 pointer-events-none"></div>
+  <div class="absolute inset-0 z-30 bg-gradient-to-r from-black/70 to-transparent opacity-80 group-hover:opacity-95 pointer-events-none"></div>
+  <div class="absolute inset-0 z-30 bg-gradient-to-t from-black/40 via-transparent to-black/25 group-hover:from-black/60 pointer-events-none"></div>
+  <!-- Accent badge removed -->
+    <div class="relative z-40 flex items-center justify-center h-full">
+  <div class="hero-card-title text-base sm:text-lg font-semibold text-white drop-shadow-md">ENGINEERING SOLUTIONS</div>
+    </div>
+    </a>
+
+  <a href="{{ url_for('main.services_digital') }}" class="group no-underline relative block rounded-2xl overflow-hidden shadow-lg bg-white/20 backdrop-blur-sm border border-transparent hover:border-indigo-100 transition-transform duration-300 ease-out hover:scale-105 hover:-translate-y-1 text-center h-36">
+  <div class="absolute inset-0 bg-cover bg-center transform transition-transform duration-500 group-hover:scale-105" style="background-image: url('{{ img_digital }}'); background-position: center center;"></div>
+  <div class="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent opacity-40 group-hover:opacity-60 pointer-events-none"></div>
+  <div class="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-black/20 group-hover:from-black/50 pointer-events-none"></div>
+  <div class="absolute inset-0 z-30 bg-gradient-to-r from-black/70 to-transparent opacity-80 group-hover:opacity-95 pointer-events-none"></div>
+  <div class="absolute inset-0 z-30 bg-gradient-to-t from-black/40 via-transparent to-black/25 group-hover:from-black/60 pointer-events-none"></div>
+  <!-- Accent badge removed -->
+    <div class="relative z-40 flex items-center justify-center h-full">
+  <div class="hero-card-title text-base sm:text-lg font-semibold text-white drop-shadow-md">DIGITAL SOLUTIONS & CYBERSECURITY</div>
+    </div>
+    </a>
+
+  <a href="{{ url_for('main.services_inspection') }}" class="group no-underline relative block rounded-2xl overflow-hidden shadow-lg bg-white/20 backdrop-blur-sm border border-transparent hover:border-indigo-100 transition-transform duration-300 ease-out hover:scale-105 hover:-translate-y-1 text-center h-36">
+  <div class="absolute inset-0 bg-cover bg-center transform transition-transform duration-500 group-hover:scale-105" style="background-image: url('{{ img_inspection }}'); background-position: center center;"></div>
+  <div class="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent opacity-40 group-hover:opacity-60 pointer-events-none"></div>
+  <div class="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-black/20 group-hover:from-black/50 pointer-events-none"></div>
+  <div class="absolute inset-0 z-30 bg-gradient-to-r from-black/70 to-transparent opacity-80 group-hover:opacity-95 pointer-events-none"></div>
+  <div class="absolute inset-0 z-30 bg-gradient-to-t from-black/40 via-transparent to-black/25 group-hover:from-black/60 pointer-events-none"></div>
+  <!-- Accent badge removed -->
+    <div class="relative z-40 flex items-center justify-center h-full">
+  <div class="hero-card-title text-base sm:text-lg font-semibold text-white drop-shadow-md">SPECIALIZED INSPECTION</div>
+    </div>
+    </a>
+
+  <a href="{{ url_for('main.services_construction') }}" class="group no-underline relative block rounded-2xl overflow-hidden shadow-lg bg-white/20 backdrop-blur-sm border border-transparent hover:border-indigo-100 transition-transform duration-300 ease-out hover:scale-105 hover:-translate-y-1 text-center h-36">
+  <div class="absolute inset-0 bg-cover bg-center transform transition-transform duration-500 group-hover:scale-105" style="background-image: url('{{ img_construction }}'); background-position: center center;"></div>
+  <div class="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent opacity-40 group-hover:opacity-60 pointer-events-none"></div>
+  <div class="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-black/20 group-hover:from-black/50 pointer-events-none"></div>
+  <div class="absolute inset-0 z-30 bg-gradient-to-r from-black/70 to-transparent opacity-80 group-hover:opacity-95 pointer-events-none"></div>
+  <div class="absolute inset-0 z-30 bg-gradient-to-t from-black/40 via-transparent to-black/25 group-hover:from-black/60 pointer-events-none"></div>
+  <!-- Accent badge removed -->
+    <div class="relative z-40 flex items-center justify-center h-full">
+  <div class="hero-card-title text-base sm:text-lg font-semibold text-white drop-shadow-md">GENERAL CONSTRUCTION</div>
+    </div>
+    </a>
+
+  <a href="{{ url_for('main.services_supply') }}" class="group no-underline relative block rounded-2xl overflow-hidden shadow-lg bg-white/20 backdrop-blur-sm border border-transparent hover:border-indigo-100 transition-transform duration-300 ease-out hover:scale-105 hover:-translate-y-1 text-center h-36">
+  <div class="absolute inset-0 bg-cover bg-center transform transition-transform duration-500 group-hover:scale-105" style="background-image: url('{{ img_supply }}'); background-position: center center;"></div>
+  <div class="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent opacity-40 group-hover:opacity-60 pointer-events-none"></div>
+  <div class="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-black/20 group-hover:from-black/50 pointer-events-none"></div>
+  <div class="absolute inset-0 z-30 bg-gradient-to-r from-black/70 to-transparent opacity-80 group-hover:opacity-95 pointer-events-none"></div>
+  <div class="absolute inset-0 z-30 bg-gradient-to-t from-black/40 via-transparent to-black/25 group-hover:from-black/60 pointer-events-none"></div>
+  <!-- Accent badge removed -->
+    <div class="relative z-40 flex items-center justify-center h-full">
+  <div class="hero-card-title text-base sm:text-lg font-semibold text-white drop-shadow-md">SUPPLY & TRADING</div>
+    </div>
+    </a>
     </div>
   </div>
 </section>
@@ -122,15 +141,14 @@
   <div class="max-w-7xl mx-auto px-6">
     <div class="max-w-3xl mx-auto text-center">
       <h2 class="text-3xl sm:text-4xl font-bold tracking-tight">Why Choose KLSB</h2>
-  <p class="mt-5 text-slate-600 text-lg">We combine certified technical talent, disciplined project governance, and multi-domain capability to accelerate execution while de-risking delivery for engineering, energy and industrial stakeholders.</p>
     </div>
 
     <!-- Value pillars with small popups -->
     <div class="mt-14 feature-grid-enhanced md:grid-cols-2 lg:grid-cols-4">
       <div class="relative">
-        <button class="feature-card h-card text-left cursor-pointer" data-pillar="feature-certified" aria-haspopup="dialog">
-          <div class="feature-card-media">
-            <img src="{{ url_for('static', filename='img/hero.jpg') }}" alt="Certified expertise visual" loading="lazy">
+        <button class="feature-card h-card text-left cursor-pointer border border-transparent hover:border-slate-200 transition" data-pillar="feature-certified" aria-haspopup="dialog">
+          <div class="logo-holder flex items-center justify-center rounded-2xl" style="height:120px;">
+            <img src="{{ url_for('static', filename='img/logo/Certified_Latest.jpg') }}" alt="Execution discipline logo" style="max-height:810px; width:auto; display:block;">
           </div>
           <div class="vcenter">
             <h3 class="font-semibold mb-2 flex items-center justify-center">Certified Expertise</h3>
@@ -139,9 +157,9 @@
         </button>
       </div>
       <div class="relative">
-        <button class="feature-card text-left cursor-pointer" data-pillar="feature-execution" aria-haspopup="dialog">
-          <div class="feature-card-media">
-            <img src="{{ url_for('static', filename='img/2584721_XL.jpg') }}" alt="Execution discipline process" loading="lazy">
+        <button class="feature-card text-left cursor-pointer border border-transparent hover:border-slate-200 transition" data-pillar="feature-execution" aria-haspopup="dialog">
+          <div class="logo-holder flex items-center justify-center rounded-2xl" style="height:120px;">
+            <img src="{{ url_for('static', filename='img/logo/execution.jpg') }}" alt="Execution discipline logo" style="max-height:810px; width:auto; display:block;">
           </div>
           <h3 class="font-semibold mb-2 flex items-center justify-center">Execution Discipline</h3>
           <p class="text-sm text-slate-600">Structured governance & QA/QC loops enable predictability.</p>
@@ -149,9 +167,9 @@
         
       </div>
       <div class="relative">
-        <button class="feature-card text-left cursor-pointer" data-pillar="feature-integrated" aria-haspopup="dialog">
-          <div class="feature-card-media">
-            <img src="{{ url_for('static', filename='img/business-2717427.jpg') }}" alt="Integrated capability collaboration" loading="lazy">
+        <button class="feature-card text-left cursor-pointer border border-transparent hover:border-slate-200 transition" data-pillar="feature-integrated" aria-haspopup="dialog">
+          <div class="logo-holder flex items-center justify-center rounded-2xl" style="height:120px;">
+            <img src="{{ url_for('static', filename='img/logo/intergrated.jpg') }}" alt="Integrated capability collaboration" loading="lazy">
           </div>
             <h3 class="font-semibold mb-2 flex items-center justify-center">Integrated Capability</h3>
           <p class="text-sm text-slate-600">Cross-domain services under unified coordination.</p>
@@ -159,9 +177,9 @@
         
       </div>
       <div class="relative">
-        <button class="feature-card text-left cursor-pointer" data-pillar="feature-adaptive" aria-haspopup="dialog">
-          <div class="feature-card-media">
-            <img src="{{ url_for('static', filename='img/shutterstock_744825085-min.jpg') }}" alt="Adaptive engagement flexibility" loading="lazy">
+        <button class="feature-card text-left cursor-pointer border border-transparent hover:border-slate-200 transition" data-pillar="feature-adaptive" aria-haspopup="dialog">
+          <div class="logo-holder flex items-center justify-center rounded-2xl" style="height:120px;">
+            <img src="{{ url_for('static', filename='img/logo/engagement.jpg') }}" alt="Adaptive engagement flexibility" loading="lazy">
           </div>
           <h3 class="font-semibold mb-2 flex items-center justify-center">Adaptive Engagement</h3>
           <p class="text-sm text-slate-600">Engagement models aligned to phase & risk appetite.</p>
@@ -198,7 +216,7 @@
           <h3 id="pillar-title-execution" class="text-xl font-semibold">Execution Discipline</h3>
           <button type="button" class="pillar-close text-slate-400 hover:text-teal-600 text-2xl leading-none font-bold" aria-label="Close">&times;</button>
         </div>
-        <div class="modal-hero mt-4"><img src="{{ url_for('static', filename='img/2584721_XL.jpg') }}" alt="Execution discipline" class="w-full h-48 object-cover rounded-md"></div>
+        <div class="modal-hero mt-4"><img src="{{ url_for('static', filename='img/logo/Execution.jpg') }}" alt="Execution discipline" class="w-full h-48 object-cover rounded-md"></div>
         <p class="mt-4 text-sm text-slate-700">We apply proven governance, QA/QC and schedule discipline to keep projects predictable and on track — minimising rework and commercial surprises.</p>
         <ul class="list-disc pl-5 mt-4 text-sm space-y-1">
           <li>Governance frameworks and stage-gate controls</li>
@@ -234,7 +252,7 @@
           <h3 id="pillar-title-adaptive" class="text-xl font-semibold">Adaptive Engagement</h3>
           <button type="button" class="pillar-close text-slate-400 hover:text-teal-600 text-2xl leading-none font-bold" aria-label="Close">&times;</button>
         </div>
-        <div class="modal-hero mt-4"><img src="{{ url_for('static', filename='img/shutterstock_744825085-min.jpg') }}" alt="Adaptive engagement" class="w-full h-56 object-cover rounded-md"></div>
+        <div class="modal-hero mt-4"><img src="{{ url_for('static', filename='img/shutterstock_744825085.jpg') }}" alt="Adaptive engagement" class="w-full h-56 object-cover rounded-md"></div>
         <p class="mt-4 text-sm text-slate-700">Flexible commercial models and resourcing aligned to project phase and risk appetite, so clients get the capacity and capability they need when they need it.</p>
         <ul class="list-disc pl-5 mt-4 text-sm space-y-1">
           <li>Fixed-scope, hybrid and time-and-materials engagement options</li>

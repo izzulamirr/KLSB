@@ -28,6 +28,23 @@
 .header-bar { display:flex; gap: clamp(1.25rem,3vw,3rem); }
 .header-right { display:flex; align-items:center; }
 .main-nav .nav-list { display:flex; gap: clamp(1.25rem,2.5vw,2.5rem); align-items:center; margin:0; padding:0; list-style:none; }
+.hero-cards {
+	align-items: stretch;
+	/* make each grid cell have equal height (rows will size to tallest content)
+		 and let children stretch to fill the grid area */
+	grid-auto-rows: 1fr;
+}
+.hero-cards > a {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+	height: 100%;
+}
+/* Ensure hero card links never show underlines on hover (overrides global a:hover) */
+/* target anchor and any child elements and use !important to override other link rules */
+.hero-cards a, .hero-cards a:hover, .hero-cards a * { text-decoration: none !important; }
 
 /* Center content utility: centers immediate children blocks and text */
 .center-content main > section,
