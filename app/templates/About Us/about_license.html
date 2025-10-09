@@ -14,7 +14,7 @@
   <div class="max-w-6xl mx-auto px-6">
     <h2 class="text-3xl font-semibold"> CIDB </h2>
     <div class="mt-8 flex justify-center">
-  <img src="{{ url_for('static', filename='img/score_star.jpg') }}" alt="Major client" class="max-w-2xl max-h-[500px] w-full h-auto mx-auto my-10 rounded-lg shadow-2xl object-contain flex items-center justify-center">
+  <img src="{{ url_for('static', filename='img/SCORE.jpg') }}" alt="Score Star" class="max-w-2xl max-h-[500px] w-full h-auto mx-auto my-10 rounded-lg shadow-2xl object-contain flex items-center justify-center">
     </div>
   </div>
 </section>
@@ -22,25 +22,138 @@
 <section id="clients" class="py-20 bg-slate-50 text-center">
   <div class="max-w-6xl mx-auto px-6">
     <div class="mt-8 flex justify-center">
-  <img src="{{ url_for('static', filename='img/CIDB.jpg') }}" alt="Major client" class="max-w-2xl max-h-[500px] w-full h-auto mx-auto my-10 rounded-lg shadow-2xl object-contain flex items-center justify-center">
+  <img src="{{ url_for('static', filename='img/CIDB.jpg') }}" alt="" class="max-w-2xl max-h-[500px] w-full h-auto mx-auto my-10 rounded-lg shadow-2xl object-contain flex items-center justify-center">
     </div>
   </div>
 </section>
 
-<section id="clients" class="py-8 bg-slate-50 text-center">
+<!-- KOD BIDANG collapsible table -->
+<section class="py-8 bg-white">
   <div class="max-w-6xl mx-auto px-6">
-    <h2 class="text-3xl font-semibold"> MOF </h2>
-    <div class="mt-8 flex justify-center">
-  <img src="{{ url_for('static', filename='img/MOF_1.jpg') }}" alt="Major client" class="max-w-2xl max-h-[500px] w-full h-auto mx-auto my-10 rounded-lg shadow-2xl object-contain flex items-center justify-center">
-    </div>
-  </div>
-</section>
-
-<section id="clients" class="py-20 bg-slate-50 text-center">
-  <div class="max-w-6xl mx-auto px-6">
-    <div class="mt-8 flex justify-center">
-  <img src="{{ url_for('static', filename='img/MOF_2.jpg') }}" alt="Major client" class="max-w-2xl max-h-[500px] w-full h-auto mx-auto my-10 rounded-lg shadow-2xl object-contain flex items-center justify-center">
-    </div>
+    <details class="rounded-xl border p-4 bg-slate-50">
+      <summary class="font-semibold cursor-pointer">MOF — Click to view</summary>
+      <div class="mt-4 overflow-x-auto">
+        <table class="min-w-full text-left text-sm text-slate-700">
+          <thead>
+            <tr class="bg-slate-100">
+              <th class="px-3 py-2 font-semibold">KOD BIDANG</th>
+              <th class="px-3 py-2 font-semibold">KETERANGAN</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-t">
+              <td class="px-3 py-2 align-top">010302</td>
+              <td class="px-3 py-2">PENERBITAN DAN PENYIARAN/ PERALATAN PENERBITAN/PERCETAKAN/ PERALATAN SISTEM BUNYI, PEMBESAR SUARA DAN PROJEKTOR</td>
+            </tr>
+            <tr class="border-t">
+              <td class="px-3 py-2 align-top">020201</td>
+              <td class="px-3 py-2">PERABOT, PERALATAN PEJABAT, HIASAN DALAMAN DAN DOMESTIK/ MESIN-MESIN PEJABAT DAN AKSESORI/ MESIN MESIN PEJABAT DAN AKSESORI</td>
+            </tr>
+            <tr class="border-t">
+              <td class="px-3 py-2 align-top">020301</td>
+              <td class="px-3 py-2">PERABOT, PERALATAN PEJABAT, HIASAN DALAMAN DAN DOMESTIK/ PERKAKAS ELEKTRIK DAN ELEKTRONIK/ PERKAKAS ELEKTRIK DAN AKSESORI</td>
+            </tr>
+            <tr class="border-t">
+              <td class="px-3 py-2 align-top">020302</td>
+              <td class="px-3 py-2">PERABOT, PERALATAN PEJABAT, HIASAN DALAMAN DAN DOMESTIK/ PERKAKAS ELEKTRIK DAN ELEKTRONIK/ PERKAKAS ELEKTRONIK DAN AKSESORI</td>
+            </tr>
+            <tr class="border-t">
+              <td class="px-3 py-2 align-top">020804</td>
+              <td class="px-3 py-2">PERABOT, PERALATAN PEJABAT, HIASAN DALAMAN DAN DOMESTIK/ PAKAIAN DAN KELENGKAPAN/ PAKAIAN KESELAMATAN, KELENGKAPAN DAN AKSESORI</td>
+            </tr>
+            <tr class="border-t">
+              <td class="px-3 py-2 align-top">060501</td>
+              <td class="px-3 py-2">KIMIA, BAHAN KIMIA DAN PERALATAN MAKMAL/ PERALATAN MAKMAL/ PERALATAN MAKMAL SERTA AKSESORI</td>
+            </tr>
+            <tr class="border-t">
+              <td class="px-3 py-2 align-top">070101</td>
+              <td class="px-3 py-2">PERTANIAN, PERHUTANAN DAN TERNAKAN/ BAJA DAN RACUN/ BAJA DAN NUTRIEN</td>
+            </tr>
+            <tr class="border-t">
+              <td class="px-3 py-2 align-top">070102</td>
+              <td class="px-3 py-2">PERTANIAN, PERHUTANAN DAN TERNAKAN/ BAJA DAN RACUN/ RACUN SERANGGA/PEROSAK,RUMPAI/TUMBUHAN</td>
+            </tr>
+            <tr class="border-t">
+              <td class="px-3 py-2 align-top">120601</td>
+              <td class="px-3 py-2">PERTAHANAN DAN KESELAMATAN/ PERLINDUNGAN KEBAKARAN/ SISTEM PENCEGAHAN KEBAKARAN</td>
+            </tr>
+            <tr class="border-t">
+              <td class="px-3 py-2 align-top">120602</td>
+              <td class="px-3 py-2">PERTAHANAN DAN KESELAMATAN/ PERLINDUNGAN KEBAKARAN/ PERALATAN KAWALAN API</td>
+            </tr>
+            <tr class="border-t">
+              <td class="px-3 py-2 align-top">130101</td>
+              <td class="px-3 py-2">PERALATAN KEJURUTERAAN DAN MESIN PENGELUARAN/ MESIN, KELENGKAPAN BENGKEL DAN MESIN PENGELUARAN/ MESIN DAN KELENGKAPAN BENGKEL</td>
+            </tr>
+            <tr class="border-t">
+              <td class="px-3 py-2 align-top">130102</td>
+              <td class="px-3 py-2">PERALATAN KEJURUTERAAN DAN MESIN PENGELUARAN/ MESIN, KELENGKAPAN BENGKEL DAN MESIN PENGELUARAN/ MESIN DAN KELENGKAPAN KHUSUS</td>
+            </tr>
+            <tr class="border-t">
+              <td class="px-3 py-2 align-top">210101</td>
+              <td class="px-3 py-2">ICT (INFORMATION COMMUNICATION TECHNOLOGY)/ PERALATAN DAN KELENGKAPAN KOMPUTER, PERKAKASAN DAN KOMPONEN/ HARDWARE (LOW END TECHNOLOGY)</td>
+            </tr>
+            <tr class="border-t">
+              <td class="px-3 py-2 align-top">210102</td>
+              <td class="px-3 py-2">ICT (INFORMATION COMMUNICATION TECHNOLOGY)/ PERALATAN DAN KELENGKAPAN KOMPUTER, PERKAKASAN DAN KOMPONEN/ HARDWARE (HIGH END TECHNOLOGY)</td>
+            </tr>
+            <tr class="border-t">
+              <td class="px-3 py-2 align-top">210103</td>
+              <td class="px-3 py-2">ICT (INFORMATION COMMUNICATION TECHNOLOGY)/ PERALATAN DAN KELENGKAPAN KOMPUTER, PERKAKASAN DAN KOMPONEN/ COMPUTER SOFTWARE, OPERATING SYSTEM, DATABASE, OFF-THE-SHELF PACKAGES INCLUDING MAINTENANCE</td>
+            </tr>
+            <tr class="border-t">
+              <td class="px-3 py-2 align-top">210104</td>
+              <td class="px-3 py-2">ICT (INFORMATION COMMUNICATION TECHNOLOGY)/ PERALATAN DAN KELENGKAPAN KOMPUTER, PERKAKASAN DAN KOMPONEN/ SOFTWARE/SYSTEM DEVELOPMENT/CUSTOMIZATION AND MAINTENANCE</td>
+            </tr>
+            <tr class="border-t">
+              <td class="px-3 py-2 align-top">210105</td>
+              <td class="px-3 py-2">ICT (INFORMATION COMMUNICATION TECHNOLOGY)/ PERALATAN DAN KELENGKAPAN KOMPUTER, PERKAKASAN DAN KOMPONEN/ TELECOMMUNICATION/NETWORKING-SUPPLY PRODUCT,INFRASTRUCTURE, SERVICES INCLUDING MAINTENANCE</td>
+            </tr>
+            <tr class="border-t">
+              <td class="px-3 py-2 align-top">210106</td>
+              <td class="px-3 py-2">ICT (INFORMATION COMMUNICATION TECHNOLOGY)/ PERALATAN DAN KELENGKAPAN KOMPUTER, PERKAKASAN DAN KOMPONEN/ DATA MANAGEMENT - PROVIDE SERVICES INCLUDING DISASTER</td>
+            </tr>
+            <tr class="border-t">
+              <td class="px-3 py-2 align-top">210107</td>
+              <td class="px-3 py-2">ICT (INFORMATION COMMUNICATION TECHNOLOGY)/ PERALATAN DAN KELENGKAPAN KOMPUTER, PERKAKASAN DAN KOMPONEN/ ICT SECURITY AND FIREWALL, ENCRYPTION, PKI, ANTI VIRUS</td>
+            </tr>
+            <tr class="border-t">
+              <td class="px-3 py-2 align-top">210109</td>
+              <td class="px-3 py-2">ICT (INFORMATION COMMUNICATION TECHNOLOGY)/ PERALATAN DAN KELENGKAPAN KOMPUTER, PERKAKASAN DAN KOMPONEN/ HARDWARE AND SOFTWARE LEASING/RENTING</td>
+            </tr>
+            <tr class="border-t">
+              <td class="px-3 py-2 align-top">220301</td>
+              <td class="px-3 py-2">PERKHIDMATAN/ PENYELENGGARAAN/PEMBAIKAN ALAT HAWA DINGIN/ ALAT HAWA DINGIN (WINDOW/SPLIT/BERPUAST)</td>
+            </tr>
+            <tr class="border-t">
+              <td class="px-3 py-2 align-top">220401</td>
+              <td class="px-3 py-2">PERKHIDMATAN/ PENYELENGGARAAN/PEMBAIKAN ALAT KESELAMATAN/ ALAT KEBOBMAAN/ALAT PENYELAMAT/PEMADAM API</td>
+            </tr>
+            <tr class="border-t">
+              <td class="px-3 py-2 align-top">220503</td>
+              <td class="px-3 py-2">PERKHIDMATAN/ PENYELENGGARAAN/PEMBAIKAN KEJURUTERAAN DAN KOMUNIKASI/ PERKAKAS/SISTEM ELEKTRIK</td>
+            </tr>
+            <tr class="border-t">
+              <td class="px-3 py-2 align-top">220601</td>
+              <td class="px-3 py-2">PERKHIDMATAN/ PENYELENGGARAAN/PEMBAIKAN PERALATAN/KELENGKAPAN PERUBATAN DAN MAKMAL/ ALAT KELENGKAPAN HOSPITAL/MAKMAL</td>
+            </tr>
+            <tr class="border-t">
+              <td class="px-3 py-2 align-top">220602</td>
+              <td class="px-3 py-2">PERKHIDMATAN/ PENYELENGGARAAN/PEMBAIKAN PERALATAN/KELENGKAPAN PERUBATAN DAN MAKMAL/ MESIN DAN PERALATAN MAKMAL</td>
+            </tr>
+            <tr class="border-t">
+              <td class="px-3 py-2 align-top">221201</td>
+              <td class="px-3 py-2">PERKHIDMATAN/ KHIDMAT UDARA/LAUT/DARAT/ TOPOGRAFI/LIDAR</td>
+            </tr>
+            <tr class="border-t">
+              <td class="px-3 py-2 align-top">221206</td>
+              <td class="px-3 py-2">PERKHIDMATAN/ KHIDMAT UDARA/LAUT/DARAT/ PEMETAAN/PEMETAAN UTILITI BAWAH TANAH</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </details>
   </div>
 </section>
 {% endblock %}
+

@@ -34,6 +34,12 @@ def services_manpower_send_cv():
     from flask import request, current_app, redirect, url_for, flash
     import os
     from werkzeug.utils import secure_filename
+    # Import db and models lazily to avoid circular imports at module import time
+    from . import db
+    try:
+        from .models import Applicant
+    except Exception:
+        Applicant = None
 
     if request.method == "POST":
         # Basic form validation
@@ -61,8 +67,41 @@ def services_manpower_send_cv():
         save_path = os.path.join(current_app.config["UPLOAD_FOLDER"], filename)
         file.save(save_path)
 
-        # In a real app you'd persist applicant data, send an email, etc.
-        return render_template("services/send_cv_success.html", name=full_name, position=position)
+        # Persist applicant record if models are available and DB configured
+        saved_to_db = False
+        if Applicant is not None:
+            try:
+                rel_path = os.path.relpath(save_path, start=current_app.root_path)
+            except Exception:
+                rel_path = save_path
+
+            try:
+                applicant = Applicant(
+                    full_name=full_name,
+                    position=position,
+                    availability=availability,
+                    filename=filename,
+                    file_path=rel_path,
+                )
+                db.session.add(applicant)
+                db.session.commit()
+                saved_to_db = True
+            except Exception as e:
+                # Rollback and continue — we still show success to the user
+                try:
+                    db.session.rollback()
+                except Exception:
+                    pass
+                # Log the exception to console for debugging (server log)
+                print("Failed to save applicant to database:", e)
+
+        # Render success page and include whether the record was saved to DB
+        return render_template(
+            "services/send_cv_success.html",
+            name=full_name,
+            position=position,
+            saved_to_db=saved_to_db,
+        )
 
     # GET
     return render_template("services/send_cv.html")

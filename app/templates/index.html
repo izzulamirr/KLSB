@@ -28,6 +28,133 @@
   @media (max-width:420px){
     .hero-cards .hero-card-title{ font-size: 0.95rem !important; }
   }
+  /* Ensure small badge/logo images fill their holder without stretching */
+  .logo-holder img,
+  .logo-holder picture img{
+    /* Force fill the badge area while preserving aspect ratio. This overrides
+       any inline width/max-height that might prevent the image from scaling.
+    */
+    width: 100% !important;
+    height: 100% !important;
+    max-width: none !important;
+    max-height: none !important;
+    display: block !important;
+    object-fit: contain !important; /* preserves aspect ratio without stretching */
+    object-position: center center !important; /* explicitly center the image inside the badge */
+     padding: 4px !important; /* smaller breathing room inside the rounded badge */
+  }
+  /* Make badge container a bit smaller on desktop so it's not too large, while keeping mobile compact */
+  .logo-holder{
+    height: 100px !important;
+    width: 200px !important;
+    border-radius: 18px !important;
+    
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin: 0 auto !important;
+    text-align: center !important;
+  }
+  @media (max-width:740px){
+    .logo-holder{ height: 120px !important; width: 120px !important; }
+  }
+  /* CTA improvements */
+  .cta-primary{
+    background: linear-gradient(90deg,#02208a 0%, #0b3bb8 100%);
+    color: #fff !important;
+    box-shadow: 0 6px 18px rgba(11,59,184,0.18);
+    transition: transform .18s ease, box-shadow .18s ease, opacity .18s ease;
+  }
+  .cta-primary:hover{ transform: translateY(-4px) scale(1.02); box-shadow: 0 10px 30px rgba(11,59,184,0.22); }
+  .cta-secondary{ background: transparent; border: 1px solid rgba(255,255,255,0.18); color: #fff !important; }
+  .cta-secondary:hover{ background: rgba(255,255,255,0.06); }
+
+  /* Hero title subtle lift */
+  .hero-title{ display:inline-block; transform-origin:center; animation: heroLift 700ms ease both; }
+  @keyframes heroLift{ from{ transform: translateY(8px); opacity:0 } to{ transform: translateY(0); opacity:1 } }
+
+  /* Hero cards - entrance animation (staggered by JS) */
+  .hero-cards .group{ opacity:0; transform: translateY(8px) scale(.995); transition: opacity .45s cubic-bezier(.2,.9,.2,1), transform .45s cubic-bezier(.2,.9,.2,1); }
+  .hero-cards .group.is-visible{ opacity:1; transform: translateY(0) scale(1); }
+  /* Slight hover uplift for cards already present */
+  .hero-cards .group:hover{ box-shadow: 0 18px 40px rgba(5,15,70,0.12); }
+  /* Make background-image divs truly fill the card area */
+  .hero-cards .group > .bg-cover {
+    background-size: cover !important;
+    background-position: center center !important;
+    background-repeat: no-repeat !important;
+    width: 100% !important;
+    height: 100% !important;
+    z-index: 10; /* sits below overlays but above base */
+  }
+  /* Slightly larger card height on medium+ screens so imagery reads better */
+  @media (min-width: 6px){
+    .hero-cards .group{ min-height: 140px !important; height: 140px !important; }
+  }
+  /* Mobile-specific tweaks: make images show more focal area and increase card height */
+  @media (max-width: 768px){
+    .hero-cards{ gap: 10px; }
+    .hero-cards .group{ height: 120px !important; min-height: 120px !important; }
+    .hero-cards .group > .bg-cover{ background-position: center top !important; }
+    /* Reduce overlay darkness on small screens so images read brighter */
+    .hero-cards .group > .bg-cover + .absolute.bg-gradient-to-r,
+    .hero-cards .group > .bg-cover + .absolute.z-30.bg-gradient-to-t,
+    .hero-cards .group .absolute.z-30.bg-gradient-to-r{ opacity: 0.56 !important; }
+    .hero-card-title{ font-size: 0.9rem !important; padding: 0 .6rem !important; }
+  }
+
+  /* Feature cards: stack and center logo + text on small screens */
+  @media (max-width: 640px){
+    .feature-grid-enhanced{ display: grid !important; grid-template-columns: 1fr !important; gap: 1rem !important; }
+    .feature-grid-enhanced > .relative{ display: block; }
+    .feature-card{ display: flex !important; flex-direction: column !important; align-items: center !important; text-align: center !important; padding: 1rem !important; }
+    .feature-card .logo-holder{ margin: 0 0 0.75rem 0 !important; height: 120px !important; width: 220px !important; }
+    .feature-card .vcenter{ display: block !important; }
+    .feature-card h3, .feature-card p{ text-align: center !important; }
+  }
+
+  /* Center feature card content (logo + text) by default for consistent presentation */
+  .feature-grid-enhanced .feature-card{
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    text-align: center !important;
+    gap: 0.5rem;
+    padding: 1rem;
+  }
+  .feature-grid-enhanced .feature-card .vcenter{ width: 100%; }
+  /* Accent badge for hero cards (hover on desktop, tap to reveal on mobile) */
+  .accent-badge{
+    position: absolute;
+    top: 0.6rem;
+    right: 0.6rem;
+    width: 48px;
+    height: 48px;
+    border-radius: 10px;
+    /* make badge background transparent to remove the white box */
+    background: transparent !important;
+    border: 1px solid rgba(255,255,255,0.06);
+    box-shadow: 0 6px 18px rgba(12,34,80,0.06);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transform: translateY(-6px) scale(.96);
+    transition: opacity .18s ease, transform .18s ease;
+    z-index: 60;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  /* Per-card smaller badge modifier for when a specific card needs a reduced badge size */
+  .accent-badge--sm{
+    width: 34px !important;
+    height: 34px !important;
+    border-radius: 8px !important;
+  }
+  .accent-badge--sm img{ padding: 2px !important; }
+  
+  
 </style>
 {% endblock %}
 
@@ -43,9 +170,11 @@
 <!-- Hero -->
 <section class="relative min-h-screen overflow-hidden text-center flex items-center">
   <div class="absolute inset-0 -z-10 bg-cover bg-center" style="background-image: url('{{ hero_image }}'); background-position: center center;"></div>
-  <div class="absolute inset-0 -z-10 bg-black/50"></div>
+    <div class="absolute inset-0 -z-10 bg-cover bg-center" style="background-image: url('{{ hero_image }}'); background-position: center center; filter: brightness(0.70) contrast(1.06) saturate(1.03);"></div>
+    <!-- Slightly stronger white wash for a brighter hero look -->
+    <div class="absolute inset-0 -z-10" style="background-color: rgba(121, 121, 121, 0.36); mix-blend-mode: lighten;"></div>
   <div class="w-full max-w-5xl mx-auto px-6 py-28">
-  <h1 class="text-4xl sm:text-6xl uppercase font-bold text-white font-montserrat"
+  <h1 class="text-4xl sm:text-6xl uppercase font-bold text-white font-montserrat hero-title"
     style="text-shadow: 0 0 6px rgba(173, 216, 230, 0.8),   /* lightblue */
            0 0 12px rgba(173, 216, 230, 0.5),
            0 0 18px rgba(173, 216, 230, 0.3);">Your Partner to Strategic Value Creation</h1>
@@ -55,13 +184,14 @@
 </p>
 
     <div class="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
-      <a href="/services" class="rounded-2xl bg-[#030C69] text-white px-6 py-3 text-sm font-medium shadow hover:shadow-md transition">Explore services</a>
-  <a href="/get-in-touch" class="rounded-2xl border border-white/60 text-white px-6 py-3 text-sm font-medium transition" style="background:#030C69; border:none;">Request a proposal</a>
+    <a href="/services" class="rounded-2xl text-white px-6 py-3 text-sm font-medium shadow cta-primary">Explore services</a>
+  <a href="/get-in-touch" class="rounded-2xl text-white px-6 py-3 text-sm font-medium cta-secondary" style="border:none;">Request a proposal</a>
     </div>
   <div class="mt-14 grid gap-6 sm:grid-cols-3 text-center hero-cards">
   <a href="{{ url_for('main.services_manpower') }}" class="group no-underline relative block rounded-2xl overflow-hidden shadow-lg bg-white/20 backdrop-blur-sm border border-transparent hover:border-indigo-100 transition-transform duration-300 ease-out hover:scale-105 hover:-translate-y-1 text-center h-36">
       <!-- Background image -->
-  <div class="absolute inset-0 bg-cover bg-center transform transition-transform duration-500 group-hover:scale-105" style="background-image: url('{{ img_manpower }}'); background-position: center center;"></div>
+  <div class="absolute inset-0 bg-cover bg-center transform transition-transform duration-500 group-hover:scale-105 bg-cover" style="background-image: url('{{ img_manpower }}'); background-position: center center;"></div>
+    <div class="accent-badge"><img src="{{ url_for('static', filename='img/AWP1111.png') }}" alt="badge"></div>
       <!-- Gradient overlay -->
     <div class="absolute inset-0 z-30 bg-gradient-to-r from-black/70 to-transparent opacity-80 group-hover:opacity-95 pointer-events-none"></div>
     <div class="absolute inset-0 z-30 bg-gradient-to-t from-black/40 via-transparent to-black/25 group-hover:from-black/60 pointer-events-none"></div>
@@ -73,11 +203,13 @@
     </a>
 
   <a href="{{ url_for('main.services_engineering') }}" class="group no-underline relative block rounded-2xl overflow-hidden shadow-lg bg-white/20 backdrop-blur-sm border border-transparent hover:border-indigo-100 transition-transform duration-300 ease-out hover:scale-105 hover:-translate-y-1 text-center h-36">
-  <div class="absolute inset-0 bg-cover bg-center transform transition-transform duration-500 group-hover:scale-105" style="background-image: url('{{ img_engineering }}'); background-position: center center;"></div>
+  <div class="absolute inset-0 bg-cover bg-center transform transition-transform duration-500 group-hover:scale-105 bg-cover" style="background-image: url('{{ img_engineering }}'); background-position: center center;"></div>
+  <div class="accent-badge accent-badge--sm"><img src="{{ url_for('static', filename='img/AWP1111.png') }}" alt="badge"></div>
   <div class="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent opacity-40 group-hover:opacity-60 pointer-events-none"></div>
   <div class="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-black/20 group-hover:from-black/50 pointer-events-none"></div>
   <div class="absolute inset-0 z-30 bg-gradient-to-r from-black/70 to-transparent opacity-80 group-hover:opacity-95 pointer-events-none"></div>
   <div class="absolute inset-0 z-30 bg-gradient-to-t from-black/40 via-transparent to-black/25 group-hover:from-black/60 pointer-events-none"></div>
+  
   <!-- Accent badge removed -->
     <div class="relative z-40 flex items-center justify-center h-full">
   <div class="hero-card-title text-base sm:text-lg font-semibold text-white drop-shadow-md">ENGINEERING SOLUTIONS</div>
@@ -85,7 +217,8 @@
     </a>
 
   <a href="{{ url_for('main.services_digital') }}" class="group no-underline relative block rounded-2xl overflow-hidden shadow-lg bg-white/20 backdrop-blur-sm border border-transparent hover:border-indigo-100 transition-transform duration-300 ease-out hover:scale-105 hover:-translate-y-1 text-center h-36">
-  <div class="absolute inset-0 bg-cover bg-center transform transition-transform duration-500 group-hover:scale-105" style="background-image: url('{{ img_digital }}'); background-position: center center;"></div>
+  <div class="absolute inset-0 bg-cover bg-center transform transition-transform duration-500 group-hover:scale-105 bg-cover" style="background-image: url('{{ img_digital }}'); background-position: center center;"></div>
+  <div class="accent-badge"><img src="{{ url_for('static', filename='img/AWP1111.png') }}" alt="badge"></div>
   <div class="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent opacity-40 group-hover:opacity-60 pointer-events-none"></div>
   <div class="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-black/20 group-hover:from-black/50 pointer-events-none"></div>
   <div class="absolute inset-0 z-30 bg-gradient-to-r from-black/70 to-transparent opacity-80 group-hover:opacity-95 pointer-events-none"></div>
@@ -97,7 +230,8 @@
     </a>
 
   <a href="{{ url_for('main.services_inspection') }}" class="group no-underline relative block rounded-2xl overflow-hidden shadow-lg bg-white/20 backdrop-blur-sm border border-transparent hover:border-indigo-100 transition-transform duration-300 ease-out hover:scale-105 hover:-translate-y-1 text-center h-36">
-  <div class="absolute inset-0 bg-cover bg-center transform transition-transform duration-500 group-hover:scale-105" style="background-image: url('{{ img_inspection }}'); background-position: center center;"></div>
+  <div class="absolute inset-0 bg-cover bg-center transform transition-transform duration-500 group-hover:scale-105 bg-cover" style="background-image: url('{{ img_inspection }}'); background-position: center center;"></div>
+  <div class="accent-badge"><img src="{{ url_for('static', filename='img/AWP1111.png') }}" alt="badge"></div>
   <div class="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent opacity-40 group-hover:opacity-60 pointer-events-none"></div>
   <div class="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-black/20 group-hover:from-black/50 pointer-events-none"></div>
   <div class="absolute inset-0 z-30 bg-gradient-to-r from-black/70 to-transparent opacity-80 group-hover:opacity-95 pointer-events-none"></div>
@@ -109,7 +243,8 @@
     </a>
 
   <a href="{{ url_for('main.services_construction') }}" class="group no-underline relative block rounded-2xl overflow-hidden shadow-lg bg-white/20 backdrop-blur-sm border border-transparent hover:border-indigo-100 transition-transform duration-300 ease-out hover:scale-105 hover:-translate-y-1 text-center h-36">
-  <div class="absolute inset-0 bg-cover bg-center transform transition-transform duration-500 group-hover:scale-105" style="background-image: url('{{ img_construction }}'); background-position: center center;"></div>
+  <div class="absolute inset-0 bg-cover bg-center transform transition-transform duration-500 group-hover:scale-105 bg-cover" style="background-image: url('{{ img_construction }}'); background-position: center center;"></div>
+  <div class="accent-badge"><img src="{{ url_for('static', filename='img/AWP1111.png') }}" alt="badge"></div>
   <div class="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent opacity-40 group-hover:opacity-60 pointer-events-none"></div>
   <div class="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-black/20 group-hover:from-black/50 pointer-events-none"></div>
   <div class="absolute inset-0 z-30 bg-gradient-to-r from-black/70 to-transparent opacity-80 group-hover:opacity-95 pointer-events-none"></div>
@@ -121,7 +256,8 @@
     </a>
 
   <a href="{{ url_for('main.services_supply') }}" class="group no-underline relative block rounded-2xl overflow-hidden shadow-lg bg-white/20 backdrop-blur-sm border border-transparent hover:border-indigo-100 transition-transform duration-300 ease-out hover:scale-105 hover:-translate-y-1 text-center h-36">
-  <div class="absolute inset-0 bg-cover bg-center transform transition-transform duration-500 group-hover:scale-105" style="background-image: url('{{ img_supply }}'); background-position: center center;"></div>
+  <div class="absolute inset-0 bg-cover bg-center transform transition-transform duration-500 group-hover:scale-105 bg-cover" style="background-image: url('{{ img_supply }}'); background-position: center center;"></div>
+  <div class="accent-badge"><img src="{{ url_for('static', filename='img/AWP1111.png') }}" alt="badge"></div>
   <div class="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent opacity-40 group-hover:opacity-60 pointer-events-none"></div>
   <div class="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-black/20 group-hover:from-black/50 pointer-events-none"></div>
   <div class="absolute inset-0 z-30 bg-gradient-to-r from-black/70 to-transparent opacity-80 group-hover:opacity-95 pointer-events-none"></div>
@@ -147,8 +283,8 @@
     <div class="mt-14 feature-grid-enhanced md:grid-cols-2 lg:grid-cols-4">
       <div class="relative">
         <button class="feature-card h-card text-left cursor-pointer border border-transparent hover:border-slate-200 transition" data-pillar="feature-certified" aria-haspopup="dialog">
-          <div class="logo-holder flex items-center justify-center rounded-2xl" style="height:120px;">
-            <img src="{{ url_for('static', filename='img/logo/Certified_Latest.jpg') }}" alt="Execution discipline logo" style="max-height:810px; width:auto; display:block;">
+          <div class="logo-holder flex items-center justify-center rounded-2xl">
+            <img src="{{ url_for('static', filename='img/logo/Certified_Latest.jpg') }}" alt="Execution discipline logo" loading="lazy">
           </div>
           <div class="vcenter">
             <h3 class="font-semibold mb-2 flex items-center justify-center">Certified Expertise</h3>
@@ -158,7 +294,7 @@
       </div>
       <div class="relative">
         <button class="feature-card text-left cursor-pointer border border-transparent hover:border-slate-200 transition" data-pillar="feature-execution" aria-haspopup="dialog">
-          <div class="logo-holder flex items-center justify-center rounded-2xl" style="height:120px;">
+          <div class="logo-holder flex items-center justify-center rounded-2xl">
             <img src="{{ url_for('static', filename='img/logo/execution.jpg') }}" alt="Execution discipline logo" style="max-height:810px; width:auto; display:block;">
           </div>
           <h3 class="font-semibold mb-2 flex items-center justify-center">Execution Discipline</h3>
@@ -168,7 +304,7 @@
       </div>
       <div class="relative">
         <button class="feature-card text-left cursor-pointer border border-transparent hover:border-slate-200 transition" data-pillar="feature-integrated" aria-haspopup="dialog">
-          <div class="logo-holder flex items-center justify-center rounded-2xl" style="height:120px;">
+          <div class="logo-holder flex items-center justify-center rounded-2xl">
             <img src="{{ url_for('static', filename='img/logo/intergrated.jpg') }}" alt="Integrated capability collaboration" loading="lazy">
           </div>
             <h3 class="font-semibold mb-2 flex items-center justify-center">Integrated Capability</h3>
@@ -178,7 +314,7 @@
       </div>
       <div class="relative">
         <button class="feature-card text-left cursor-pointer border border-transparent hover:border-slate-200 transition" data-pillar="feature-adaptive" aria-haspopup="dialog">
-          <div class="logo-holder flex items-center justify-center rounded-2xl" style="height:120px;">
+          <div class="logo-holder flex items-center justify-center rounded-2xl">
             <img src="{{ url_for('static', filename='img/logo/engagement.jpg') }}" alt="Adaptive engagement flexibility" loading="lazy">
           </div>
           <h3 class="font-semibold mb-2 flex items-center justify-center">Adaptive Engagement</h3>
@@ -362,6 +498,43 @@
     }
   });
   document.addEventListener('keydown',e=>{ if(e.key==='Escape' && openPopup){ hidePopup(openPopup);} });
+})();
+</script>
+
+<script>
+// Stagger hero cards on load for a polished entrance
+document.addEventListener('DOMContentLoaded', function(){
+  const cards = Array.from(document.querySelectorAll('.hero-cards .group'));
+  cards.forEach((c, i)=>{
+    setTimeout(()=> c.classList.add('is-visible'), 90 * i);
+  });
+});
+</script>
+
+<script>
+// Tap-to-show accent badge on touch devices: first tap reveals badge, second tap follows link
+(function(){
+  if(!('ontouchstart' in window)) return; // only for touch devices
+  document.addEventListener('DOMContentLoaded', ()=>{
+    const groups = Array.from(document.querySelectorAll('.hero-cards .group'));
+    groups.forEach(g=>{
+      let tapped = false;
+      g.addEventListener('click', function(e){
+        const anchor = g.closest('a');
+        if(!anchor) return;
+        if(!g.classList.contains('show-badge')){
+          e.preventDefault();
+          // hide any other badges
+          document.querySelectorAll('.hero-cards .group.show-badge').forEach(n=> n.classList.remove('show-badge'));
+          g.classList.add('show-badge');
+          // remove after 3s if not tapped again
+          setTimeout(()=> g.classList.remove('show-badge'), 3000);
+          return false;
+        }
+        // if badge already shown, allow normal navigation
+      });
+    });
+  });
 })();
 </script>
 

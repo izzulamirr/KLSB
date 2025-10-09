@@ -29,4 +29,22 @@ def create_app():
     from .routes import main_bp
     app.register_blueprint(main_bp)
 
+    # Import models so they are registered with SQLAlchemy metadata
+    try:
+        # Local import of models triggers model class registration
+        from . import models  # noqa: F401
+    except Exception:
+        # If models fail to import, don't crash app creation; let errors surface at runtime
+        pass
+
+    # Optionally create DB tables at startup when explicitly enabled (useful for dev)
+    # Set environment variable CREATE_TABLES=1 to enable.
+    if os.environ.get("CREATE_TABLES") == "1":
+        with app.app_context():
+            try:
+                db.create_all()
+            except Exception:
+                # swallow to avoid startup crashes in production if DB is unreachable
+                pass
+
     return app
