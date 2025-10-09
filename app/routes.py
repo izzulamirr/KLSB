@@ -34,6 +34,12 @@ def services_manpower_send_cv():
     from flask import request, current_app, redirect, url_for, flash
     import os
     from werkzeug.utils import secure_filename
+    # Import db and models lazily to avoid circular imports at module import time
+    from . import db
+    try:
+        from .models import Applicant
+    except Exception:
+        Applicant = None
 
     if request.method == "POST":
         try:
