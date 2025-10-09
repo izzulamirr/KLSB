@@ -29,4 +29,13 @@ def create_app():
     from .routes import main_bp
     app.register_blueprint(main_bp)
 
+    # Create tables if they don't exist (safe in dev; in prod use migrations)
+    with app.app_context():
+        try:
+            from . import models
+            db.create_all()
+        except Exception:
+            # If DB not configured, silently continue - app can still run with SQLite fallback
+            pass
+
     return app

@@ -32,6 +32,10 @@
       /* ensure mobile panel is full width when opened */
       .mobile-panel{ inset:0 0 auto 0; }
     }
+    /* Ensure main content is pushed below fixed header on small screens */
+    @media (max-width: 768px){
+      .site-main{ padding-top: calc(var(--h,96px) + 1rem) !important; }
+    }
   </style>
   <!-- Core layered styles -->
   <!-- Favicons -->
@@ -141,6 +145,10 @@
 
   <!-- Main content (flex-grow so footer sticks) -->
   <main id="main-content" class="site-main pt-24 md:pt-28 fade-in flex-grow">
+    {# Debug placeholder: shown only for /about/management to confirm route/template rendering #}
+    {% if request.path and request.path.startswith('/about/management') %}
+      <div style="background:#f3f4f6; color:#0f172a; padding:10px 12px; text-align:center; font-size:13px; border-bottom:1px solid #e6e9ef">[debug] base: route /about/management detected</div>
+    {% endif %}
     {% block content %}{% endblock %}
   </main>
 
