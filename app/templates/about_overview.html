@@ -7,41 +7,29 @@
     <img src="{{ url_for('static', filename='img/logo/KLSB_full_bottom.svg') }}" alt="Kemuncak Lanai Logo" class="mx-auto h-24 sm:h-40 mb-2" style="max-width:640px; width:100%; height:auto; object-fit:contain;" />
     <p class="mt-6 text-lg text-slate-600 leading-relaxed">We provide integrated manpower, engineering, digital and inspection capability under a coordinated delivery model that reduces interface risk and accelerates predictable outcomes for industrial and energy stakeholders.</p>
 </header>
-		<div class="mt-14 grid gap-6 md:grid-cols-3">
-			<div class="relative overflow-hidden rounded-2xl border border-slate-200 bg-white/80 backdrop-blur-sm p-6 shadow-sm hover:shadow-md transition-shadow">
-				<div class="text-xl font-semibold tracking-wide text-teal-600/80">Clients</div>
-				<div class="mt-2 flex items-end gap-2 justify-center">
-					<div class="text-4xl font-bold text-slate-900">12+</div>
-				</div>
-				<p class="mt-3 text-sm text-slate-600">Active regional EPC & asset owner relationships.</p>
-			</div>
-			<div class="relative overflow-hidden rounded-2xl border border-slate-200 bg-white/80 backdrop-blur-sm p-6 shadow-sm hover:shadow-md transition-shadow">
-				<div class="text-xl font-semibold tracking-wide text-teal-600/80">Projects</div>
-				<div class="mt-2 flex items-end gap-2 justify-center">
-					<div class="text-4xl font-bold text-slate-900">7</div>
-				</div>
-				<p class="mt-3 text-sm text-slate-600">Running engineering, digital & supply tracks.</p>
-			</div>
-			<div class="relative overflow-hidden rounded-2xl border border-slate-200 bg-white/80 backdrop-blur-sm p-6 shadow-sm hover:shadow-md transition-shadow">
-				<div class="text-xl font-semibold tracking-wide text-teal-600/80">Specialists</div>
-				<div class="mt-2 flex items-end gap-2 justify-center">
-					<div class="text-4xl font-bold text-slate-900">20+</div>
-				</div>
-				<p class="mt-3 text-sm text-slate-600">Certified multi-discipline technical resources.</p>
-			</div>
+		<div class="mt-14 grid gap-6 md:grid-cols-1">
+      <div class="relative overflow-hidden rounded-2xl border border-slate-200 bg-white/80 backdrop-blur-sm p-6 shadow-sm hover:shadow-md transition-shadow col-span-3">
+        <div class="text-xl font-semibold tracking-wide text-#030C69-600/80">Foreword</div>
+        <div class="mt-4 flex justify-center">
+          <button id="forewordBtn" aria-label="Open foreword" class="focus:outline-none">
+            <img id="forewordThumb" src="{{ url_for('static', filename='img/Foreword.png') }}" alt="Foreword" class="w-full md:w-1/2 mx-auto h-auto rounded-md shadow-sm transform transition-transform duration-200 hover:scale-105 cursor-pointer" />
+          </button>
+        </div>
+        <p class="mt-3 text-sm text-slate-600 text-center">A short message from the leadership.</p>
+      </div>
 		</div>
 		<div class="mt-10 h-px bg-gradient-to-r from-transparent via-slate-200 to-transparent"></div>
 
-		<!-- Company Evolution Narrative -->
+		<!-- Company Evolution Narrative 
 	<section class="mt-16 max-w-4xl mx-auto text-center">
     <h2 class="text-xl font-semibold tracking-tight text-slate-900 flex items-center gap-2 justify-center">
         <span class="h-5 w-1.5 rounded-full bg-teal-500"></span>
         <span>Company Evolution</span>
     </h2>
-    <p class="mt-4 text-slate-600 leading-relaxed text-l">
+<p class="mt-4 text-slate-600 leading-relaxed text-l">
         Kemuncak Lanai Sdn Bhd (KLSB), established in 2011, is a professional service provider with core expertise in <strong>Technical Manpower Supply</strong> and <strong>3D Modelling & Design Consultancy</strong>. Over the years, we have progressively broadened our capabilities—now spanning <strong>Advanced Work Packaging (AWP)</strong>, <strong>Specialized Inspection Services</strong> and <strong>Cybersecurity Consultancy</strong>. This evolution reflects disciplined capability building to deliver reliable, value‑driven outcomes.
     </p>
-	</section>
+	</section> -->
 
 	<section class="py-24 bg-white">
   <div class="max-w-6xl mx-auto px-6">
@@ -123,6 +111,75 @@
     </div>
   </div>
 </section>
+
+<!-- Foreword image modal -->
+<div id="imgModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/70 p-6">
+  <div class="relative max-w-5xl w-full">
+    <button id="closeModal" class="absolute top-2 right-2 text-white text-3xl leading-none px-3 py-1">&times;</button>
+    <div class="flex justify-center">
+      <img id="modalImg" src="{{ url_for('static', filename='img/Foreword.png') }}" alt="Foreword" class="mx-auto max-h-[80vh] w-auto transform transition-transform duration-150" style="cursor: grab;" />
+    </div>
+    <div class="flex items-center justify-center gap-2 mt-4">
+      <button id="zoomOut" class="bg-white text-slate-700 px-3 py-1 rounded">-</button>
+      <button id="resetZoom" class="bg-white text-slate-700 px-3 py-1 rounded">Reset</button>
+      <button id="zoomIn" class="bg-white text-slate-700 px-3 py-1 rounded">+</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  (function(){
+    const openBtn = document.getElementById('forewordBtn');
+    const modal = document.getElementById('imgModal');
+    const modalImg = document.getElementById('modalImg');
+    const closeBtn = document.getElementById('closeModal');
+    const zoomIn = document.getElementById('zoomIn');
+    const zoomOut = document.getElementById('zoomOut');
+    const resetZoom = document.getElementById('resetZoom');
+
+    let scale = 1;
+    let tx = 0, ty = 0;
+
+    function applyTransform(){
+      modalImg.style.transform = `translate(${tx}px, ${ty}px) scale(${scale})`;
+    }
+
+    openBtn.addEventListener('click', () => {
+      modal.classList.remove('hidden');
+      scale = 1; tx = 0; ty = 0; applyTransform();
+    });
+    closeBtn.addEventListener('click', () => modal.classList.add('hidden'));
+    modal.addEventListener('click', (e) => { if (e.target === modal) modal.classList.add('hidden'); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') modal.classList.add('hidden'); });
+
+    zoomIn.addEventListener('click', () => { scale = Math.min(scale + 0.25, 5); applyTransform(); });
+    zoomOut.addEventListener('click', () => { scale = Math.max(scale - 0.25, 0.25); if (scale === 1){ tx = 0; ty = 0; } applyTransform(); });
+    resetZoom.addEventListener('click', () => { scale = 1; tx = 0; ty = 0; applyTransform(); });
+
+    // wheel to zoom
+    modalImg.addEventListener('wheel', (e) => {
+      e.preventDefault();
+      scale = e.deltaY < 0 ? Math.min(scale + 0.1, 5) : Math.max(scale - 0.1, 0.25);
+      if (scale <= 1) { tx = 0; ty = 0; }
+      applyTransform();
+    }, { passive: false });
+
+    // drag to pan when zoomed
+    let dragging = false, startX = 0, startY = 0;
+    modalImg.addEventListener('mousedown', (e) => {
+      if (scale <= 1) return;
+      dragging = true; modalImg.style.cursor = 'grabbing';
+      startX = e.clientX - tx; startY = e.clientY - ty;
+      e.preventDefault();
+    });
+    window.addEventListener('mousemove', (e) => {
+      if (!dragging) return;
+      tx = e.clientX - startX; ty = e.clientY - startY;
+      applyTransform();
+    });
+    window.addEventListener('mouseup', () => { if (dragging) { dragging = false; modalImg.style.cursor = 'grab'; } });
+  })();
+</script>
 
 		<!-- Offices -->
 		<section class="mt-24">
