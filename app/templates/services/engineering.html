@@ -35,13 +35,10 @@
 
       <!-- Engineering Consultancy -->
       <section class="rounded-2xl border bg-white p-6 shadow-sm relative overflow-hidden">
-        <!-- clearer image: remove image opacity and soften overlays -->
-        <div class="absolute inset-0 z-0 bg-cover bg-center" style="background-image: url('{{ eng_consult_bg }}'); opacity: 1;"></div>
-          <div class="absolute inset-0 z-10 bg-gradient-to-r from-black/70 to-transparent opacity-60 pointer-events-none"></div>
-          <div class="absolute inset-0 z-10 bg-gradient-to-t from-black/40 via-transparent to-black/25 opacity-50 pointer-events-none"></div>
+        <div class="absolute inset-0 z-0 bg-cover bg-center" style="background-image: url('{{ eng3_bg }}'); opacity: .25;"></div>
         <div class="relative z-20">
-  <h2 class="text-2xl font-semibold text-center mb-2 text-white drop-shadow-lg">Engineering Consultancy</h2>
-        <div class="grid sm:grid-cols-2 gap-6">
+          <h2 class="text-2xl font-semibold text-center mb-2 text-black">Engineering Consultancy</h2>
+          <div class="grid sm:grid-cols-2 gap-6">
           <div class="rounded-xl bg-indigo-100 p-4">
             <h3 class="font-semibold">Piping Engineering</h3>
             <ul class="mt-2 list-disc list-inside text-slate-700 space-y-1">
@@ -73,10 +70,10 @@
 
   <!-- 3D Modelling -->
   <section class="rounded-2xl border bg-white p-6 shadow-sm relative overflow-hidden">
-  <div class="absolute inset-0 z-0 bg-cover bg-center" style="background-image: url('{{ eng3_bg }}'); opacity: .25;"></div>
-  <div class="relative z-10">
-        <h2 class="text-2xl font-semibold text-center mb-2">3D Modelling</h2>
-        <p class="text-slate-600 text-center mb-5">
+    <div class="absolute inset-0 z-0 bg-cover bg-center" style="background-image: url('{{ eng3_bg }}'); opacity: .25;"></div>
+    <div class="relative z-10">
+      <h2 class="text-2xl font-semibold text-center mb-2">3D Modelling</h2>
+      <p class="text-slate-600 text-center mb-5">
           Advanced modelling across Autodesk, AVEVA, Hexagon, Dassault, SketchUp ecosystems to support planning, design and execution.
         </p>
         <div class="grid lg:grid-cols-2 gap-6">
@@ -117,10 +114,12 @@
 
       <h1 class="text-3xl sm:text-4xl font-bold mb-6">Engineering Software Solutions</h1>
 
-  <!-- Engineering Consultancy -->
-  <section class="rounded-2xl border bg-white p-6 shadow-sm">
-        <h2 class="text-2xl font-semibold text-center mb-2">List of Software</h2>
-        <div class="grid sm:grid-cols-2 gap-6">
+  <!-- List of Software (background matched to 3D Modelling) -->
+  <section class="rounded-2xl border bg-white p-6 shadow-sm relative overflow-hidden">
+    <div class="absolute inset-0 z-0 bg-cover bg-center" style="background-image: url('{{ eng3_bg }}'); opacity: .25;"></div>
+    <div class="relative z-20">
+      <h2 class="text-2xl font-semibold text-center mb-2">List of Software</h2>
+      <div class="grid sm:grid-cols-2 gap-6">
           <div class="rounded-xl bg-indigo-100 p-4">
             <ul class="mt-2 list-disc list-inside text-slate-700 space-y-1">
               <li>AVEVA PDMS</li>
@@ -149,12 +148,14 @@
         </div>
       </section>
 
-  <!-- AVEVA Solutions -->
-  <section class="rounded-2xl border bg-white p-6 shadow-sm">
-        <h2 class="text-2xl font-semibold text-center mb-2">AVEVA Solutions</h2>
-        <p class="text-slate-600 text-center mb-5">We're proud to be a <strong>Specialist Solutions Provider (SSP) of AVEVA</strong>, a global leader in engineering and industrial software.
-        </p>
-        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 text-slate-700">
+  <!-- AVEVA Solutions (background matched to 3D Modelling) -->
+  <section class="rounded-2xl border bg-white p-6 shadow-sm relative overflow-hidden">
+    <div class="absolute inset-0 z-0 bg-cover bg-center" style="background-image: url('{{ eng3_bg }}'); opacity: .25;"></div>
+    <div class="relative z-20">
+      <h2 class="text-2xl font-semibold text-center mb-2">AVEVA Solutions</h2>
+      <p class="text-slate-600 text-center mb-5">We're proud to be a <strong>Specialist Solutions Provider (SSP) of AVEVA</strong>, a global leader in engineering and industrial software.
+      </p>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 text-slate-700">
           <div class="rounded-xl bg-indigo-100 p-4">
             <h3 class="font-semibold">Implementation Expertise</h3>
             <p class="mt-2 text-sm">Seamless deployments and optimal use of the AVEVA stack.</p>
@@ -182,18 +183,19 @@
         </div>
       </section>
 
-      <section id="clients" class="py-20 bg-slate-50 text-center">
-  <div class="max-w-6xl mx-auto px-6">
-    <h2 class="text-3xl font-semibold"> AVEVA CERTIFICATE</h2>
-    <div class="mt-8 flex justify-center">
-      <img src="{{ url_for('static', filename='img/AVEVA.jpg') }}" alt="Major client" class="w-full max-w-4xl mx-auto rounded-lg shadow-lg object-contain">
-    </div>
-  </div>
-</section>
+      <section id="clients" class="rounded-2xl border bg-white p-6 shadow-sm relative overflow-hidden">
+        <div class="absolute inset-0 z-0 bg-cover bg-center" style="background-image: url('{{ eng3_bg }}'); opacity: .25;"></div>
+        <div class="relative z-10">
+          <h2 class="text-2xl font-semibold text-center mb-2">AVEVA CERTIFICATE</h2>
+          <div class="mt-8 flex justify-center">
+            <img src="{{ url_for('static', filename='img/AVEVA.jpg') }}" alt="Major client" class="w-full max-w-4xl mx-auto rounded-lg shadow-lg object-contain border-4 border-white">
+          </div>
+        </div>
+      </section>
 
       <!-- AWP -->
       <section class="rounded-2xl border bg-white p-6 shadow-sm relative overflow-hidden">
-        <div class="absolute inset-0 z-0 bg-cover bg-center" style="background-image: url('{{ awp_bg }}'); opacity: .25;"></div>
+        <div class="absolute inset-0 z-0 bg-cover bg-center" style="background-image: url('{{ eng3_bg }}'); opacity: .25;"></div>
         <div class="relative z-10">
         <h2 class="text-2xl font-semibold text-center mb-2">Advanced Work Packaging (AWP)</h2>
         <p class="text-slate-600 text-center mb-5">

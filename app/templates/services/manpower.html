@@ -222,32 +222,23 @@
         </p>
       </div>
 
-    </div>
-  </div>
-  </section>
-        <div class="mb-10 flex justify-center">
-          <a href="{{ url_for('main.services_manpower_send_cv') }}"
-             class="inline-flex items-center rounded-2xl text-white px-6 py-3 font-medium shadow hover:shadow-md transition"
-             style="background:#030C69; border:none;">
-            Send CV
-          </a>
-        </div>
-      </div>
-        </div>
-      </section>
-    <!-- Bottom CTA -->
 
-    <div class="mt-16 mb-24"> <!-- Added mb-24 for extra space above footer -->
-      <p class="text-slate-600 mb-6">
-        Need certified, project-ready personnel? Tell us your timeline and scope.
-      </p>
-      <a href="/get-in-touch"
-        class="inline-flex items-center rounded-2xl text-white px-6 py-3 font-medium transition" style="background:#030C69; border:none;">
-        Request a proposal
-      </a>
-    </div>
+    </div> <!-- end .space-y-12 -->
 
+  </div> <!-- end .max-w-4xl -->
+</section> <!-- end .py-8 bg-white -->
+
+<!-- Bottom CTA (moved outside the white content section) -->
+<div class="mt-16 mb-24"> <!-- Added mb-24 for extra space above footer -->
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    <p class="text-slate-600 mb-6">
+      Need certified, project-ready personnel? Tell us your timeline and scope.
+    </p>
+    <a href="/get-in-touch"
+      class="inline-flex items-center rounded-2xl text-white px-6 py-3 font-medium transition" style="background:#030C69; border:none;">
+      Request a proposal
+    </a>
   </div>
-</section>
+</div>
 
 {% endblock %}
