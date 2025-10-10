@@ -1,32 +1,27 @@
-import os
+# config.py
+from urllib.parse import quote_plus
 
 class BaseConfig:
-    """Base configuration shared by all environments."""
-    SECRET_KEY = os.environ.get("SECRET_KEY", "4d453d84e5c971b955366b277637c340ed34d10b9b05850bd3e6dc24de04980d")
-
-    # SQLAlchemy Database configuration
-    DB_USER = os.environ.get("DB_USER")
-    DB_PASS = os.environ.get("DB_PASS")
-    DB_NAME = os.environ.get("DB_NAME")
-    DB_HOST = os.environ.get("DB_HOST", "localhost")
-
-    if DB_USER and DB_PASS and DB_NAME:
-        SQLALCHEMY_DATABASE_URI = f"mysql+pymysql://{DB_USER}:{DB_PASS}@{DB_HOST}/{DB_NAME}"
-    else:
-        # If explicit DB connection info isn't provided, fall back to a
-        # developer-friendly SQLite database file so the app can run locally.
-        # Allow overriding via environment variables commonly used in deploys.
-        SQLALCHEMY_DATABASE_URI = os.environ.get(
-            'SQLALCHEMY_DATABASE_URI',
-            os.environ.get('DATABASE_URL', 'sqlite:///klsb.db')
-        )
-
+    SECRET_KEY = "4d453d84e5c971b955366b277637c340ed34d10b9b05850bd3e6dc24de04980d"
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
+    # === MySQL (your cPanel DB) ===
+    DB_USER = "kemunca_akmalhaziq"
+    DB_PASS = "akmal@kl$8kl$8"             # contains @ and $, so we URL-encode below
+    DB_NAME = "kemunca_website_Akmal"
+    DB_HOST = "localhost"
+    DB_PORT = "3306"
+
+    user_q = quote_plus(DB_USER)
+    pass_q = quote_plus(DB_PASS)
+    db_q   = quote_plus(DB_NAME)
+
+    SQLALCHEMY_DATABASE_URI = (
+        f"mysql+mysqlconnector://{user_q}:{pass_q}@{DB_HOST}:{DB_PORT}/{db_q}?charset=utf8mb4"
+    )
 
 class DevConfig(BaseConfig):
     DEBUG = True
-
 
 class ProdConfig(BaseConfig):
     DEBUG = False
