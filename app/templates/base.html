@@ -95,7 +95,7 @@
         <!-- Actions -->
         <div class="flex items-center gap-2 justify-end">
           {% if not hide_contact_cta %}
-          <a href="/get-in-touch" class="nav-cta" data-cta style="background:#030C69; color:#fff; border:none;">
+          <a href="{{ url_for('main.submit_proposal') }}" class="nav-cta" data-cta style="background:#030C69; color:#fff; border:none;">
             <span>Get in touch</span>
           </a>
           {% endif %}
@@ -147,7 +147,6 @@
   <main id="main-content" class="site-main pt-24 md:pt-28 fade-in flex-grow">
     {# Debug placeholder: shown only for /about/management to confirm route/template rendering #}
     {% if request.path and request.path.startswith('/about/management') %}
-      <div style="background:#f3f4f6; color:#0f172a; padding:10px 12px; text-align:center; font-size:13px; border-bottom:1px solid #e6e9ef">[debug] base: route /about/management detected</div>
     {% endif %}
     {% block content %}{% endblock %}
   </main>

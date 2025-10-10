@@ -200,3 +200,55 @@ def debug_db():
 @main_bp.route("/healthz")
 def healthz():
     return jsonify(status="ok")
+
+# ------------------- REQUEST PROPOSAL PAGE -------------------
+@main_bp.route("/proposal", methods=["GET", "POST"])
+def submit_proposal():
+    from app.models import Proposal
+    from app import db
+
+    if request.method == "POST":
+        company_name = request.form.get("company_name", "").strip()
+        client_email = request.form.get("client_email", "").strip()
+        proposal_details = request.form.get("proposal_details", "").strip()
+        service = request.form.get("service", "").strip()
+
+        errors = []
+        if not company_name:
+            errors.append("Company name is required.")
+        if not client_email:
+            errors.append("Email is required.")
+        if not proposal_details:
+            errors.append("Proposal details are required.")
+        if not service:
+            errors.append("Service selection is required.")
+
+        if errors:
+            return render_template("Proposal.html", errors=errors, form=request.form)
+
+        # ✅ Save to database
+        try:
+            new_proposal = Proposal(
+                company_name=company_name,
+                client_email=client_email,
+                proposal_details=proposal_details,
+                service=service
+            )
+            db.session.add(new_proposal)
+            db.session.commit()
+        except Exception as e:
+            db.session.rollback()
+            current_app.logger.exception("Failed to save proposal to database")
+            return render_template(
+                "Proposal.html",
+                errors=["An error occurred while saving your proposal. Please try again later."],
+                form=request.form
+            )
+
+        return render_template("proposal_success.html", name=company_name)
+
+    # GET — show form
+    return render_template("Proposal.html")
+
+
+
