@@ -15,7 +15,9 @@
   panel.setAttribute('aria-modal','true');
 
     const closeBtn = document.createElement('button');
-    closeBtn.className = 'board-modal-close absolute top-4 right-4 z-10 bg-white/80 hover:bg-white text-slate-700 hover:text-red-600 rounded-full w-8 h-8 flex items-center justify-center text-xl font-bold shadow-lg transition-all';
+  // Use the same visual style as the pillar-close button on the homepage
+  // keep `board-modal-close` for any page-scoped z-index rules
+  closeBtn.className = 'board-modal-close pillar-close absolute right-4 top-4 text-slate-400 hover:text-teal-600 text-2xl leading-none font-bold';
     closeBtn.setAttribute('aria-label','Close');
     closeBtn.innerHTML = '&times;';
 

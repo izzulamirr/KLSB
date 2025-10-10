@@ -8,7 +8,7 @@
     <p class="mt-6 text-lg text-slate-600 leading-relaxed">We provide integrated manpower, engineering, digital and inspection capability under a coordinated delivery model that reduces interface risk and accelerates predictable outcomes for industrial and energy stakeholders.</p>
 </header>
 		<div class="mt-14 grid gap-6 md:grid-cols-1">
-      <div class="relative overflow-hidden rounded-2xl border border-slate-200 bg-white/80 backdrop-blur-sm p-6 shadow-sm hover:shadow-md transition-shadow col-span-3">
+  <div class="relative overflow-hidden rounded-2xl bg-white/80 backdrop-blur-sm p-6 shadow-sm hover:shadow-md transition-shadow col-span-3">
         <div class="text-xl font-semibold tracking-wide text-#030C69-600/80">Foreword</div>
         <div class="mt-4 flex justify-center">
           <button id="forewordBtn" aria-label="Open foreword" class="focus:outline-none">
@@ -18,7 +18,7 @@
         <p class="mt-3 text-sm text-slate-600 text-center">A short message from the leadership.</p>
       </div>
 		</div>
-		<div class="mt-10 h-px bg-gradient-to-r from-transparent via-slate-200 to-transparent"></div>
+
 
 		<!-- Company Evolution Narrative 
 	<section class="mt-16 max-w-4xl mx-auto text-center">
@@ -113,12 +113,10 @@
 </section>
 
 <!-- Foreword image modal -->
-<div id="imgModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/70 p-6">
-  <div class="relative max-w-5xl w-full">
-    <button id="closeModal" class="absolute top-2 right-2 text-white text-3xl leading-none px-3 py-1">&times;</button>
-    <div class="flex justify-center">
-      <img id="modalImg" src="{{ url_for('static', filename='img/Foreword.png') }}" alt="Foreword" class="mx-auto max-h-[80vh] w-auto transform transition-transform duration-150" style="cursor: grab;" />
-    </div>
+<div id="imgModal" class="fixed inset-0 z-50 hidden bg-black/70">
+  <button id="closeModal" class="fixed top-4 right-4 text-white text-3xl leading-none px-3 py-1 z-60">&times;</button>
+  <div id="modalDialog" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-auto px-2 flex flex-col items-center justify-center">
+    <img id="modalImg" src="{{ url_for('static', filename='img/Foreword.png') }}" alt="Foreword" class="block max-h-[90vh] w-[calc(100vw-2rem)] h-auto object-contain transform transition-transform duration-150" style="cursor: grab; margin:0;" />
     <div class="flex items-center justify-center gap-2 mt-4">
       <button id="zoomOut" class="bg-white text-slate-700 px-3 py-1 rounded">-</button>
       <button id="resetZoom" class="bg-white text-slate-700 px-3 py-1 rounded">Reset</button>
@@ -139,45 +137,162 @@
 
     let scale = 1;
     let tx = 0, ty = 0;
+    let dragging = false, dragStartX = 0, dragStartY = 0, startTx = 0, startTy = 0;
 
-    function applyTransform(){
+    modalImg.style.transformOrigin = 'center center';
+    modalImg.style.transition = 'transform 160ms ease';
+
+    function clampPan(){
+      const baseW = modalImg.offsetWidth || modalImg.naturalWidth || 1;
+      const baseH = modalImg.offsetHeight || modalImg.naturalHeight || 1;
+      const maxPanX = Math.max((baseW * (scale - 1)) / 2, 0) + 10;
+      const maxPanY = Math.max((baseH * (scale - 1)) / 2, 0) + 10;
+      tx = Math.max(-maxPanX, Math.min(maxPanX, tx));
+      ty = Math.max(-maxPanY, Math.min(maxPanY, ty));
+    }
+
+    function applyTransform(withTransition = true){
+      if(withTransition) modalImg.style.transition = 'transform 160ms ease';
       modalImg.style.transform = `translate(${tx}px, ${ty}px) scale(${scale})`;
     }
 
-    openBtn.addEventListener('click', () => {
-      modal.classList.remove('hidden');
+    function lockScroll(){ document.documentElement.style.overflow = 'hidden'; document.body.style.overflow = 'hidden'; }
+    function unlockScroll(){ document.documentElement.style.overflow = ''; document.body.style.overflow = ''; }
+
+    function openModal(){
       scale = 1; tx = 0; ty = 0; applyTransform();
-    });
-    closeBtn.addEventListener('click', () => modal.classList.add('hidden'));
-    modal.addEventListener('click', (e) => { if (e.target === modal) modal.classList.add('hidden'); });
-    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') modal.classList.add('hidden'); });
+      // ensure the overlay is visible and uses flex layout
+      try{
+        modal.classList.remove('hidden');
+        modal.style.display = 'flex';
+        modal.style.zIndex = '9999';
+        modal.setAttribute('aria-hidden', 'false');
+        // make sure image is visible
+        modalImg.style.visibility = 'visible';
+        modalImg.style.opacity = '1';
+      }catch(e){}
+      lockScroll();
+      closeBtn.focus();
+    }
 
-    zoomIn.addEventListener('click', () => { scale = Math.min(scale + 0.25, 5); applyTransform(); });
-    zoomOut.addEventListener('click', () => { scale = Math.max(scale - 0.25, 0.25); if (scale === 1){ tx = 0; ty = 0; } applyTransform(); });
-    resetZoom.addEventListener('click', () => { scale = 1; tx = 0; ty = 0; applyTransform(); });
+    function closeModal(){
+      try{
+        modal.classList.add('hidden');
+        modal.style.display = 'none';
+        modal.setAttribute('aria-hidden', 'true');
+      }catch(e){}
+      unlockScroll();
+      scale = 1; tx = 0; ty = 0; applyTransform(false);
+      modalImg.style.transition = 'transform 160ms ease';
+      // hide image visibility to avoid flicker under overlays
+      modalImg.style.visibility = '';
+      openBtn.focus();
+    }
 
-    // wheel to zoom
+    openBtn.addEventListener('click', openModal);
+    closeBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+
+    zoomIn && zoomIn.addEventListener('click', () => { scale = Math.min(scale + 0.25, 5); clampPan(); applyTransform(); });
+    zoomOut && zoomOut.addEventListener('click', () => { scale = Math.max(scale - 0.25, 0.25); if(scale === 1){ tx = 0; ty = 0; } clampPan(); applyTransform(); });
+    resetZoom && resetZoom.addEventListener('click', () => { scale = 1; tx = 0; ty = 0; applyTransform(); });
+
+    // Wheel: when zoomed (scale>1) use wheel to pan (vertical by default, Shift+wheel for horizontal).
+    // Hold Ctrl/Alt to perform pointer-based zoom instead.
     modalImg.addEventListener('wheel', (e) => {
+      // only intercept when modal is open
+      if (modal.classList.contains('hidden')) return;
       e.preventDefault();
-      scale = e.deltaY < 0 ? Math.min(scale + 0.1, 5) : Math.max(scale - 0.1, 0.25);
-      if (scale <= 1) { tx = 0; ty = 0; }
-      applyTransform();
+
+      // If user holds Ctrl/Alt => treat as zoom toward pointer
+      if (e.ctrlKey || e.altKey) {
+        const rect = modalImg.getBoundingClientRect();
+        const cx = rect.left + rect.width/2; const cy = rect.top + rect.height/2;
+        const px = e.clientX - cx; const py = e.clientY - cy;
+        const oldScale = scale;
+        scale = e.deltaY < 0 ? Math.min(scale + 0.12, 5) : Math.max(scale - 0.12, 0.25);
+        const factor = (scale/oldScale) - 1;
+        tx = tx - px * factor; ty = ty - py * factor;
+        clampPan(); applyTransform();
+        return;
+      }
+
+      // If currently zoomed in, use wheel to pan
+      if (scale > 1) {
+        const panAmount = e.deltaY; // positive on scroll down
+        if (e.shiftKey) {
+          // horizontal pan when shift is held
+          tx -= panAmount;
+        } else {
+          // vertical pan
+          ty -= panAmount;
+        }
+        clampPan(); applyTransform(false);
+        return;
+      }
+
+      // Default: zoom from center when not zoomed yet
+      const rect = modalImg.getBoundingClientRect();
+      const cx = rect.left + rect.width/2; const cy = rect.top + rect.height/2;
+      let px = 0, py = 0; // center
+      const oldScale = scale;
+      scale = e.deltaY < 0 ? Math.min(scale + 0.12, 5) : Math.max(scale - 0.12, 0.25);
+      const factor = (scale/oldScale) - 1;
+      tx = tx - px * factor; ty = ty - py * factor;
+      clampPan(); applyTransform();
     }, { passive: false });
 
-    // drag to pan when zoomed
-    let dragging = false, startX = 0, startY = 0;
+    // Drag-to-pan
     modalImg.addEventListener('mousedown', (e) => {
       if (scale <= 1) return;
-      dragging = true; modalImg.style.cursor = 'grabbing';
-      startX = e.clientX - tx; startY = e.clientY - ty;
-      e.preventDefault();
+      dragging = true; modalImg.style.cursor = 'grabbing'; modalImg.style.transition = 'none';
+      dragStartX = e.clientX; dragStartY = e.clientY; startTx = tx; startTy = ty; e.preventDefault();
     });
+
     window.addEventListener('mousemove', (e) => {
       if (!dragging) return;
-      tx = e.clientX - startX; ty = e.clientY - startY;
-      applyTransform();
+      tx = startTx + (e.clientX - dragStartX);
+      ty = startTy + (e.clientY - dragStartY);
+      clampPan(); applyTransform(false);
     });
-    window.addEventListener('mouseup', () => { if (dragging) { dragging = false; modalImg.style.cursor = 'grab'; } });
+
+    window.addEventListener('mouseup', () => { if (dragging) { dragging = false; modalImg.style.cursor = 'grab'; modalImg.style.transition = 'transform 160ms ease'; } });
+
+    // Basic touch: pinch-to-zoom and single-finger pan when zoomed
+    let touchStartDist = 0, touchMid = null, touchStartScale = 1, touchStartTx = 0, touchStartTy = 0;
+    modalImg.addEventListener('touchstart', (e) => {
+      if (e.touches.length === 2) {
+        e.preventDefault();
+        const t0 = e.touches[0], t1 = e.touches[1];
+        touchStartDist = Math.hypot(t1.clientX - t0.clientX, t1.clientY - t0.clientY);
+        touchMid = { x: (t0.clientX + t1.clientX)/2, y: (t0.clientY + t1.clientY)/2 };
+        touchStartScale = scale; touchStartTx = tx; touchStartTy = ty;
+      } else if (e.touches.length === 1 && scale > 1) {
+        dragging = true; dragStartX = e.touches[0].clientX; dragStartY = e.touches[0].clientY; startTx = tx; startTy = ty;
+      }
+    }, { passive: false });
+
+    modalImg.addEventListener('touchmove', (e) => {
+      if (e.touches.length === 2) {
+        e.preventDefault();
+        const t0 = e.touches[0], t1 = e.touches[1];
+        const dist = Math.hypot(t1.clientX - t0.clientX, t1.clientY - t0.clientY);
+        const oldScale = scale;
+        scale = Math.max(0.25, Math.min(5, touchStartScale * (dist / touchStartDist)));
+        const factor = (scale/oldScale) - 1;
+        const rect = modalImg.getBoundingClientRect();
+        const cx = rect.left + rect.width/2; const cy = rect.top + rect.height/2;
+        const px = touchMid.x - cx; const py = touchMid.y - cy;
+        tx = tx - px * factor; ty = ty - py * factor;
+        clampPan(); applyTransform();
+      } else if (e.touches.length === 1 && dragging) {
+        e.preventDefault(); tx = startTx + (e.touches[0].clientX - dragStartX); ty = startTy + (e.touches[0].clientY - dragStartY); clampPan(); applyTransform(false);
+      }
+    }, { passive: false });
+
+    modalImg.addEventListener('touchend', () => { dragging = false; modalImg.style.transition = 'transform 160ms ease'; });
+
   })();
 </script>
 

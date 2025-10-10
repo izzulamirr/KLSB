@@ -145,9 +145,7 @@
 
   <!-- Main content (flex-grow so footer sticks) -->
   <main id="main-content" class="site-main pt-24 md:pt-28 fade-in flex-grow">
-    {# Debug placeholder: shown only for /about/management to confirm route/template rendering #}
-    {% if request.path and request.path.startswith('/about/management') %}
-    {% endif %}
+    {# main content placeholder: page-specific debug banners removed #}
     {% block content %}{% endblock %}
   </main>
 
