@@ -1,7 +1,8 @@
 Flask==3.0.3
-Flask-SQLAlchemy
-PyMySQL
-Jinja2
-Werkzeug
-itsdangerous
-click
+Flask-SQLAlchemy==3.1.1
+PyMySQL==1.1.0
+mysql-connector-python==9.0.0
+Jinja2==3.1.4
+Werkzeug==3.0.3
+itsdangerous==2.2.0
+click==8.1.7
