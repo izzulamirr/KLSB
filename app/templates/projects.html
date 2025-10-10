@@ -50,1097 +50,468 @@
 <section class="py-12">
   <div class="max-w-7xl mx-auto px-6">
     <div class="space-y-4">
+      <style>
+        /* Projects list tweaks: add left padding so items don't sit on the border and make company name bolder */
+        .projects-list li{ padding-left:1rem; }
+        .projects-list li .flex-1 > .text-sm{ font-weight:600; color: #0f172a; }
+        /* keep project descriptions readable */
+        .projects-list li .text-slate-700{ margin-top: .25rem; }
+      </style>
   {% for year in range(2017, 2027) %}
   <details class="rounded-xl border bg-white">
         <summary class="px-4 py-3 font-semibold bg-slate-50 cursor-pointer">{{ year }} — Projects</summary>
         <div class="p-4">
-          {# Render provided entries by year. Replace or extend these blocks as you add more content. #}
+          {# Render provided entries by year. Convert card grids into stacked lists for simpler reading. #}
           {% if year == 2017 %}
-          <div class="grid gap-4 sm:grid-cols-2">
-            <!-- Entry 1 -->
-            <div class="rounded-lg border p-4 project-card" data-industry="engineering">
-              <div class="flex items-start gap-4">
-                <div class="flex-1">
-                  <div class="text-sm text-slate-500">Company</div>
-                  <div class="font-semibold">SYS McConnel Dowell Joint Venture</div>
-                </div>
-                <div class="text-sm text-slate-500 text-right">
-                  <div>Year</div>
-                  <div class="font-semibold">2017</div>
-                </div>
+          <ul class="space-y-3 projects-list">
+            <li class="flex items-start gap-4 py-2 border-b" data-industry="engineering">
+              <div class="flex-1">
+                <div class="text-sm text-slate-500">SYS McConnel Dowell Joint Venture</div>
+                <div class="text-slate-700">Petronas RAPID Project — P12B SOLID PRODUCT JETTY AND ASSOCIATED HANDLING FACILITIES (SPJ) AT TANJUNG SETAPA FOR RAPID PROJECT</div>
               </div>
-              <div class="mt-3">
-                <div class="text-xs text-slate-500">Project Owner</div>
-                <div class="font-semibold">PETRONAS</div>
-              </div>
-              <div class="mt-3 text-slate-700">
-                <div class="font-semibold">Project Title</div>
-                <div class="mt-1">Petronas RAPID Project<br>P12B SOLID PRODUCT JETTY AND ASSOCIATED HANDLING FACILITIES (SPJ) AT TANJUNG SETAPA FOR RAPID PROJECT</div>
-              </div>
-            </div>
+              <div class="text-sm text-slate-500 text-right">2017</div>
+            </li>
 
-            <!-- Entry 2 -->
-            <div class="rounded-lg border p-4 project-card" data-industry="engineering">
-              <div class="flex items-start gap-4">
-                <div class="flex-1">
-                  <div class="text-sm text-slate-500">Company</div>
-                  <div class="font-semibold">Petronas GTS Sdn Bhd</div> 
-                </div>
-                <div class="text-sm text-slate-500 text-right">
-                  <div>Year</div>
-                  <div class="font-semibold">2017</div>
-                </div>
+            <li class="flex items-start gap-4 py-2 border-b" data-industry="engineering">
+              <div class="flex-1">
+                <div class="text-sm text-slate-500">Petronas GTS Sdn Bhd</div>
+                <div class="text-slate-700">Petronas Penapisan Melaka Sdn Bhd — EURO 5 PLANT FEED PROJECT</div>
               </div>
-              <div class="mt-3">
-                <div class="text-xs text-slate-500">Project Owner</div>
-                <div class="font-semibold">PETRONAS</div>
-              </div>
-              <div class="mt-3 text-slate-700">
-                <div class="font-semibold">Project Title</div>
-                <div class="mt-1">Petronas Penapisan Melaka Sdn Bhd<br>EURO 5 PLANT FEED PROJECT</div>
-              </div>
-            </div>
-          </div>
+              <div class="text-sm text-slate-500 text-right">2017</div>
+            </li>
+          </ul>
 
           {% elif year == 2018 %}
-          <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-2">
-            <!-- Entry 3 -->
-            <div class="rounded-lg border p-4 project-card" data-industry="engineering">
-              <div class="flex items-start gap-4">
-                <div class="flex-1">
-                  <div class="text-sm text-slate-500">Company</div>
-                  <div class="font-semibold">Grand Teknik Sdn Bhd</div>
-                </div>
-                <div class="text-sm text-slate-500 text-right">
-                  <div>Year</div>
-                  <div class="font-semibold">2018</div>
-                </div>
+          <ul class="space-y-3 projects-list">
+            <li class="flex items-start gap-4 py-2 border-b" data-industry="engineering">
+              <div class="flex-1">
+                <div class="text-sm text-slate-500">Grand Teknik Sdn Bhd</div>
+                <div class="text-slate-700">Petronas RAPID Project — WIRELESS PERVASSIVE (AP) INSTALLTION PROJECT</div>
               </div>
-              <div class="mt-3">
-                <div class="text-xs text-slate-500">Project Owner</div>
-                <div class="font-semibold">PETRONAS</div>
-              </div>
-              <div class="mt-3 text-slate-700">
-                <div class="font-semibold">Project Title</div>
-                <div class="mt-1">Petronas RAPID Project<br>WIRELESS PERVASSIVE (AP) INSTALLTION PROJECT</div>
-              </div>
-            </div>
+              <div class="text-sm text-slate-500 text-right">2018</div>
+            </li>
 
-            <!-- Entry 4 -->
-            <div class="rounded-lg border p-4 project-card" data-industry="engineering">
-              <div class="flex items-start gap-4">
-                <div class="flex-1">
-                  <div class="text-sm text-slate-500">Company</div>
-                  <div class="font-semibold">Basenet Sdn Bhd</div>
-                </div>
-                <div class="text-sm text-slate-500 text-right">
-                  <div>Year</div>
-                  <div class="font-semibold">2018</div>
-                </div>
+            <li class="flex items-start gap-4 py-2 border-b" data-industry="engineering">
+              <div class="flex-1">
+                <div class="text-sm text-slate-500">Basenet Sdn Bhd</div>
+                <div class="text-slate-700">Petronas RAPID Project — WIRELESS PERVASSIVE (AP) INSTALLTION PROJECT</div>
               </div>
-              <div class="mt-3">
-                <div class="text-xs text-slate-500">Project Owner</div>
-                <div class="font-semibold">PETRONAS</div>
-              </div>
-              <div class="mt-3 text-slate-700">
-                <div class="font-semibold">Project Title</div>
-                <div class="mt-1">Petronas RAPID Project<br>WIRELESS PERVASSIVE (AP) INSTALLTION PROJECT</div>
-              </div>
-            </div>
+              <div class="text-sm text-slate-500 text-right">2018</div>
+            </li>
 
-            <!-- Entry 5 -->
-            <div class="rounded-lg border p-4 project-card" data-industry="engineering">
-              <div class="flex items-start gap-4">
-                <div class="flex-1">
-                  <div class="text-sm text-slate-500">Company</div>
-                  <div class="font-semibold">Petronas-GTS</div>
-                </div>
-                <div class="text-sm text-slate-500 text-right">
-                  <div>Year</div>
-                  <div class="font-semibold">2018</div>
-                </div>
+            <li class="flex items-start gap-4 py-2 border-b" data-industry="engineering">
+              <div class="flex-1">
+                <div class="text-sm text-slate-500">Petronas-GTS</div>
+                <div class="text-slate-700">SABAH AMMONIA UREA (SAMUR) — SP3D DATABASE MERGER - MODEL DATA REUSE FOR SAMUR PROJECT</div>
               </div>
-              <div class="mt-3">
-                <div class="text-xs text-slate-500">Project Owner</div>
-                <div class="font-semibold">PETRONAS</div>
-              </div>
-              <div class="mt-3 text-slate-700">
-                <div class="font-semibold">Project Title</div>
-                <div class="mt-1">SABAH AMMONIA UREA (SAMUR)<br>SP3D DATABASE MERGER - MODEL DATA REUSE FOR SAMUR PROJECT</div>
-              </div>
-            </div>
+              <div class="text-sm text-slate-500 text-right">2018</div>
+            </li>
 
-            <!-- Entry 6 -->
-            <div class="rounded-lg border p-4 project-card" data-industry="engineering">
-              <div class="flex items-start gap-4">
-                <div class="flex-1">
-                  <div class="text-sm text-slate-500">Company</div>
-                  <div class="font-semibold">PETRONAS</div>
-                </div>
-                <div class="text-sm text-slate-500 text-right">
-                  <div>Year</div>
-                  <div class="font-semibold">2018</div>
-                </div>
+            <li class="flex items-start gap-4 py-2 border-b" data-industry="engineering">
+              <div class="flex-1">
+                <div class="text-sm text-slate-500">PETRONAS</div>
+                <div class="text-slate-700">BASF Petronas Chemical Sdn Bhd — S3D MODELING AND EXTRACTION OF ISOMETRIC DRAWINGS FOR BASF OXO PLANT</div>
               </div>
-              <div class="mt-3">
-                <div class="text-xs text-slate-500">Project Owner</div>
-                <div class="font-semibold">PETRONAS</div>
-              </div>
-              <div class="mt-3 text-slate-700">
-                <div class="font-semibold">Project Title</div>
-                <div class="mt-1">BASF Petronas Chemical Sdn Bhd<br>S3D MODELING AND EXTRACTION OF ISOMETRIC DRAWINGS FOR BASF OXO PLANT</div>
-              </div>
-            </div>
+              <div class="text-sm text-slate-500 text-right">2018</div>
+            </li>
 
-            <!-- Entry 10 (PCEPESB) also listed for 2018 -->
-            <div class="rounded-lg border p-4 project-card" data-industry="engineering">
-              <div class="flex items-start gap-4">
-                <div class="flex-1">
-                  <div class="text-sm text-slate-500">Company</div>
-                  <div class="font-semibold">Petronas-GTS</div>
-                </div>
-                <div class="text-sm text-slate-500 text-right">
-                  <div>Year</div>
-                  <div class="font-semibold">2018</div>
-                </div>
+            <li class="flex items-start gap-4 py-2 border-b" data-industry="engineering">
+              <div class="flex-1">
+                <div class="text-sm text-slate-500">Petronas-GTS</div>
+                <div class="text-slate-700">PCEPESB — PLANT CHANGE DOCUMENT UPDATED (SPPID) FOR PCEPESB</div>
               </div>
-              <div class="mt-3">
-                <div class="text-xs text-slate-500">Project Owner</div>
-                <div class="font-semibold">PETRONAS</div>
-              </div>
-              <div class="mt-3 text-slate-700">
-                <div class="font-semibold">Project Title</div>
-                <div class="mt-1">Petronas Chemical Ethylene Polyethylene Sdn Bhd (PCEPESB)<br>PLANT CHANGE DOCUMENT UPDATED (SPPID) FOR PCEPESB</div>
-              </div>
-            </div>
-            <!-- Manpower entries 2018 (from attachments) -->
-            <div class="rounded-lg border p-4 project-card" data-industry="manpower">
-              <div class="flex items-start gap-4">
-                <div class="flex-1">
-                  <div class="text-sm text-slate-500">Client</div>
-                  <div class="font-semibold">PETRONAS GTS</div>
-                </div>
-                <div class="text-sm text-slate-500 text-right">
-                  <div>Year</div>
-                  <div class="font-semibold">2018</div>
-                </div>
-              </div>
-              <div class="mt-3 text-slate-700">
-                <div class="font-semibold">Positions</div>
-                <div class="mt-1 text-sm">Project Engineer / HSE Officer / Pipe Stress Engineer / Mechanical Engineer &amp; Instrument Engineer / Document Controller</div>
-              </div>
-            </div>
+              <div class="text-sm text-slate-500 text-right">2018</div>
+            </li>
 
-            <div class="rounded-lg border p-4 project-card" data-industry="manpower">
-              <div class="flex items-start gap-4">
-                <div class="flex-1">
-                  <div class="text-sm text-slate-500">Client</div>
-                  <div class="font-semibold">BUREAU VERITAS / RNZ Petrofac</div>
-                </div>
-                <div class="text-sm text-slate-500 text-right">
-                  <div>Year</div>
-                  <div class="font-semibold">2018</div>
-                </div>
+            {# Manpower entries 2018 #}
+            <li class="flex items-start gap-4 py-2 border-b" data-industry="manpower">
+              <div class="flex-1">
+                <div class="text-sm text-slate-500">PETRONAS GTS</div>
+                <div class="text-slate-700">Project Engineer / HSE Officer / Pipe Stress Engineer / Mechanical Engineer &amp; Instrument Engineer / Document Controller</div>
               </div>
-              <div class="mt-3 text-slate-700">
-                <div class="font-semibold">Positions</div>
-                <div class="mt-1 text-sm">Mechanical Engineer, Piping Engineer, PDMS Designer / Drafter</div>
-              </div>
-            </div>
+              <div class="text-sm text-slate-500 text-right">2018</div>
+            </li>
 
-            <div class="rounded-lg border p-4 project-card" data-industry="manpower">
-              <div class="flex items-start gap-4">
-                <div class="flex-1">
-                  <div class="text-sm text-slate-500">Client</div>
-                  <div class="font-semibold">Wood Group / Strand Aerospace</div>
-                </div>
-                <div class="text-sm text-slate-500 text-right">
-                  <div>Year</div>
-                  <div class="font-semibold">2018</div>
-                </div>
+            <li class="flex items-start gap-4 py-2 border-b" data-industry="manpower">
+              <div class="flex-1">
+                <div class="text-sm text-slate-500">BUREAU VERITAS / RNZ Petrofac</div>
+                <div class="text-slate-700">Mechanical Engineer, Piping Engineer, PDMS Designer / Drafter</div>
               </div>
-              <div class="mt-3 text-slate-700">
-                <div class="font-semibold">Positions</div>
-                <div class="mt-1 text-sm">PDMS Designers, Discipline Engineers, PMT and Project Support Staff, Structural Designer</div>
-              </div>
-            </div>
+              <div class="text-sm text-slate-500 text-right">2018</div>
+            </li>
 
-            <div class="rounded-lg border p-4 project-card" data-industry="manpower">
-              <div class="flex items-start gap-4">
-                <div class="flex-1">
-                  <div class="text-sm text-slate-500">Client</div>
-                  <div class="font-semibold">BASF / Handal Simflexi</div>
-                </div>
-                <div class="text-sm text-slate-500 text-right">
-                  <div>Year</div>
-                  <div class="font-semibold">2018</div>
-                </div>
+            <li class="flex items-start gap-4 py-2 border-b" data-industry="manpower">
+              <div class="flex-1">
+                <div class="text-sm text-slate-500">Wood Group / Strand Aerospace</div>
+                <div class="text-slate-700">PDMS Designers, Discipline Engineers, PMT and Project Support Staff, Structural Designer</div>
               </div>
-              <div class="mt-3 text-slate-700">
-                <div class="font-semibold">Positions</div>
-                <div class="mt-1 text-sm">AWP Workface Coordinator / Designer &amp; Drafter / Process Engineer</div>
+              <div class="text-sm text-slate-500 text-right">2018</div>
+            </li>
+
+            <li class="flex items-start gap-4 py-2" data-industry="manpower">
+              <div class="flex-1">
+                <div class="text-sm text-slate-500">BASF / Handal Simflexi</div>
+                <div class="text-slate-700">AWP Workface Coordinator / Designer &amp; Drafter / Process Engineer</div>
               </div>
-            </div>
-          </div>
+              <div class="text-sm text-slate-500 text-right">2018</div>
+            </li>
+          </ul>
 
           {% elif year == 2019 %}
-          <div class="grid gap-4 sm:grid-cols-2">
-            <!-- Entry 7 -->
-            <div class="rounded-lg border p-4 project-card" data-industry="engineering">
-              <div class="flex items-start gap-4">
-                <div class="flex-1">
-                  <div class="text-sm text-slate-500">Company</div>
-                  <div class="font-semibold">Petronas-GTS</div>
-                </div>
-                <div class="text-sm text-slate-500 text-right">
-                  <div>Year</div>
-                  <div class="font-semibold">2019</div>
-                </div>
+          <ul class="space-y-3 projects-list">
+            <li class="flex items-start gap-4 py-2 border-b" data-industry="engineering">
+              <div class="flex-1">
+                <div class="text-sm text-slate-500">Petronas-GTS</div>
+                <div class="text-slate-700">Petronas RAPID Project — PETRONAS FLANGE MANAGEMENT TOOLS (P-FMT) DEVELOPMENT FOR RAPID PROJECT</div>
               </div>
-              <div class="mt-3">
-                <div class="text-xs text-slate-500">Project Owner</div>
-                <div class="font-semibold">PETRONAS</div>
-              </div>
-              <div class="mt-3 text-slate-700">
-                <div class="font-semibold">Project Title</div>
-                <div class="mt-1">Petronas RAPID Project<br>PETRONAS FLANGE MANAGEMENT TOOLS (P-FMT) DEVELOPMENT FOR RAPID PROJECT</div>
-              </div>
-            </div>
+              <div class="text-sm text-slate-500 text-right">2019</div>
+            </li>
 
-            <!-- Entry 8 -->
-            <div class="rounded-lg border p-4 project-card" data-industry="engineering">
-              <div class="flex items-start gap-4">
-                <div class="flex-1">
-                  <div class="text-sm text-slate-500">Company</div>
-                  <div class="font-semibold">TNF ENERGY SDN BHD</div>
-                </div>
-                <div class="text-sm text-slate-500 text-right">
-                  <div>Year</div>
-                  <div class="font-semibold">2019</div>
-                </div>
+            <li class="flex items-start gap-4 py-2 border-b" data-industry="engineering">
+              <div class="flex-1">
+                <div class="text-sm text-slate-500">TNF ENERGY SDN BHD</div>
+                <div class="text-slate-700">ASEAN BINTULU FERTILIZER SDN BHD — ABF FEED 3RD BOILER PROJECT</div>
               </div>
-              <div class="mt-3">
-                <div class="text-xs text-slate-500">Project Owner</div>
-                <div class="font-semibold">PETRONAS</div>
-              </div>
-              <div class="mt-3 text-slate-700">
-                <div class="font-semibold">Project Title</div>
-                <div class="mt-1">ASEAN BINTULU FERTILIZER SDN BHD<br>ABF FEED 3RD BOILER PROJECT</div>
-              </div>
-            </div>
+              <div class="text-sm text-slate-500 text-right">2019</div>
+            </li>
 
-            <!-- Entry 9 -->
-            <div class="rounded-lg border p-4 project-card" data-industry="engineering">
-              <div class="flex items-start gap-4">
-                <div class="flex-1">
-                  <div class="text-sm text-slate-500">Company</div>
-                  <div class="font-semibold">Petronas-GTS</div>
-                </div>
-                <div class="text-sm text-slate-500 text-right">
-                  <div>Year</div>
-                  <div class="font-semibold">2019</div>
-                </div>
+            <li class="flex items-start gap-4 py-2 border-b" data-industry="engineering">
+              <div class="flex-1">
+                <div class="text-sm text-slate-500">Petronas-GTS</div>
+                <div class="text-slate-700">Petronas MLNG Sdn Bhd — PLANT CHANGE DOCUMENT UPDATED FOR PETRONAS MLNG TRAIN-9</div>
               </div>
-              <div class="mt-3">
-                <div class="text-xs text-slate-500">Project Owner</div>
-                <div class="font-semibold">PETRONAS</div>
-              </div>
-              <div class="mt-3 text-slate-700">
-                <div class="font-semibold">Project Title</div>
-                <div class="mt-1">Petronas MLNG Sdn Bhd<br>PLANT CHANGE DOCUMENT UPDATED FOR PETRONAS MLNG TRAIN-9</div>
-              </div>
-            </div>
+              <div class="text-sm text-slate-500 text-right">2019</div>
+            </li>
 
-            <!-- Entry 10 (PCEPESB) also listed for 2019 -->
-            <div class="rounded-lg border p-4 project-card" data-industry="engineering">
-              <div class="flex items-start gap-4">
-                <div class="flex-1">
-                  <div class="text-sm text-slate-500">Company</div>
-                  <div class="font-semibold">Petronas-GTS</div>
-                </div>
-                <div class="text-sm text-slate-500 text-right">
-                  <div>Year</div>
-                  <div class="font-semibold">2019</div>
-                </div>
+            <li class="flex items-start gap-4 py-2 border-b" data-industry="engineering">
+              <div class="flex-1">
+                <div class="text-sm text-slate-500">Petronas-GTS</div>
+                <div class="text-slate-700">Petronas Floating LNG Satu (PFLNG-1) — PLANT CHANGE DOCUMENT UPDATED (SPPID) FOR PFLNG-1</div>
               </div>
-              <div class="mt-3">
-                <div class="text-xs text-slate-500">Project Owner</div>
-                <div class="font-semibold">PETRONAS</div>
-              </div>
-              <div class="mt-3 text-slate-700">
-                <div class="font-semibold">Project Title</div>
-                <div class="mt-1">Petronas Chemical Ethylene Polyethylene Sdn Bhd (PCEPESB)<br>PLANT CHANGE DOCUMENT UPDATED (SPPID) FOR PCEPESB</div>
-              </div>
-            </div>
-            <!-- Additional 2019/2020 entries: Petronas Floating LNG Satu (PFLNG-1) spans 2019 & 2020 -->
-            <div class="rounded-lg border p-4 project-card" data-industry="engineering">
-              <div class="flex items-start gap-4">
-                <div class="flex-1">
-                  <div class="text-sm text-slate-500">Company</div>
-                  <div class="font-semibold">Petronas-GTS</div>
-                </div>
-                <div class="text-sm text-slate-500 text-right">
-                  <div>Year</div>
-                  <div class="font-semibold">2019 / 2020</div>
-                </div>
-              </div>
-              <div class="mt-3">
-                <div class="text-xs text-slate-500">Project Owner</div>
-                <div class="font-semibold">PETRONAS</div>
-              </div>
-              <div class="mt-3 text-slate-700">
-                <div class="font-semibold">Project Title</div>
-                <div class="mt-1">Petronas Floating LNG Satu (PFLNG-1)<br>PLANT CHANGE DOCUMENT UPDATED (SPPID) FOR PFLNG-1</div>
-              </div>
-            </div>
-            <!-- Manpower entries 2019 (from attachments) -->
-            <div class="rounded-lg border p-4 project-card" data-industry="manpower">
-              <div class="flex items-start gap-4">
-                <div class="flex-1">
-                  <div class="text-sm text-slate-500">Client</div>
-                  <div class="font-semibold">McDermott</div>
-                </div>
-                <div class="text-sm text-slate-500 text-right">
-                  <div>Year</div>
-                  <div class="font-semibold">2019</div>
-                </div>
-              </div>
-              <div class="mt-3 text-slate-700">
-                <div class="font-semibold">Positions</div>
-                <div class="mt-1 text-sm">S3D Designer</div>
-              </div>
-            </div>
+              <div class="text-sm text-slate-500 text-right">2019 / 2020</div>
+            </li>
 
-            <div class="rounded-lg border p-4 project-card" data-industry="manpower">
-              <div class="flex items-start gap-4">
-                <div class="flex-1">
-                  <div class="text-sm text-slate-500">Client</div>
-                  <div class="font-semibold">VME Process</div>
-                </div>
-                <div class="text-sm text-slate-500 text-right">
-                  <div>Year</div>
-                  <div class="font-semibold">2019</div>
-                </div>
+            {# Manpower entries 2019 #}
+            <li class="flex items-start gap-4 py-2 border-b" data-industry="manpower">
+              <div class="flex-1">
+                <div class="text-sm text-slate-500">McDermott</div>
+                <div class="text-slate-700">S3D Designer</div>
               </div>
-              <div class="mt-3 text-slate-700">
-                <div class="font-semibold">Positions</div>
-                <div class="mt-1 text-sm">Engineer, 3D Designer and Drafter</div>
+              <div class="text-sm text-slate-500 text-right">2019</div>
+            </li>
+
+            <li class="flex items-start gap-4 py-2" data-industry="manpower">
+              <div class="flex-1">
+                <div class="text-sm text-slate-500">VME Process</div>
+                <div class="text-slate-700">Engineer, 3D Designer and Drafter</div>
               </div>
-            </div>
-          </div>
+              <div class="text-sm text-slate-500 text-right">2019</div>
+            </li>
+          </ul>
 
           {% elif year == 2020 %}
-          <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-2">
-            <!-- VME COMPANIES -->
-            <div class="rounded-lg border p-4 project-card" data-industry="engineering">
-              <div class="flex items-start gap-4">
-                <div class="flex-1">
-                  <div class="text-sm text-slate-500">Company</div>
-                  <div class="font-semibold">VME COMPANIES</div>
-                </div>
-                <div class="text-sm text-slate-500 text-right">
-                  <div>Year</div>
-                  <div class="font-semibold">2020</div>
-                </div>
+          <ul class="space-y-3 projects-list">
+            <li class="flex items-start gap-4 py-2 border-b" data-industry="engineering">
+              <div class="flex-1">
+                <div class="text-sm text-slate-500">VME COMPANIES</div>
+                <div class="text-slate-700">SAUDI ARABIAN OIL COMPANY — AS-BUILT PDS 3D MODEL, UPDATING GA AND ISOMETRIC DRAWING FOR WASIT GAS PLANT</div>
               </div>
-              <div class="mt-3">
-                <div class="text-xs text-slate-500">Project Owner</div>
-                <div class="font-semibold">PETRONAS</div>
-              </div>
-              <div class="mt-3 text-slate-700">
-                <div class="font-semibold">Project Title</div>
-                <div class="mt-1">SAUDI ARABIAN OIL COMPANY<br>AS-BUILT PDS 3D MODEL, UPDATING GA AND ISOMETRIC DRAWING FOR WASIT GAS PLANT</div>
-              </div>
-            </div>
+              <div class="text-sm text-slate-500 text-right">2020</div>
+            </li>
 
-            <!-- TNF ENERGY SDN BHD -->
-            <div class="rounded-lg border p-4 project-card" data-industry="engineering">
-              <div class="flex items-start gap-4">
-                <div class="flex-1">
-                  <div class="text-sm text-slate-500">Company</div>
-                  <div class="font-semibold">TNF ENERGY SDN BHD</div>
-                </div>
-                <div class="text-sm text-slate-500 text-right">
-                  <div>Year</div>
-                  <div class="font-semibold">2020</div>
-                </div>
+            <li class="flex items-start gap-4 py-2 border-b" data-industry="engineering">
+              <div class="flex-1">
+                <div class="text-sm text-slate-500">TNF ENERGY SDN BHD</div>
+                <div class="text-slate-700">BASF Petronas Chemical Sdn Bhd — AS-BUILT SMART PLANT 3D FOR HRPIB</div>
               </div>
-              <div class="mt-3">
-                <div class="text-xs text-slate-500">Project Owner</div>
-                <div class="font-semibold">PETRONAS</div>
-              </div>
-              <div class="mt-3 text-slate-700">
-                <div class="font-semibold">Project Title</div>
-                <div class="mt-1">BASF Petronas Chemical Sdn Bhd<br>AS-BUILT SMART PLANT 3D FOR HIGHLY REACTIVE POLYISOBUTENE (HRPIB) BASED ON POINT CLOUD DATA (LASER SCANNING)</div>
-              </div>
-            </div>
+              <div class="text-sm text-slate-500 text-right">2020</div>
+            </li>
 
-            <!-- MODEC (Equinor Bacalhau FPSO) -->
-            <div class="rounded-lg border p-4 project-card" data-industry="engineering">
-              <div class="flex items-start gap-4">
-                <div class="flex-1">
-                  <div class="text-sm text-slate-500">Company</div>
-                  <div class="font-semibold">MODEC</div>
-                </div>
-                <div class="text-sm text-slate-500 text-right">
-                  <div>Year</div>
-                  <div class="font-semibold">2020</div>
-                </div>
+            <li class="flex items-start gap-4 py-2 border-b" data-industry="engineering">
+              <div class="flex-1">
+                <div class="text-sm text-slate-500">MODEC</div>
+                <div class="text-slate-700">Equinor Bacalhau FPSO — Provision of AVEVA P&amp;ID Conversion for Bacalhau FPSO Project</div>
               </div>
-              <div class="mt-3">
-                <div class="text-xs text-slate-500">Project Owner</div>
-                <div class="font-semibold">Equinor Bacalhau FPSO</div>
-              </div>
-              <div class="mt-3 text-slate-700">
-                <div class="font-semibold">Project Title</div>
-                <div class="mt-1">Equinor Bacalhau FPSO<br>Provision of AVEVA P&amp;ID Conversion for Bacalhau FPSO Project</div>
-              </div>
-            </div>
+              <div class="text-sm text-slate-500 text-right">2020</div>
+            </li>
 
-            <!-- VESTIGO -->
-            <div class="rounded-lg border p-4 project-card" data-industry="engineering">
-              <div class="flex items-start gap-4">
-                <div class="flex-1">
-                  <div class="text-sm text-slate-500">Company</div>
-                  <div class="font-semibold">VESTIGO</div>
-                </div>
-                <div class="text-sm text-slate-500 text-right">
-                  <div>Year</div>
-                  <div class="font-semibold">2020</div>
-                </div>
+            <li class="flex items-start gap-4 py-2 border-b" data-industry="engineering">
+              <div class="flex-1">
+                <div class="text-sm text-slate-500">VESTIGO</div>
+                <div class="text-slate-700">VESTIGO PETROLEUM SDN BHD — Provision of Modification and HUC of Wellhead Platform for Larut Infill Development Project</div>
               </div>
-              <div class="mt-3">
-                <div class="text-xs text-slate-500">Project Owner</div>
-                <div class="font-semibold">VESTIGO PETROLEUM SDN BHD</div>
-              </div>
-              <div class="mt-3 text-slate-700">
-                <div class="font-semibold">Project Title</div>
-                <div class="mt-1">Provision of Modification and HUC of Wellhead Platform for Larut Infill Development Project</div>
-              </div>
-            </div>
+              <div class="text-sm text-slate-500 text-right">2020</div>
+            </li>
 
-            <!-- HILTI -->
-            <div class="rounded-lg border p-4 project-card" data-industry="engineering">
-              <div class="flex items-start gap-4">
-                <div class="flex-1">
-                  <div class="text-sm text-slate-500">Company</div>
-                  <div class="font-semibold">HILTI</div>
-                </div>
-                <div class="text-sm text-slate-500 text-right">
-                  <div>Year</div>
-                  <div class="font-semibold">2020</div>
-                </div>
+            <li class="flex items-start gap-4 py-2 border-b" data-industry="engineering">
+              <div class="flex-1">
+                <div class="text-sm text-slate-500">HILTI</div>
+                <div class="text-slate-700">JGC-FLUOR BC LNG JV — Provision of 3D Modelling of Integrated Flooring System (IFS) for LNG Canada</div>
               </div>
-              <div class="mt-3">
-                <div class="text-xs text-slate-500">Project Owner</div>
-                <div class="font-semibold">JGC-FLUOR BC LNG JV</div>
-              </div>
-              <div class="mt-3 text-slate-700">
-                <div class="font-semibold">Project Title</div>
-                <div class="mt-1">Provision of 3D Modelling of Integrated Flooring System(IFS) for LNG Canada</div>
-              </div>
-            </div>
-            <!-- Manpower entries 2020 (from attachments) -->
-            <div class="rounded-lg border p-4 project-card" data-industry="manpower">
-              <div class="flex items-start gap-4">
-                <div class="flex-1">
-                  <div class="text-sm text-slate-500">Client</div>
-                  <div class="font-semibold">WOOD PLC / FW</div>
-                </div>
-                <div class="text-sm text-slate-500 text-right">
-                  <div>Year</div>
-                  <div class="font-semibold">2020</div>
-                </div>
-              </div>
-              <div class="mt-3 text-slate-700">
-                <div class="font-semibold">Positions</div>
-                <div class="mt-1 text-sm">Manpower Supply / Construction Manager</div>
-              </div>
-            </div>
+              <div class="text-sm text-slate-500 text-right">2020</div>
+            </li>
 
-            <div class="rounded-lg border p-4 project-card" data-industry="manpower">
-              <div class="flex items-start gap-4">
-                <div class="flex-1">
-                  <div class="text-sm text-slate-500">Client</div>
-                  <div class="font-semibold">Bureau Veritas</div>
-                </div>
-                <div class="text-sm text-slate-500 text-right">
-                  <div>Year</div>
-                  <div class="font-semibold">2020</div>
-                </div>
+            {# Manpower entries 2020 #}
+            <li class="flex items-start gap-4 py-2 border-b" data-industry="manpower">
+              <div class="flex-1">
+                <div class="text-sm text-slate-500">WOOD PLC / FW</div>
+                <div class="text-slate-700">Manpower Supply / Construction Manager</div>
               </div>
-              <div class="mt-3 text-slate-700">
-                <div class="font-semibold">Positions</div>
-                <div class="mt-1 text-sm">HSE Officer</div>
-              </div>
-            </div>
+              <div class="text-sm text-slate-500 text-right">2020</div>
+            </li>
 
-            <div class="rounded-lg border p-4 project-card" data-industry="manpower">
-              <div class="flex items-start gap-4">
-                <div class="flex-1">
-                  <div class="text-sm text-slate-500">Client</div>
-                  <div class="font-semibold">Ranhill Worley</div>
-                </div>
-                <div class="text-sm text-slate-500 text-right">
-                  <div>Year</div>
-                  <div class="font-semibold">2020</div>
-                </div>
+            <li class="flex items-start gap-4 py-2 border-b" data-industry="manpower">
+              <div class="flex-1">
+                <div class="text-sm text-slate-500">Bureau Veritas</div>
+                <div class="text-slate-700">HSE Officer</div>
               </div>
-              <div class="mt-3 text-slate-700">
-                <div class="font-semibold">Positions</div>
-                <div class="mt-1 text-sm">HSE Officer</div>
-              </div>
-            </div>
-          </div>
+              <div class="text-sm text-slate-500 text-right">2020</div>
+            </li>
 
-          {% elif year == 2024 %}
-          <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-2">
-            <!-- Manpower entries extracted from image -->
-            <div class="rounded-lg border p-4 project-card" data-industry="manpower">
-              <div class="flex items-start gap-4">
-                <div class="flex-1">
-                  <div class="text-sm text-slate-500">Client</div>
-                  <div class="font-semibold">AEM Energy Solutions Sdn. Bhd.</div>
-                </div>
-                <div class="text-sm text-slate-500 text-right">
-                  <div>Year</div>
-                  <div class="font-semibold">2024 - 2026</div>
-                </div>
+            <li class="flex items-start gap-4 py-2" data-industry="manpower">
+              <div class="flex-1">
+                <div class="text-sm text-slate-500">Ranhill Worley</div>
+                <div class="text-slate-700">HSE Officer</div>
               </div>
-              <div class="mt-3 text-slate-700">
-                <div class="font-semibold">Positions</div>
-                <div class="mt-1 text-sm">E3D Admin / Data Analyst &amp; Data Admin</div>
-              </div>
-            </div>
-
-            <div class="rounded-lg border p-4 project-card" data-industry="manpower">
-              <div class="flex items-start gap-4">
-                <div class="flex-1">
-                  <div class="text-sm text-slate-500">Client</div>
-                  <div class="font-semibold">PTTEP Sarawak Oil Limited</div>
-                </div>
-                <div class="text-sm text-slate-500 text-right">
-                  <div>Year</div>
-                  <div class="font-semibold">2024 - 2026</div>
-                </div>
-              </div>
-              <div class="mt-3 text-slate-700">
-                <div class="font-semibold">Positions</div>
-                <div class="mt-1 text-sm">Consultancy and Audit</div>
-              </div>
-            </div>
-          </div>
-
-          {% elif year == 2025 %}
-          <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-2">
-            <div class="rounded-lg border p-4 project-card" data-industry="manpower">
-              <div class="flex items-start gap-4">
-                <div class="flex-1">
-                  <div class="text-sm text-slate-500">Client</div>
-                  <div class="font-semibold">Petrofac-RNZ Malaysia</div>
-                </div>
-                <div class="text-sm text-slate-500 text-right">
-                  <div>Year</div>
-                  <div class="font-semibold">2025 - 2026</div>
-                </div>
-              </div>
-              <div class="mt-3 text-slate-700">
-                <div class="font-semibold">Positions</div>
-                <div class="mt-1 text-sm">E3D Admin</div>
-              </div>
-            </div>
-
-            <div class="rounded-lg border p-4 project-card" data-industry="manpower">
-              <div class="flex items-start gap-4">
-                <div class="flex-1">
-                  <div class="text-sm text-slate-500">Client</div>
-                  <div class="font-semibold">Kerry Emulgro</div>
-                </div>
-                <div class="text-sm text-slate-500 text-right">
-                  <div>Year</div>
-                  <div class="font-semibold">2025 - 2026</div>
-                </div>
-              </div>
-              <div class="mt-3 text-slate-700">
-                <div class="font-semibold">Positions</div>
-                <div class="mt-1 text-sm">Site Piping Engineer, Site Instrument Engineer, Site C&amp;A Engineer</div>
-              </div>
-            </div>
-          </div>
-
-          {% elif year == 2026 %}
-          <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-2">
-            <div class="rounded-lg border p-4 project-card" data-industry="manpower">
-              <div class="flex items-start gap-4">
-                <div class="flex-1">
-                  <div class="text-sm text-slate-500">Client</div>
-                  <div class="font-semibold">McDermott Asia Pacific Sdn Bhd</div>
-                </div>
-                <div class="text-sm text-slate-500 text-right">
-                  <div>Year</div>
-                  <div class="font-semibold">2025 - 2026</div>
-                </div>
-              </div>
-              <div class="mt-3 text-slate-700">
-                <div class="font-semibold">Positions</div>
-                <div class="mt-1 text-sm">Senior Piping Designer</div>
-              </div>
-            </div>
-          </div>
+              <div class="text-sm text-slate-500 text-right">2020</div>
+            </li>
+          </ul>
 
           {% elif year == 2021 %}
-          <div class="grid gap-4 sm:grid-cols-2">
-            <!-- Petronas-GTS PCEPESB -->
-            <div class="rounded-lg border p-4 project-card" data-industry="engineering">
-              <div class="flex items-start gap-4">
-                <div class="flex-1">
-                  <div class="text-sm text-slate-500">Company</div>
-                  <div class="font-semibold">Petronas-GTS</div>
-                </div>
-                <div class="text-sm text-slate-500 text-right">
-                  <div>Year</div>
-                  <div class="font-semibold">2021</div>
-                </div>
+          <ul class="space-y-3 projects-list">
+            <li class="flex items-start gap-4 py-2 border-b" data-industry="engineering">
+              <div class="flex-1">
+                <div class="text-sm text-slate-500">Petronas-GTS</div>
+                <div class="text-slate-700">PCEPESB — PLANT CHANGE DOCUMENT UPDATED (SPPID) FOR PCEPESB</div>
               </div>
-              <div class="mt-3">
-                <div class="text-xs text-slate-500">Project Owner</div>
-                <div class="font-semibold">PETRONAS</div>
-              </div>
-              <div class="mt-3 text-slate-700">
-                <div class="font-semibold">Project Title</div>
-                <div class="mt-1">Petronas Chemical Ethylene Polyethylene Sdn Bhd (PCEPESB)<br>PLANT CHANGE DOCUMENT UPDATED (SPPID) FOR PCEPESB</div>
-              </div>
-            </div>
-            <!-- Manpower entries 2021 -->
-            <div class="rounded-lg border p-4 project-card" data-industry="manpower">
-              <div class="flex items-start gap-4">
-                <div class="flex-1">
-                  <div class="text-sm text-slate-500">Client</div>
-                  <div class="font-semibold">Technip FMC</div>
-                </div>
-                <div class="text-sm text-slate-500 text-right">
-                  <div>Year</div>
-                  <div class="font-semibold">2021</div>
-                </div>
-              </div>
-              <div class="mt-3 text-slate-700">
-                <div class="font-semibold">Positions</div>
-                <div class="mt-1 text-sm">Manpower Supply - Process Engineer / Engineer and 3D Designer</div>
-              </div>
-            </div>
+              <div class="text-sm text-slate-500 text-right">2021</div>
+            </li>
 
-            <div class="rounded-lg border p-4 project-card" data-industry="manpower">
-              <div class="flex items-start gap-4">
-                <div class="flex-1">
-                  <div class="text-sm text-slate-500">Client</div>
-                  <div class="font-semibold">Ranhill Worley</div>
-                </div>
-                <div class="text-sm text-slate-500 text-right">
-                  <div>Year</div>
-                  <div class="font-semibold">2021</div>
-                </div>
+            <li class="flex items-start gap-4 py-2 border-b" data-industry="engineering">
+              <div class="flex-1">
+                <div class="text-sm text-slate-500">MMHE</div>
+                <div class="text-slate-700">PETRONAS — SPECIAL PIPE SUPPORT IFC DRAWING FOR KASAWARI PROJECT</div>
               </div>
-              <div class="mt-3 text-slate-700">
-                <div class="font-semibold">Positions</div>
-                <div class="mt-1 text-sm">E3D Designer</div>
-              </div>
-            </div>
+              <div class="text-sm text-slate-500 text-right">2021</div>
+            </li>
 
-            <!-- MMHE -->
-            <div class="rounded-lg border p-4 project-card" data-industry="engineering">
-              <div class="flex items-start gap-4">
-                <div class="flex-1">
-                  <div class="text-sm text-slate-500">Company</div>
-                  <div class="font-semibold">MMHE</div>
-                </div>
-                <div class="text-sm text-slate-500 text-right">
-                  <div>Year</div>
-                  <div class="font-semibold">2021</div>
-                </div>
+            {# Manpower 2021 #}
+            <li class="flex items-start gap-4 py-2 border-b" data-industry="manpower">
+              <div class="flex-1">
+                <div class="text-sm text-slate-500">Technip FMC</div>
+                <div class="text-slate-700">Manpower Supply - Process Engineer / Engineer and 3D Designer</div>
               </div>
-              <div class="mt-3">
-                <div class="text-xs text-slate-500">Project Owner</div>
-                <div class="font-semibold">PETRONAS</div>
+              <div class="text-sm text-slate-500 text-right">2021</div>
+            </li>
+
+            <li class="flex items-start gap-4 py-2" data-industry="manpower">
+              <div class="flex-1">
+                <div class="text-sm text-slate-500">Ranhill Worley</div>
+                <div class="text-slate-700">E3D Designer</div>
               </div>
-              <div class="mt-3 text-slate-700">
-                <div class="font-semibold">Project Title</div>
-                <div class="mt-1">SPECIAL PIPE SUPPORT IFC DRAWING FOR KASAWARI PROJECT</div>
-              </div>
-            </div>
-          </div>
+              <div class="text-sm text-slate-500 text-right">2021</div>
+            </li>
+          </ul>
 
           {% elif year == 2022 %}
-          <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-2">
-            <!-- Petronas-GTS 2022 PCASB -->
-            <div class="rounded-lg border p-4 project-card" data-industry="engineering">
-              <div class="flex items-start gap-4">
-                <div class="flex-1">
-                  <div class="text-sm text-slate-500">Company</div>
-                  <div class="font-semibold">Petronas-GTS</div>
-                </div>
-                <div class="text-sm text-slate-500 text-right">
-                  <div>Year</div>
-                  <div class="font-semibold">2022</div>
-                </div>
+          <ul class="space-y-3 projects-list">
+            <li class="flex items-start gap-4 py-2 border-b" data-industry="engineering">
+              <div class="flex-1">
+                <div class="text-sm text-slate-500">Petronas-GTS</div>
+                <div class="text-slate-700">PCASB — PROVISION OF ENGINEERING SERVICES FOR 3D MODEL DEVELOPMENT (INTELLIGENT MODEL) FOR PCASB</div>
               </div>
-              <div class="mt-3">
-                <div class="text-xs text-slate-500">Project Owner</div>
-                <div class="font-semibold">PETRONAS</div>
-              </div>
-              <div class="mt-3 text-slate-700">
-                <div class="font-semibold">Project Title</div>
-                <div class="mt-1">Petronas Chemical Ammonia Sdn Bhd (PCASB)<br>PROVISION OF ENGINEERING SERVICES FOR 3D MODEL DEVELOPMENT (INTELLIGENT MODEL) FOR PCASB</div>
-              </div>
-            </div>
+              <div class="text-sm text-slate-500 text-right">2022</div>
+            </li>
 
-            <!-- MIE/DIALOG/HILTI 2022 -->
-            <div class="rounded-lg border p-4 project-card" data-industry="engineering">
-              <div class="flex items-start gap-4">
-                <div class="flex-1">
-                  <div class="text-sm text-slate-500">Company</div>
-                  <div class="font-semibold">MIE/DIALOG/HILTI</div>
-                </div>
-                <div class="text-sm text-slate-500 text-right">
-                  <div>Year</div>
-                  <div class="font-semibold">2022</div>
-                </div>
+            <li class="flex items-start gap-4 py-2 border-b" data-industry="engineering">
+              <div class="flex-1">
+                <div class="text-sm text-slate-500">MIE / DIALOG / HILTI</div>
+                <div class="text-slate-700">Petronas Carigali Sdn Bhd — Provision of engineering, procurement, construction, installation &amp; commissioning (EPCIC) of brownfield modification package for Bayan Redevelopment Project Gas Phase 2; HILTI provision of 3D support conversion, shop drawing and as-built for Bayan project</div>
               </div>
-              <div class="mt-3">
-                <div class="text-xs text-slate-500">Project Owner</div>
-                <div class="font-semibold">PETRONAS CARIGALI SDN BHD</div>
-              </div>
-              <div class="mt-3 text-slate-700">
-                <div class="font-semibold">Project Title</div>
-                <div class="mt-1">Petronas Carigali Sdn Bhd<br>PROVISION OF ENGINEERING, PROCUREMENT, CONSTRUCTION, INSTALLATION & COMMISSIONING (EPCIC) OF BROWNFIELD MODIFICATION PACKAGE FOR BAYAN REDEVELOPMENT PROJECT GAS PHASE 2<br>HILTI: PROVISION OF HILTI 3D SUPPORT CONVERSION, SHOP DRAWING AND AS BUILT FOR BAYAN PROJECT</div>
-              </div>
-            </div>
+              <div class="text-sm text-slate-500 text-right">2022</div>
+            </li>
 
-            <!-- Manpower entries 2022 (from attachments) -->
-            <div class="rounded-lg border p-4 project-card" data-industry="manpower">
-              <div class="flex items-start gap-4">
-                <div class="flex-1">
-                  <div class="text-sm text-slate-500">Client</div>
-                  <div class="font-semibold">Shell Malaysia Trading - Penang</div>
-                </div>
-                <div class="text-sm text-slate-500 text-right">
-                  <div>Year</div>
-                  <div class="font-semibold">2022</div>
-                </div>
+            {# Manpower 2022 #}
+            <li class="flex items-start gap-4 py-2 border-b" data-industry="manpower">
+              <div class="flex-1">
+                <div class="text-sm text-slate-500">Shell Malaysia Trading - Penang</div>
+                <div class="text-slate-700">AGT Supervisor / HSE Officers</div>
               </div>
-              <div class="mt-3 text-slate-700">
-                <div class="font-semibold">Positions</div>
-                <div class="mt-1 text-sm">AGT Supervisor / HSE Officers</div>
-              </div>
-            </div>
+              <div class="text-sm text-slate-500 text-right">2022</div>
+            </li>
 
-            <div class="rounded-lg border p-4 project-card" data-industry="manpower">
-              <div class="flex items-start gap-4">
-                <div class="flex-1">
-                  <div class="text-sm text-slate-500">Client</div>
-                  <div class="font-semibold">NOV Malaysia</div>
-                </div>
-                <div class="text-sm text-slate-500 text-right">
-                  <div>Year</div>
-                  <div class="font-semibold">2022</div>
-                </div>
+            <li class="flex items-start gap-4 py-2 border-b" data-industry="manpower">
+              <div class="flex-1">
+                <div class="text-sm text-slate-500">NOV Malaysia</div>
+                <div class="text-slate-700">Multi Discipline Engineers, Designers &amp; Drafters</div>
               </div>
-              <div class="mt-3 text-slate-700">
-                <div class="font-semibold">Positions</div>
-                <div class="mt-1 text-sm">Multi Discipline Engineers, Designers &amp; Drafters</div>
-              </div>
-            </div>
+              <div class="text-sm text-slate-500 text-right">2022</div>
+            </li>
 
-            <div class="rounded-lg border p-4 project-card" data-industry="manpower">
-              <div class="flex items-start gap-4">
-                <div class="flex-1">
-                  <div class="text-sm text-slate-500">Client</div>
-                  <div class="font-semibold">McDermott Asia Pacific</div>
-                </div>
-                <div class="text-sm text-slate-500 text-right">
-                  <div>Year</div>
-                  <div class="font-semibold">2022</div>
-                </div>
+            <li class="flex items-start gap-4 py-2 border-b" data-industry="manpower">
+              <div class="flex-1">
+                <div class="text-sm text-slate-500">McDermott Asia Pacific</div>
+                <div class="text-slate-700">Multi Discipline Engineers, Designers &amp; Drafters</div>
               </div>
-              <div class="mt-3 text-slate-700">
-                <div class="font-semibold">Positions</div>
-                <div class="mt-1 text-sm">Multi Discipline Engineers, Designers &amp; Drafters</div>
-              </div>
-            </div>
+              <div class="text-sm text-slate-500 text-right">2022</div>
+            </li>
 
-            <div class="rounded-lg border p-4 project-card" data-industry="manpower">
-              <div class="flex items-start gap-4">
-                <div class="flex-1">
-                  <div class="text-sm text-slate-500">Client</div>
-                  <div class="font-semibold">MIE Industrial</div>
-                </div>
-                <div class="text-sm text-slate-500 text-right">
-                  <div>Year</div>
-                  <div class="font-semibold">2022</div>
-                </div>
+            <li class="flex items-start gap-4 py-2 border-b" data-industry="manpower">
+              <div class="flex-1">
+                <div class="text-sm text-slate-500">MIE Industrial</div>
+                <div class="text-slate-700">Multi Discipline Engineers, Designers &amp; Drafters</div>
               </div>
-              <div class="mt-3 text-slate-700">
-                <div class="font-semibold">Positions</div>
-                <div class="mt-1 text-sm">Multi Discipline Engineers, Designers &amp; Drafters</div>
-              </div>
-            </div>
+              <div class="text-sm text-slate-500 text-right">2022</div>
+            </li>
 
-            <div class="rounded-lg border p-4 project-card" data-industry="manpower">
-              <div class="flex items-start gap-4">
-                <div class="flex-1">
-                  <div class="text-sm text-slate-500">Client</div>
-                  <div class="font-semibold">JJ-Lurgi Engineering Sdn Bhd</div>
-                </div>
-                <div class="text-sm text-slate-500 text-right">
-                  <div>Year</div>
-                  <div class="font-semibold">2022 - 2023</div>
-                </div>
+            <li class="flex items-start gap-4 py-2" data-industry="manpower">
+              <div class="flex-1">
+                <div class="text-sm text-slate-500">JJ-Lurgi Engineering Sdn Bhd</div>
+                <div class="text-slate-700">Multi Discipline Engineers, Designers &amp; Drafters</div>
               </div>
-              <div class="mt-3 text-slate-700">
-                <div class="font-semibold">Positions</div>
-                <div class="mt-1 text-sm">Multi Discipline Engineers, Designers &amp; Drafters</div>
-              </div>
-            </div>
+              <div class="text-sm text-slate-500 text-right">2022 - 2023</div>
+            </li>
 
-            <div class="rounded-lg border p-4 project-card" data-industry="manpower">
-              <div class="flex items-start gap-4">
-                <div class="flex-1">
-                  <div class="text-sm text-slate-500">Client</div>
-                  <div class="font-semibold">MMC Oil &amp; Gas Sdn Bhd</div>
-                </div>
-                <div class="text-sm text-slate-500 text-right">
-                  <div>Year</div>
-                  <div class="font-semibold">2022 - 2023</div>
-                </div>
+            <li class="flex items-start gap-4 py-2" data-industry="manpower">
+              <div class="flex-1">
+                <div class="text-sm text-slate-500">MMC Oil &amp; Gas Sdn Bhd</div>
+                <div class="text-slate-700">Multi Discipline Engineers, Designers &amp; Drafters</div>
               </div>
-              <div class="mt-3 text-slate-700">
-                <div class="font-semibold">Positions</div>
-                <div class="mt-1 text-sm">Multi Discipline Engineers, Designers &amp; Drafters</div>
-              </div>
-            </div>
-          </div>
+              <div class="text-sm text-slate-500 text-right">2022 - 2023</div>
+            </li>
+          </ul>
 
           {% elif year == 2023 %}
-          <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-2">
-            <!-- JJ-Lurgi Engineering Sdn Bhd -->
-            <div class="rounded-lg border p-4 project-card" data-industry="engineering">
-              <div class="flex items-start gap-4">
-                <div class="flex-1">
-                  <div class="text-sm text-slate-500">Company</div>
-                  <div class="font-semibold">JJ-Lurgi Engineering Sdn Bhd</div>
-                </div>
-                <div class="text-sm text-slate-500 text-right">
-                  <div>Year</div>
-                  <div class="font-semibold">2023</div>
-                </div>
+          <ul class="space-y-3 projects-list">
+            <li class="flex items-start gap-4 py-2 border-b" data-industry="engineering">
+              <div class="flex-1">
+                <div class="text-sm text-slate-500">JJ-Lurgi Engineering Sdn Bhd</div>
+                <div class="text-slate-700">DEVELOPMENT OF AUTOCAD PLANT 3D AND PIPE STRESS ANALYSIS FOR PETRON BATAAN REFINERY, CME PLANT PROJECT (C344)</div>
               </div>
-              <div class="mt-3">
-                <div class="text-xs text-slate-500">Project Owner</div>
-                <div class="font-semibold">Petron Corporation (PCOR)</div>
-              </div>
-              <div class="mt-3 text-slate-700">
-                <div class="font-semibold">Project Title</div>
-                <div class="mt-1">DEVELOPMENT OF AUTOCAD PLANT 3D AND PIPE STRESS ANALYSIS FOR PETRON BATAAN REFINERY, CME PLANT PROJECT (C344)</div>
-              </div>
-            </div>
+              <div class="text-sm text-slate-500 text-right">2023</div>
+            </li>
 
-            <!-- Mecip Global Engineers Sdn Bhd (MECIP) -->
-            <div class="rounded-lg border p-4 project-card" data-industry="engineering">
-              <div class="flex items-start gap-4">
-                <div class="flex-1">
-                  <div class="text-sm text-slate-500">Company</div>
-                  <div class="font-semibold">Mecip Global Engineers Sdn Bhd (MECIP)</div>
-                </div>
-                <div class="text-sm text-slate-500 text-right">
-                  <div>Year</div>
-                  <div class="font-semibold">2023</div>
-                </div>
+            <li class="flex items-start gap-4 py-2 border-b" data-industry="engineering">
+              <div class="flex-1">
+                <div class="text-sm text-slate-500">Mecip Global Engineers Sdn Bhd (MECIP)</div>
+                <div class="text-slate-700">PROVISION OF ENGINEERING SERVICES FOR DRAWING AS‐BUILT UPDATING FOR PRPC &amp; PFLNG</div>
               </div>
-              <div class="mt-3">
-                <div class="text-xs text-slate-500">Project Owner</div>
-                <div class="font-semibold">Petronas Group Technical Solutions (GTS)</div>
-              </div>
-              <div class="mt-3 text-slate-700">
-                <div class="font-semibold">Project Title</div>
-                <div class="mt-1">PROVISION OF ENGINEERING SERVICES FOR DRAWING AS‐BUILT UPDATING FOR PRPC &amp; PFLNG</div>
-              </div>
-            </div>
+              <div class="text-sm text-slate-500 text-right">2023</div>
+            </li>
 
-            <!-- Maju Integrated Engineers Sdn Bhd -->
-            <div class="rounded-lg border p-4 project-card" data-industry="engineering">
-              <div class="flex items-start gap-4">
-                <div class="flex-1">
-                  <div class="text-sm text-slate-500">Company</div>
-                  <div class="font-semibold">Maju Integrated Engineers Sdn Bhd</div>
-                </div>
-                <div class="text-sm text-slate-500 text-right">
-                  <div>Year</div>
-                  <div class="font-semibold">2023</div>
-                </div>
+            <li class="flex items-start gap-4 py-2" data-industry="engineering">
+              <div class="flex-1">
+                <div class="text-sm text-slate-500">Maju Integrated Engineers Sdn Bhd</div>
+                <div class="text-slate-700">PROVISION OF ENGINEERING SERVICES FOR PSI TAGGING AND PSI UPDATING FOR PGB GTR &amp; PEDMS DOCUMENT UPLOADING</div>
               </div>
-              <div class="mt-3">
-                <div class="text-xs text-slate-500">Project Owner</div>
-                <div class="font-semibold">Petronas Group Technical Solutions (GTS)</div>
-              </div>
-              <div class="mt-3 text-slate-700">
-                <div class="font-semibold">Project Title</div>
-                <div class="mt-1">PROVISION OF ENGINEERING SERVICES FOR PSI TAGGING AND PSI UPDATING FOR PGB GTR &amp; PEDMS DOCUMENT UPLOADING</div>
-              </div>
-            </div>
+              <div class="text-sm text-slate-500 text-right">2023</div>
+            </li>
 
-            <!-- JJ-Lurgi Engineering - P.STRESS C339 -->
-            <div class="rounded-lg border p-4 project-card" data-industry="engineering">
-              <div class="flex items-start gap-4">
-                <div class="flex-1">
-                  <div class="text-sm text-slate-500">Company</div>
-                  <div class="font-semibold">JJ-Lurgi Engineering Sdn Bhd</div>
-                </div>
-                <div class="text-sm text-slate-500 text-right">
-                  <div>Year</div>
-                  <div class="font-semibold">2023</div>
-                </div>
+            <li class="flex items-start gap-4 py-2" data-industry="engineering">
+              <div class="flex-1">
+                <div class="text-sm text-slate-500">BuildCAD Solutions Sdn Bhd</div>
+                <div class="text-slate-700">PROVISION OF PIPING FABRICATION DRAWING PREPARATION FOR KWINANA COAVALENT LITHIUM PLANT</div>
               </div>
-              <div class="mt-3">
-                <div class="text-xs text-slate-500">Project Owner</div>
-                <div class="font-semibold">Petron Corporation (PCOR)</div>
-              </div>
-              <div class="mt-3 text-slate-700">
-                <div class="font-semibold">Project Title</div>
-                <div class="mt-1">JJLE - P.STRESS ANALYSIS PROJECT - C339</div>
-              </div>
-            </div>
+              <div class="text-sm text-slate-500 text-right">2023</div>
+            </li>
 
-            <!-- JJ-Lurgi Engineering - P.STRESS & 3D C343 -->
-            <div class="rounded-lg border p-4 project-card" data-industry="engineering">
-              <div class="flex items-start gap-4">
-                <div class="flex-1">
-                  <div class="text-sm text-slate-500">Company</div>
-                  <div class="font-semibold">JJ-Lurgi Engineering Sdn Bhd</div>
-                </div>
-                <div class="text-sm text-slate-500 text-right">
-                  <div>Year</div>
-                  <div class="font-semibold">2023</div>
-                </div>
+            <li class="flex items-start gap-4 py-2" data-industry="engineering">
+              <div class="flex-1">
+                <div class="text-sm text-slate-500">Technip Energies (TEN)</div>
+                <div class="text-slate-700">SMART PLANT P&amp;ID CONVERSION FOR PAPUA LNG PROJECT</div>
               </div>
-              <div class="mt-3">
-                <div class="text-xs text-slate-500">Project Owner</div>
-                <div class="font-semibold">Petron Corporation (PCOR)</div>
-              </div>
-              <div class="mt-3 text-slate-700">
-                <div class="font-semibold">Project Title</div>
-                <div class="mt-1">JJLE - P.STRESS AND 3D MODIFICATION PROJECT - C343</div>
-              </div>
-            </div>
+              <div class="text-sm text-slate-500 text-right">2023</div>
+            </li>
 
-            <!-- BuildCAD Solutions Sdn Bhd -->
-            <div class="rounded-lg border p-4 project-card" data-industry="engineering">
-              <div class="flex items-start gap-4">
-                <div class="flex-1">
-                  <div class="text-sm text-slate-500">Company</div>
-                  <div class="font-semibold">BuildCAD Solutions Sdn Bhd</div>
-                </div>
-                <div class="text-sm text-slate-500 text-right">
-                  <div>Year</div>
-                  <div class="font-semibold">2023</div>
-                </div>
+            <li class="flex items-start gap-4 py-2" data-industry="engineering">
+              <div class="flex-1">
+                <div class="text-sm text-slate-500">SINOPEC ENGINEERING GROUP MALAYSIA SDN BHD</div>
+                <div class="text-slate-700">SMART PLANT TOOLS RECTIFICATIONS FOR SINOPEC P012A RAPID PROJECT</div>
               </div>
-              <div class="mt-3">
-                <div class="text-xs text-slate-500">Project Owner</div>
-                <div class="font-semibold">Civmec Construction &amp; Engineering Pty Ltd</div>
-              </div>
-              <div class="mt-3 text-slate-700">
-                <div class="font-semibold">Project Title</div>
-                <div class="mt-1">PROVISION OF PIPING FABRICATION DRAWING PREPARATION FOR KWINANA COAVALENT LITHIUM PLANT</div>
-              </div>
-            </div>
+              <div class="text-sm text-slate-500 text-right">2023</div>
+            </li>
 
-            <!-- Technip Energies (TEN) -->
-            <div class="rounded-lg border p-4 project-card" data-industry="engineering">
-              <div class="flex items-start gap-4">
-                <div class="flex-1">
-                  <div class="text-sm text-slate-500">Company</div>
-                  <div class="font-semibold">Technip Energies (TEN)</div>
-                </div>
-                <div class="text-sm text-slate-500 text-right">
-                  <div>Year</div>
-                  <div class="font-semibold">2023</div>
-                </div>
+            <li class="flex items-start gap-4 py-2" data-industry="engineering">
+              <div class="flex-1">
+                <div class="text-sm text-slate-500">Plastic Energy Engineering SEA Sdn Bhd</div>
+                <div class="text-slate-700">PROVISION OF ENGINEERING CAD SERVICE AND SUPPORT FOR PLASTIC ENERGY’S CHEMICAL RECYCLING PLANT</div>
               </div>
-              <div class="mt-3">
-                <div class="text-xs text-slate-500">Project Owner</div>
-                <div class="font-semibold">Papua LNG</div>
-              </div>
-              <div class="mt-3 text-slate-700">
-                <div class="font-semibold">Project Title</div>
-                <div class="mt-1">SMART PLANT P&amp;ID CONVERSION FOR PAPUA LNG PROJECT</div>
-              </div>
-            </div>
+              <div class="text-sm text-slate-500 text-right">2023</div>
+            </li>
 
-            <!-- SINOPEC ENGINEERING GROUP MALAYSIA SDN BHD -->
-            <div class="rounded-lg border p-4 project-card" data-industry="engineering">
-              <div class="flex items-start gap-4">
-                <div class="flex-1">
-                  <div class="text-sm text-slate-500">Company</div>
-                  <div class="font-semibold">SINOPEC ENGINEERING GROUP MALAYSIA SDN BHD</div>
-                </div>
-                <div class="text-sm text-slate-500 text-right">
-                  <div>Year</div>
-                  <div class="font-semibold">2023</div>
-                </div>
+            <li class="flex items-start gap-4 py-2" data-industry="engineering">
+              <div class="flex-1">
+                <div class="text-sm text-slate-500">LYNAS RARE EARTH LTD</div>
+                <div class="text-slate-700">KALGOORLIE RARE EARTHS PROCESSING FACILITY (PHASE 1 &amp; PHASE 2)</div>
               </div>
-              <div class="mt-3">
-                <div class="text-xs text-slate-500">Project Owner</div>
-                <div class="font-semibold">PETRONAS RAPID PRPC</div>
-              </div>
-              <div class="mt-3 text-slate-700">
-                <div class="font-semibold">Project Title</div>
-                <div class="mt-1">SMART PLANT TOOLS RECTIFICATIONS FOR SINOPEC P012A RAPID PROJECT</div>
-              </div>
-            </div>
+              <div class="text-sm text-slate-500 text-right">2023</div>
+            </li>
+          </ul>
 
-            <!-- Plastic Energy Engineering SEA Sdn Bhd -->
-            <div class="rounded-lg border p-4 project-card" data-industry="engineering">
-              <div class="flex items-start gap-4">
-                <div class="flex-1">
-                  <div class="text-sm text-slate-500">Company</div>
-                  <div class="font-semibold">Plastic Energy Engineering SEA Sdn Bhd</div>
-                </div>
-                <div class="text-sm text-slate-500 text-right">
-                  <div>Year</div>
-                  <div class="font-semibold">2023</div>
-                </div>
+          {% elif year == 2024 %}
+          <ul class="space-y-3 projects-list">
+            <li class="flex items-start gap-4 py-2 border-b" data-industry="manpower">
+              <div class="flex-1">
+                <div class="text-sm text-slate-500">AEM Energy Solutions Sdn. Bhd.</div>
+                <div class="text-slate-700">E3D Admin / Data Analyst &amp; Data Admin</div>
               </div>
-              <div class="mt-3">
-                <div class="text-xs text-slate-500">Project Owner</div>
-                <div class="font-semibold">Plastic Energy Engineering SEA Sdn Bhd</div>
-              </div>
-              <div class="mt-3 text-slate-700">
-                <div class="font-semibold">Project Title</div>
-                <div class="mt-1">PROVISION OF ENGINEERING CAD SERVICE AND SUPPORT FOR PLASTIC ENERGY’S CHEMICAL RECYCLING PLANT</div>
-              </div>
-            </div>
+              <div class="text-sm text-slate-500 text-right">2024 - 2026</div>
+            </li>
 
-            <!-- LYNAS RARE EARTH LTD -->
-            <div class="rounded-lg border p-4 project-card" data-industry="engineering">
-              <div class="flex items-start gap-4">
-                <div class="flex-1">
-                  <div class="text-sm text-slate-500">Company</div>
-                  <div class="font-semibold">LYNAS RARE EARTH LTD</div>
-                </div>
-                <div class="text-sm text-slate-500 text-right">
-                  <div>Year</div>
-                  <div class="font-semibold">2023</div>
-                </div>
+            <li class="flex items-start gap-4 py-2" data-industry="manpower">
+              <div class="flex-1">
+                <div class="text-sm text-slate-500">PTTEP Sarawak Oil Limited</div>
+                <div class="text-slate-700">Consultancy and Audit</div>
               </div>
-              <div class="mt-3">
-                <div class="text-xs text-slate-500">Project Owner</div>
-                <div class="font-semibold">LYNAS RARE EARTH LTD</div>
+              <div class="text-sm text-slate-500 text-right">2024 - 2026</div>
+            </li>
+
+            <li class="flex items-start gap-4 py-2 border-b" data-industry="engineering">
+              <div class="flex-1">
+                <div class="text-sm text-slate-500">HASKELL Malaysia Services Sdn Bhd</div>
+                <div class="text-slate-700">SAFRAN MALAYSIA SDN BHD — HASKELL PROFESSIONAL AVEVA E3D SERVICES SENDAYAN CAPACITY EXPANSION</div>
               </div>
-              <div class="mt-3 text-slate-700">
-                <div class="font-semibold">Project Title</div>
-                <div class="mt-1">KALGOORLIE RARE EARTHS PROCESSING FACILITY (PHASE 1 &amp; PHASE 2)</div>
+              <div class="text-sm text-slate-500 text-right">2024</div>
+            </li>
+
+            <li class="flex items-start gap-4 py-2 border-b" data-industry="engineering">
+              <div class="flex-1">
+                <div class="text-sm text-slate-500">MEINHARDT EPCM SDN BHD</div>
+                <div class="text-slate-700">PETRONAS — 3D Modeling of Detail Engineering Design (DED) for End of Life Plastic Chemical Recycling Plant, PACE</div>
               </div>
-            </div>
-          </div>
+              <div class="text-sm text-slate-500 text-right">2024</div>
+            </li>
+          </ul>
+
+          {% elif year == 2025 %}
+          <ul class="space-y-3 projects-list">
+            <li class="flex items-start gap-4 py-2 border-b" data-industry="manpower">
+              <div class="flex-1">
+                <div class="text-sm text-slate-500">Petrofac-RNZ Malaysia</div>
+                <div class="text-slate-700">E3D Admin</div>
+              </div>
+              <div class="text-sm text-slate-500 text-right">2025 - 2026</div>
+            </li>
+
+            <li class="flex items-start gap-4 py-2" data-industry="manpower">
+              <div class="flex-1">
+                <div class="text-sm text-slate-500">Kerry Emulgro</div>
+                <div class="text-slate-700">Site Piping Engineer, Site Instrument Engineer, Site C&amp;A Engineer</div>
+              </div>
+              <div class="text-sm text-slate-500 text-right">2025 - 2026</div>
+            </li>
+          </ul>
+
+          {% elif year == 2026 %}
+          <ul class="space-y-3 projects-list">
+            <li class="flex items-start gap-4 py-2" data-industry="manpower">
+              <div class="flex-1">
+                <div class="text-sm text-slate-500">McDermott Asia Pacific Sdn Bhd</div>
+                <div class="text-slate-700">Senior Piping Designer</div>
+              </div>
+              <div class="text-sm text-slate-500 text-right">2025 - 2026</div>
+            </li>
+          </ul>
 
           {% else %}
           <div class="text-slate-500">No project entries for {{ year }} yet. You can add entries in this section following the existing pattern.</div>
@@ -1161,5 +532,14 @@
 {% endblock %}
 {% block extra_body %}
 {{ super() }}
+<!-- Ensure legacy JS finds items: mark list rows as project-card when data-industry present -->
+<script>
+  // run during parse so the deferred projects.js sees the class
+  try{
+    Array.from(document.querySelectorAll('li[data-industry]')).forEach(li=>{
+      if(!li.classList.contains('project-card')) li.classList.add('project-card');
+    });
+  }catch(e){/* ignore in older browsers */}
+</script>
 <script src="{{ url_for('static', filename='js/projects.js') }}" defer></script>
 {% endblock %}
