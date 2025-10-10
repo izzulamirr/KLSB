@@ -3,12 +3,222 @@ import os, secrets
 from werkzeug.utils import secure_filename
 from sqlalchemy import inspect, insert
 from datetime import datetime
-
+from io import StringIO, BytesIO
+import csv
+from flask import Response, send_file, abort
 from app import db
 from app.models import Applicant
+from functools import wraps
+from flask import session, flash
 
 # ---------------- BLUEPRINT ----------------
 main_bp = Blueprint("main", __name__)
+
+# --- Admin guard decorator ---
+def admin_required(fn):
+    @wraps(fn)
+    def wrapper(*args, **kwargs):
+        if not session.get("is_admin"):
+            flash("Please log in to access the admin area.", "warning")
+            return redirect(url_for("main.admin_login", next=request.path))
+        return fn(*args, **kwargs)
+    return wrapper
+
+@main_bp.route("/admin/login", methods=["GET", "POST"])
+def admin_login():
+    admin_user = current_app.config.get("ADMIN_USER")
+    admin_pass = current_app.config.get("ADMIN_PASS")
+
+    if request.method == "POST":
+        username = (request.form.get("username") or "").strip()
+        password = (request.form.get("password") or "").strip()
+        next_url = request.args.get("next") or url_for("main.admin_applicants")
+
+        if username == admin_user and password == admin_pass:
+            session["is_admin"] = True
+            flash("Login successful.", "success")
+            return redirect(next_url)
+        flash("Invalid username or password.", "error")
+
+    return render_template("admin_login.html")
+
+@main_bp.route("/admin/logout", endpoint="admin_logout")
+def admin_logout_view():
+    session.pop("is_admin", None)
+    flash("Logged out.", "info")
+    return redirect(url_for("main.admin_login"))
+
+# --- Applicants list (Admin) ---
+@main_bp.route("/admin/applicants", endpoint="admin_applicants")
+@admin_required
+def admin_applicants_view():
+    from app.models import Applicant
+    try:
+        applicants = Applicant.query.order_by(Applicant.created_at.desc()).all()
+    except Exception:
+        current_app.logger.exception("Failed to load applicants")
+        applicants = []
+    return render_template("admin_applicants.html", applicants=applicants)
+
+# --- Download uploaded CV ---
+@main_bp.route("/admin/applicants/<int:applicant_id>/download", endpoint="admin_download_applicant_file")
+@admin_required
+def admin_download_applicant_file_view(applicant_id):
+    from app.models import Applicant
+    a = Applicant.query.get_or_404(applicant_id)
+    if not a.file_path:
+        return ("No file for this applicant.", 404)
+
+    path = a.file_path
+    if not os.path.isabs(path):
+        path = os.path.join(current_app.root_path, path)
+    if not os.path.exists(path):
+        return ("File not found on server.", 404)
+
+    download_name = a.filename or os.path.basename(path)
+    return send_file(path, as_attachment=True, download_name=download_name)
+
+# --- CSV export ---
+@main_bp.route("/admin/applicants/export/csv", endpoint="admin_export_applicants_csv")
+@admin_required
+def admin_export_applicants_csv_view():
+    """Exports applicants as a CSV compatible with Excel (UTF-8 + BOM)."""
+    from app.models import Applicant
+    from io import StringIO, BytesIO
+    import csv
+    from datetime import datetime
+
+    # Query applicants newest-first
+    rows = Applicant.query.order_by(Applicant.created_at.desc()).all()
+
+    # Use StringIO for CSV writing
+    buf = StringIO()
+    writer = csv.writer(
+        buf,
+        quoting=csv.QUOTE_ALL,   # wrap all fields in quotes
+        lineterminator="\n"      # consistent newlines for Windows
+    )
+
+    # Header row
+    writer.writerow([
+        "ID", "Full Name", "Email", "Position",
+        "Availability", "Filename", "File Path", "Created At (Local Time)"
+    ])
+
+    # Convert UTC → Malaysia time (UTC+8)
+    from datetime import timedelta
+    for a in rows:
+        local_time = (
+            a.created_at + timedelta(hours=8)
+        ).strftime("%Y-%m-%d %H:%M:%S") if a.created_at else ""
+        writer.writerow([
+            a.id or "",
+            a.full_name or "",
+            a.email or "",
+            a.position or "",
+            a.availability or "",
+            a.filename or "",
+            a.file_path or "",
+            local_time
+        ])
+
+    # Convert to bytes, add UTF-8 BOM for Excel
+    data = ("\ufeff" + buf.getvalue()).encode("utf-8-sig")
+
+    # File name with timestamp
+    filename = f"applicants_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv"
+
+    # Send response
+    from flask import Response
+    return Response(
+        data,
+        mimetype="text/csv; charset=utf-8",
+        headers={"Content-Disposition": f"attachment; filename={filename}"}
+    )
+# --- XLSX export ---
+@main_bp.route("/admin/applicants/export/xlsx", endpoint="admin_export_applicants_xlsx")
+@admin_required
+def admin_export_applicants_xlsx_view():
+    from app.models import Applicant
+    from flask import Response
+    from datetime import datetime, timedelta
+
+    rows = Applicant.query.order_by(Applicant.created_at.desc()).all()
+
+    # Build HTML that Excel opens as a sheet. We can control widths via <colgroup>.
+    html_parts = []
+    html_parts.append("""<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Applicants</title>
+  <style>
+    table { border-collapse: collapse; }
+    th, td { border: 1px solid #ddd; padding: 6px; font-family: Arial, sans-serif; font-size: 12px; }
+    th { background: #030C69; color: #fff; }
+    td.wrap { white-space: normal; }
+    td.center { text-align: center; }
+    /* Make Excel treat everything as text by default to avoid auto reformat. */
+    td, th { mso-number-format: "\\@"; }
+  </style>
+</head>
+<body>
+<table>
+  <colgroup>
+    <col style="width:60px">
+    <col style="width:200px">
+    <col style="width:220px">
+    <col style="width:160px">
+    <col style="width:140px">
+    <col style="width:200px">
+    <col style="width:360px">
+    <col style="width:160px">
+  </colgroup>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Full Name</th>
+      <th>Email</th>
+      <th>Position</th>
+      <th>Availability</th>
+      <th>Filename</th>
+      <th>File Path</th>
+      <th>Created At (UTC+8)</th>
+    </tr>
+  </thead>
+  <tbody>
+""")
+
+    for a in rows:
+        created_local = (a.created_at + timedelta(hours=8)).strftime("%Y-%m-%d %H:%M:%S") if a.created_at else ""
+        html_parts.append(
+            f"<tr>"
+            f"<td class='center'>{a.id or ''}</td>"
+            f"<td>{(a.full_name or '').replace('&','&amp;').replace('<','&lt;')}</td>"
+            f"<td>{(a.email or '').replace('&','&amp;').replace('<','&lt;')}</td>"
+            f"<td>{(a.position or '').replace('&','&amp;').replace('<','&lt;')}</td>"
+            f"<td>{(a.availability or '').replace('&','&amp;').replace('<','&lt;')}</td>"
+            f"<td class='wrap'>{(a.filename or '').replace('&','&amp;').replace('<','&lt;')}</td>"
+            f"<td class='wrap'>{(a.file_path or '').replace('&','&amp;').replace('<','&lt;')}</td>"
+            f"<td class='center'>{created_local}</td>"
+            f"</tr>"
+        )
+
+    html_parts.append("""
+  </tbody>
+</table>
+</body>
+</html>""")
+
+    html = "".join(html_parts).encode("utf-8")
+    filename = f"applicants_{datetime.now().strftime('%Y%m%d_%H%M%S')}.xls"
+    return Response(
+        html,
+        mimetype="application/vnd.ms-excel; charset=utf-8",
+        headers={"Content-Disposition": f"attachment; filename={filename}"}
+    )
+# ===================== /ADMIN SECTION =====================
+
 
 # ---------------- BASIC PAGES ----------------
 @main_bp.route("/")
@@ -169,18 +379,6 @@ def about_license_registration():
     return render_template('About Us/about_license.html', page_class="home-page center-content")
 
 
-# ------------------- ADMIN / DEBUG -------------------
-@main_bp.route('/admin/applicants')
-def admin_applicants():
-    if not current_app.debug:
-        return ("Not Found", 404)
-    try:
-        applicants = Applicant.query.order_by(Applicant.created_at.desc()).all()
-    except Exception:
-        current_app.logger.exception('Failed to load applicants')
-        applicants = []
-    return render_template('admin_applicants.html', applicants=applicants)
-
 @main_bp.route("/debug/db")
 def debug_db():
     """Temporary diagnostic route to verify DB connectivity and schema."""
@@ -194,7 +392,6 @@ def debug_db():
         )
     except Exception as e:
         return jsonify(ok=False, error=str(e)), 500
-
 
 # ------------------- HEALTH -------------------
 @main_bp.route("/healthz")

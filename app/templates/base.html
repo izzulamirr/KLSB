@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>{% block title %}KLSB{% endblock %}</title>
   <meta name="description" content="KLSB – Professional services, projects and client solutions" />
-  <!-- Dark mode removed: color-scheme meta simplified -->
   <meta property="og:title" content="KLSB" />
   <meta property="og:description" content="Explore our services, projects and client success stories." />
   <meta property="og:type" content="website" />
@@ -16,29 +15,23 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet" />
   <script src="https://cdn.tailwindcss.com" defer></script>
   <style>
-    /* Small helper: apply Montserrat to elements that opt-in */
     .font-montserrat { font-family: 'Montserrat', Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; }
   </style>
   <style>
-    /* Mobile header tweaks: hide desktop nav, show hamburger, tighten logo */
     @media (max-width: 640px){
       .nav-links{ display: none !important; }
       .nav-links a{ display: none !important; }
       .nav-toggle{ display: inline-flex !important; position: absolute !important; right: 14px; top: 10px; z-index:60 !important; }
-      /* ensure header uses a simple flex layout on small screens so branding stays left and toggle right */
       .nav-bar{ display:flex !important; grid-template-columns: none !important; justify-content:space-between !important; align-items:center !important; }
       .branding-logo{ max-height:44px !important; width:auto !important; display:block !important; visibility:visible !important; }
       .site-header{ padding-top:0.25rem; padding-bottom:0.25rem; background: rgba(255,255,255,0.92); }
-      /* ensure mobile panel is full width when opened */
       .mobile-panel{ inset:0 0 auto 0; }
     }
-    /* Ensure main content is pushed below fixed header on small screens */
     @media (max-width: 768px){
       .site-main{ padding-top: calc(var(--h,96px) + 1rem) !important; }
     }
   </style>
-  <!-- Core layered styles -->
-  <!-- Favicons -->
+
   <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='img/logo/KLSB_icon.png') }}">
   <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='img/logo/KLSB_icon.png') }}">
   <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='img/logo/KLSB_icon.png') }}">
@@ -51,24 +44,35 @@
   {% block extra_head %}{% endblock %}
 </head>
 
-<!-- ✅ Changed: make body a flex column, full screen -->
 <body class="{{ page_class|default('') }} antialiased flex flex-col min-h-screen">
-
   <a href="#main-content" class="skip-link">Skip to content</a>
 
-  <!-- Header -->
-  <header id="site-header" class="site-header fixed top-0 inset-x-0 z-50 border-b border-slate-200 bg-white/80 backdrop-blur-xl supports-[backdrop-filter]:bg-white/60 dark:shadow-[0_1px_0_0_rgba(255,255,255,0.05)]">
-    <div class="container h-full">
-      <div class="nav-bar h-full w-full grid grid-cols-3 items-center gap-4">
-        <!-- Branding -->
-        <div class="flex items-center gap-4 justify-start">
-          <a href="/" class="block" aria-label="KLSB Home">
-            <img src="{{ url_for('static', filename='img/logo.png') }}" alt="KLSB logo" class="branding-logo" loading="lazy">
-          </a>
+  <header id="site-header" class="site-header fixed top-0 inset-x-0 z-50 border-b border-slate-200 bg-white/80 backdrop-blur-xl supports-[backdrop-filter]:bg-white/60">
+  <div class="container h-full">
+    <div class="nav-bar h-full w-full grid grid-cols-3 items-center gap-4">
+      
+      <div class="flex items-center gap-3 justify-start">
+        <a href="/" class="block" aria-label="KLSB Home">
+          <img src="{{ url_for('static', filename='img/logo.png') }}" alt="KLSB logo" class="branding-logo" loading="lazy">
+        </a>
+        {% if session.get('is_admin') %}
+        <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold text-white shadow" style="background:#030C69;" aria-label="Admin mode active">
+          ADMIN
+        </span>
+        {% endif %}
+      </div>
+
+      {% if request.path.startswith('/admin') %}
+        
+        <div class="col-span-2 flex items-center justify-end">
+          {% if session.get('is_admin') %}
+            <a href="{{ url_for('main.admin_logout') }}" class="text-red-600 hover:underline font-medium">Logout</a>
+          {% endif %}
         </div>
 
-        <!-- Primary navigation (centered) -->
-  <nav class="nav-links hidden sm:flex justify-center" aria-label="Main navigation">
+      {% else %}
+
+        <nav class="nav-links hidden sm:flex justify-center" aria-label="Main navigation">
           <a href="/" class="nav-link" data-nav>Home</a>
           <a href="/services" class="nav-link" data-nav>Services</a>
           <div class="relative group" data-nav-parent>
@@ -92,30 +96,30 @@
           {% endif %}
         </nav>
 
-        <!-- Actions -->
-        <div class="flex items-center gap-2 justify-end">
+        <div class="flex items-center gap-3 justify-end">
           {% if not hide_contact_cta %}
           <a href="{{ url_for('main.submit_proposal') }}" class="nav-cta" data-cta style="background:#030C69; color:#fff; border:none;">
             <span>Get in touch</span>
           </a>
           {% endif %}
+
           <button class="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-nav">
             <div class="bars" aria-hidden="true">
               <span></span><span></span><span></span>
             </div>
           </button>
         </div>
+        
+      {% endif %}
       </div>
-    </div>
-  </header>
+  </div>
+</header>
 
-  <!-- Mobile panel -->
   <div class="mobile-panel" id="mobile-nav" hidden>
     <div class="mobile-sheet">
       <nav aria-label="Mobile navigation">
         <ul class="mobile-nav-links">
           <li><a href="/services" data-nav>Services</a></li>
-          <!-- About Us group: mirrored from desktop dropdown -->
           <li><a href="{{ url_for('main.services_manpower') }}" data-nav>Manpower</a></li>
           <li><a href="{{ url_for('main.services_engineering') }}" data-nav>Engineering</a></li>
           <li><a href="{{ url_for('main.services_digital') }}" data-nav>Digital</a></li>
@@ -134,29 +138,35 @@
           {% endif %}
         </ul>
       </nav>
+
       {% if not hide_contact_cta %}
       <div class="mt-4">
-  <a href="/get-in-touch" class="nav-cta w-full justify-center" data-cta style="background:#030C69; color:#fff; border:none;">Get in touch</a>
+        <a href="/get-in-touch" class="nav-cta w-full justify-center" data-cta style="background:#030C69; color:#fff; border:none;">Get in touch</a>
       </div>
       {% endif %}
+
+      {% if session.get('is_admin') %}
+        <div class="mt-4">
+          <a href="{{ url_for('main.admin_applicants') }}" class="block text-[#030C69] font-semibold">Admin Panel</a>
+          <a href="{{ url_for('main.admin_logout') }}" class="block text-red-600">Logout</a>
+        </div>
+      {% else %}
+        {% endif %}
+
       <div class="mobile-footer">© KLSB. All rights reserved.</div>
     </div>
   </div>
 
-  <!-- Main content (flex-grow so footer sticks) -->
   <main id="main-content" class="site-main pt-24 md:pt-28 fade-in flex-grow">
-    {# main content placeholder: page-specific debug banners removed #}
     {% block content %}{% endblock %}
   </main>
 
-  <!-- Footer -->
   <footer class="site-footer pt-6 pb-10 -mt-px text-center text-sm text-slate-500 bg-[#020866] text-white">
     <div class="container flex flex-col gap-4">
       <div class="text-xs opacity-100">© 2025 KLSB. All rights reserved.</div>
     </div>
   </footer>
 
-  <!-- Scripts -->
   <script src="{{ url_for('static', filename='js/feature-cards.js') }}" defer></script>
   <script src="{{ url_for('static', filename='js/nav.js') }}" defer></script>
   {% block extra_body %}

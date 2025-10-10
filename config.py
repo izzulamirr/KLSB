@@ -1,7 +1,12 @@
 # config.py
+import os
 from urllib.parse import quote_plus
 
 class BaseConfig:
+
+    ADMIN_USER = os.environ.get("ADMIN_USER", "klsbadmin")
+    ADMIN_PASS = os.environ.get("ADMIN_PASS", "klsb123")
+
     SECRET_KEY = "4d453d84e5c971b955366b277637c340ed34d10b9b05850bd3e6dc24de04980d"
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
