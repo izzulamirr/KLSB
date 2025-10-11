@@ -1,9 +1,9 @@
 {% extends "base.html" %}
-{% block title %}Applicants — Admin{% endblock %}
+{% block title %}Admin Dashboard{% endblock %}
 
 {% block content %}
 <section class="py-12 bg-white">
-  <div class="max-w-6xl mx-auto px-6">
+  <div class="max-w-7xl mx-auto px-6">
 
     {% with messages = get_flashed_messages(with_categories=true) %}
       {% if messages %}
@@ -21,10 +21,16 @@
       {% endif %}
     {% endwith %}
 
-    <h1 class="text-3xl font-bold mb-6 text-[#030C69]">Submitted Applicants</h1>
+    <div class="flex justify-between items-center mb-6">
+        <h1 class="text-3xl font-bold text-[#030C69]">Submitted Applicants</h1>
+        <div class="flex gap-3 items-center">
+            <a href="{{ url_for('main.admin_export_applicants_csv') }}" class="bg-[#030C69] text-white px-4 py-2 rounded-md hover:bg-[#02074f] font-semibold text-sm">Export Applicants (CSV)</a>
+            <a href="{{ url_for('main.admin_export_applicants_xlsx') }}" class="bg-[#030C69] text-white px-4 py-2 rounded-md hover:bg-[#02074f] font-semibold text-sm">Export Applicants (XLSX)</a>
+        </div>
+    </div>
 
     {% if applicants %}
-      <div class="overflow-x-auto shadow rounded-lg">
+      <div class="overflow-x-auto shadow rounded-lg mb-12">
         <table class="min-w-full border-collapse text-sm">
           <thead class="bg-[#030C69] text-white">
             <tr>
@@ -34,7 +40,7 @@
               <th class="px-3 py-2 text-left">Position</th>
               <th class="px-3 py-2 text-left">Availability</th>
               <th class="px-3 py-2 text-left">File</th>
-              <th class="px-3 py-2 text-left">Submitted (UTC)</th>
+              <th class="px-3 py-2 text-left">Submitted</th>
             </tr>
           </thead>
           <tbody class="divide-y divide-gray-200">
@@ -58,16 +64,49 @@
           </tbody>
         </table>
       </div>
-
-      <div class="mt-6 flex gap-3 items-center">
-        <a href="{{ url_for('main.admin_export_applicants_csv') }}" class="bg-slate-600 text-white px-4 py-2 rounded-md hover:bg-slate-700 font-semibold text-sm">Export CSV</a>
-        <a href="{{ url_for('main.admin_export_applicants_xlsx') }}" class="bg-[#030C69] text-white px-4 py-2 rounded-md hover:bg-[#02074f] font-semibold text-sm">Export XLSX</a>
-        <a href="{{ url_for('main.admin_logout') }}" class="ml-auto text-red-600 hover:underline font-medium text-sm">Logout</a>
-      </div>
-
     {% else %}
-      <p class="text-gray-600">No applicants found yet.</p>
+      <p class="text-gray-600 mb-12">No applicants found yet.</p>
     {% endif %}
+
+    <div class="flex justify-between items-center mb-6">
+      <h1 class="text-3xl font-bold text-[#030C69]">Submitted Proposals</h1>
+      <div class="flex gap-3 items-center">
+        <a href="{{ url_for('main.admin_export_proposals_csv') }}" class="bg-[#030C69] text-white px-4 py-2 rounded-md hover:bg-[#02074f] font-semibold text-sm">Export Proposals (CSV)</a>
+        <a href="{{ url_for('main.admin_export_proposals_xlsx') }}" class="bg-[#030C69] text-white px-4 py-2 rounded-md hover:bg-[#02074f] font-semibold text-sm">Export Proposals (XLSX)</a>
+      </div>
+    </div>
+    
+    {% if proposals %}
+    <div class="overflow-x-auto shadow rounded-lg">
+      <table class="min-w-full border-collapse text-sm">
+        <thead class="bg-[#030C69] text-white">
+          <tr>
+            <th class="px-3 py-2 text-left">ID</th>
+            <th class="px-3 py-2 text-left">Company Name</th>
+            <th class="px-3 py-2 text-left">Client Email</th>
+            <th class="px-3 py-2 text-left">Service</th>
+            <th class="px-3 py-2 text-left">Details</th>
+            <th class="px-3 py-2 text-left">Submitted</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-200">
+          {% for proposal in proposals %}
+            <tr class="hover:bg-slate-50">
+              <td class="px-3 py-2 align-top">{{ proposal.id }}</td>
+              <td class="px-3 py-2 align-top">{{ proposal.company_name }}</td>
+              <td class="px-3 py-2 align-top">{{ proposal.client_email }}</td>
+              <td class="px-3 py-2 align-top">{{ proposal.service }}</td>
+              <td class="px-3 py-2 align-top whitespace-pre-wrap">{{ proposal.proposal_details }}</td>
+              <td class="px-3 py-2 align-top">{{ proposal.created_at.strftime('%Y-%m-%d %H:%M') if proposal.created_at else '' }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+      <p class="text-gray-600">No proposals found yet.</p>
+    {% endif %}
+
   </div>
 </section>
 {% endblock %}
@@ -75,11 +114,13 @@
 
 {% block extra_scripts %}
 <script>
+  // This makes the flash message disappear
   const flashMessages = document.getElementById('flash-messages');
   if (flashMessages) {
+    // ✅ Timeout changed to 1 second (1000 milliseconds)
     setTimeout(() => {
       flashMessages.style.display = 'none';
-    }, 3000);
+    }, 1000);
   }
 </script>
 {% endblock %}

@@ -48,72 +48,72 @@
   <a href="#main-content" class="skip-link">Skip to content</a>
 
   <header id="site-header" class="site-header fixed top-0 inset-x-0 z-50 border-b border-slate-200 bg-white/80 backdrop-blur-xl supports-[backdrop-filter]:bg-white/60">
-  <div class="container h-full">
-    <div class="nav-bar h-full w-full grid grid-cols-3 items-center gap-4">
-      
-      <div class="flex items-center gap-3 justify-start">
-        <a href="/" class="block" aria-label="KLSB Home">
-          <img src="{{ url_for('static', filename='img/logo.png') }}" alt="KLSB logo" class="branding-logo" loading="lazy">
-        </a>
-        {% if session.get('is_admin') %}
-        <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold text-white shadow" style="background:#030C69;" aria-label="Admin mode active">
-          ADMIN
-        </span>
-        {% endif %}
-      </div>
-
-      {% if request.path.startswith('/admin') %}
+    <div class="container h-full">
+      <div class="nav-bar h-full w-full grid grid-cols-3 items-center gap-4">
         
-        <div class="col-span-2 flex items-center justify-end">
+        <div class="flex items-center gap-3 justify-start">
+          <a href="/" class="block" aria-label="KLSB Home">
+            <img src="{{ url_for('static', filename='img/logo.png') }}" alt="KLSB logo" class="branding-logo" loading="lazy">
+          </a>
           {% if session.get('is_admin') %}
-            <a href="{{ url_for('main.admin_logout') }}" class="text-red-600 hover:underline font-medium">Logout</a>
+          <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold text-white shadow" style="background:#030C69;" aria-label="Admin mode active">
+            ADMIN
+          </span>
           {% endif %}
         </div>
 
-      {% else %}
+        {% if request.path.startswith('/admin') %}
+          
+          <div class="col-span-2 flex items-center justify-end">
+            {% if session.get('is_admin') %}
+              <a href="{{ url_for('main.admin_logout') }}" class="text-red-600 hover:underline font-medium">Logout</a>
+            {% endif %}
+          </div>
 
-        <nav class="nav-links hidden sm:flex justify-center" aria-label="Main navigation">
-          <a href="/" class="nav-link" data-nav>Home</a>
-          <a href="/services" class="nav-link" data-nav>Services</a>
-          <div class="relative group" data-nav-parent>
-            <button class="nav-link inline-flex items-center gap-1" aria-haspopup="true" aria-expanded="false">About Us
-              <svg width="14" height="14" viewBox="0 0 20 20" fill="none" class="transition-transform group-hover:translate-y-[1px]"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </button>
-            <div class="invisible opacity-0 group-hover:opacity-100 group-hover:visible transition duration-200 absolute left-1/2 transform -translate-x-1/2 top-full pt-3">
-              <div class="rounded-xl border border-slate-200 shadow-lg bg-white p-2 flex flex-col gap-1 dropdown-panel" style="min-width:220px;">
-                <div class="dropdown-arrow" aria-hidden="true"></div>
-                <a href="/about/overview" class="dropdown-item" data-nav>Overview</a>
-                <a href="/about/focus" class="dropdown-item" data-nav>Focus</a>
-                <a href="/about/management" class="dropdown-item" data-nav>Management</a>
-                <a href="/about/affiliations" class="dropdown-item" data-nav>Affiliations</a>
-                <a href="/about/license-registration" class="dropdown-item" data-nav>License & Registration</a>
+        {% else %}
+
+          <nav class="nav-links hidden sm:flex justify-center" aria-label="Main navigation">
+            <a href="/" class="nav-link" data-nav>Home</a>
+            <a href="/services" class="nav-link" data-nav>Services</a>
+            <div class="relative group" data-nav-parent>
+              <button class="nav-link inline-flex items-center gap-1" aria-haspopup="true" aria-expanded="false">About Us
+                <svg width="14" height="14" viewBox="0 0 20 20" fill="none" class="transition-transform group-hover:translate-y-[1px]"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+              <div class="invisible opacity-0 group-hover:opacity-100 group-hover:visible transition duration-200 absolute left-1/2 transform -translate-x-1/2 top-full pt-3">
+                <div class="rounded-xl border border-slate-200 shadow-lg bg-white p-2 flex flex-col gap-1 dropdown-panel" style="min-width:220px;">
+                  <div class="dropdown-arrow" aria-hidden="true"></div>
+                  <a href="/about/overview" class="dropdown-item" data-nav>Overview</a>
+                  <a href="/about/focus" class="dropdown-item" data-nav>Focus</a>
+                  <a href="/about/management" class="dropdown-item" data-nav>Management</a>
+                  <a href="/about/affiliations" class="dropdown-item" data-nav>Affiliations</a>
+                  <a href="/about/license-registration" class="dropdown-item" data-nav>License & Registration</a>
+                </div>
               </div>
             </div>
+            <a href="{{ url_for('main.projects') }}" class="nav-link" data-nav>Projects</a>
+            {% if not hide_contact_cta %}
+            <a href="/contact" class="nav-link" data-nav>Contact</a>
+            {% endif %}
+          </nav>
+
+          <div class="flex items-center gap-3 justify-end">
+            {% if not hide_contact_cta %}
+            <a href="{{ url_for('main.submit_proposal') }}" class="nav-cta" data-cta style="background:#030C69; color:#fff; border:none;">
+              <span>Get in touch</span>
+            </a>
+            {% endif %}
+
+            <button class="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-nav">
+              <div class="bars" aria-hidden="true">
+                <span></span><span></span><span></span>
+              </div>
+            </button>
           </div>
-          <a href="{{ url_for('main.projects') }}" class="nav-link" data-nav>Projects</a>
-          {% if not hide_contact_cta %}
-          <a href="/contact" class="nav-link" data-nav>Contact</a>
-          {% endif %}
-        </nav>
-
-        <div class="flex items-center gap-3 justify-end">
-          {% if not hide_contact_cta %}
-          <a href="{{ url_for('main.submit_proposal') }}" class="nav-cta" data-cta style="background:#030C69; color:#fff; border:none;">
-            <span>Get in touch</span>
-          </a>
-          {% endif %}
-
-          <button class="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-nav">
-            <div class="bars" aria-hidden="true">
-              <span></span><span></span><span></span>
-            </div>
-          </button>
-        </div>
-        
-      {% endif %}
+          
+        {% endif %}
       </div>
-  </div>
-</header>
+    </div>
+  </header>
 
   <div class="mobile-panel" id="mobile-nav" hidden>
     <div class="mobile-sheet">
@@ -151,7 +151,7 @@
           <a href="{{ url_for('main.admin_logout') }}" class="block text-red-600">Logout</a>
         </div>
       {% else %}
-        {% endif %}
+      {% endif %}
 
       <div class="mobile-footer">© KLSB. All rights reserved.</div>
     </div>
@@ -172,5 +172,19 @@
   {% block extra_body %}
     {% block extra_scripts %}{% endblock %}
   {% endblock %}
+
+  {% if session.get('is_admin') %}
+  <script>
+    /**
+     * This script sends a logout signal to the server when the admin closes the tab.
+     * It uses navigator.sendBeacon, which is a reliable way to send data
+     * as a page is unloading without delaying the closing of the tab.
+     */
+    window.addEventListener('beforeunload', function() {
+      navigator.sendBeacon("{{ url_for('main.admin_logout') }}");
+    });
+  </script>
+  {% endif %}
+
 </body>
 </html>

@@ -36,6 +36,8 @@ def admin_login():
 
         if username == admin_user and password == admin_pass:
             session["is_admin"] = True
+            # ✅ ADD THIS LINE
+            session.permanent = False  # Session will expire when browser is closed
             flash("Login successful.", "success")
             return redirect(next_url)
         flash("Invalid username or password.", "error")
@@ -52,13 +54,20 @@ def admin_logout_view():
 @main_bp.route("/admin/applicants", endpoint="admin_applicants")
 @admin_required
 def admin_applicants_view():
-    from app.models import Applicant
+    # ✅ Import both Applicant and Proposal models
+    from app.models import Applicant, Proposal
     try:
         applicants = Applicant.query.order_by(Applicant.created_at.desc()).all()
+        # ✅ Add a query to get all proposals
+        proposals = Proposal.query.order_by(Proposal.created_at.desc()).all()
     except Exception:
-        current_app.logger.exception("Failed to load applicants")
+        current_app.logger.exception("Failed to load applicants or proposals")
         applicants = []
-    return render_template("admin_applicants.html", applicants=applicants)
+        # ✅ Initialize proposals as an empty list on error
+        proposals = []
+        
+    # ✅ Pass both applicants and proposals to the template
+    return render_template("admin_applicants.html", applicants=applicants, proposals=proposals)
 
 # --- Download uploaded CV ---
 @main_bp.route("/admin/applicants/<int:applicant_id>/download", endpoint="admin_download_applicant_file")
@@ -212,6 +221,134 @@ def admin_export_applicants_xlsx_view():
 
     html = "".join(html_parts).encode("utf-8")
     filename = f"applicants_{datetime.now().strftime('%Y%m%d_%H%M%S')}.xls"
+    return Response(
+        html,
+        mimetype="application/vnd.ms-excel; charset=utf-8",
+        headers={"Content-Disposition": f"attachment; filename={filename}"}
+    )
+
+# --- Proposal CSV export ---
+@main_bp.route("/admin/proposals/export/csv", endpoint="admin_export_proposals_csv")
+@admin_required
+def admin_export_proposals_csv_view():
+    """Exports proposals as a CSV compatible with Excel (UTF-8 + BOM)."""
+    from app.models import Proposal
+    from io import StringIO
+    import csv
+    from datetime import datetime, timedelta
+
+    # Query proposals newest-first
+    rows = Proposal.query.order_by(Proposal.created_at.desc()).all()
+
+    buf = StringIO()
+    writer = csv.writer(buf, quoting=csv.QUOTE_ALL, lineterminator="\n")
+
+    # Header row
+    writer.writerow([
+        "ID", "Company Name", "Client Email", "Service", 
+        "Proposal Details", "Created At (Local Time)"
+    ])
+
+    # Data rows
+    for p in rows:
+        local_time = (
+            (p.created_at + timedelta(hours=8)).strftime("%Y-%m-%d %H:%M:%S") 
+            if p.created_at else ""
+        )
+        writer.writerow([
+            p.id or "",
+            p.company_name or "",
+            p.client_email or "",
+            p.service or "",
+            p.proposal_details or "",
+            local_time
+        ])
+
+    # Convert to bytes, add UTF-8 BOM for Excel
+    data = ("\ufeff" + buf.getvalue()).encode("utf-8-sig")
+
+    # File name with timestamp
+    filename = f"proposals_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv"
+
+    # Send response
+    from flask import Response
+    return Response(
+        data,
+        mimetype="text/csv; charset=utf-8",
+        headers={"Content-Disposition": f"attachment; filename={filename}"}
+    )
+
+# --- Proposal XLSX export ---
+@main_bp.route("/admin/proposals/export/xlsx", endpoint="admin_export_proposals_xlsx")
+@admin_required
+def admin_export_proposals_xlsx_view():
+    from app.models import Proposal
+    from flask import Response
+    from datetime import datetime, timedelta
+
+    rows = Proposal.query.order_by(Proposal.created_at.desc()).all()
+
+    # Build an HTML table that Excel can open and format correctly
+    html_parts = ["""<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Proposals</title>
+  <style>
+    table { border-collapse: collapse; }
+    th, td { border: 1px solid #ddd; padding: 6px; font-family: Arial, sans-serif; font-size: 12px; vertical-align: top; }
+    th { background: #1f2937; color: #fff; }
+    td.wrap { white-space: normal; } /* This makes long text wrap */
+    /* Make Excel treat everything as text by default */
+    td, th { mso-number-format: "\\@"; }
+  </style>
+</head>
+<body>
+<table>
+  <colgroup>
+    <col style="width:60px">
+    <col style="width:200px">
+    <col style="width:220px">
+    <col style="width:160px">
+    <col style="width:400px">
+    <col style="width:160px">
+  </colgroup>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Company Name</th>
+      <th>Client Email</th>
+      <th>Service</th>
+      <th>Details</th>
+      <th>Created At (UTC+8)</th>
+    </tr>
+  </thead>
+  <tbody>
+"""]
+
+    for p in rows:
+        created_local = (p.created_at + timedelta(hours=8)).strftime("%Y-%m-%d %H:%M:%S") if p.created_at else ""
+        # Sanitize data to prevent breaking the HTML structure
+        company = (p.company_name or '').replace('&','&amp;').replace('<','&lt;')
+        email = (p.client_email or '').replace('&','&amp;').replace('<','&lt;')
+        service = (p.service or '').replace('&','&amp;').replace('<','&lt;')
+        details = (p.proposal_details or '').replace('&','&amp;').replace('<','&lt;')
+
+        html_parts.append(
+            f"<tr>"
+            f"<td>{p.id or ''}</td>"
+            f"<td>{company}</td>"
+            f"<td>{email}</td>"
+            f"<td>{service}</td>"
+            f"<td class='wrap'>{details}</td>"
+            f"<td>{created_local}</td>"
+            f"</tr>"
+        )
+
+    html_parts.append("</tbody></table></body></html>")
+
+    html = "".join(html_parts).encode("utf-8")
+    filename = f"proposals_{datetime.now().strftime('%Y%m%d_%H%M%S')}.xls" # Use .xls for compatibility
     return Response(
         html,
         mimetype="application/vnd.ms-excel; charset=utf-8",
