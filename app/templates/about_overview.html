@@ -1,154 +1,428 @@
 {% extends 'base.html' %}
 {% block title %}About Us — Overview | KLSB{% endblock %}
+
+{% block extra_head %}
+<style>
+  /* --- MANPOWER COLOR SCHEME: Blue gradient background with white cards --- */
+  .blue-gradient-bg {
+    background: linear-gradient(180deg, #010428 0%, #030C69 100%);
+  }
+
+  /* White glass cards with dark text (matching manpower service page) */
+  .glass-card {
+    background: #ffffff;
+    color: #0b1220;
+    border: 1px solid rgba(11,18,32,0.06);
+    box-shadow: 0 6px 20px rgba(8,12,30,0.18);
+    transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+  }
+  .glass-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 28px rgba(8,12,30,0.24);
+  }
+
+  /* Ensure all text inside glass cards is dark */
+  .glass-card h1, .glass-card h2, .glass-card h3, 
+  .glass-card p, .glass-card li, .glass-card span {
+    color: #0b1220 !important;
+  }
+  .glass-card p, .glass-card .text-sm {
+    color: rgba(11,18,32,0.7) !important;
+  }
+
+  /* --- TIMELINE STYLES (adapted for manpower color scheme) --- */
+  .timeline-container {
+    position: relative;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .timeline-container::after {
+    content: '';
+    position: absolute;
+    width: 3px;
+    background-color: rgba(255,255,255,0.2);
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    margin-left: -1.5px;
+  }
+  .timeline-item {
+    padding: 10px 40px;
+    position: relative;
+    background-color: transparent;
+    width: 50%;
+  }
+  .timeline-item::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    right: -10px;
+    background-color: #3b82f6;
+    border: 4px solid #1e40af;
+    top: 28px;
+    border-radius: 50%;
+    z-index: 1;
+  }
+  .timeline-left {
+    left: 0;
+  }
+  .timeline-right {
+    left: 50%;
+  }
+  .timeline-left::before {
+    content: " ";
+    height: 0;
+    position: absolute;
+    top: 32px;
+    width: 0;
+    z-index: 1;
+    right: 30px;
+    border: medium solid white;
+    border-width: 10px 0 10px 10px;
+    border-color: transparent transparent transparent #ffffff;
+  }
+  .timeline-right::before {
+    content: " ";
+    height: 0;
+    position: absolute;
+    top: 32px;
+    width: 0;
+    z-index: 1;
+    left: 30px;
+    border: medium solid white;
+    border-width: 10px 10px 10px 0;
+    border-color: transparent #ffffff transparent transparent;
+  }
+  .timeline-right::after {
+    left: -10px;
+  }
+
+  @media screen and (max-width: 768px) {
+    .timeline-container::after {
+      left: 31px;
+    }
+    .timeline-item {
+      width: 100%;
+      padding-left: 70px;
+      padding-right: 25px;
+    }
+    .timeline-item::before {
+      left: 60px;
+      border: medium solid white;
+      border-width: 10px 10px 10px 0;
+      border-color: transparent #ffffff transparent transparent;
+    }
+    .timeline-left::after, .timeline-right::after {
+      left: 21px;
+    }
+    .timeline-right {
+      left: 0%;
+    }
+  }
+
+  /* --- Styles for the pulsing map markers --- */
+  @keyframes pulse-dot {
+    0% { transform: scale(0.8); box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7); }
+    70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(59, 130, 246, 0); }
+    100% { transform: scale(0.8); box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
+  }
+  .map-marker-icon > div {
+    width: 12px;
+    height: 12px;
+    background-color: #3b82f6;
+    border-radius: 50%;
+    border: 2px solid white;
+    box-shadow: 0 0 0 rgba(59, 130, 246, 0.4);
+    animation: pulse-dot 2s infinite;
+  }
+</style>
+{% endblock %}
+
 {% block content %}
-<section class="relative overflow-hidden py-24 bg-white">
+
+<!-- SECTION 1: Logo & Foreword (WHITE BACKGROUND) -->
+<section class="relative overflow-hidden py-16 bg-white">
 	<div class="max-w-6xl mx-auto px-6">
-		<header class="max-w-4xl mx-auto text-center">
-	<img src="{{ url_for('static', filename='img/logo/KLSB full_bottom.svg') }}" alt="Kemuncak Lanai Logo" class="mx-auto h-32 sm:h-40 mb-2" style="max-width:1000px;" />
-    <p class="mt-6 text-lg text-slate-600 leading-relaxed">We provide integrated manpower, engineering, digital and inspection capability under a coordinated delivery model that reduces interface risk and accelerates predictable outcomes for industrial and energy stakeholders.</p>
-</header>
-		<div class="mt-14 grid gap-6 md:grid-cols-3">
-			<div class="relative overflow-hidden rounded-2xl border border-slate-200 bg-white/80 backdrop-blur-sm p-6 shadow-sm hover:shadow-md transition-shadow">
-				<div class="text-xl font-semibold tracking-wide text-teal-600/80">Clients</div>
-				<div class="mt-2 flex items-end gap-2 justify-center">
-					<div class="text-4xl font-bold text-slate-900">12+</div>
-				</div>
-				<p class="mt-3 text-sm text-slate-600">Active regional EPC & asset owner relationships.</p>
-			</div>
-			<div class="relative overflow-hidden rounded-2xl border border-slate-200 bg-white/80 backdrop-blur-sm p-6 shadow-sm hover:shadow-md transition-shadow">
-				<div class="text-xl font-semibold tracking-wide text-teal-600/80">Projects</div>
-				<div class="mt-2 flex items-end gap-2 justify-center">
-					<div class="text-4xl font-bold text-slate-900">7</div>
-				</div>
-				<p class="mt-3 text-sm text-slate-600">Running engineering, digital & supply tracks.</p>
-			</div>
-			<div class="relative overflow-hidden rounded-2xl border border-slate-200 bg-white/80 backdrop-blur-sm p-6 shadow-sm hover:shadow-md transition-shadow">
-				<div class="text-xl font-semibold tracking-wide text-teal-600/80">Specialists</div>
-				<div class="mt-2 flex items-end gap-2 justify-center">
-					<div class="text-4xl font-bold text-slate-900">20+</div>
-				</div>
-				<p class="mt-3 text-sm text-slate-600">Certified multi-discipline technical resources.</p>
-			</div>
-		</div>
-		<div class="mt-10 h-px bg-gradient-to-r from-transparent via-slate-200 to-transparent"></div>
-
-		<!-- Company Evolution Narrative -->
-	<section class="mt-16 max-w-4xl mx-auto text-center">
-    <h2 class="text-xl font-semibold tracking-tight text-slate-900 flex items-center gap-2 justify-center">
-        <span class="h-5 w-1.5 rounded-full bg-teal-500"></span>
-        <span>Company Evolution</span>
-    </h2>
-    <p class="mt-4 text-slate-600 leading-relaxed text-l">
-        Kemuncak Lanai Sdn Bhd (KLSB), established in 2011, is a professional service provider with core expertise in <strong>Technical Manpower Supply</strong> and <strong>3D Modelling & Design Consultancy</strong>. Over the years, we have progressively broadened our capabilities—now spanning <strong>Advanced Work Packaging (AWP)</strong>, <strong>Specialized Inspection Services</strong> and <strong>Cybersecurity Consultancy</strong>. This evolution reflects disciplined capability building to deliver reliable, value‑driven outcomes.
-    </p>
-	</section>
-
-	<section class="py-24 bg-white">
-  <div class="max-w-6xl mx-auto px-6">
-    <h1 class="text-4xl font-bold tracking-tight">Our Journey</h1>
-    <p class="mt-6 max-w-3xl text-slate-600 leading-relaxed">More than a decade of disciplined growth: from a focused engineering & manpower nucleus to an integrated delivery partner embracing digital, AWP and upcoming cybersecurity & inspection capabilities.</p>
-    <div class="mt-14 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-      <!-- 2011 -->
-      <div class="group relative bg-white border border-slate-100 rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow">
-        <div class="flex items-center gap-2 text-xs font-semibold tracking-wide uppercase text-teal-700">
-          <span class="px-2 py-0.5 rounded-full bg-teal-600/10 text-teal-700">2011</span>
-          <span class="text-slate-400">Foundation</span>
+    <header class="max-w-4xl mx-auto text-center" data-aos="fade-up">
+        <img src="{{ url_for('static', filename='img/logo/KLSB_full_bottom.svg') }}" alt="Kemuncak Lanai Logo" class="mx-auto h-24 sm:h-40 mb-2" style="max-width:640px; width:100%; height:auto; object-fit:contain;" />
+        <p class="mt-6 text-lg text-slate-700 leading-relaxed">We provide integrated manpower, engineering, digital and inspection capability under a coordinated delivery model that reduces interface risk and accelerates predictable outcomes for industrial and energy stakeholders.</p>
+    </header>
+    
+    <!-- Foreword section -->
+    <div class="mt-12 grid gap-6 md:grid-cols-1" data-aos="fade-up" data-aos-delay="100">
+        <div class="text-2xl font-semibold tracking-wide text-center text-slate-900">Foreword</div>
+        <div class="mt-4 flex justify-center">
+            <button id="forewordBtn" aria-label="Open foreword" class="focus:outline-none">
+                <img id="forewordThumb" src="{{ url_for('static', filename='img/Foreword.png') }}" alt="Foreword" class="w-full md:w-1/2 mx-auto h-auto rounded-xl shadow-lg transform transition-transform duration-200 hover:scale-105 cursor-pointer hover:shadow-2xl" />
+            </button>
         </div>
-        <h3 class="mt-4 font-semibold text-slate-900">Launch & Core Capability</h3>
-        <p class="mt-2 text-sm text-slate-600 leading-relaxed">Focused start in manpower supply & 3D modelling / engineering design establishing quality baseline.</p>
-        <ul class="mt-4 space-y-1.5 text-xs text-slate-600">
-          <li class="flex gap-2"><span class="h-1.5 w-1.5 rounded-full bg-teal-500 mt-1"></span>Pilot multi‑discipline drafting cells</li>
-          <li class="flex gap-2"><span class="h-1.5 w-1.5 rounded-full bg-teal-500 mt-1"></span>QA checklist discipline</li>
-        </ul>
-      </div>
-      <!-- 2012–2018 -->
-      <div class="group relative bg-white border border-slate-100 rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow">
-        <div class="flex items-center gap-2 text-xs font-semibold tracking-wide uppercase text-teal-700">
-          <span class="px-2 py-0.5 rounded-full bg-teal-500/10 text-teal-700">2012–18</span>
-          <span class="text-slate-400">Scaling</span>
-        </div>
-        <h3 class="mt-4 font-semibold text-slate-900">Structured Growth</h3>
-        <p class="mt-2 text-sm text-slate-600 leading-relaxed">Team expansion with discipline leads, onboarding structure and process refinement.</p>
-        <ul class="mt-4 space-y-1.5 text-xs text-slate-600">
-          <li class="flex gap-2"><span class="h-1.5 w-1.5 rounded-full bg-teal-400 mt-1"></span>Model QA loops</li>
-          <li class="flex gap-2"><span class="h-1.5 w-1.5 rounded-full bg-teal-400 mt-1"></span>Knowledge share cadence</li>
-          <li class="flex gap-2"><span class="h-1.5 w-1.5 rounded-full bg-teal-400 mt-1"></span>Defined discipline ownership</li>
-        </ul>
-      </div>
-      <!-- 2019–2022 -->
-      <div class="group relative bg-white border border-slate-100 rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow">
-        <div class="flex items-center gap-2 text-xs font-semibold tracking-wide uppercase text-teal-700">
-          <span class="px-2 py-0.5 rounded-full bg-teal-400/10 text-teal-700">2019–22</span>
-          <span class="text-slate-400">Method</span>
-        </div>
-        <h3 class="mt-4 font-semibold text-slate-900">AWP Integration</h3>
-        <p class="mt-2 text-sm text-slate-600 leading-relaxed">Advanced Work Packaging drives readiness discipline & constraint visibility.</p>
-        <ul class="mt-4 space-y-1.5 text-xs text-slate-600">
-          <li class="flex gap-2"><span class="h-1.5 w-1.5 rounded-full bg-teal-300 mt-1"></span>Work pack structuring</li>
-          <li class="flex gap-2"><span class="h-1.5 w-1.5 rounded-full bg-teal-300 mt-1"></span>Constraint tracking</li>
-          <li class="flex gap-2"><span class="h-1.5 w-1.5 rounded-full bg-teal-300 mt-1"></span>Readiness gates</li>
-        </ul>
-      </div>
-      <!-- 2023 -->
-      <div class="group relative bg-white border border-slate-100 rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow">
-        <div class="flex items-center gap-2 text-xs font-semibold tracking-wide uppercase text-teal-700">
-          <span class="px-2 py-0.5 rounded-full bg-teal-300/10 text-teal-700">2023</span>
-          <span class="text-slate-400">Expansion</span>
-        </div>
-        <h3 class="mt-4 font-semibold text-slate-900">Strategic Broadening</h3>
-        <p class="mt-2 text-sm text-slate-600 leading-relaxed">Preparation for cybersecurity consultancy & inspection service launch.</p>
-        <ul class="mt-4 space-y-1.5 text-xs text-slate-600">
-          <li class="flex gap-2"><span class="h-1.5 w-1.5 rounded-full bg-teal-200 mt-1"></span>Service playbooks</li>
-          <li class="flex gap-2"><span class="h-1.5 w-1.5 rounded-full bg-teal-200 mt-1"></span>Security posture frameworks</li>
-          <li class="flex gap-2"><span class="h-1.5 w-1.5 rounded-full bg-teal-200 mt-1"></span>Inspection workflows</li>
-        </ul>
-      </div>
-      <!-- 2024+ -->
-      <div class="group relative bg-white border border-slate-100 rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow">
-        <div class="flex items-center gap-2 text-xs font-semibold tracking-wide uppercase text-teal-700">
-          <span class="px-2 py-0.5 rounded-full bg-slate-400/10 text-slate-700">2024+</span>
-          <span class="text-slate-400">Trajectory</span>
-        </div>
-        <h3 class="mt-4 font-semibold text-slate-900">Forward Focus</h3>
-        <p class="mt-2 text-sm text-slate-600 leading-relaxed">Integrating data insight, automation pilots & secure-by-design operations.</p>
-        <ul class="mt-4 space-y-1.5 text-xs text-slate-600">
-          <li class="flex gap-2"><span class="h-1.5 w-1.5 rounded-full bg-slate-400 mt-1"></span>Analytics layer</li>
-          <li class="flex gap-2"><span class="h-1.5 w-1.5 rounded-full bg-slate-400 mt-1"></span>Automation pilots</li>
-          <li class="flex gap-2"><span class="h-1.5 w-1.5 rounded-full bg-slate-400 mt-1"></span>Talent pipeline</li>
-          <li class="flex gap-2"><span class="h-1.5 w-1.5 rounded-full bg-slate-400 mt-1"></span>Resilience KPIs</li>
-        </ul>
-      </div>
-      <!-- Narrative Card (optional) -->
-      
+        <p class="mt-3 text-sm text-slate-600 text-center">A short message from the leadership.</p>
     </div>
   </div>
 </section>
 
-		<!-- Offices -->
-		<section class="mt-24">
-<h2 class="text-xl font-semibold tracking-tight text-slate-900 flex items-center gap-2 justify-center"><span class="h-5 w-1.5 rounded-full bg-teal-500"></span><span>Our Offices</span></h2>
-				<div class="max-w-6xl mx-auto px-6">
-    <div class="mt-8 flex justify-center">
-      <img src="{{ url_for('static', filename='img/map.jpg') }}" alt="Major client" class="w-full max-w-4xl mx-auto rounded-lg shadow-lg object-contain">
+<!-- SECTION 2: Our Journey Timeline (BLUE GRADIENT BACKGROUND) -->
+<section class="relative overflow-hidden py-20 blue-gradient-bg">
+  <div class="max-w-6xl mx-auto px-6">
+    <div data-aos="fade-up">
+      <h1 class="text-4xl font-bold tracking-tight text-center text-white">Our Journey</h1>
+      <p class="mt-6 max-w-3xl text-white/80 leading-relaxed text-center mx-auto">More than a decade of disciplined growth: from a focused engineering & manpower nucleus to an integrated delivery partner embracing digital, AWP and upcoming cybersecurity & inspection capabilities.</p>
     </div>
-  </div>			
-				<div class="mt-10 grid gap-6 md:grid-cols-3">
-				<div class="group relative rounded-2xl border border-slate-200 bg-white/70 backdrop-blur p-5 shadow-sm hover:shadow-md transition-shadow">
-					<h3 class="font-medium text-slate-800">Main Office</h3>
-					<p class="mt-3 text-xs leading-relaxed text-slate-600">39-5 to 39-8, Binjai 8 Premium SOHO,<br>No. 2 Lorong Binjai,<br>50450, Kuala Lumpur</p>
-				</div>
-				<div class="group relative rounded-2xl border border-slate-200 bg-white/70 backdrop-blur p-5 shadow-sm hover:shadow-md transition-shadow">
-					<h3 class="font-medium text-slate-800">Branch Office (Kuching)</h3>
-					<p class="mt-3 text-xs leading-relaxed text-slate-600">1st Floor, Lot 177, Section 12,<br>Jalan Haji Taha,<br>93400 Kuching, Sarawak</p>
-				</div>
-				<div class="group relative rounded-2xl border border-slate-200 bg-white/70 backdrop-blur p-5 shadow-sm hover:shadow-md transition-shadow">
-					<h3 class="font-medium text-slate-800">Branch Office (Labuan)</h3>
-					<p class="mt-3 text-xs leading-relaxed text-slate-600">F-5, Paragon Labuan,<br>Jalan Merdeka,<br>87000 FT Labuan</p>
-				</div>
-			</div>
-		</section>
-	</div>
+    
+    <div class="timeline-container mt-16">
+      <div class="timeline-item timeline-left" data-aos="fade-right">
+        <div class="glass-card rounded-2xl p-6 shadow-sm">
+          <div class="flex items-center gap-2 text-xs font-semibold tracking-wide uppercase"><span class="px-2 py-0.5 rounded-full bg-blue-600/10 text-blue-700">2011</span><span class="text-slate-500">Foundation</span></div>
+          <h3 class="mt-4 font-semibold">Launch & Core Capability</h3>
+          <p class="mt-2 text-sm leading-relaxed">Focused start in manpower supply & 3D modelling / engineering design establishing quality baseline.</p>
+        </div>
+      </div>
+
+      <div class="timeline-item timeline-right" data-aos="fade-left">
+        <div class="glass-card rounded-2xl p-6 shadow-sm">
+          <div class="flex items-center gap-2 text-xs font-semibold tracking-wide uppercase"><span class="px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-700">2012–18</span><span class="text-slate-500">Scaling</span></div>
+          <h3 class="mt-4 font-semibold">Structured Growth</h3>
+          <p class="mt-2 text-sm leading-relaxed">Team expansion with discipline leads, onboarding structure and process refinement.</p>
+        </div>
+      </div>
+
+      <div class="timeline-item timeline-left" data-aos="fade-right">
+        <div class="glass-card rounded-2xl p-6 shadow-sm">
+          <div class="flex items-center gap-2 text-xs font-semibold tracking-wide uppercase"><span class="px-2 py-0.5 rounded-full bg-blue-400/10 text-blue-700">2019–22</span><span class="text-slate-500">Method</span></div>
+          <h3 class="mt-4 font-semibold">AWP Integration</h3>
+          <p class="mt-2 text-sm leading-relaxed">Advanced Work Packaging drives readiness discipline & constraint visibility.</p>
+        </div>
+      </div>
+
+      <div class="timeline-item timeline-right" data-aos="fade-left">
+        <div class="glass-card rounded-2xl p-6 shadow-sm">
+          <div class="flex items-center gap-2 text-xs font-semibold tracking-wide uppercase"><span class="px-2 py-0.5 rounded-full bg-blue-300/10 text-blue-700">2023</span><span class="text-slate-500">Expansion</span></div>
+          <h3 class="mt-4 font-semibold">Strategic Broadening</h3>
+          <p class="mt-2 text-sm leading-relaxed">Preparation for cybersecurity consultancy & inspection service launch.</p>
+        </div>
+      </div>
+
+      <div class="timeline-item timeline-left" data-aos="fade-right">
+        <div class="glass-card rounded-2xl p-6 shadow-sm">
+          <div class="flex items-center gap-2 text-xs font-semibold tracking-wide uppercase"><span class="px-2 py-0.5 rounded-full bg-slate-400/10 text-slate-700">2024+</span><span class="text-slate-500">Trajectory</span></div>
+          <h3 class="mt-4 font-semibold">Forward Focus</h3>
+          <p class="mt-2 text-sm leading-relaxed">Integrating data insight, automation pilots & secure-by-design operations.</p>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
 
+<!-- SECTION 3: Our Offices (WHITE BACKGROUND) -->
+<section class="relative overflow-hidden py-16 bg-white">
+  <div class="max-w-6xl mx-auto px-6">
+    <h2 class="text-2xl font-semibold tracking-tight text-slate-900 flex items-center gap-2 justify-center mb-10" data-aos="fade-up">
+        <span class="h-5 w-1.5 rounded-full bg-blue-600"></span><span>Our Offices</span>
+    </h2>
+    
+    <div class="mt-10 grid grid-cols-1 md:grid-cols-5 gap-8 items-center" 
+         data-aos="fade-up" 
+         data-aos-delay="100" 
+         x-data="{ 
+             selectedOffice: 'kl',
+             offices: {
+                 kl: { lat: 3.1580, lng: 101.7195 },
+                 kuching: { lat: 1.5625, lng: 110.3450 },
+                 labuan: { lat: 5.2785, lng: 115.2440 }
+             },
+             map: null,
+             initMap() {
+                 this.map = L.map('interactive-map', { scrollWheelZoom: false }).setView([4.2, 108.5], 6);
+                 L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+                     attribution: '&copy; OpenStreetMap contributors &copy; CARTO',
+                     maxZoom: 19
+                 }).addTo(this.map);
+
+                 const pulsingIcon = L.divIcon({
+                     className: 'map-marker-icon',
+                     html: '<div></div>',
+                     iconSize: [24, 24],
+                     iconAnchor: [12, 12]
+                 });
+
+                 L.marker(this.offices.kl, { icon: pulsingIcon }).addTo(this.map).on('click', () => { this.selectedOffice = 'kl'; });
+                 L.marker(this.offices.kuching, { icon: pulsingIcon }).addTo(this.map).on('click', () => { this.selectedOffice = 'kuching'; });
+                 L.marker(this.offices.labuan, { icon: pulsingIcon }).addTo(this.map).on('click', () => { this.selectedOffice = 'labuan'; });
+             }
+         }"
+         x-init="initMap()">
+      
+        <div id="interactive-map" class="md:col-span-3 h-[400px] md:h-[500px] w-full rounded-xl shadow-2xl z-10"></div>
+
+        <div class="md:col-span-2">
+            <div x-show="selectedOffice === 'kl'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 -translate-x-4" x-transition:enter-end="opacity-100 translate-x-0" x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0">
+                <div class="glass-card rounded-2xl p-5">
+                    <img src="{{ url_for('static', filename='img/binjai.jpg') }}" alt="Kuala Lumpur Office Building" class="w-full h-64 object-cover rounded-lg mb-4">
+                    <h3 class="font-semibold">Main Office (Kuala Lumpur)</h3>
+                    <p class="mt-3 text-sm leading-relaxed">39-5 to 39-8, Binjai 8 Premium SOHO,<br>No. 2 Lorong Binjai,<br>50450, Kuala Lumpur</p>
+                </div>
+            </div>
+            <div x-show="selectedOffice === 'kuching'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 -translate-x-4" x-transition:enter-end="opacity-100 translate-x-0" x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" style="display: none;">
+                <div class="glass-card rounded-2xl p-5">
+                    <img src="{{ url_for('static', filename='img/kuching.jfif') }}" alt="Kuching Office Building" class="w-full h-64 object-cover rounded-lg mb-4">
+                    <h3 class="font-semibold">Branch Office (Kuching)</h3>
+                    <p class="mt-3 text-sm leading-relaxed">1st Floor, Lot 177, Section 12,<br>Jalan Haji Taha,<br>93400 Kuching, Sarawak</p>
+                </div>
+            </div>
+            <div x-show="selectedOffice === 'labuan'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 -translate-x-4" x-transition:enter-end="opacity-100 translate-x-0" x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" style="display: none;">
+                <div class="glass-card rounded-2xl p-5">
+                    <img src="{{ url_for('static', filename='img/paragon.jpeg') }}" alt="Labuan Office Building" class="w-full h-64 object-cover rounded-lg mb-4">
+                    <h3 class="font-semibold">Branch Office (Labuan)</h3>
+                    <p class="mt-3 text-sm leading-relaxed">F-5, Paragon Labuan,<br>Jalan Merdeka,<br>87000 FT Labuan</p>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+</section>
+
+<div id="imgModal" class="fixed inset-0 z-[9999] hidden items-center justify-center bg-black/70">
+  <button id="closeModal" class="fixed top-4 right-4 text-white text-3xl leading-none px-3 py-1 z-[10000]" aria-label="Close">&times;</button>
+  <div id="modalDialog" class="w-auto p-4 flex flex-col items-center justify-center">
+    <img id="modalImg" src="{{ url_for('static', filename='img/Foreword.png') }}" alt="Foreword" class="block max-h-[85vh] w-auto h-auto object-contain" style="cursor: grab; transform-origin: center center; transform: translate(0px, 0px) scale(1);" />
+    <div class="flex items-center justify-center gap-2 mt-4">
+      <button id="zoomOut" class="bg-white text-slate-700 px-3 py-1 rounded" aria-label="Zoom out">-</button>
+      <button id="resetZoom" class="bg-white text-slate-700 px-3 py-1 rounded" aria-label="Reset zoom">Reset</button>
+      <button id="zoomIn" class="bg-white text-slate-700 px-3 py-1 rounded" aria-label="Zoom in">+</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Foreword modal script: open/close + zoom/pan controls
+  (function(){
+    const openBtn = document.getElementById('forewordBtn');
+    const modal = document.getElementById('imgModal');
+    const modalImg = document.getElementById('modalImg');
+    const closeBtn = document.getElementById('closeModal');
+    const zoomInBtn = document.getElementById('zoomIn');
+    const zoomOutBtn = document.getElementById('zoomOut');
+    const resetBtn = document.getElementById('resetZoom');
+
+    let scale = 1;
+    const MIN_SCALE = 0.5;
+    const MAX_SCALE = 3;
+    const STEP = 0.1;
+    let translateX = 0;
+    let translateY = 0;
+    let isPanning = false;
+    let startX = 0;
+    let startY = 0;
+
+    function applyTransform() {
+      modalImg.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+    }
+
+    function clampScale(s) {
+      return Math.min(MAX_SCALE, Math.max(MIN_SCALE, s));
+    }
+
+    function zoomTo(delta, clientX, clientY) {
+      const prevScale = scale;
+      scale = clampScale(scale + delta);
+      // adjust translate so zoom happens toward pointer (approximate)
+      const rect = modalImg.getBoundingClientRect();
+      const offsetX = clientX - (rect.left + rect.width / 2);
+      const offsetY = clientY - (rect.top + rect.height / 2);
+      // move translation proportionally to the scale change
+      translateX -= offsetX * (scale / prevScale - 1);
+      translateY -= offsetY * (scale / prevScale - 1);
+      applyTransform();
+    }
+
+    function resetView() {
+      scale = 1; translateX = 0; translateY = 0; applyTransform();
+    }
+
+    function openModal() {
+        modal.classList.remove('hidden');
+        modal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+        // reset view whenever opened
+        resetView();
+    }
+    function closeModal() {
+        modal.classList.add('hidden');
+        modal.style.display = 'none';
+        document.body.style.overflow = '';
+        resetView();
+    }
+
+    // Thumbnail click opens modal
+    openBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      openModal();
+    });
+
+    closeBtn.addEventListener('click', closeModal);
+
+    // Close when clicking the backdrop (but not when clicking the dialog)
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+    });
+
+    // Keyboard: Escape to close
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeModal();
+    });
+
+    // Zoom controls
+    zoomInBtn.addEventListener('click', () => {
+      scale = clampScale(scale + STEP);
+      applyTransform();
+    });
+    zoomOutBtn.addEventListener('click', () => {
+      scale = clampScale(scale - STEP);
+      applyTransform();
+    });
+    resetBtn.addEventListener('click', resetView);
+
+    // Wheel to zoom (when hovering over image)
+    modalImg.addEventListener('wheel', (e) => {
+      e.preventDefault();
+      const delta = e.deltaY > 0 ? -STEP : STEP;
+      zoomTo(delta, e.clientX, e.clientY);
+    }, { passive: false });
+
+    // Pointer drag to pan when zoomed
+    modalImg.addEventListener('pointerdown', (e) => {
+      if (scale <= 1) return; // no panning at default scale
+      isPanning = true;
+      startX = e.clientX - translateX;
+      startY = e.clientY - translateY;
+      modalImg.setPointerCapture(e.pointerId);
+      modalImg.style.cursor = 'grabbing';
+    });
+
+    modalImg.addEventListener('pointermove', (e) => {
+      if (!isPanning) return;
+      translateX = e.clientX - startX;
+      translateY = e.clientY - startY;
+      applyTransform();
+    });
+
+    modalImg.addEventListener('pointerup', (e) => {
+      if (!isPanning) return;
+      isPanning = false;
+      modalImg.releasePointerCapture(e.pointerId);
+      modalImg.style.cursor = 'grab';
+    });
+
+    modalImg.addEventListener('pointercancel', () => {
+      isPanning = false;
+      modalImg.style.cursor = 'grab';
+    });
+
+    // Prevent image dragging default
+    modalImg.addEventListener('dragstart', (e) => e.preventDefault());
+
+  })();
+</script>
 
 {% endblock %}

@@ -1,129 +1,194 @@
 {% extends "base.html" %}
-{% block title %}KLSB — Minor Construction Services{% endblock %}
-{% set hero_bg = url_for('static', filename='img/construction.jpg') %}
-{% block content %}
+{% block title %}KLSB — General Construction Services{% endblock %}
 
-<section class="relative min-h-[280px] sm:min-h-[340px] flex items-center justify-center text-center">
-  <div class="absolute inset-0 -z-20 bg-cover bg-center" style="background-image: url('{{ hero_bg }}'); background-position: center 30%;"></div>
-  <div class="absolute inset-0 z-10 bg-gradient-to-r from-black/70 to-transparent opacity-80 pointer-events-none"></div>
-  <div class="absolute inset-0 z-10 bg-gradient-to-t from-black/40 via-transparent to-black/25 pointer-events-none"></div>
-</div>
-  <div class="w-full px-4 sm:px-6 lg:px-8 py-16 flex flex-col items-center justify-center relative z-20">
-  <h1 class="text-3xl sm:text-4xl font-bold text-white drop-shadow-lg mb-4">General Construction Services</h1>
-  <p class="text-lg max-w-2xl mx-auto drop-shadow-md" style="color:#fff !important;">We deliver industrial-grade construction, renovations, and infrastructure projects with a commitment to quality, safety, and efficiency meeting the rigorous standards of leading industries and clients.</p>
+{% block extra_head %}
+{# --- STYLES FOR THE NEW DASHBOARD --- #}
+<style>
+  .talent-dashboard-container {
+    background: linear-gradient(180deg, #010428 0%, #030C69 100%);
+  }
+
+  /* Main navigation buttons for the dashboard */
+  .main-nav-btn {
+    position: relative;
+    transition: color 0.3s ease;
+  }
+  .main-nav-btn::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: #3b82f6; /* blue-500 */
+    transform: scaleX(0);
+    transform-origin: center;
+    transition: transform 0.3s ease;
+    box-shadow: 0 0 10px #3b82f6;
+  }
+  .main-nav-btn.active::after, .main-nav-btn:hover::after {
+    transform: scaleX(1);
+  }
+  .main-nav-btn.active {
+    color: white;
+  }
+
+  /* Styling for the inner frosted glass cards */
+  /* Make the inner cards white with dark text while keeping the surrounding section blue */
+  .glass-card {
+    background: #ffffff; /* white card */
+    color: #0b1220;      /* dark text */
+    border: 1px solid rgba(11,18,32,0.06);
+    box-shadow: 0 6px 20px rgba(8,12,30,0.18);
+    transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+  }
+  .glass-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 28px rgba(8,12,30,0.24);
+  }
+
+  /* Ensure text elements inside cards are dark even if utility classes set them to white */
+  .glass-card h2,
+  .glass-card h3,
+  .glass-card p,
+  .glass-card li,
+  .glass-card .inner-tab,
+  .glass-card .main-nav-btn {
+    color: #0b1220 !important;
+  }
+
+  /* Keep small muted copy slightly softer */
+  .glass-card p,
+  .glass-card .muted {
+    color: rgba(11,18,32,0.7) !important;
+  }
+
+  /* Buttons that explicitly use a dark background (inline style) should keep their white text — don't force them black */
+  .glass-card a[style], .glass-card button[style] {
+    color: inherit;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+{% set hero_bg = url_for('static', filename='img/construction.jpg') %}
+
+{# --- HERO SECTION --- #}
+<section class="relative min-h-[500px] flex items-center justify-center text-center">
+  <div class="absolute inset-0 -z-10 bg-cover bg-center" style="background-image: url('{{ hero_bg }}');"></div>
+  <div class="absolute inset-0 -z-10 bg-gradient-to-t from-black/70 to-black/30"></div>
+  <div class="w-full max-w-4xl px-4 sm:px-6 lg:px-8 py-16">
+    <h1 class="text-4xl sm:text-5xl font-bold text-white drop-shadow-lg mb-4" data-aos="fade-up">General Construction Services</h1>
+    <p class="text-xl text-white/90 drop-shadow-md max-w-3xl mx-auto" data-aos="fade-up" data-aos-delay="100" style="color:#fff !important;">
+      We deliver industrial-grade construction, renovations, and infrastructure projects with a commitment to quality, safety, and efficiency meeting the rigorous standards of leading industries.
+    </p>
   </div>
 </section>
-<!-- Back to all services: left-aligned between hero and content -->
-<div class="bg-white">
-  <div style="height:2.5rem;"></div>
-  <nav class="text-sm text-slate-500 mb-6 text-left" style="margin-left:0; padding-left:0;">
-    <a href="{{ url_for('main.services_page') }}" class="hover:text-slate-700" style="margin-left:0; padding-left:1.5rem; display:inline-block;">← Back to all services</a>
-  </nav>
-</div>
-<section class="py-8 bg-white">
-  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
 
+{# --- INTERACTIVE DASHBOARD SECTION --- #}
+<section class="talent-dashboard-container pt-16 pb-24 overflow-hidden">
+  <div class="max-w-7xl mx-auto px-6" x-data="{ activeView: 'scope' }">
+    
+    <nav class="mb-12" data-aos="fade-up">
+      <a href="{{ url_for('main.services_page') }}" class="text-sm text-white/70 hover:text-white transition">← Back to all services</a>
+    </nav>
 
-    <!-- Header removed, now in hero section -->
-
-    <!-- Content -->
-    <div class="space-y-12 text-left">
-
-      <!-- Scope of Work -->
-      <section class="rounded-2xl border bg-white p-6 shadow-sm">
-        <h2 class="text-2xl font-semibold text-center mb-2">Scope of Work</h2>
-        <p class="text-center mb-5">
-          Tailored services for facilities, plants, offices, and sites.
-        </p>
-        <div class="rounded-xl bg-indigo-50 p-4 mt-3">
-          <div class="grid sm:grid-cols-2 gap-6">
-            <ul class="list-disc list-inside space-y-1 text-slate-700">
-              <li>Building Construction</li>
-              <li>Roadworks</li>
-              <li>Building Management Systems</li>
-              <li>Energy Generation, Distribution &amp; Supply</li>
-              <li>Escalators &amp; Lifts</li>
-              <li>Fascade Engineering</li>
-              <li>Fire Safety, Detection &amp; Protection</li>
-              <li>Heating, Ventilation &amp; Air Conditioning (HVAC)</li>
-            </ul>
-            <ul class="list-disc list-inside space-y-1 text-slate-700">
-              <li>Scaffolding &amp; Machinery Rental</li>
-              <li>Steel Structural &amp; Piping Fabrication</li>
-              <li>E&amp;I Installation &amp; Testing</li>
-              <li>Abesiler</li>
-              <li>Lighing</li>
-              <li>Lightning Protection</li>
-              <li>Security &amp; Alarm Systems</li>
-              <li>Water, Drainage &amp; Plumbing</li>
-            </ul>
-          </div>
-        </div>
-      </section>
-
-      <!-- Delivery Approach -->
-      <section class="rounded-2xl border bg-white p-6 shadow-sm">
-        <h2 class="text-2xl font-semibold text-center mb-2">Delivery Approach</h2>
-        <div class="grid sm:grid-cols-3 gap-4 mt-3">
-          <div class="rounded-xl bg-indigo-50 p-4 text-slate-700">
-            <h3 class="font-semibold">Site Assessment</h3>
-            <p class="mt-2">Survey, method statement, and risk assessment aligned to constraints.</p>
-          </div>
-          <div class="rounded-xl bg-indigo-50 p-4 text-slate-700">
-            <h3 class="font-semibold">Plan &amp; Schedule</h3>
-            <p class="mt-2">Clear work packs, milestones, and stakeholder coordination.</p>
-          </div>
-          <div class="rounded-xl bg-indigo-50 p-4 text-slate-700">
-            <h3 class="font-semibold">Execute &amp; QA/QC</h3>
-            <p class="mt-2">Supervised works, inspections, punch lists, and handover docs.</p>
-          </div>
-        </div>
-      </section>
-
-      <!-- Why Choose KLSB -->
-      <section class="rounded-2xl border bg-white p-6 shadow-sm">
-        <h2 class="text-2xl font-semibold text-center mb-2">Why Choose KLSB</h2>
-        <div class="grid sm:grid-cols-2 gap-6 mt-3">
-          <div class="rounded-xl bg-indigo-50 p-4 text-slate-700">
-            <h3 class="font-semibold">Specialised Expertise</h3>
-            <p class="mt-2">Focused small-works execution with skilled crews and tight controls.</p>
-          </div>
-          <div class="rounded-xl bg-indigo-50 p-4 text-slate-700">
-            <h3 class="font-semibold">Quality Assurance</h3>
-            <p class="mt-2">Durable finishes and workmanship that meet rigorous standards.</p>
-          </div>
-          <div class="rounded-xl bg-indigo-50 p-4 text-slate-700">
-            <h3 class="font-semibold">Efficient &amp; On-Time</h3>
-            <p class="mt-2">Lean planning to minimise disruption and meet target dates.</p>
-          </div>
-          <div class="rounded-xl bg-indigo-50 p-4 text-slate-700">
-            <h3 class="font-semibold">Safety First</h3>
-            <p class="mt-2">Strict adherence to HSE protocols for workers and occupants.</p>
-          </div>
-          <div class="rounded-xl bg-indigo-50 p-4 text-slate-700">
-            <h3 class="font-semibold">Cost-Effective</h3>
-            <p class="mt-2">Competitive pricing without compromising quality.</p>
-          </div>
-          <div class="rounded-xl bg-indigo-50 p-4 text-slate-700">
-            <h3 class="font-semibold">Proven Track Record</h3>
-            <p class="mt-2">Reliable delivery across renovations, repairs, and small builds.</p>
-          </div>
-        </div>
-      </section>
-
+    <div class="text-center mb-12" data-aos="fade-up">
+      <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-white">Our Construction Capabilities</h2>
+      <p class="mt-4 max-w-2xl mx-auto text-white/80">From large-scale builds to specialized support, explore our end-to-end construction services.</p>
     </div>
 
-    <!-- Bottom CTA -->
-    <div class="mt-16">
-      <p class="mb-6">
-        Have a minor construction task or renovation coming up? Share your requirements and timeline.
-      </p>
-  <a href="/get-in-touch"
-    class="inline-flex items-center rounded-2xl text-white px-6 py-3 font-medium transition" style="background:#030C69; border:none;">
-  Request a proposal
+    <div class="flex flex-wrap justify-center gap-8 mb-12 border-b border-white/10" data-aos="fade-up" data-aos-delay="100">
+      <button @click="activeView = 'scope'" class="main-nav-btn text-white/70 font-semibold pb-3" :class="{ 'active': activeView === 'scope' }">Scope of Work</button>
+      <button @click="activeView = 'support'" class="main-nav-btn text-white/70 font-semibold pb-3" :class="{ 'active': activeView === 'support' }">Support Services</button>
+      <button @click="activeView = 'approach'" class="main-nav-btn text-white/70 font-semibold pb-3" :class="{ 'active': activeView === 'approach' }">Our Approach</button>
+    </div>
+
+    <div class="relative min-h-[400px]" data-aos="fade-up" data-aos-delay="200">
+      
+      <div x-show="activeView === 'scope'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100">
+        <div class="glass-card rounded-2xl p-8">
+            <h3 class="font-semibold text-white text-xl text-center mb-2 flex items-center justify-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-blue-400"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" /></svg>Scope of Work</h3>
+            <p class="text-center text-white/80 max-w-3xl mx-auto mb-8 text-sm">Tailored services for facilities, plants, offices, and sites.</p>
+            <div class="grid sm:grid-cols-2 gap-x-8 gap-y-2 text-white/80 text-sm">
+                <ul class="list-disc list-outside space-y-2 pl-5">
+                    <li>Building Construction</li>
+                    <li>Roadworks</li>
+                    <li>Building Management Systems</li>
+                    <li>Energy Generation, Distribution &amp; Supply</li>
+                    <li>Escalators &amp; Lifts</li>
+                    <li>Fascade Engineering</li>
+                    <li>Fire Safety, Detection &amp; Protection</li>
+                    <li>Heating, Ventilation &amp; Air Conditioning (HVAC)</li>
+                </ul>
+                <ul class="list-disc list-outside space-y-2 pl-5">
+                    <li>Scaffolding &amp; Machinery Rental</li>
+                    <li>Steel Structural &amp; Piping Fabrication</li>
+                    <li>E&amp;I Installation &amp; Testing</li>
+                    <li>Abesiler</li>
+                    <li>Lighting</li>
+                    <li>Lightning Protection</li>
+                    <li>Security &amp; Alarm Systems</li>
+                    <li>Water, Drainage &amp; Plumbing</li>
+                </ul>
+            </div>
+        </div>
+      </div>
+
+      <div x-show="activeView === 'support'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" style="display: none;">
+        <div class="glass-card rounded-2xl p-8 max-w-lg mx-auto">
+          <h3 class="font-semibold text-white text-xl text-center mb-6 flex items-center justify-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-blue-400"><path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m-7.5-2.962A3.75 3.75 0 0115 9.75v6.472a3.75 3.75 0 01-3.75 3.75H3.75a3.75 3.75 0 01-3.75-3.75V9.75a3.75 3.75 0 013.75-3.75h.007v6.472a2.25 2.25 0 002.25 2.25H9" /></svg>Construction Support Services</h3>
+            <ul class="list-disc list-outside space-y-2 text-white/80 pl-5 text-sm max-w-xs mx-auto">
+                <li>Site Supervisor</li>
+                <li>General Workers</li>
+                <li>Scaffolder (Level 1-3)</li>
+                <li>Rigger</li>
+                <li>Welders (3G-6G)</li>
+                <li>Equipment &amp; Machinery Rental</li>
+            </ul>
+        </div>
+      </div>
+
+      <div x-show="activeView === 'approach'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" style="display: none;">
+        <div class="glass-card rounded-2xl p-8">
+            <h3 class="font-semibold text-white text-xl text-center mb-8 flex items-center justify-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-blue-400"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.745 3.745 0 013.296-1.043A3.745 3.745 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.745 3.745 0 011.043 3.296A3.745 3.745 0 0121 12z" /></svg>Our Delivery Approach</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+                <div class="bg-white/5 rounded-lg p-6">
+                    <h4 class="font-semibold text-black">Site Assessment</h4>
+                    <p class="mt-2 text-sm text-white/70">Survey, method statement, and risk assessment aligned to constraints.</p>
+                </div>
+                <div class="bg-white/5 rounded-lg p-6">
+                    <h4 class="font-semibold text-black">Plan & Schedule</h4>
+                    <p class="mt-2 text-sm text-white/70">Clear work packs, milestones, and stakeholder coordination.</p>
+                </div>
+                <div class="bg-white/5 rounded-lg p-6">
+                    <h4 class="font-semibold text-black">Execute & QA/QC</h4>
+                    <p class="mt-2 text-sm text-white/70">Supervised works, inspections, punch lists, and handover docs.</p>
+                </div>
+            </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{# --- SINGLE CALL TO ACTION --- #}
+<section class="py-20 bg-white">
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center" data-aos="fade-up">
+    <h2 class="text-3xl font-bold text-slate-900 tracking-tight">
+      Ready to Build?
+    </h2>
+    <p class="mt-4 text-lg text-slate-600 max-w-2xl mx-auto">
+      Have a minor construction task or renovation coming up? Share your requirements and timeline with us.
+    </p>
+    <div class="mt-8">
+      <a href="{{ url_for('main.submit_proposal') }}" 
+         class="inline-block rounded-lg text-white px-10 py-3 font-semibold tracking-wide transition duration-300 ease-in-out hover:opacity-90" 
+         style="background-color: #030C69;">
+        Request a Proposal
       </a>
     </div>
-
   </div>
 </section>
 

@@ -1,105 +1,186 @@
 {% extends "base.html" %}
 {% block title %}KLSB — Inspection Services{% endblock %}
-{% set hero_bg = url_for('static', filename='img/inspection.jpg') %}
-{% block content %}
 
-<section class="relative min-h-[280px] sm:min-h-[340px] flex items-center justify-center text-center">
+{% block extra_head %}
+{# --- STYLES FOR THE NEW DASHBOARD --- #}
+<style>
+  .talent-dashboard-container {
+    background: linear-gradient(180deg, #010428 0%, #030C69 100%);
+  }
+
+  /* Main navigation buttons for the dashboard */
+  .main-nav-btn {
+    position: relative;
+    transition: color 0.3s ease;
+  }
+  .main-nav-btn::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: #3b82f6; /* blue-500 */
+    transform: scaleX(0);
+    transform-origin: center;
+    transition: transform 0.3s ease;
+    box-shadow: 0 0 10px #3b82f6;
+  }
+  .main-nav-btn.active::after, .main-nav-btn:hover::after {
+    transform: scaleX(1);
+  }
+  .main-nav-btn.active {
+    color: white;
+  }
+
+  /* Styling for the inner frosted glass cards */
+  /* Make the inner cards white with dark text while keeping the surrounding section blue */
+  .glass-card {
+    background: #ffffff; /* white card */
+    color: #0b1220;      /* dark text */
+    border: 1px solid rgba(11,18,32,0.06);
+    box-shadow: 0 6px 20px rgba(8,12,30,0.18);
+    transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+  }
+  .glass-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 28px rgba(8,12,30,0.24);
+  }
+
+  /* Ensure text elements inside cards are dark even if utility classes set them to white */
+  .glass-card h2,
+  .glass-card h3,
+  .glass-card p,
+  .glass-card li,
+  .glass-card .inner-tab,
+  .glass-card .main-nav-btn {
+    color: #0b1220 !important;
+  }
+
+  /* Keep small muted copy slightly softer */
+  .glass-card p,
+  .glass-card .muted {
+    color: rgba(11,18,32,0.7) !important;
+  }
+
+  /* Buttons that explicitly use a dark background (inline style) should keep their white text — don't force them black */
+  .glass-card a[style], .glass-card button[style] {
+    color: inherit;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+{% set hero_bg = url_for('static', filename='img/inspection.jpg') %}
+
+{# --- HERO SECTION --- #}
+<section class="relative min-h-[500px] flex items-center justify-center text-center">
   <div class="absolute inset-0 -z-10 bg-cover bg-center" style="background-image: url('{{ hero_bg }}');"></div>
-  <div class="absolute inset-0 -z-10 bg-black/40"></div>
-</div>
-  <div class="w-full px-4 sm:px-6 lg:px-8 py-16 flex flex-col items-center justify-center">
-  <h1 class="text-3xl sm:text-4xl font-bold text-white drop-shadow-lg mb-4">Inspection Services</h1>
-  <p class="text-lg max-w-2xl mx-auto drop-shadow-md" style="color:#fff !important;">We provide specialized inspection solutions tailored for the oil & gas, petrochemical, and power plant industries. Through our strong collaboration with Agensi Nuklear Malaysia (ANM), we offer cutting-edge, non-invasive inspection methods designed to tackle complex industrial challenges.</p>
+  <div class="absolute inset-0 -z-10 bg-gradient-to-t from-black/70 to-black/30"></div>
+  <div class="w-full max-w-4xl px-4 sm:px-6 lg:px-8 py-16">
+    <h1 class="text-4xl sm:text-5xl font-bold text-white drop-shadow-lg mb-4" data-aos="fade-up">Inspection Services</h1>
+    <p class="text-xl text-white/90 drop-shadow-md max-w-3xl mx-auto" data-aos="fade-up" data-aos-delay="100" style="color:#fff !important;">
+      Through our collaboration with Agensi Nuklear Malaysia (ANM), we offer cutting-edge, non-invasive inspection methods to tackle complex industrial challenges in the oil & gas, petrochemical, and power plant industries.
+    </p>
   </div>
 </section>
-<!-- Back to all services: left-aligned between hero and content -->
-<div class="bg-white">
-  <div style="height:2.5rem;"></div>
-  <nav class="text-sm text-slate-500 mb-6 text-left" style="margin-left:0; padding-left:0;">
-    <a href="{{ url_for('main.services_page') }}" class="hover:text-slate-700" style="margin-left:0; padding-left:1.5rem; display:inline-block;">← Back to all services</a>
-  </nav>
-</div>
-<section class="py-8 bg-white">
-  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-    <div class="space-y-12 text-left">
+
+{# --- INTERACTIVE DASHBOARD SECTION --- #}
+<section class="talent-dashboard-container pt-16 pb-24 overflow-hidden">
+  <div class="max-w-7xl mx-auto px-6" x-data="{ activeView: 'techniques' }">
+    
+    <nav class="mb-12" data-aos="fade-up">
+      <a href="{{ url_for('main.services_page') }}" class="text-sm text-white/70 hover:text-white transition">← Back to all services</a>
+    </nav>
+
+    <div class="text-center mb-12" data-aos="fade-up">
+      <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-white">Advanced Diagnostic Solutions</h2>
+      <p class="mt-4 max-w-2xl mx-auto text-white/80">Explore our specialized non-destructive testing methods and key advantages.</p>
+    </div>
+
+    <div class="flex flex-wrap justify-center gap-8 mb-12 border-b border-white/10" data-aos="fade-up" data-aos-delay="100">
+      <button @click="activeView = 'techniques'" class="main-nav-btn text-white/70 font-semibold pb-3" :class="{ 'active': activeView === 'techniques' }">Inspection Techniques</button>
+      <button @click="activeView = 'advantage'" class="main-nav-btn text-white/70 font-semibold pb-3" :class="{ 'active': activeView === 'advantage' }">Our Advantage</button>
+    </div>
+
+    <div class="relative min-h-[400px]" data-aos="fade-up" data-aos-delay="200">
       
-      <!-- Gamma Scanning -->
-      <section class="rounded-2xl border bg-white p-6 shadow-sm">
-        <h2 class="text-xl font-semibold mb-2">Gamma Scanning</h2>
-        <p class="text-slate-600 mb-3">
-          A non-invasive technique that evaluates process columns, reactors, and vessels without requiring shutdowns.
-        </p>
-        <div class="rounded-xl bg-indigo-50 p-4 mt-3">
-          <ul class="list-disc list-inside text-slate-700 space-y-1 justify-left">
-            <li>Internal blockages and malfunctions</li>
-            <li>Liquid maldistribution in packed/tray columns</li>
-            <li>Mechanical damage and efficiency issues</li>
-          </ul>
-        </div>
-      </section>
-
-      <!-- Neutron Backscatter Technique -->
-
-      <section class="rounded-2xl border bg-white p-6 shadow-sm">
-        <h2 class="text-xl font-semibold mb-2">Neutron Backscatter Technique</h2>
-        <p class="text-slate-600 mb-3">
-          Ideal for detecting Moisture Under Insulation (MUI) and other anomalies in pipelines and structures.
-        </p>
-        <div class="rounded-xl bg-indigo-50 p-4 mt-3">
-          <ul class="list-disc list-inside text-slate-700 space-y-1 justify-left">
-            <li>Identification of moisture intrusion without removing insulation</li>
-            <li>Preventive maintenance to reduce corrosion risks</li>
-            <li>Quick and cost-effective assessment</li>
-          </ul>
-        </div>
-      </section>
-
-      <!-- Gamma Scanning -->
-
-      <section class="rounded-2xl border bg-white p-6 shadow-sm">
-        <h2 class="text-xl font-semibold mb-2">Industrial Radiotracer Technology</h2>
-        <p class="text-slate-600 mb-3">
-          A powerful tool for diagnosing flow behavior and process efficiency.
-        </p>
-        <div class="rounded-xl bg-indigo-50 p-4 mt-3">
-          <ul class="list-disc list-inside text-slate-700 space-y-1 justify-left">
-            <li>Leak detection in pipelines and heat exchangers</li>
-            <li>Flow distribution analysis in complex systems</li>
-            <li>Residence time distribution (RTD) studies for process optimization</li>
-          </ul>
-        </div>
-      </section>
-
-    <!-- Why Choose -->
-      <section class="rounded-2xl border bg-white p-6 shadow-sm">
-        <h2 class="text-2xl font-semibold text-center mb-2">Why Choose KLSB?</h2>
-        <div class="grid sm:grid-cols-3 gap-6 text-slate-700">
-          <div class="rounded-xl bg-indigo-50 p-4">
-            <h3 class="font-semibold">Collaboration with Agensi Nuklear Malaysia (ANM)</h3>
-            <p class="mt-2 text-sm">Access to cutting-edge nuclear technology and expertise</p>
+      <div x-show="activeView === 'techniques'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 text-left">
+          
+          <div class="glass-card rounded-xl p-6">
+            <h3 class="font-semibold text-white text-lg flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-blue-400"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 013.75 9.375v-4.5zM3.75 14.625c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5a1.125 1.125 0 01-1.125-1.125v-4.5zM13.5 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 0113.5 9.375v-4.5zM13.5 14.625c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5a1.125 1.125 0 01-1.125-1.125v-4.5z" /></svg>Gamma Scanning</h3>
+            <p class="mt-2 text-sm text-white/80">A non-invasive technique that evaluates process columns, reactors, and vessels without requiring shutdowns.</p>
+            <ul class="mt-4 list-disc list-outside pl-5 space-y-2 text-sm text-white/80">
+              <li>Internal blockages and malfunctions</li>
+              <li>Liquid maldistribution in packed/tray columns</li>
+              <li>Mechanical damage and efficiency issues</li>
+            </ul>
           </div>
-          <div class="rounded-xl bg-indigo-50 p-4">
-            <h3 class="font-semibold">Advanced Inspection Methods</h3>
-            <p class="mt-2 text-sm">Non-destructive, real-time diagnostics for minimal downtime</p>
+          
+          <div class="glass-card rounded-xl p-6">
+            <h3 class="font-semibold text-white text-lg flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-blue-400"><path stroke-linecap="round" stroke-linejoin="round" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3" /></svg>Neutron Backscatter</h3>
+            <p class="mt-2 text-sm text-white/80">Ideal for detecting Moisture Under Insulation (MUI) and other anomalies in pipelines and structures.</p>
+            <ul class="mt-4 list-disc list-outside pl-5 space-y-2 text-sm text-white/80">
+              <li>Identification of moisture intrusion</li>
+              <li>Preventive maintenance to reduce corrosion risks</li>
+              <li>Quick and cost-effective assessment</li>
+            </ul>
           </div>
-          <div class="rounded-xl bg-indigo-50 p-4">
-            <h3 class="font-semibold">Experienced Team</h3>
-            <p class="mt-2 text-sm">Specialists with extensive industry knowledge and hands-on expertise</p>
+          
+          <div class="glass-card rounded-xl p-6">
+            <h3 class="font-semibold text-white text-lg flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-blue-400"><path stroke-linecap="round" stroke-linejoin="round" d="M15.042 21.672L13.684 16.6m0 0l-2.51 2.225.569-9.47 5.227 7.917-3.286-.672zM12 2.25V4.5m5.834.166l-1.591 1.591M20.25 10.5H18M17.834 16.834l-1.591-1.591M12 18.75V21.0m-5.834-.166l1.591-1.591M3.75 10.5H6.0m1.166-5.166l1.591 1.591" /></svg>Industrial Radiotracer</h3>
+            <p class="mt-2 text-sm text-white/80">A powerful tool for diagnosing flow behavior and process efficiency.</p>
+            <ul class="mt-4 list-disc list-outside pl-5 space-y-2 text-sm text-white/80">
+              <li>Leak detection in pipelines and heat exchangers</li>
+              <li>Flow distribution analysis in complex systems</li>
+              <li>Residence Time Distribution (RTD) studies</li>
+            </ul>
           </div>
+          
         </div>
-      </section>
+      </div>
 
-<!-- Bottom CTA -->
-<div class="mt-16 text-center">
-  <p class="text-slate-600 mb-6">
-    Need certified, project-ready personnel? Tell us your timeline and scope.
-  </p>
-  <a href="/get-in-touch"
-    class="inline-flex items-center rounded-2xl text-white px-6 py-3 font-medium transition" style="background:#030C69; border:none;">
-  Request a proposal
-  </a>
-</div>
+      <div x-show="activeView === 'advantage'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" style="display: none;">
+        <div class="glass-card rounded-2xl p-8">
+            <h3 class="font-semibold text-white text-xl text-center mb-8 flex items-center justify-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-blue-400"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>Why Choose KLSB?</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+                <div class="bg-white/5 rounded-lg p-6">
+                    <h4 class="font-semibold text-black">Collaboration with ANM</h4>
+                    <p class="mt-2 text-sm text-white/70">Access to cutting-edge nuclear technology and expertise via Agensi Nuklear Malaysia.</p>
+                </div>
+                <div class="bg-white/5 rounded-lg p-6">
+                    <h4 class="font-semibold text-black">Advanced Inspection Methods</h4>
+                    <p class="mt-2 text-sm text-white/70">Non-destructive, real-time diagnostics for minimal downtime.</p>
+                </div>
+                <div class="bg-white/5 rounded-lg p-6">
+                    <h4 class="font-semibold text-black">Experienced Team</h4>
+                    <p class="mt-2 text-sm text-white/70">Specialists with extensive industry knowledge and hands-on expertise.</p>
+                </div>
+            </div>
+        </div>
+      </div>
 
+    </div>
+  </div>
+</section>
+
+{# --- SINGLE CALL TO ACTION --- #}
+<section class="py-20 bg-white">
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center" data-aos="fade-up">
+    <h2 class="text-3xl font-bold text-slate-900 tracking-tight">
+      Ensure Asset Integrity and Efficiency
+    </h2>
+    <p class="mt-4 text-lg text-slate-600 max-w-2xl mx-auto">
+      Contact us for a specialized inspection plan tailored to your operational needs.
+    </p>
+    <div class="mt-8">
+      <a href="{{ url_for('main.submit_proposal') }}" 
+         class="inline-block rounded-lg text-white px-10 py-3 font-semibold tracking-wide transition duration-300 ease-in-out hover:opacity-90" 
+         style="background-color: #030C69;">
+        Request a Proposal
+      </a>
+    </div>
   </div>
 </section>
 

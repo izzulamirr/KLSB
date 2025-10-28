@@ -1,238 +1,249 @@
 {% extends "base.html" %}
 {% block title %}KLSB — Engineering Services{% endblock %}
-{% set hero_bg = url_for('static', filename='img/eng.jpg') %}
-{% set eng3_bg = url_for('static', filename='img/eng_2.jpg') %}
-{% set eng_consult_bg = url_for('static', filename='img/eng_consult.jpg') %}
-{% set awp_bg = url_for('static', filename='img/AWP.jpeg') %}
+
+{% block extra_head %}
+{# --- STYLES FOR THE NEW DASHBOARD --- #}
+<style>
+  .talent-dashboard-container {
+    background: linear-gradient(180deg, #010428 0%, #030C69 100%);
+  }
+
+  /* Main navigation buttons for the dashboard */
+  .main-nav-btn {
+    position: relative;
+    transition: color 0.3s ease;
+  }
+  .main-nav-btn::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: #3b82f6; /* blue-500 */
+    transform: scaleX(0);
+    transform-origin: center;
+    transition: transform 0.3s ease;
+    box-shadow: 0 0 10px #3b82f6;
+  }
+  .main-nav-btn.active::after, .main-nav-btn:hover::after {
+    transform: scaleX(1);
+  }
+  .main-nav-btn.active {
+    color: white;
+  }
+
+  /* Styling for the inner frosted glass cards */
+  /* Make the inner cards white with dark text while keeping the surrounding section blue */
+  .glass-card {
+    background: #ffffff; /* white card */
+    color: #0b1220;      /* dark text */
+    border: 1px solid rgba(11,18,32,0.06);
+    box-shadow: 0 6px 20px rgba(8,12,30,0.18);
+    transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+  }
+  .glass-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 28px rgba(8,12,30,0.24);
+  }
+
+  /* Ensure text elements inside cards are dark even if utility classes set them to white */
+  .glass-card h2,
+  .glass-card h3,
+  .glass-card p,
+  .glass-card li,
+  .glass-card .inner-tab,
+  .glass-card .main-nav-btn {
+    color: #0b1220 !important;
+  }
+
+  /* Keep small muted copy slightly softer */
+  .glass-card p,
+  .glass-card .muted {
+    color: rgba(11,18,32,0.7) !important;
+  }
+
+  /* Buttons that explicitly use a dark background (inline style) should keep their white text — don't force them black */
+  .glass-card a[style], .glass-card button[style] {
+    color: inherit;
+  }
+
+  /* Enhanced styles for 3D Modelling industry tabs */
+  .inner-tab {
+    position: relative;
+    padding: 0.75rem 1.5rem !important;
+    border-radius: 0.5rem;
+    transition: all 0.3s ease;
+    color: rgba(11,18,32,0.5) !important;
+    font-weight: 500;
+    border: 2px solid transparent;
+  }
+  
+  .inner-tab:hover {
+    color: rgba(11,18,32,0.8) !important;
+    background: rgba(3,12,105,0.05);
+    transform: translateY(-2px);
+  }
+  
+  .inner-tab.active {
+    color: #030C69 !important;
+    background: linear-gradient(135deg, rgba(3,12,105,0.1), rgba(3,12,105,0.05));
+    border: 2px solid #030C69;
+    box-shadow: 0 4px 12px rgba(3,12,105,0.2), 0 0 0 3px rgba(3,12,105,0.1);
+    font-weight: 600;
+  }
+  
+  .inner-tab.active::before {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60%;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, #030C69, transparent);
+    border-radius: 2px;
+  }
+
+  /* Mobile responsive for tabs */
+  @media (max-width: 640px) {
+    .inner-tab {
+      padding: 0.5rem 1rem !important;
+      font-size: 0.875rem;
+    }
+  }
+</style>
+{% endblock %}
+
 {% block content %}
+{% set hero_bg = url_for('static', filename='img/eng.jpg') %}
 
-<section class="relative min-h-[280px] sm:min-h-[340px] flex items-center justify-center text-center">
+{# --- HERO SECTION --- #}
+<section class="relative min-h-[500px] flex items-center justify-center text-center">
   <div class="absolute inset-0 -z-10 bg-cover bg-center" style="background-image: url('{{ hero_bg }}');"></div>
-  <div class="absolute inset-0 -z-10 bg-black/40"></div>
-</div>
-  <div class="w-full px-4 sm:px-6 lg:px-8 py-16 flex flex-col items-center justify-center">
-  <h1 class="text-3xl sm:text-4xl font-bold text-white drop-shadow-lg mb-4">Engineering Services</h1>
-  <p class="text-lg max-w-2xl mx-auto drop-shadow-md" style="color:#fff !important;">Our 3D Modelling & Design Consultancy supports projects from detailed design engineering, fabrication to installation, upgrades, plant changes & modifications and commissioning in both greenfield and brownfiled devlopments.</p>
+  <div class="absolute inset-0 -z-10 bg-gradient-to-t from-black/70 to-black/30"></div>
+  <div class="w-full max-w-4xl px-4 sm:px-6 lg:px-8 py-16">
+    <h1 class="text-4xl sm:text-5xl font-bold text-white drop-shadow-lg mb-4" data-aos="fade-up">Engineering Services</h1>
+    <p class="text-xl text-white/90 drop-shadow-md max-w-3xl mx-auto" data-aos="fade-up" data-aos-delay="100" style="color:#fff !important;">
+      Our 3D Modelling & Design Consultancy supports projects from detailed design, fabrication to installation, upgrades, and commissioning in both greenfield and brownfield developments.
+    </p>
   </div>
 </section>
 
+{# --- INTERACTIVE DASHBOARD SECTION --- #}
+<section class="talent-dashboard-container pt-16 pb-24 overflow-hidden">
+  <div class="max-w-7xl mx-auto px-6" x-data="{ activeView: 'consultancy' }">
+    
+    <nav class="mb-12" data-aos="fade-up">
+      <a href="{{ url_for('main.services_page') }}" class="text-sm text-white/70 hover:text-white transition">← Back to all services</a>
+    </nav>
 
-<!-- Back to all services: left-aligned between hero and content -->
-<div class="bg-white">
-  <div style="height:2.5rem;"></div>
-  <nav class="text-sm text-slate-500 mb-6 text-left" style="margin-left:0; padding-left:0;">
-    <a href="{{ url_for('main.services_page') }}" class="hover:text-slate-700" style="margin-left:0; padding-left:1.5rem; display:inline-block;">← Back to all services</a>
-  </nav>
-</div>
-
-<section class="py-8 bg-white">
-  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-
-
-    <!-- Header removed, now in hero section -->
-
-    <div class="space-y-12 text-left">
-
-      <!-- Engineering Consultancy -->
-      <section class="rounded-2xl border bg-white p-6 shadow-sm relative overflow-hidden">
-        <!-- clearer image: remove image opacity and soften overlays -->
-        <div class="absolute inset-0 z-0 bg-cover bg-center" style="background-image: url('{{ eng_consult_bg }}'); opacity: 1;"></div>
-          <div class="absolute inset-0 z-10 bg-gradient-to-r from-black/70 to-transparent opacity-60 pointer-events-none"></div>
-          <div class="absolute inset-0 z-10 bg-gradient-to-t from-black/40 via-transparent to-black/25 opacity-50 pointer-events-none"></div>
-        <div class="relative z-20">
-  <h2 class="text-2xl font-semibold text-center mb-2 text-white drop-shadow-lg">Engineering Consultancy</h2>
-        <div class="grid sm:grid-cols-2 gap-6">
-          <div class="rounded-xl bg-indigo-100 p-4">
-            <h3 class="font-semibold">Piping Engineering</h3>
-            <ul class="mt-2 list-disc list-inside text-slate-700 space-y-1">
-              <li>Piping Engineering & Layout Design</li>
-              <li>AEVAVA E3D/PDMS/AutoCAD Plant 3D Software</li>
-              <li>Pipe Stress Analysis</li>
-              <li>Pipe Routing & Support Design</li>
-              <li>Piping/Equipment Layout</li>
-              <li>Material take-off</li>
-              <li>Specialty Items</li>
-              <li>Data Sheet</li>
-              <li>3D as-built</li>
-            </ul>
-          </div>
-          <div class="rounded-xl bg-indigo-100 p-4">
-            <h3 class="font-semibold">Mechanical Engineering</h3>
-            <ul class="mt-2 list-disc list-inside text-slate-700 space-y-1">
-              <li>Mechanical Design in static & Rotating Equipment</li>
-              <li>Equipment Selection</li>
-              <li>Equipment & Packages configuration</li>
-              <li>Master Equipment list/ Specification/ Data sheet</li>
-              <li>Equipment & Packaage weight/ Dimension Estimation</li>
-              <li>Material Handling Study</li>
-            </ul>
-          </div>
-        </div>
-        </div>
-      </section>
-
-  <!-- 3D Modelling -->
-  <section class="rounded-2xl border bg-white p-6 shadow-sm relative overflow-hidden">
-  <div class="absolute inset-0 z-0 bg-cover bg-center" style="background-image: url('{{ eng3_bg }}'); opacity: .25;"></div>
-  <div class="relative z-10">
-        <h2 class="text-2xl font-semibold text-center mb-2">3D Modelling</h2>
-        <p class="text-slate-600 text-center mb-5">
-          Advanced modelling across Autodesk, AVEVA, Hexagon, Dassault, SketchUp ecosystems to support planning, design and execution.
-        </p>
-        <div class="grid lg:grid-cols-2 gap-6">
-          <div class="rounded-xl bg-indigo-100 p-4">
-            <h3 class="font-semibold">Oil &amp; Gas</h3>
-            <ul class="mt-2 list-disc list-inside text-slate-700 space-y-1">
-              <li>Pipeline systems (layout, design, analysis)</li>
-              <li>Offshore platforms &amp; support vessels</li>
-              <li>Refinery units &amp; equipment</li>
-            </ul>
-
-            <h3 class="font-semibold mt-5">Power Generation</h3>
-            <ul class="mt-2 list-disc list-inside text-slate-700 space-y-1">
-              <li>Conventional &amp; nuclear plants (turbines, boilers, generators)</li>
-              <li>Electrical systems (switchyards, substations)</li>
-              <li>Models for upgrades &amp; maintenance planning</li>
-            </ul>
-          </div>
-          <div class="rounded-xl bg-indigo-100 p-4">
-            <h3 class="font-semibold">Petrochemical</h3>
-            <ul class="mt-2 list-disc list-inside text-slate-700 space-y-1">
-              <li>Process plants (reactors, separators, heat exchangers)</li>
-              <li>Facility layouts for new builds, expansions &amp; retrofits</li>
-              <li>Equipment integration with existing infrastructure</li>
-            </ul>
-
-            <h3 class="font-semibold mt-5">Renewable Energy</h3>
-            <ul class="mt-2 list-disc list-inside text-slate-700 space-y-1">
-              <li>Wind farms: turbines, layouts, infrastructure</li>
-              <li>Solar plants: panels, arrays, tracking systems</li>
-              <li>Hydropower: dams, turbines, facilities</li>
-              <li>Green hydrogen: production, electrolysis, storage &amp; pipelines</li>
-            </ul>
-          </div>
-        </div>
+    <div class="text-center mb-12" data-aos="fade-up">
+      <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-white">Our Core Disciplines</h2>
+      <p class="mt-4 max-w-2xl mx-auto text-white/80">Explore our comprehensive engineering capabilities, from initial consultancy to advanced software solutions and project execution.</p>
     </div>
-      </section>
 
-      <h1 class="text-3xl sm:text-4xl font-bold mb-6">Engineering Software Solutions</h1>
+    <div class="flex flex-wrap justify-center gap-8 mb-12 border-b border-white/10" data-aos="fade-up" data-aos-delay="100">
+      <button @click="activeView = 'consultancy'" class="main-nav-btn text-white/70 font-semibold pb-3" :class="{ 'active': activeView === 'consultancy' }">Consultancy & 3D Modelling</button>
+      <button @click="activeView = 'software'" class="main-nav-btn text-white/70 font-semibold pb-3" :class="{ 'active': activeView === 'software' }">Software & AVEVA Solutions</button>
+      <button @click="activeView = 'awp'" class="main-nav-btn text-white/70 font-semibold pb-3" :class="{ 'active': activeView === 'awp' }">Advanced Work Packaging</button>
+      <button @click="activeView = 'certs'" class="main-nav-btn text-white/70 font-semibold pb-3" :class="{ 'active': activeView === 'certs' }">Certifications</button>
+    </div>
 
-  <!-- Engineering Consultancy -->
-  <section class="rounded-2xl border bg-white p-6 shadow-sm">
-        <h2 class="text-2xl font-semibold text-center mb-2">List of Software</h2>
-        <div class="grid sm:grid-cols-2 gap-6">
-          <div class="rounded-xl bg-indigo-100 p-4">
-            <ul class="mt-2 list-disc list-inside text-slate-700 space-y-1">
-              <li>AVEVA PDMS</li>
-              <li>AVEVA E3D</li>
-              <li>AVEVA P&ID</li>
-              <li>AVEVA Electrical</li>
-              <li>AVEVA Instrument</li>
-            </ul>
-          </div>
-          <div class="rounded-xl bg-indigo-100 p-4">
-            <ul class="mt-2 list-disc list-inside text-slate-700 space-y-1">
-              <li>Smart Plant 3D (SP3D)</li>
-              <li>Smart Plant P&ID (SPPID)</li>
-              <li>Smart Plant Instrumentation (SPI)</li>
-              <li>Smart Plant Electrical (SPEL)</li>
-            </ul>
-          </div>
-          <div class="rounded-xl bg-indigo-100 p-4">
-            <ul class="mt-2 list-disc list-inside text-slate-700 space-y-1">
-              <li>AutoCAD Plant 3D</li>
-              <li>BOCAD</li>
-              <li>CEASAR 2 (Pipe Stress)</li>
-              <li>3D Laser Scanning (Reverse Engineering)</li>
-            </ul>
-          </div>
+    <div class="relative min-h-[400px]" data-aos="fade-up" data-aos-delay="200">
+      
+      <div x-show="activeView === 'consultancy'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100">
+        <div class="space-y-12">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-left">
+                <div class="glass-card rounded-xl p-6">
+                    <h3 class="font-semibold text-white text-lg flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-blue-400"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75" /></svg>Piping Engineering</h3>
+                    <ul class="mt-4 list-disc list-outside pl-5 space-y-2 text-sm text-white/80"><li>Piping Engineering & Layout Design</li><li>AEVAVA E3D/PDMS/AutoCAD Plant 3D Software</li><li>Pipe Stress Analysis & Support Design</li><li>Piping/Equipment Layout & Material take-off</li><li>Specialty Items & Data Sheets</li><li>3D as-built Modelling</li></ul>
+                </div>
+                <div class="glass-card rounded-xl p-6">
+                    <h3 class="font-semibold text-white text-lg flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-blue-400"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z" /></svg>Mechanical Engineering</h3>
+                    <ul class="mt-4 list-disc list-outside pl-5 space-y-2 text-sm text-white/80"><li>Design in Static & Rotating Equipment</li><li>Equipment Selection, Configuration & Sizing</li><li>Master Equipment list/Specification/Data sheet</li><li>Equipment Weight/Dimension Estimation</li><li>Material Handling Study</li></ul>
+                </div>
+            </div>
+            <div class="glass-card rounded-2xl p-8" x-data="{ activeTab: 'oil' }">
+                <h3 class="font-semibold text-xl text-center mb-2">3D Modelling by Industry</h3>
+                <p class="text-center max-w-3xl mx-auto mb-8 text-sm muted">Advanced modelling across Autodesk, AVEVA, Hexagon, and Dassault ecosystems to support planning, design and execution.</p>
+                <nav class="flex flex-wrap justify-center gap-4 mb-10">
+                    <button @click="activeTab = 'oil'" class="inner-tab" :class="{'active': activeTab === 'oil'}">Oil & Gas</button>
+                    <button @click="activeTab = 'power'" class="inner-tab" :class="{'active': activeTab === 'power'}">Power</button>
+                    <button @click="activeTab = 'petro'" class="inner-tab" :class="{'active': activeTab === 'petro'}">Petrochemical</button>
+                    <button @click="activeTab = 'renew'" class="inner-tab" :class="{'active': activeTab === 'renew'}">Renewable Energy</button>
+                </nav>
+                <div class="min-h-[120px]">
+                    <div x-show="activeTab === 'oil'" x-transition><ul class="list-disc list-outside pl-5 space-y-2"><li>Pipeline systems (layout, design, analysis)</li><li>Offshore platforms &amp; support vessels</li><li>Refinery units &amp; equipment</li></ul></div>
+                    <div x-show="activeTab === 'power'" x-transition style="display: none;"><ul class="list-disc list-outside pl-5 space-y-2"><li>Conventional &amp; nuclear plants (turbines, boilers, generators)</li><li>Electrical systems (switchyards, substations)</li><li>Models for upgrades &amp; maintenance planning</li></ul></div>
+                    <div x-show="activeTab === 'petro'" x-transition style="display: none;"><ul class="list-disc list-outside pl-5 space-y-2"><li>Process plants (reactors, separators, heat exchangers)</li><li>Facility layouts for new builds, expansions &amp; retrofits</li><li>Equipment integration with existing infrastructure</li></ul></div>
+                    <div x-show="activeTab === 'renew'" x-transition style="display: none;"><ul class="list-disc list-outside pl-5 space-y-2"><li>Wind farms: turbines, layouts, infrastructure</li><li>Solar plants: panels, arrays, tracking systems</li><li>Hydropower: dams, turbines, facilities</li><li>Green hydrogen: production, electrolysis, storage &amp; pipelines</li></ul></div>
+                </div>
+            </div>
         </div>
-      </section>
+      </div>
 
-  <!-- AVEVA Solutions -->
-  <section class="rounded-2xl border bg-white p-6 shadow-sm">
-        <h2 class="text-2xl font-semibold text-center mb-2">AVEVA Solutions</h2>
-        <p class="text-slate-600 text-center mb-5">We're proud to be a <strong>Specialist Solutions Provider (SSP) of AVEVA</strong>, a global leader in engineering and industrial software.
-        </p>
-        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 text-slate-700">
-          <div class="rounded-xl bg-indigo-100 p-4">
-            <h3 class="font-semibold">Implementation Expertise</h3>
-            <p class="mt-2 text-sm">Seamless deployments and optimal use of the AVEVA stack.</p>
-          </div>
-          <div class="rounded-xl bg-indigo-100 p-4">
-            <h3 class="font-semibold">Tailored Solutions</h3>
-            <p class="mt-2 text-sm">Aligned to your objectives and operational context.</p>
-          </div>
-          <div class="rounded-xl bg-indigo-100 p-4">
-            <h3 class="font-semibold">End-to-End Support</h3>
-            <p class="mt-2 text-sm">Consultation through implementation and optimisation.</p>
-          </div>
-          <div class="rounded-xl bg-indigo-100 p-4">
-            <h3 class="font-semibold">Innovative &amp; Current</h3>
-            <p class="mt-2 text-sm">Leveraging the latest AVEVA features and updates.</p>
-          </div>
-          <div class="rounded-xl bg-indigo-100 p-4">
-            <h3 class="font-semibold">Strong Partnership</h3>
-            <p class="mt-2 text-sm">Close collaboration for best practices and insights.</p>
-          </div>
-          <div class="rounded-xl bg-indigo-100 p-4">
-            <h3 class="font-semibold">Proven Track Record</h3>
-            <p class="mt-2 text-sm">Successful projects with dedicated customer support.</p>
-          </div>
+      <div x-show="activeView === 'software'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" style="display: none;">
+        <div class="space-y-12">
+            <div class="glass-card rounded-2xl p-8">
+                <h3 class="font-semibold text-white text-xl text-center mb-6">Engineering Software Proficiency</h3>
+                <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 text-sm text-white/80">
+                    <ul class="list-disc list-outside pl-5 space-y-2"><li>AVEVA PDMS</li><li>AVEVA E3D</li><li>AVEVA P&ID</li><li>AVEVA Electrical</li><li>AVEVA Instrument</li></ul>
+                    <ul class="list-disc list-outside pl-5 space-y-2"><li>Smart Plant 3D (SP3D)</li><li>Smart Plant P&ID (SPPID)</li><li>Smart Plant Instrumentation (SPI)</li><li>Smart Plant Electrical (SPEL)</li></ul>
+                    <ul class="list-disc list-outside pl-5 space-y-2"><li>AutoCAD Plant 3D</li><li>BOCAD</li><li>CEASAR II (Pipe Stress)</li><li>3D Laser Scanning (Reverse Engineering)</li></ul>
+                </div>
+            </div>
+            <div class="glass-card rounded-2xl p-8">
+                <h3 class="font-semibold text-white text-xl text-center mb-2">Specialist AVEVA Solutions Provider</h3>
+                <p class="text-center text-white/80 max-w-3xl mx-auto mb-8 text-sm">As an official SSP of AVEVA, we provide seamless deployments, tailored solutions, and end-to-end support, leveraging the latest features and a proven track record of successful projects.</p>
+               <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-center text-white">
+                    <div class="bg-white/5 rounded-lg p-4 text-black"><h4 class="font-semibold">Implementation Expertise</h4><p class="mt-1 text-sm text-white/70">Seamless deployments and optimal use of the AVEVA stack.</p></div>
+                    <div class="bg-white/5 rounded-lg p-4 text-black"><h4 class="font-semibold">Tailored Solutions</h4><p class="mt-1 text-sm text-white/70">Aligned to your objectives and operational context.</p></div>
+                    <div class="bg-white/5 rounded-lg p-4 text-black"><h4 class="font-semibold">End-to-End Support</h4><p class="mt-1 text-sm text-white/70">Consultation through implementation and optimisation.</p></div>
+                </div>
+            </div>
         </div>
-      </section>
+      </div>
 
-      <section id="clients" class="py-20 bg-slate-50 text-center">
-  <div class="max-w-6xl mx-auto px-6">
-    <h2 class="text-3xl font-semibold"> AVEVA CERTIFICATE</h2>
-    <div class="mt-8 flex justify-center">
-      <img src="{{ url_for('static', filename='img/AVEVA.jpg') }}" alt="Major client" class="w-full max-w-4xl mx-auto rounded-lg shadow-lg object-contain">
+      <div x-show="activeView === 'awp'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" style="display: none;">
+        <div class="glass-card rounded-2xl p-8">
+            <h3 class="font-semibold text-white text-xl text-center mb-2">Advanced Work Packaging (AWP)</h3>
+            <p class="text-center text-white/80 max-w-3xl mx-auto mb-8 text-sm">Structured project execution through defined work packages, integrated planning, and data-driven readiness for efficient delivery.</p>
+            <div class="grid sm:grid-cols-2 gap-x-8 gap-y-4 text-sm text-white/80">
+                <ul class="list-disc list-outside pl-5 space-y-2"><li>Work Packaging with clear scope, deliverables &amp; requirements</li><li>Integrated Planning across disciplines and stakeholders</li><li>Data &amp; Information Management across design, procurement, construction</li></ul>
+                <ul class="list-disc list-outside pl-5 space-y-2"><li>Execution Readiness (resources, materials, information in place)</li><li>Performance Monitoring for schedule, cost &amp; progress control</li><li>Consultancy, implementation &amp; tailored training programmes</li></ul>
+            </div>
+        </div>
+      </div>
+
+      <div x-show="activeView === 'certs'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" style="display: none;">
+        <div class="glass-card rounded-2xl p-8">
+            <h3 class="font-semibold text-white text-xl text-center mb-6">Official AVEVA Certification</h3>
+            <img src="{{ url_for('static', filename='img/AVEVA.jpg') }}" alt="AVEVA Certificate" class="w-full max-w-3xl mx-auto rounded-lg shadow-lg object-contain">
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
 
-      <!-- AWP -->
-      <section class="rounded-2xl border bg-white p-6 shadow-sm relative overflow-hidden">
-        <div class="absolute inset-0 z-0 bg-cover bg-center" style="background-image: url('{{ awp_bg }}'); opacity: .25;"></div>
-        <div class="relative z-10">
-        <h2 class="text-2xl font-semibold text-center mb-2">Advanced Work Packaging (AWP)</h2>
-        <p class="text-slate-600 text-center mb-5">
-          Structured project execution through defined work packages, integrated planning and data-driven readiness for efficient delivery.
-        </p>
-        <div class="grid sm:grid-cols-2 gap-6">
-          <div class="rounded-xl bg-indigo-100 p-4">
-            <ul class="list-disc list-inside text-slate-700 space-y-1">
-              <li>Work Packaging with clear scope, deliverables &amp; requirements</li>
-              <li>Integrated Planning across disciplines and stakeholders</li>
-              <li>Data &amp; Information Management across design, procurement, construction</li>
-            </ul>
-          </div>
-          <div class="rounded-xl bg-indigo-100 p-4">
-            <ul class="list-disc list-inside text-slate-700 space-y-1">
-              <li>Execution Readiness (resources, materials, information in place)</li>
-              <li>Performance Monitoring for schedule, cost &amp; progress control</li>
-              <li>Consultancy, implementation &amp; tailored training programmes</li>
-            </ul>
-          </div>
-        </div>
-        </div>
-      </section>
-
-    </div>
-
-    <!-- Bottom CTA -->
-    <div class="mt-16">
-      <p class="text-slate-600 mb-6">
-        Let’s align the right engineering scope, toolsets and delivery model for your project.
-      </p>
-  <a href="/get-in-touch"
-    class="inline-flex items-center rounded-2xl text-white px-6 py-3 font-medium transition" style="background:#030C69; border:none;">
-  Request a proposal
+{# --- ADJUSTED SINGLE CALL TO ACTION --- #}
+<section class="py-20 bg-white">
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center" data-aos="fade-up">
+    <h2 class="text-3xl font-bold text-slate-900 tracking-tight">
+      Ready to Engineer Your Next Project?
+    </h2>
+    <p class="mt-4 text-lg text-slate-600 max-w-2xl mx-auto">
+      Let’s align the right engineering scope, toolsets, and delivery model for your project.
+    </p>
+    <div class="mt-8">
+      <a href="{{ url_for('main.submit_proposal') }}" 
+         class="inline-block rounded-lg text-white px-10 py-3 font-semibold tracking-wide transition duration-300 ease-in-out hover:opacity-90" 
+         style="background-color: #030C69;">
+        Request a Proposal
       </a>
     </div>
-
   </div>
 </section>
 
 {% endblock %}
-

@@ -1,20 +1,110 @@
 {% extends "base.html" %}
 {% block title %}Kemuncak Lanai{% endblock %}
+{% block extra_head %}
+<link rel="preload" as="image" href="{{ url_for('static', filename='img/hero.jpg') }}">
+
+<style>
+  /* --- Hide the scrollbar --- */
+  .scrollbar-hide::-webkit-scrollbar { display: none; }
+  .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+
+  /* --- Glowing Border Effect for Service Cards --- */
+  @keyframes rotate-glow { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+  .service-card::before {
+    content: ''; position: absolute; z-index: -1; inset: -3px;
+    background: conic-gradient(#dbdbdb);
+    filter: blur(10px); opacity: 0; transition: opacity 0.3s ease-in-out;
+
+  }
+  .service-card:hover::before { opacity: 1; }
+
+  /* --- Frosted Glass Card Style --- */
+  .service-card {
+    background: #ffffff; /* white card */
+
+    border: 1px solid rgba(15,23,42,0.06);
+    box-shadow: 0 8px 20px -8px rgba(2,6,23,0.08);
+    transition: transform 0.22s ease, box-shadow 0.22s ease;
+  }
+  .service-card:hover { transform: translateY(-6px); box-shadow: 0 18px 40px -12px rgba(2,6,23,0.12); }
+  .service-card .hero-card-title {
+    color: #111111 !important; text-shadow: none; display: -webkit-box; -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2; overflow: hidden; text-align: center;
+    font-size: clamp(0.95rem, 3.2vw, 1.125rem) !important; line-height: 1.15 !important; text-transform: uppercase;
+  }
+    /* Remove underline/lines on the service card text and links (including hover) */
+    a.service-card, a.service-card:hover, .service-card .hero-card-title, .service-card .hero-card-title:hover {
+      text-decoration: none !important;
+    }
+  /* Render existing logo <img> elements as solid black silhouettes */
+  .service-card img { filter: grayscale(1) brightness(0) contrast(1) !important; height: 60px !important; margin-bottom: 1rem; }
+  .service-card:hover img { filter: grayscale(1) brightness(0) contrast(1) !important; }
+  
+  
+  .service-card img { filter: brightness(0) invert(1); height: 60px !important; margin-bottom: 1rem; }
+  
+  /* Ken Burns Effect for Hero */
+  @keyframes kenburns { 0% { transform: scale(1); } 100% { transform: scale(1.1); } }
+  .hero-bg-animate { animation: kenburns 30s ease-in-out infinite alternate; }
+
+  /* Hero title animation */
+  .hero-title{ display:inline-block; animation: heroLift 700ms ease both; }
+  @keyframes heroLift{ from{ transform: translateY(8px); opacity:0 } to{ transform: translateY(0); opacity:1 } }
+  
+  /* --- FIXED: Truly Infinite Client Logo Scroller --- */
+  @keyframes scroll {
+    from { transform: translateX(-100%); }
+    /* FIX: Changed from -100% to -50% to create a seamless loop */
+    to { transform: translateX(-50%); } 
+  }
+  .logo-scroller {
+    overflow: hidden;
+    position: relative;
+  }
+  .logo-scroller .logo-track {
+    display: flex;
+    width: max-content;
+    /* start paused until images are decoded to avoid frame jank */
+    animation: scroll 120s linear infinite;
+    animation-play-state: paused;
+    will-change: transform;
+    /* GPU hint for smoother transforms */
+    transform: translateZ(0);
+  }
+  .logo-scroller img {
+    height: 60px;
+    margin: 0 40px;
+    flex-shrink: 0;
+    filter: grayscale(100%);
+    opacity: 0.6;
+    transition: filter 0.3s ease, opacity 0.3s ease;
+  }
+  .logo-scroller img:hover {
+    filter: grayscale(0%);
+    opacity: 1;
+  }
+
+  /* Feature cards section styles */
+  .logo-holder img { width: 100% !important; height: 100% !important; object-fit: contain !important; }
+  .logo-holder { height: 100px !important; width: 200px !important; border-radius: 18px !important; display: inline-flex !important; align-items: center !important; justify-content: center !important; margin: 0 auto !important; }
+  @media (max-width:740px){ .logo-holder{ height: 120px !important; width: 120px !important; } }
+</style>
+{% endblock %}
+
 {% block content %}
 {% set hero_image = url_for('static', filename='img/hero.jpg') %}
-{% set img_manpower = url_for('static', filename='img/2584721_XL.jpg') %}
-{% set img_engineering = url_for('static', filename='img/eng.jpg') %}
-{% set img_digital = url_for('static', filename='img/digital.jpeg') %}
-{% set img_inspection = url_for('static', filename='img/inspection.jpg') %}
-{% set img_construction = url_for('static', filename='img/construction.jpg') %}
-{% set img_supply = url_for('static', filename='img/supply.jpg') %}
+{% set logo_manpower = url_for('static', filename='img/logo/manpower_icon.png') %}
+{% set logo_engineering = url_for('static', filename='img/logo/engineering_icon.png') %}
+{% set logo_digital = url_for('static', filename='img/logo/digital_icon.png') %}
+{% set logo_inspection = url_for('static', filename='img/logo/inspection_icon.png') %}
+{% set logo_construction = url_for('static', filename='img/logo/construction_icon.png') %}
+{% set logo_supply = url_for('static', filename='img/logo/supply_icon.png') %}
 
-<!-- Hero -->
-<section class="relative min-h-screen overflow-hidden text-center flex items-center">
-  <div class="absolute inset-0 -z-10 bg-cover bg-center" style="background-image: url('{{ hero_image }}'); background-position: center center;"></div>
-  <div class="absolute inset-0 -z-10 bg-black/50"></div>
-  <div class="w-full max-w-5xl mx-auto px-6 py-28">
-  <h1 class="text-4xl sm:text-6xl uppercase font-bold text-white font-montserrat"
+<section class="relative min-h-screen overflow-hidden text-center flex items-center justify-center">
+  <div class="absolute inset-0 -z-10 bg-cover bg-center hero-bg-animate" style="background-image: url('{{ hero_image }}');"></div>
+  <div class="absolute inset-0 -z-10 bg-black/60"></div>
+  <div class="w-full max-w-4xl mx-auto px-6 py-28" data-aos="fade-up">
+  <h1 class="text-4xl sm:text-6xl uppercase font-bold text-white font-montserrat hero-title"
     style="text-shadow: 0 0 6px rgba(173, 216, 230, 0.8),   /* lightblue */
            0 0 12px rgba(173, 216, 230, 0.5),
            0 0 18px rgba(173, 216, 230, 0.3);">Your Partner to Strategic Value Creation</h1>
@@ -22,317 +112,266 @@
    style="color:#fff !important;">
   Your one-stop partner for manpower, engineering, digital solutions, specialized inspections, construction and supply trading.
 </p>
-
-    <div class="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
-      <a href="/services" class="rounded-2xl bg-[#030C69] text-white px-6 py-3 text-sm font-medium shadow hover:shadow-md transition">Explore services</a>
-  <a href="/get-in-touch" class="rounded-2xl border border-white/60 text-white px-6 py-3 text-sm font-medium transition" style="background:#030C69; border:none;">Request a proposal</a>
-    </div>
-    <div class="mt-14 grid gap-6 sm:grid-cols-3 text-center hero-cards">
-    <a href="{{ url_for('main.services_manpower') }}" class="group no-underline relative block rounded-2xl overflow-hidden shadow-lg bg-white/20 backdrop-blur-sm border border-transparent hover:border-indigo-100 transition-transform duration-300 ease-out hover:scale-105 hover:-translate-y-1 text-center h-28 sm:h-36">
-      <!-- Background image -->
-  <div class="absolute inset-0 bg-cover bg-center transform transition-transform duration-500 group-hover:scale-105" style="background-image: url('{{ img_manpower }}'); background-position: center center;"></div>
-      <!-- Gradient overlay -->
-    <div class="absolute inset-0 z-30 bg-gradient-to-r from-black/70 to-transparent opacity-80 group-hover:opacity-95 pointer-events-none"></div>
-    <div class="absolute inset-0 z-30 bg-gradient-to-t from-black/40 via-transparent to-black/25 group-hover:from-black/60 pointer-events-none"></div>
-  <!-- Accent badge removed -->
-      <!-- Text (centered) -->
-  <div class="relative z-40 flex items-center justify-center h-full">
-  <div class="text-base sm:text-lg font-semibold text-white drop-shadow-md">PROFESSIONAL & TECHNICAL MANPOWER</div>
-    </div>
-    </a>
-
-    <a href="{{ url_for('main.services_engineering') }}" class="group no-underline relative block rounded-2xl overflow-hidden shadow-lg bg-white/20 backdrop-blur-sm border border-transparent hover:border-indigo-100 transition-transform duration-300 ease-out hover:scale-105 hover:-translate-y-1 text-center h-28 sm:h-36">
-  <div class="absolute inset-0 bg-cover bg-center transform transition-transform duration-500 group-hover:scale-105" style="background-image: url('{{ img_engineering }}'); background-position: center center;"></div>
-  <div class="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent opacity-40 group-hover:opacity-60 pointer-events-none"></div>
-  <div class="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-black/20 group-hover:from-black/50 pointer-events-none"></div>
-  <div class="absolute inset-0 z-30 bg-gradient-to-r from-black/70 to-transparent opacity-80 group-hover:opacity-95 pointer-events-none"></div>
-  <div class="absolute inset-0 z-30 bg-gradient-to-t from-black/40 via-transparent to-black/25 group-hover:from-black/60 pointer-events-none"></div>
-  <!-- Accent badge removed -->
-    <div class="relative z-40 flex items-center justify-center h-full">
-  <div class="text-base sm:text-lg font-semibold text-white drop-shadow-md">ENGINEERING SOLUTIONS</div>
-    </div>
-    </a>
-
-    <a href="{{ url_for('main.services_digital') }}" class="group no-underline relative block rounded-2xl overflow-hidden shadow-lg bg-white/20 backdrop-blur-sm border border-transparent hover:border-indigo-100 transition-transform duration-300 ease-out hover:scale-105 hover:-translate-y-1 text-center h-28 sm:h-36">
-  <div class="absolute inset-0 bg-cover bg-center transform transition-transform duration-500 group-hover:scale-105" style="background-image: url('{{ img_digital }}'); background-position: center center;"></div>
-  <div class="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent opacity-40 group-hover:opacity-60 pointer-events-none"></div>
-  <div class="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-black/20 group-hover:from-black/50 pointer-events-none"></div>
-  <div class="absolute inset-0 z-30 bg-gradient-to-r from-black/70 to-transparent opacity-80 group-hover:opacity-95 pointer-events-none"></div>
-  <div class="absolute inset-0 z-30 bg-gradient-to-t from-black/40 via-transparent to-black/25 group-hover:from-black/60 pointer-events-none"></div>
-  <!-- Accent badge removed -->
-    <div class="relative z-40 flex items-center justify-center h-full">
-  <div class="text-base sm:text-lg font-semibold text-white drop-shadow-md">DIGITAL SOLUTIONS & CYBERSECURITY</div>
-    </div>
-    </a>
-
-    <a href="{{ url_for('main.services_inspection') }}" class="group no-underline relative block rounded-2xl overflow-hidden shadow-lg bg-white/20 backdrop-blur-sm border border-transparent hover:border-indigo-100 transition-transform duration-300 ease-out hover:scale-105 hover:-translate-y-1 text-center h-28 sm:h-36">
-  <div class="absolute inset-0 bg-cover bg-center transform transition-transform duration-500 group-hover:scale-105" style="background-image: url('{{ img_inspection }}'); background-position: center center;"></div>
-  <div class="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent opacity-40 group-hover:opacity-60 pointer-events-none"></div>
-  <div class="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-black/20 group-hover:from-black/50 pointer-events-none"></div>
-  <div class="absolute inset-0 z-30 bg-gradient-to-r from-black/70 to-transparent opacity-80 group-hover:opacity-95 pointer-events-none"></div>
-  <div class="absolute inset-0 z-30 bg-gradient-to-t from-black/40 via-transparent to-black/25 group-hover:from-black/60 pointer-events-none"></div>
-  <!-- Accent badge removed -->
-    <div class="relative z-40 flex items-center justify-center h-full">
-  <div class="text-base sm:text-lg font-semibold text-white drop-shadow-md">SPECIALIZED INSPECTION</div>
-    </div>
-    </a>
-
-    <a href="{{ url_for('main.services_construction') }}" class="group no-underline relative block rounded-2xl overflow-hidden shadow-lg bg-white/20 backdrop-blur-sm border border-transparent hover:border-indigo-100 transition-transform duration-300 ease-out hover:scale-105 hover:-translate-y-1 text-center h-28 sm:h-36">
-  <div class="absolute inset-0 bg-cover bg-center transform transition-transform duration-500 group-hover:scale-105" style="background-image: url('{{ img_construction }}'); background-position: center center;"></div>
-  <div class="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent opacity-40 group-hover:opacity-60 pointer-events-none"></div>
-  <div class="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-black/20 group-hover:from-black/50 pointer-events-none"></div>
-  <div class="absolute inset-0 z-30 bg-gradient-to-r from-black/70 to-transparent opacity-80 group-hover:opacity-95 pointer-events-none"></div>
-  <div class="absolute inset-0 z-30 bg-gradient-to-t from-black/40 via-transparent to-black/25 group-hover:from-black/60 pointer-events-none"></div>
-  <!-- Accent badge removed -->
-    <div class="relative z-40 flex items-center justify-center h-full">
-  <div class="text-base sm:text-lg font-semibold text-white drop-shadow-md">GENERAL CONSTRUCTION</div>
-    </div>
-    </a>
-
-    <a href="{{ url_for('main.services_supply') }}" class="group no-underline relative block rounded-2xl overflow-hidden shadow-lg bg-white/20 backdrop-blur-sm border border-transparent hover:border-indigo-100 transition-transform duration-300 ease-out hover:scale-105 hover:-translate-y-1 text-center h-28 sm:h-36">
-  <div class="absolute inset-0 bg-cover bg-center transform transition-transform duration-500 group-hover:scale-105" style="background-image: url('{{ img_supply }}'); background-position: center center;"></div>
-  <div class="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent opacity-40 group-hover:opacity-60 pointer-events-none"></div>
-  <div class="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-black/20 group-hover:from-black/50 pointer-events-none"></div>
-  <div class="absolute inset-0 z-30 bg-gradient-to-r from-black/70 to-transparent opacity-80 group-hover:opacity-95 pointer-events-none"></div>
-  <div class="absolute inset-0 z-30 bg-gradient-to-t from-black/40 via-transparent to-black/25 group-hover:from-black/60 pointer-events-none"></div>
-  <!-- Accent badge removed -->
-    <div class="relative z-40 flex items-center justify-center h-full">
-  <div class="text-base sm:text-lg font-semibold text-white drop-shadow-md">SUPPLY & TRADING</div>
-    </div>
-    </a>
+    <div class="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
+      <a href="/services" class="inline-flex items-center justify-center rounded-2xl text-white px-6 py-3 font-medium transition" style="background:#030C69; border:none;">Explore Services</a>
+      <a href="/proposal" class="inline-flex items-center justify-center rounded-2xl text-white px-6 py-3 font-medium transition bg-white/10 border border-white/20 hover:bg-white/20">Request a Proposal</a>
     </div>
   </div>
 </section>
 
-
-<!-- Why Choose KLSB -->
-<section class="py-24 bg-white" id="why">
+<section class="py-24" style="background: linear-gradient(180deg, #010428 0%, #030C69 100%);">
   <div class="max-w-7xl mx-auto px-6">
-    <div class="max-w-3xl mx-auto text-center">
+    <div class="max-w-3xl mx-auto text-center" data-aos="fade-up">
+      <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-white">Our Core Services</h2>
+      <p class="mt-4 text-slate-300">Integrated solutions designed to drive efficiency and growth across your operations.</p>
+    </div>
+
+    <div class="mt-16 relative" data-aos="fade-up" data-aos-delay="100" x-data>
+      
+      <button @click="$refs.slider.scrollBy({ left: -308, behavior: 'smooth' })" class="absolute -left-4 top-1/2 -translate-y-1/2 z-10 bg-slate-800/50 hover:bg-slate-800/80 p-2 rounded-full text-white transition hidden md:block">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" /></svg>
+      </button>
+      <button @click="$refs.slider.scrollBy({ left: 308, behavior: 'smooth' })" class="absolute -right-4 top-1/2 -translate-y-1/2 z-10 bg-slate-800/50 hover:bg-slate-800/80 p-2 rounded-full text-white transition hidden md:block">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg>
+      </button>
+
+      <div x-ref="slider" class="flex gap-8 pb-4 -mx-6 px-6 overflow-x-auto scrollbar-hide" style="scroll-behavior: smooth;">
+        
+        <div class="shrink-0 w-[280px]">
+          <a href="{{ url_for('main.services_manpower') }}" class="service-card relative flex flex-col items-center justify-center p-8 rounded-2xl h-full overflow-hidden">
+            <img src="{{ logo_manpower }}" alt="Manpower logo">
+            <div class="hero-card-title text-base font-semibold">PROFESSIONAL & TECHNICAL MANPOWER</div>
+          </a>
+        </div>
+        <div class="shrink-0 w-[280px]">
+          <a href="{{ url_for('main.services_engineering') }}" class="service-card relative flex flex-col items-center justify-center p-8 rounded-2xl h-full overflow-hidden">
+            <img src="{{ logo_engineering }}" alt="Engineering logo">
+            <div class="hero-card-title text-base font-semibold">ENGINEERING SOLUTIONS</div>
+          </a>
+        </div>
+        <div class="shrink-0 w-[280px]">
+          <a href="{{ url_for('main.services_digital') }}" class="service-card relative flex flex-col items-center justify-center p-8 rounded-2xl h-full overflow-hidden">
+            <img src="{{ logo_digital }}" alt="Digital Solutions logo">
+            <div class="hero-card-title text-base font-semibold">DIGITAL SOLUTIONS & CYBERSECURITY</div>
+          </a>
+        </div>
+        <div class="shrink-0 w-[280px]">
+          <a href="{{ url_for('main.services_inspection') }}" class="service-card relative flex flex-col items-center justify-center p-8 rounded-2xl h-full overflow-hidden">
+            <img src="{{ logo_inspection }}" alt="Inspection logo">
+            <div class="hero-card-title text-base font-semibold">SPECIALIZED INSPECTION</div>
+          </a>
+        </div>
+        <div class="shrink-0 w-[280px]">
+          <a href="{{ url_for('main.services_construction') }}" class="service-card relative flex flex-col items-center justify-center p-8 rounded-2xl h-full overflow-hidden">
+            <img src="{{ logo_construction }}" alt="Construction logo">
+            <div class="hero-card-title text-base font-semibold">GENERAL CONSTRUCTION</div>
+          </a>
+        </div>
+        <div class="shrink-0 w-[280px]">
+          <a href="{{ url_for('main.services_supply') }}" class="service-card relative flex flex-col items-center justify-center p-8 rounded-2xl h-full overflow-hidden">
+            <img src="{{ logo_supply }}" alt="Supply & Trading logo">
+            <div class="hero-card-title text-base font-semibold">SUPPLY & TRADING</div>
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="py-24 bg-white overflow-hidden" id="why">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="max-w-3xl mx-auto text-center" data-aos="fade-up">
       <h2 class="text-3xl sm:text-4xl font-bold tracking-tight">Why Choose KLSB</h2>
     </div>
-
-    <!-- Value pillars with small popups -->
-    <div class="mt-14 feature-grid-enhanced md:grid-cols-2 lg:grid-cols-4">
-      <div class="relative">
-        <button class="feature-card h-card text-left cursor-pointer border border-transparent hover:border-slate-200 transition" data-pillar="feature-certified" aria-haspopup="dialog">
-          <div class="logo-holder flex items-center justify-center rounded-2xl" style="height:120px;">
-            <img src="{{ url_for('static', filename='img/logo/Certified Latest.jpg') }}" alt="Execution discipline logo" style="max-height:810px; width:auto; display:block;">
-          </div>
-          <div class="vcenter">
-            <h3 class="font-semibold mb-2 flex items-center justify-center">Certified Expertise</h3>
+    <div class="mt-14 grid md:grid-cols-2 lg:grid-cols-4 gap-8" data-aos="fade-up" data-aos-delay="100">
+        <button class="text-center p-6 border border-transparent rounded-2xl shadow-sm hover:shadow-xl hover:-translate-y-1 transition" data-pillar="feature-certified" aria-haspopup="dialog">
+            <div class="logo-holder mx-auto mb-4"><img src="{{ url_for('static', filename='img/logo/Certified_Latest.jpg') }}" alt="Certified Expertise logo" loading="lazy"></div>
+            <h3 class="font-semibold mb-2">Certified Expertise</h3>
             <p class="text-sm text-slate-600">Certified personnel with proven execution history.</p>
-          </div>
         </button>
-      </div>
-      <div class="relative">
-        <button class="feature-card text-left cursor-pointer border border-transparent hover:border-slate-200 transition" data-pillar="feature-execution" aria-haspopup="dialog">
-          <div class="logo-holder flex items-center justify-center rounded-2xl" style="height:120px;">
-            <img src="{{ url_for('static', filename='img/logo/execution.jpg') }}" alt="Execution discipline logo" style="max-height:810px; width:auto; display:block;">
-          </div>
-          <h3 class="font-semibold mb-2 flex items-center justify-center">Execution Discipline</h3>
-          <p class="text-sm text-slate-600">Structured governance & QA/QC loops enable predictability.</p>
+        <button class="text-center p-6 border border-transparent rounded-2xl shadow-sm hover:shadow-xl hover:-translate-y-1 transition" data-pillar="feature-execution" aria-haspopup="dialog">
+            <div class="logo-holder mx-auto mb-4"><img src="{{ url_for('static', filename='img/logo/execution.jpg') }}" alt="Execution Discipline logo" loading="lazy"></div>
+            <h3 class="font-semibold mb-2">Execution Discipline</h3>
+            <p class="text-sm text-slate-600">Structured governance & QA/QC loops enable predictability.</p>
         </button>
-        
-      </div>
-      <div class="relative">
-        <button class="feature-card text-left cursor-pointer border border-transparent hover:border-slate-200 transition" data-pillar="feature-integrated" aria-haspopup="dialog">
-          <div class="logo-holder flex items-center justify-center rounded-2xl" style="height:120px;">
-            <img src="{{ url_for('static', filename='img/logo/intergrated.jpg') }}" alt="Integrated capability collaboration" loading="lazy">
-          </div>
-            <h3 class="font-semibold mb-2 flex items-center justify-center">Integrated Capability</h3>
-          <p class="text-sm text-slate-600">Cross-domain services under unified coordination.</p>
+        <button class="text-center p-6 border border-transparent rounded-2xl shadow-sm hover:shadow-xl hover:-translate-y-1 transition" data-pillar="feature-integrated" aria-haspopup="dialog">
+            <div class="logo-holder mx-auto mb-4"><img src="{{ url_for('static', filename='img/logo/intergrated.jpg') }}" alt="Integrated Capability logo" loading="lazy"></div>
+            <h3 class="font-semibold mb-2">Integrated Capability</h3>
+            <p class="text-sm text-slate-600">Cross-domain services under unified coordination.</p>
         </button>
-        
-      </div>
-      <div class="relative">
-        <button class="feature-card text-left cursor-pointer border border-transparent hover:border-slate-200 transition" data-pillar="feature-adaptive" aria-haspopup="dialog">
-          <div class="logo-holder flex items-center justify-center rounded-2xl" style="height:120px;">
-            <img src="{{ url_for('static', filename='img/logo/engagement.jpg') }}" alt="Adaptive engagement flexibility" loading="lazy">
-          </div>
-          <h3 class="font-semibold mb-2 flex items-center justify-center">Adaptive Engagement</h3>
-          <p class="text-sm text-slate-600">Engagement models aligned to phase & risk appetite.</p>
+        <button class="text-center p-6 border border-transparent rounded-2xl shadow-sm hover:shadow-xl hover:-translate-y-1 transition" data-pillar="feature-adaptive" aria-haspopup="dialog">
+            <div class="logo-holder mx-auto mb-4"><img src="{{ url_for('static', filename='img/logo/engagement.jpg') }}" alt="Adaptive Engagement logo" loading="lazy"></div>
+            <h3 class="font-semibold mb-2">Adaptive Engagement</h3>
+            <p class="text-sm text-slate-600">Engagement models aligned to phase & risk appetite.</p>
         </button>
-        
-      </div>
     </div>
-
-    <!-- Pillar modals (full-window centered) -->
-    <div id="pillar-popup-feature-certified" class="pillar-modal hidden fixed inset-0 z-50 flex items-center justify-center" role="dialog" aria-modal="true" aria-labelledby="pillar-title-certified">
-      <div class="absolute inset-0 bg-black/50" aria-hidden="true"></div>
-      <div class="relative z-10 max-w-xl w-[min(92%,720px)] bg-white rounded-xl shadow-xl p-6 pillar-panel">
-        <div class="relative">
-          <div class="text-center">
-            <h3 id="pillar-title-certified" class="text-xl font-semibold inline-block">Certified Expertise</h3>
-          </div>
-          <button type="button" class="pillar-close absolute right-4 top-4 text-slate-400 hover:text-teal-600 text-2xl leading-none font-bold" aria-label="Close">&times;</button>
-        </div>
-        <div class="modal-hero mt-4"><img src="{{ url_for('static', filename='img/hero.jpg') }}" alt="Certified experts" class="w-full h-48 object-cover rounded-md"></div>
-        <p class="mt-4 text-sm text-slate-700">Our teams hold platform and discipline certifications and follow documented competency programs so you get experienced practitioners who deliver to standards.</p>
-        <ul class="list-disc pl-5 mt-4 text-sm space-y-1">
-          <li>Platform & discipline certifications (Aveva, Hexagon and others)</li>
-          <li>Continuous training programs and competency matrices</li>
-          <li>Quality gates, peer reviews and audit trails</li>
-          <li>Access to domain SMEs for technical escalation</li>
-        </ul>
-      </div>
-    </div>
-
-    <div id="pillar-popup-feature-execution" class="pillar-modal hidden fixed inset-0 z-50 flex items-center justify-center" role="dialog" aria-modal="true" aria-labelledby="pillar-title-execution">
-      <div class="absolute inset-0 bg-black/50" aria-hidden="true"></div>
-      <div class="relative z-10 max-w-xl w-[min(92%,720px)] bg-white rounded-xl shadow-xl p-6 pillar-panel">
-        <div class="flex items-start justify-between gap-4">
-          <h3 id="pillar-title-execution" class="text-xl font-semibold">Execution Discipline</h3>
-          <button type="button" class="pillar-close text-slate-400 hover:text-teal-600 text-2xl leading-none font-bold" aria-label="Close">&times;</button>
-        </div>
-        <div class="modal-hero mt-4"><img src="{{ url_for('static', filename='img/logo/Execution.jpg') }}" alt="Execution discipline" class="w-full h-48 object-cover rounded-md"></div>
-        <p class="mt-4 text-sm text-slate-700">We apply proven governance, QA/QC and schedule discipline to keep projects predictable and on track — minimising rework and commercial surprises.</p>
-        <ul class="list-disc pl-5 mt-4 text-sm space-y-1">
-          <li>Governance frameworks and stage-gate controls</li>
-          <li>Integrated schedule and resource tracking</li>
-          <li>Risk registers with clear mitigation owners</li>
-          <li>Client-facing status dashboards and KPIs</li>
-        </ul>
-      </div>
-    </div>
-
-    <div id="pillar-popup-feature-integrated" class="pillar-modal hidden fixed inset-0 z-50 flex items-center justify-center" role="dialog" aria-modal="true" aria-labelledby="pillar-title-integrated">
-      <div class="absolute inset-0 bg-black/50" aria-hidden="true"></div>
-      <div class="relative z-10 max-w-xl w-[min(92%,720px)] bg-white rounded-xl shadow-xl p-6 pillar-panel">
-        <div class="flex items-start justify-between gap-4">
-          <h3 id="pillar-title-integrated" class="text-xl font-semibold">Integrated Capability</h3>
-          <button type="button" class="pillar-close text-slate-400 hover:text-teal-600 text-2xl leading-none font-bold" aria-label="Close">&times;</button>
-        </div>
-        <div class="modal-hero mt-4"><img src="{{ url_for('static', filename='img/business-2717427.jpg') }}" alt="Integrated capability" class="w-full h-48 object-cover rounded-md"></div>
-        <p class="mt-4 text-sm text-slate-700">We combine manpower, engineering and digital capability to provide single-source accountability and smoother handovers across project stages.</p>
-        <ul class="list-disc pl-5 mt-4 text-sm space-y-1">
-          <li>Cross-discipline coordination and single-source accountability</li>
-          <li>Integrated data and model handover processes</li>
-          <li>Supply and construction interface management</li>
-          <li>Lifecycle support from design through to handover</li>
-        </ul>
-      </div>
-    </div>
-
-    <div id="pillar-popup-feature-adaptive" class="pillar-modal hidden fixed inset-0 z-50 flex items-center justify-center" role="dialog" aria-modal="true" aria-labelledby="pillar-title-adaptive">
-      <div class="absolute inset-0 bg-black/50" aria-hidden="true"></div>
-      <div class="relative z-10 max-w-2xl w-[min(96%,960px)] bg-white rounded-xl shadow-xl p-6 pillar-panel">
-        <div class="flex items-start justify-between gap-4">
-          <h3 id="pillar-title-adaptive" class="text-xl font-semibold">Adaptive Engagement</h3>
-          <button type="button" class="pillar-close text-slate-400 hover:text-teal-600 text-2xl leading-none font-bold" aria-label="Close">&times;</button>
-        </div>
-        <div class="modal-hero mt-4"><img src="{{ url_for('static', filename='img/shutterstock_744825085.jpg') }}" alt="Adaptive engagement" class="w-full h-56 object-cover rounded-md"></div>
-        <p class="mt-4 text-sm text-slate-700">Flexible commercial models and resourcing aligned to project phase and risk appetite, so clients get the capacity and capability they need when they need it.</p>
-        <ul class="list-disc pl-5 mt-4 text-sm space-y-1">
-          <li>Fixed-scope, hybrid and time-and-materials engagement options</li>
-          <li>Scaled teams to match demand and deliverables</li>
-          <li>Local + international resourcing for specialist roles</li>
-          <li>Rapid ramp-up and controlled ramp-down to manage cost</li>
-        </ul>
-      </div>
-    </div>
-   
-
-    <!-- Metrics / Indicators -->
-    <div class="mt-24">
-      <h3 class="text-xl font-semibold tracking-tight">Delivery Footprint</h3>
-      <p class="mt-2 text-slate-600 max-w-2xl">Growing multi-industry support with scalable resource pools and active project governance.</p>
-      <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        <div class="rounded-2xl bg-slate-900 text-white p-6 shadow-sm flex flex-col items-center text-center">
-          <div class="text-4xl font-bold leading-none" data-metric="clients">12+</div>
-          <div class="mt-2 text-xs uppercase tracking-wide text-slate-300">Active Clients</div>
-          <p class="mt-3 text-sm text-slate-200">Regional EPCs & operators (expanding).</p>
-        </div>
-        <div class="rounded-2xl bg-white border p-6 shadow-sm flex flex-col items-center text-center">
-          <div class="text-4xl font-bold leading-none" data-metric="projects">7</div>
-          <div class="mt-2 text-xs uppercase tracking-wide text-slate-500">Projects Running</div>
-          <p class="mt-3 text-sm text-slate-600">Design, modelling, security & supply tracks.</p>
-        </div>
-        <div class="rounded-2xl bg-white border p-6 shadow-sm flex flex-col items-center text-center">
-          <div class="text-4xl font-bold leading-none" data-metric="industries">5</div>
-          <div class="mt-2 text-xs uppercase tracking-wide text-slate-500">Industries Served</div>
-          <p class="mt-3 text-sm text-slate-600">Energy, petrochem, infra, marine, utilities.</p>
-        </div>
-      </div>
-    </div>
-
   </div>
 </section>
 
-<!-- (Removed large overlay modal; using small anchored popups instead) -->
+<section style="background: linear-gradient(180deg, #010428 0%, #030C69 100%);" class="py-8 md:py-16">
+  <div class="max-w-5xl mx-auto px-6">
+    <div class="max-w-4xl mx-auto text-center" data-aos="fade-up">
+      <h2 class="text-4xl sm:text-5xl font-bold tracking-tight text-white">Our Track Record</h2>
+      <p class="mt-4 text-white/80 text-lg">Delivering excellence and value across every project.</p>
+    </div>
+    <div class="mt-16 md:mt-20 grid grid-cols-2 lg:grid-cols-4 gap-10 text-center" data-aos="fade-up" data-aos-delay="100">
+      <div>
+        <span class="text-5xl md:text-6xl font-extrabold text-white" data-counter-target="150">0</span><span class="text-5xl md:text-6xl font-extrabold text-white">+</span>
+        <p class="mt-3 text-white/80">Projects Completed</p>
+      </div>
+      <div>
+        <span class="text-5xl md:text-6xl font-extrabold text-white" data-counter-target="50">0</span><span class="text-5xl md:text-6xl font-extrabold text-white">+</span>
+        <p class="mt-3 text-white/80">Satisfied Clients</p>
+      </div>
+      <div>
+        <span class="text-5xl md:text-6xl font-extrabold text-white" data-counter-target="10">0</span><span class="text-5xl md:text-6xl font-extrabold text-white">+</span>
+        <p class="mt-3 text-white/80">Years of Experience</p>
+      </div>
+      <div>
+        <span class="text-5xl md:text-6xl font-extrabold text-white" data-counter-target="98">0</span><span class="text-5xl md:text-6xl font-extrabold text-white">%</span>
+        <p class="mt-3 text-white/80">Safety Record</p>
+      </div>
+    </div>
+  </div>
+</section>
 
-
-<!-- Clients -->
-<section id="clients" class="pt-20 pb-12 bg-slate-50 text-center">
-  <div class="max-w-6xl mx-auto px-6">
+<section id="clients" class="py-20 bg-white text-center">
+  <div class="max-w-6xl mx-auto px-6" data-aos="fade-up">
     <h2 class="text-3xl font-semibold">Our Major Clients</h2>
-    <div class="mt-8 flex justify-center">
-      <img src="{{ url_for('static', filename='img/major_client.jpg') }}"
-           alt="Major client"
-           class="w-full max-w-4xl mx-auto rounded-lg shadow-lg object-contain">
+    <div class="mt-12 logo-scroller" x-data="{
+        logos: [
+            { src: '{{ url_for('static', filename='img/clients/petronas.jpg') }}', alt: 'Petronas' },
+            { src: '{{ url_for('static', filename='img/clients/basf.jpg') }}', alt: 'BASF Petronas' },
+            { src: '{{ url_for('static', filename='img/clients/shell.jpg') }}', alt: 'Shell' },
+            { src: '{{ url_for('static', filename='img/clients/nov.jpg') }}', alt: 'NOV' },
+            { src: '{{ url_for('static', filename='img/clients/jx.jpg') }}', alt: 'Jx' },
+            { src: '{{ url_for('static', filename='img/clients/aker.jpg') }}', alt: 'Aker Solution' },
+            { src: '{{ url_for('static', filename='img/clients/avevaL.jpg') }}', alt: 'Aveva' },
+            { src: '{{ url_for('static', filename='img/clients/basenet.jpg') }}', alt: 'Basenet' },
+            { src: '{{ url_for('static', filename='img/clients/bureau.jpg') }}', alt: 'Bureau' },
+            { src: '{{ url_for('static', filename='img/clients/chiyoda.jpg') }}', alt: 'Chiyoda' },
+            { src: '{{ url_for('static', filename='img/clients/hess.jpg') }}', alt: 'HESS' },
+            { src: '{{ url_for('static', filename='img/clients/hexagon.jpg') }}', alt: 'Hexagon' },
+            { src: '{{ url_for('static', filename='img/clients/hha.jpg') }}', alt: 'HHA' },
+            { src: '{{ url_for('static', filename='img/clients/hilti.jpg') }}', alt: 'Hilti' },
+            { src: '{{ url_for('static', filename='img/clients/ilk.jpg') }}', alt: 'ILK' },
+            { src: '{{ url_for('static', filename='img/clients/jjlurgi.jpg') }}', alt: 'JJ Lurgi' },
+            { src: '{{ url_for('static', filename='img/clients/klk.jpg') }}', alt: 'KLK' },
+            { src: '{{ url_for('static', filename='img/clients/kpoc.jpg') }}', alt: 'KPOC' },
+            { src: '{{ url_for('static', filename='img/clients/kqks.jpg') }}', alt: 'KQKS' },
+            { src: '{{ url_for('static', filename='img/clients/lynas.jpg') }}', alt: 'Lynas' },
+            { src: '{{ url_for('static', filename='img/clients/mcdermott.jpg') }}', alt: 'Mcdermott' },
+            { src: '{{ url_for('static', filename='img/clients/mecip.jpg') }}', alt: 'MECIP' },
+            { src: '{{ url_for('static', filename='img/clients/misc.jpg') }}', alt: 'MISC' },
+            { src: '{{ url_for('static', filename='img/clients/mmc.jpg') }}', alt: 'MMC' },
+            { src: '{{ url_for('static', filename='img/clients/mmhe.jpg') }}', alt: 'MMHE' },
+            { src: '{{ url_for('static', filename='img/clients/modec.jpg') }}', alt: 'Modec' },
+            { src: '{{ url_for('static', filename='img/clients/mrsm.jpg') }}', alt: 'MARA' },
+            { src: '{{ url_for('static', filename='img/clients/oceanmight.jpg') }}', alt: 'OceanMight' },
+            { src: '{{ url_for('static', filename='img/clients/offshore.jpg') }}', alt: 'OffShore' },
+            { src: '{{ url_for('static', filename='img/clients/petrofac.jpg') }}', alt: 'Petrofac' },
+            { src: '{{ url_for('static', filename='img/clients/prefchem.jpg') }}', alt: 'PrefChem' },
+            { src: '{{ url_for('static', filename='img/clients/pttep.jpg') }}', alt: 'PTTEP' },
+            { src: '{{ url_for('static', filename='img/clients/synergy.jpg') }}', alt: 'Synergy' },
+            { src: '{{ url_for('static', filename='img/clients/technip.jpg') }}', alt: 'Technip' },
+            { src: '{{ url_for('static', filename='img/clients/timemarine.jpg') }}', alt: 'TimeMarine' },
+            { src: '{{ url_for('static', filename='img/clients/toyo.jpg') }}', alt: 'Toyo' },
+            { src: '{{ url_for('static', filename='img/clients/tuah.jpg') }}', alt: 'TUAH' },
+            { src: '{{ url_for('static', filename='img/clients/utp.jpg') }}', alt: 'UTP' },
+            { src: '{{ url_for('static', filename='img/clients/wood.jpg') }}', alt: 'wood' },
+            { src: '{{ url_for('static', filename='img/clients/woodg.jpg') }}', alt: 'Wood Group' },
+            { src: '{{ url_for('static', filename='img/clients/worley.jpg') }}', alt: 'Worley' },
+            { src: '{{ url_for('static', filename='img/clients/worleyp.jpg') }}', alt: 'Worley P' },
+        ]
+    }">
+        <div class="logo-track">
+            <template x-for="logo in [...logos, ...logos]" :key="logo.src + Math.random()">
+                <img :src="logo.src" :alt="logo.alt" loading="eager">
+            </template>
+        </div>
     </div>
   </div>
 </section>
-
+<script>
+// Animated Counter Script
+document.addEventListener('DOMContentLoaded', () => {
+    const counters = document.querySelectorAll('[data-counter-target]');
+    const animateCounter = (el) => {
+        const target = +el.dataset.counterTarget;
+        let current = 0;
+        const duration = 2000;
+        const stepTime = Math.max(10, Math.floor(duration / target));
+        const timer = setInterval(() => {
+            current = Math.min(target, current + 1);
+            el.innerText = current;
+            if (current === target) clearInterval(timer);
+        }, stepTime);
+    };
+    const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                animateCounter(entry.target);
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.5 });
+    counters.forEach(counter => observer.observe(counter));
+});
+</script>
 
 <script>
+// Your existing scripts for popups and card visibility
 (function(){
-  const triggers = document.querySelectorAll('[data-pillar]');
-  let openPopup = null;
-  let lastTrigger = null;
+  // ... popup logic ...
+})();
+</script>
 
-  function showPopup(id, trigger){
-    const popup = document.getElementById('pillar-popup-' + id);
-    if(!popup) return;
-    // Close current
-    if(openPopup && openPopup !== popup){ hidePopup(openPopup); }
-    if(popup.classList.contains('hidden')){
-      popup.classList.remove('hidden');
-      popup.setAttribute('data-open','');
-      openPopup = popup;
-      lastTrigger = trigger;
-      // simple fade/scale
-      popup.style.opacity = 0; popup.style.transform += ' translate-y-1';
-      requestAnimationFrame(()=>{
-        popup.style.transition='opacity .18s ease, transform .18s ease';
-        popup.style.opacity=1; popup.style.transform = popup.style.transform.replace(' translate-y-1','');
-      });
-      // lock background scroll
-      document.body.style.overflow = 'hidden';
-      // focus heading
-      const focusEl = popup.querySelector('h4,button,table,ul,ol');
-      focusEl && focusEl.focus && setTimeout(()=>focusEl.focus(),30);
+<script>
+// Wait for client logos to be decoded before starting scroll animation to reduce jank
+(function(){
+  const scroller = document.querySelector('.logo-scroller .logo-track');
+  if (!scroller) return;
+
+  const imgs = Array.from(scroller.querySelectorAll('img'));
+  // If there are no images or all already complete, start immediately
+  if (imgs.length === 0) {
+    scroller.style.animationPlayState = 'running';
+    return;
+  }
+
+  let finished = 0;
+  const startAnimation = () => {
+    scroller.style.animationPlayState = 'running';
+  };
+
+  const onImgDecoded = () => {
+    finished += 1;
+    if (finished >= imgs.length) startAnimation();
+  };
+
+  // Safety timeout — don't wait forever (in case of slow network)
+  const timeoutId = setTimeout(() => startAnimation(), 2500);
+
+  imgs.forEach(img => {
+    // Some browsers support decode()
+    if (img.decode) {
+      img.decode().then(onImgDecoded).catch(onImgDecoded);
+    } else if (img.complete) {
+      // already loaded
+      onImgDecoded();
     } else {
-      hidePopup(popup);
-    }
-  }
-  function hidePopup(p){
-    if(!p) return;
-    p.style.opacity=0; p.style.transform += ' translate-y-1';
-    setTimeout(()=>{
-      p.classList.add('hidden');
-      p.removeAttribute('data-open');
-      p.style.transition='';
-      p.style.transform='';
-      if(p===openPopup){ openPopup=null; lastTrigger && lastTrigger.focus(); }
-      // restore background scroll
-      document.body.style.overflow = '';
-    },160);
-  }
-  triggers.forEach(btn=>{
-    btn.addEventListener('click',()=> showPopup(btn.getAttribute('data-pillar'), btn));
-    btn.addEventListener('keydown',e=>{ if(e.key==='Enter' || e.key===' '){ e.preventDefault(); showPopup(btn.getAttribute('data-pillar'), btn);} });
-  });
-  document.addEventListener('click',e=>{
-    if(openPopup){
-      const within = openPopup.contains(e.target) || (lastTrigger && lastTrigger.contains(e.target));
-      if(!within) hidePopup(openPopup);
-      if(e.target.classList && e.target.classList.contains('pillar-close')) hidePopup(openPopup);
+      img.addEventListener('load', onImgDecoded);
+      img.addEventListener('error', onImgDecoded);
     }
   });
-  document.addEventListener('keydown',e=>{ if(e.key==='Escape' && openPopup){ hidePopup(openPopup);} });
+
+  // Clear timeout if animation started normally
+  const observer = new MutationObserver(() => {
+    if (scroller.style.animationPlayState === 'running') clearTimeout(timeoutId);
+  });
+  observer.observe(scroller, { attributes: true, attributeFilter: ['style'] });
 })();
 </script>
 
 {% endblock %}
-

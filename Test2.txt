@@ -1,0 +1,170 @@
+ Year : 2024
+ Client : Meinhardt EPCM / Petronas
+ Project: Development of AutoCad Plant 3D For End of Life Plastic Chemical Recycling Plant (PACE)
+ Year : 2024 
+Client : Haskell Malaysia Services Sdn Bhd
+ Project : Professional Aveva E3D Services for Safran Phase 3 Expansion (SLS xP3) at PT6406, Jalan
+ Techvalley 7/2, Sendayan Techvalley, Bandar Sri Sendayan, 71950 Negeri Sembilan.
+ Year : 2023 
+Client : Lynas Rare Earths Ltd.
+ Project : KALGOORLIE RARE EARTHS PROCESSING FACILITY (PHASE 1 & PHASE 2)
+ Year : 2023 
+Client : Plastic Energy Engineering SEA Sdn Bhd
+ Project : Provision of Engineering CAD Service and support for Plastic Energy’s Chemical Recycling
+ Plant
+ Year : 2023 
+Client : SINOPEC Engineering Group Malaysia Sdn Bhd
+ Project : SmartPlant Tools Rectifications for SINOPEC P012A RAPID Project
+ Year : 2023 
+Client : Civmec Construction & Engineering Pte Ltd
+ Project : Provision of Piping Fabrication Drawing, Preparation for Kwinana Coavalent Lithium Plant
+ Year : 2023
+ Client : JJ Lurgi Engineering Project : Engineering Design and 3D Modelling Support for JJ Lurgi.
+ Project: C344- Petron Bataan Refinery, CME Plant Project, C343-Physical Refinery 300 TPD
+ Year : 2023 
+Client : HILTI Asia IT Services 
+Project : HILTI 3D Support Conversion, Shop Drawing and As Built for Tiong A & Bekok A Project
+ (Electrical and Instrument)
+ Year : 2023 
+Client : PETRONAS GTS / PGB GTR 
+Project : Provision of Engineering Services For PSI Tagging and PSI Updating For PGB GTR & PEDMS
+ Document Uploading
+ Year : 2023 
+Client : PETRONAS GTS / PRPC & PFLNG 
+Project : Provision of Engineering Services For Drawing As Built Updating for PRPC & PFLNG
+ Year : 2022 
+Client : PFLNG 1 / Mecip Global 
+Project : Provision of Engineering Services for PFLNG1 Plant Change and MOC Updating
+ Year : 2022 
+Client : PETRONAS GTS 
+Project : Provision of Smart Plant P&ID Drawing Updating and As Builting for Petronas Gas Malaysia
+Year : 2022 
+Client : HHA Associate 
+Project : Re-Engineering of General Arrangement Drawing at Duyong Platform For Petronas Carigali
+ Sdn bhd
+ Year : 2022 
+Client : HILTI Asia IT Services 
+Project : Provision of HILTI 3D Support Conversion, Shop Drawing and As Built for Bayan Project
+ Year : 2021 
+Client : LimTech / KLK 
+Project : Isometric Drawing As Built for KLK Oleo Plant
+ Year : 2021 
+Client : MMHE 
+Project : Production of Special Pipe Support Drawing for Kasawari Project
+ Year : 2021 
+Client : PETRONAS GTS 
+Project : Provision of Enginering Serevices For 3D Model Development (Intelligent Model) For PCASB
+ Year : 2021 
+Client : PETRONAS GTS 
+Project : Provision of Enginering Serevices For SmartPlant PID Drawing Update For PCEPE
+ Year : 2021 
+Client : PETRONAS GTS 
+Project : Provision of Engineering Services For PSI Tagging For MRCSB
+ HHA ASSOCIATES
+ HHA ASSOCIATES
+ Year : 2020 
+Client : HILTI 
+Project : Aveva E3D IFS (Integrated Flooring System) Modeling and Drawing Production for LNG
+ Canada
+ Year : 2020 
+Client : HHA / Vestigo 
+Project : Modification & HUC Tie In of Wellhead Platform For Larut Infill Project
+ Year : 2019 
+Client : ILK Construction 
+Project : Engineering Design for Diesel Storage & Wet Slop Tank Fabrication For EPIC For Water
+ Injection Wellhead Towers & Pipelines in Lam-West
+ Year : 2019 
+Client : PETRONAS GTS 
+Project : MLNG Train 9 Incorporation of redline mark up into Smart Plant3D Model and update
+ SmartPlant P&ID (SPPID) as per redline mark up
+ Year : 2019 
+Client : PETRONAS GTS 
+Project : PFLNG P&ID drawing conversion and updating redline mark up into Smart Plant P&ID
+ database
+ Year : 2019 
+Client : PETRONAS ABF 
+Project : Petronas ABF FEED 3rd Boiler Design Using Smart Plant 3D and Smart Plant P&ID
+ 3D MODELING AND ENGINEERING
+ DESIGN SERVICES (TRACK RECORD)
+Year : 2019 
+Client : BASF PETRONAS Chemicals 
+Project : Petronas Chemical BASF HRPIB Development of As- Built Smart Plant 3D Model
+ Cloudworx From Laser Scanning
+ Year : 2019 
+Client : PRefChem 
+Project : Development of Flange Management Database (FMT), Petronas Flange Management
+ Tools(P-FMT) development using Smart Plant3D For RAPID Project
+ Year : 2018 
+Client : PETRONAS GTS 
+Project : Petronas Flange Management Tools(P-FMT) mapping isometric using QA tool and Smart
+ Plant 3D
+ Year : 2018 
+Client : PETRONAS GTS 
+Project : Provision of Drafting Services for ALEXIS GPP
+ Year : 2017 
+Client : PETRONAS GTS 
+Project : S3D System Setup and configuration for S3D Database FEED For Gasoline Euro 5 Plant,
+ Melaka
+ Year : 2017 
+Client : PETRONAS GTS 
+Project : SmartPlant 3D Project Administration and 3D Model Database Merging for SAMUR 
+Year : 2017 
+Client : PETRONAS GTS 
+Project : Development of 3D Model for SSGP Pipeline As Built (Geo Pigging + Lidar Data + Lidar Photo)
+ Year : 2017 
+Client : SYS McConnell Dowell 
+Project : Development of Smart Plant 3D and Smart Plant P&ID for P12B Solid Product Jetty and
+ Associated Handling Facilities (SPJ) at Tanjung Setapa for Rapid Project
+ Year : 2017 
+Client : SMI GLOBAL SDN BHD 
+Project : Design Calculation and Professional Engineering Drawing For Scaffolding Tower Tubular for
+ Vessel 2100-V-505 Working Platform Work
+ Year : 2017 
+Client : OG TECH PROJECT RESOURCES SDN BHD 
+Project : Design Calculation for Professional Engineering Drawing For Hanging Tubular Working
+ Platform Common And Tower for Scaffolding Work 2110 Area – Cable Tray
+ Year : 2017 
+Client : TOYO ENGINEERING & CONSTRUCTION SDN BHD 
+Project : Professional Engineering Drawing and Calculation For Hanging Tubular Working Platform
+ Common Scaffolding Work 2130 & 2140 Pipe Rack RAPID
+ Year : 2017 
+Client : PETRONAS GTS 
+Project : Provision of Conceptual Engineering Support Service for Development of Sepat Phase 2B
+ drawings deliverables and 3D Model Development
+ 3D MODELING AND ENGINEERING
+ DESIGN SERVICES (TRACK RECORD)
+Year : 2017 
+Client : PETRONAS GTS 
+Project : Provision of Conceptual Engineering Support Service for Development of BEKOK Oil
+ Project 3D Model and drawings deliverables
+ Year : 2016 
+Client : PETRONAS Group Technical Solutions / PPMSB 
+Project : SmartPlant 3D System Setup and configuration for S3D Database FEED For Euro 5 Plant,
+ Melaka
+ Year : 2016 
+Client : PETRONAS Chemical Methanol Labuan Sdn Bhd 
+Project : Provision of Plant Piping Isometric Engineering Drawing Updating, Development for PC
+ Methanol
+ Year : 2016 
+Client : Ocean Might Sdn Bhd / Repsol Malaysia 
+Project : Production of Pipe Support Shop Drawing for Kinabalu WHP – (AVEVA MDS Deliverables)
+ Year : 2016 
+Client : Innoveam Sdn Bhd / Timor GAP (Timor Leste) 
+Project : Development of 3D PDMS Model for Betano, Suai & LNG Plant for 3D Virtual Model
+ Year : 2016 
+Client : TH Heavy Engineering Berhad 
+Project : PDMS Administration and Global PDMS Setup for Layang FPSO Project THHE – GPS Dubai
+ Year : 2015 
+Client : RNZ PETROFAC/Petronas Carigali Turkmenistan 
+Project : Conversion of PDS to PDMS Model for Turkmenistan Block 1 Development Project – Onshore
+ Gas Terminal
+ Year : 2015 
+Client : Innoveam / Talisman Malaysia Limited 
+Project : Conceptual Study and 3D PDMS Design for New Riser for BOD, BOC Platform
+ Year : 2015 
+Client : MTC Engineering / SBM Offshore 
+Project : PDMS Cats & Spec Database Development for Yetagun FPSO Marine System Project (JIS
+ Catalogue)
+ Year : 2015 
+Client : Innoveam / PETRONAS Carigali (PMO) 
+Project : Provision of PIPE Stress Analysis Services for Temana Revisit & Upgrading Projec

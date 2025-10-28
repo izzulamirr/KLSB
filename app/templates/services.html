@@ -1,123 +1,133 @@
 {% extends 'base.html' %}
 {% block title %}KLSB — Services{% endblock %}
 {% set hero_bg = url_for('static', filename='img/services.jpg') %}
+
+{% block extra_head %}
+<style>
+  /* --- Hide the scrollbar for the carousel --- */
+  .scrollbar-hide::-webkit-scrollbar { display: none; }
+  .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+
+  /* --- Glowing Border Effect for Service Cards --- */
+  @keyframes rotate-glow {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+ @keyframes rotate-glow { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+  .service-card::before {
+    content: ''; position: absolute; z-index: -1; inset: -3px;
+    background: conic-gradient(#d8d8d8);;
+    filter: blur(10px); opacity: 0; transition: opacity 0.3s ease-in-out;
+    
+  }
+  .service-card:hover::before { opacity: 1; }
+
+  /* --- Card Style: white cards with dark content --- */
+  .service-card {
+    background: #ffffff; /* white card */
+
+    border: 1px solid rgba(15,23,42,0.06);
+    box-shadow: 0 8px 20px -8px rgba(2,6,23,0.08);
+    transition: transform 0.22s ease, box-shadow 0.22s ease;
+  }
+  .service-card:hover { transform: translateY(-6px); box-shadow: 0 18px 40px -12px rgba(2,6,23,0.12); }
+  .service-card .hero-card-title {
+    color: #111111 !important; text-shadow: none; display: -webkit-box; -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2; overflow: hidden; text-align: center;
+    font-size: clamp(0.95rem, 3.2vw, 1.125rem) !important; line-height: 1.15 !important; text-transform: uppercase;
+  }
+    /* Remove underline/lines on the service card text and links (including hover) */
+    a.service-card, a.service-card:hover, .service-card .hero-card-title, .service-card .hero-card-title:hover {
+      text-decoration: none !important;
+    }
+  /* Render existing logo <img> elements as solid black silhouettes */
+  .service-card img { filter: grayscale(1) brightness(0) contrast(1) !important; height: 60px !important; margin-bottom: 1rem; }
+  .service-card:hover img { filter: grayscale(1) brightness(0) contrast(1) !important; }
+  
+  .service-card img {
+    filter: brightness(0) invert(1);
+    height: 60px !important;
+    margin-bottom: 1rem;
+  }
+
+  
+</style>
+{% endblock %}
+
 {% block content %}
+{% set logo_manpower = url_for('static', filename='img/logo/manpower_icon.png') %}
+{% set logo_engineering = url_for('static', filename='img/logo/engineering_icon.png') %}
+{% set logo_digital = url_for('static', filename='img/logo/digital_icon.png') %}
+{% set logo_inspection = url_for('static', filename='img/logo/inspection_icon.png') %}
+{% set logo_construction = url_for('static', filename='img/logo/construction_icon.png') %}
+{% set logo_supply = url_for('static', filename='img/logo/supply_icon.png') %}
+
 <section class="relative min-h-[280px] sm:min-h-[340px] flex items-center justify-center text-center">
   <div class="absolute inset-0 -z-10 bg-cover bg-center" style="background-image: url('{{ hero_bg }}');"></div>
   <div class="absolute inset-0 -z-10 bg-black/40"></div>
-</div>
   <div class="w-full px-4 sm:px-6 lg:px-8 py-16 flex flex-col items-center justify-center">
-  <h1 class="text-3xl sm:text-4xl font-bold text-white drop-shadow-lg mb-4">Services</h1>
-  <p class="text-lg max-w-2xl mx-auto drop-shadow-md" style="color:#fff !important;">Tailored to your project requirements with clear deliverables, transparent collaboration and measurable outcomes.</p>
+    <h1 class="text-3xl sm:text-4xl font-bold text-white drop-shadow-lg mb-4" data-aos="fade-up">Services</h1>
+    <p class="text-lg max-w-2xl mx-auto drop-shadow-md" style="color:#fff !important;" data-aos="fade-up" data-aos-delay="100">Tailored to your project requirements with clear deliverables, transparent collaboration and measurable outcomes.</p>
   </div>
 </section>
-<section class="pb-28 text-center">
-  <div class="max-w-6xl mx-auto px-6">
-    <div class="mt-14 grid gap-6 sm:grid-cols-3 text-center hero-cards">
-    <a href="{{ url_for('main.services_manpower') }}"
-  class="group no-underline relative block rounded-2xl border bg-white p-2 shadow-sm overflow-hidden hover:shadow-md transition rm-safe text-center h-28 sm:h-36">
-  <!-- Hover image -->
-  <img src="{{ url_for('static', filename='img/2584721_XL.jpg') }}"
-       alt="Professional & Technical Manpower"
-       class="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-0 scale-105
-              transition duration-500 ease-out group-hover:opacity-100 group-hover:scale-100">
-  <!-- Overlay -->
-  <div class="pointer-events-none absolute inset-0 bg-black/0 transition duration-500 ease-out
-              group-hover:bg-black/35"></div>
-  <!-- Text (centered) -->
-  <div class="relative z-10 flex flex-col items-center justify-center h-full transition duration-500 ease-out">
-  <div class="text-lg font-semibold no-underline group-hover:no-underline transition-colors duration-200 ease-out group-hover:text-white">PROFESSIONAL & TECHNICAL MANPOWER SERVICES</div>
-  <p class="text-sm text-slate-600 transition-opacity duration-200 ease-out group-hover:opacity-0">Skilled manpower for engineering and technical projects.</p>
-  </div>
-</a>
-<a href="{{ url_for('main.services_engineering') }}"
-  class="group no-underline relative block rounded-2xl border bg-white p-2 shadow-sm overflow-hidden hover:shadow-md transition rm-safe text-center h-28 sm:h-36">
-  <!-- Hover image -->
-  <img src="{{ url_for('static', filename='img/eng.jpg') }}"
-       alt="Professional & Technical Manpower"
-       class="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-0 scale-105
-              transition duration-500 ease-out group-hover:opacity-100 group-hover:scale-100">
-  <!-- Overlay -->
-  <div class="pointer-events-none absolute inset-0 bg-black/0 transition duration-500 ease-out
-              group-hover:bg-black/35"></div>
-  <!-- Text (centered) -->
-  <div class="relative z-10 flex flex-col items-center justify-center h-full transition duration-500 ease-out">
-  <div class="text-lg font-semibold no-underline group-hover:no-underline transition-colors duration-200 ease-out group-hover:text-white">ENGINEERING SOLUTIONS</div>
-  <p class="text-sm text-slate-600 transition-opacity duration-200 ease-out group-hover:opacity-0">Engineering design, 3D modelling, and consultancy.</p>
-  </div>
-</a>
-<a href="{{ url_for('main.services_digital') }}"
-  class="group no-underline relative block rounded-2xl border bg-white p-2 shadow-sm overflow-hidden hover:shadow-md transition rm-safe text-center h-28 sm:h-36">
-  <!-- Hover image -->
-  <img src="{{ url_for('static', filename='img/digital.jpeg') }}"
-       alt="Professional & Technical Manpower"
-       class="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-0 scale-105
-              transition duration-500 ease-out group-hover:opacity-100 group-hover:scale-100">
-  <!-- Overlay -->
-  <div class="pointer-events-none absolute inset-0 bg-black/0 transition duration-500 ease-out
-              group-hover:bg-black/35"></div>
-  <!-- Text (centered) -->
-  <div class="relative z-10 flex flex-col items-center justify-center h-full transition duration-500 ease-out">
-  <div class="text-lg font-semibold no-underline group-hover:no-underline transition-colors duration-200 ease-out group-hover:text-white">DIGITAL SOLUTIONS & CYBERSECURITY CONSULTANCY</div>
-  <p class="text-sm text-slate-600 transition-opacity duration-200 ease-out group-hover:opacity-0">Digital solutions and cybersecurity expertise.</p>
-  </div>
-</a>
-<a href="{{ url_for('main.services_inspection') }}"
-  class="group no-underline relative block rounded-2xl border bg-white p-2 shadow-sm overflow-hidden hover:shadow-md transition rm-safe text-center h-28 sm:h-36">
-  <!-- Hover image -->
-  <img src="{{ url_for('static', filename='img/inspection.jpg') }}"
-       alt="Professional & Technical Manpower"
-       class="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-0 scale-105
-              transition duration-500 ease-out group-hover:opacity-100 group-hover:scale-100">
-  <!-- Overlay -->
-  <div class="pointer-events-none absolute inset-0 bg-black/0 transition duration-500 ease-out
-              group-hover:bg-black/35"></div>
-  <!-- Text (centered) -->
-  <div class="relative z-10 flex flex-col items-center justify-center h-full transition duration-500 ease-out">
-  <div class="text-lg font-semibold no-underline group-hover:no-underline transition-colors duration-200 ease-out group-hover:text-white">SPECIALIZED INSPECTION SERVICES</div>
-  <p class="text-sm text-slate-600 transition-opacity duration-200 ease-out group-hover:opacity-0">Industrial inspection for safety and compliance.</p>
-  </div>
-</a>
-<a href="{{ url_for('main.services_construction') }}"
-  class="group no-underline relative block rounded-2xl border bg-white p-2 shadow-sm overflow-hidden hover:shadow-md transition rm-safe text-center h-28 sm:h-36">
-  <!-- Hover image -->
-  <img src="{{ url_for('static', filename='img/construction.jpg') }}"
-       alt="Professional & Technical Manpower"
-       class="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-0 scale-105
-              transition duration-500 ease-out group-hover:opacity-100 group-hover:scale-100">
-  <!-- Overlay -->
-  <div class="pointer-events-none absolute inset-0 bg-black/0 transition duration-500 ease-out
-              group-hover:bg-black/35"></div>
-  <!-- Text (centered) -->
-  <div class="relative z-10 flex flex-col items-center justify-center h-full transition duration-500 ease-out">
-  <div class="text-lg font-semibold no-underline group-hover:no-underline transition-colors duration-200 ease-out group-hover:text-white">GENERAL CONSTRUCTION SERVICES</div>
-  <p class="text-sm text-slate-600 transition-opacity duration-200 ease-out group-hover:opacity-0">Industrial construction and infrastructure works.</p>
-  </div>
-</a>
-<a href="{{ url_for('main.services_supply') }}"
-  class="group no-underline relative block rounded-2xl border bg-white p-2 shadow-sm overflow-hidden hover:shadow-md transition rm-safe text-center h-28 sm:h-36">
-  <!-- Hover image -->
-  <img src="{{ url_for('static', filename='img/supply.jpg') }}"
-       alt="Professional & Technical Manpower"
-       class="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-0 scale-105
-              transition duration-500 ease-out group-hover:opacity-100 group-hover:scale-100">
-  <!-- Overlay -->
-  <div class="pointer-events-none absolute inset-0 bg-black/0 transition duration-500 ease-out
-              group-hover:bg-black/35"></div>
-  <!-- Text (centered) -->
-  <div class="relative z-10 flex flex-col items-center justify-center h-full transition duration-500 ease-out">
-  <div class="text-lg font-semibold no-underline group-hover:no-underline transition-colors duration-200 ease-out group-hover:text-white">SUPPLY & TRADING</div>
-  <p class="text-sm text-slate-600 transition-opacity duration-200 ease-out group-hover:opacity-0">IT supply, logistics, and trading support.</p>
-  </div>
-</a>
+
+<section class="py-24" style="background: linear-gradient(180deg, #010428 0%, #030C69 100%);">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="max-w-3xl mx-auto text-center" data-aos="fade-up">
+      <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-white">Our Core Services</h2>
+      <p class="mt-4 text-slate-300">Integrated solutions designed to drive efficiency and growth across your operations.</p>
     </div>
-  </div>
-</section>
-<section class="pb-32 text-center">
-  <div class="max-w-xl mx-auto px-6">
-    <h2 class="text-2xl font-semibold">Need a tailored scope?</h2>
-    <p class="mt-3 text-slate-600">Share your project requirements and we’ll propose an engagement model that balances flexibility and assurance.</p>
-  <a href="/get-in-touch" class="mt-8 inline-flex rounded-2xl text-white px-6 py-3 text-sm font-medium shadow hover:shadow-md transition" style="background:#030C69; border:none;">Request a proposal</a>
+
+    <div class="mt-16 relative" data-aos="fade-up" data-aos-delay="100" x-data>
+      
+      <button @click="$refs.slider.scrollBy({ left: -308, behavior: 'smooth' })" class="absolute -left-4 top-1/2 -translate-y-1/2 z-10 bg-slate-800/50 hover:bg-slate-800/80 p-2 rounded-full text-white transition hidden md:block">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" /></svg>
+      </button>
+      <button @click="$refs.slider.scrollBy({ left: 308, behavior: 'smooth' })" class="absolute -right-4 top-1/2 -translate-y-1/2 z-10 bg-slate-800/50 hover:bg-slate-800/80 p-2 rounded-full text-white transition hidden md:block">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg>
+      </button>
+
+      <div x-ref="slider" class="flex gap-8 pb-4 -mx-6 px-6 overflow-x-auto scrollbar-hide" style="scroll-behavior: smooth;">
+        
+        <div class="shrink-0 w-[280px]">
+          <a href="{{ url_for('main.services_manpower') }}" class="service-card relative flex flex-col items-center justify-center p-8 rounded-2xl h-full overflow-hidden">
+            <img src="{{ logo_manpower }}" alt="Manpower logo">
+            <div class="hero-card-title text-base font-semibold">PROFESSIONAL & TECHNICAL MANPOWER</div>
+          </a>
+        </div>
+        <div class="shrink-0 w-[280px]">
+          <a href="{{ url_for('main.services_engineering') }}" class="service-card relative flex flex-col items-center justify-center p-8 rounded-2xl h-full overflow-hidden">
+            <img src="{{ logo_engineering }}" alt="Engineering logo">
+            <div class="hero-card-title text-base font-semibold">ENGINEERING SOLUTIONS</div>
+          </a>
+        </div>
+        <div class="shrink-0 w-[280px]">
+          <a href="{{ url_for('main.services_digital') }}" class="service-card relative flex flex-col items-center justify-center p-8 rounded-2xl h-full overflow-hidden">
+            <img src="{{ logo_digital }}" alt="Digital Solutions logo">
+            <div class="hero-card-title text-base font-semibold">DIGITAL SOLUTIONS & CYBERSECURITY</div>
+          </a>
+        </div>
+        <div class="shrink-0 w-[280px]">
+          <a href="{{ url_for('main.services_inspection') }}" class="service-card relative flex flex-col items-center justify-center p-8 rounded-2xl h-full overflow-hidden">
+            <img src="{{ logo_inspection }}" alt="Inspection logo">
+            <div class="hero-card-title text-base font-semibold">SPECIALIZED INSPECTION</div>
+          </a>
+        </div>
+        <div class="shrink-0 w-[280px]">
+          <a href="{{ url_for('main.services_construction') }}" class="service-card relative flex flex-col items-center justify-center p-8 rounded-2xl h-full overflow-hidden">
+            <img src="{{ logo_construction }}" alt="Construction logo">
+            <div class="hero-card-title text-base font-semibold">GENERAL CONSTRUCTION</div>
+          </a>
+        </div>
+        <div class="shrink-0 w-[280px]">
+          <a href="{{ url_for('main.services_supply') }}" class="service-card relative flex flex-col items-center justify-center p-8 rounded-2xl h-full overflow-hidden">
+            <img src="{{ logo_supply }}" alt="Supply & Trading logo">
+            <div class="hero-card-title text-base font-semibold">SUPPLY & TRADING</div>
+          </a>
+        </div>
+
+      </div>
+    </div>
   </div>
 </section>
 {% endblock %}
