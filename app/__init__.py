@@ -1,6 +1,3 @@
-
-# app/__init__.py
-import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from config import ProdConfig  # switch to DevConfig for local testing
@@ -31,11 +28,4 @@ def create_app():
     from .routes import main_bp
     app.register_blueprint(main_bp)
 
-    # Ensure models are registered
-    try:
-        from . import models  # noqa: F401
-    except Exception as e:
-        app.logger.warning(f"Model import warning: {e}")
-
-     
     return app

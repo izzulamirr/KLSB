@@ -100,75 +100,14 @@
       <p class="mt-4 max-w-2xl mx-auto text-white/80">From high-level strategy to hands-on implementation, we provide end-to-end digital services.</p>
     </div>
 
-    <div class="flex flex-wrap justify-center gap-8 mb-12 border-b border-white/10" data-aos="fade-up" data-aos-delay="100">
-      <button @click="activeView = 'strategy'" class="main-nav-btn text-white/70 font-semibold pb-3" :class="{ 'active': activeView === 'strategy' }">Consultancy & Strategy</button>
-      <button @click="activeView = 'solutions'" class="main-nav-btn text-white/70 font-semibold pb-3" :class="{ 'active': activeView === 'solutions' }">Solutions & ICT</button>
-      <button @click="activeView = 'talent'" class="main-nav-btn text-white/70 font-semibold pb-3" :class="{ 'active': activeView === 'talent' }">Specialised Manpower</button>
-    </div>
-
-    <div class="relative min-h-[350px]" data-aos="fade-up" data-aos-delay="200">
-      
-      <div x-show="activeView === 'strategy'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100">
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 text-left">
-          <div class="glass-card rounded-xl p-6">
-            <h3 class="font-semibold text-white flex items-center gap-2 mb-2"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-blue-400"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.286zm0 13.036h.008v.008h-.008v-.008z" /></svg>Cybersecurity</h3>
-            <p class="mt-2 text-sm text-white/80">Audits and frameworks to elevate cybersecurity awareness and adoption.</p>
-            <ul class="mt-4 list-disc list-outside pl-5 space-y-1 text-sm text-white/80"><li>Policy & Governance</li><li>Endpoint Protection</li><li>Risk Assessment</li></ul>
-          </div>
-          <div class="glass-card rounded-xl p-6">
-            <h3 class="font-semibold text-white flex items-center gap-2 mb-2"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-blue-400"><path stroke-linecap="round" stroke-linejoin="round" d="M15.59 14.37a6 6 0 01-5.84 7.38v-4.82m5.84-2.56a14.95 14.95 0 00-5.84-2.56m0 0a14.95 14.95 0 01-5.84 2.56m5.84-2.56V4.72a14.95 14.95 0 00-5.84 2.56M12 12a6 6 0 01-5.84-7.38m5.84 7.38a6 6 0 005.84 7.38m-5.84-7.38L15.59 7.63" /></svg>Digitalisation</h3>
-            <p class="mt-2 text-sm text-white/80">End-to-end consultancy for your digital transformation journey.</p>
-            <ul class="mt-4 list-disc list-outside pl-5 space-y-1 text-sm text-white/80"><li>Technical Support</li><li>Solution Development</li><li>Technology Implementation</li></ul>
-          </div>
-          <div class="glass-card rounded-xl p-6">
-            <h3 class="font-semibold text-white flex items-center gap-2 mb-2"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-blue-400"><path stroke-linecap="round" stroke-linejoin="round" d="M7.5 14.25v2.25m3-4.5v4.5m3-6.75v6.75m3-9v9M6 20.25h12A2.25 2.25 0 0020.25 18V6A2.25 2.25 0 0018 3.75H6A2.25 2.25 0 003.75 6v12A2.25 2.25 0 006 20.25z" /></svg>Data Analytics</h3>
-            <p class="mt-2 text-sm text-white/80">Unlock insights with predictive modeling and maintenance strategies.</p>
-            <ul class="mt-4 list-disc list-outside pl-5 space-y-1 text-sm text-white/80"><li>Performance Analysis</li><li>Preventive Maintenance</li><li>Usage Analytics</li></ul>
-          </div>
-        </div>
-      </div>
-
-      <div x-show="activeView === 'solutions'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" style="display: none;">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-left">
-          <div class="glass-card rounded-xl p-6">
-            <h3 class="font-semibold text-white flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-blue-400"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 7.5l3 2.25-3 2.25m4.5 0h3m-9 8.25h13.5A2.25 2.25 0 0021 18V6a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 6v12a2.25 2.25 0 002.25 2.25z" /></svg>Custom Software</h3>
-            <ul class="mt-4 list-disc list-outside pl-5 space-y-2 text-sm text-white/80"><li>Web, mobile, and desktop applications</li><li>Modern, interactive UI/UX design</li><li>Enterprise-scale project delivery</li><li>Rigorous software quality assurance</li></ul>
-          </div>
-          <div class="glass-card rounded-xl p-6">
-            <h3 class="font-semibold text-white flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-blue-400"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 17.25v-.228a4.5 4.5 0 00-.12-1.03l-2.268-9.64a3.375 3.375 0 00-3.285-2.602H7.923a3.375 3.375 0 00-3.285 2.602l-2.268 9.64a4.5 4.5 0 00-.12 1.03v.228m19.5 0a3 3 0 01-3 3H5.25a3 3 0 01-3-3m19.5 0a3 3 0 00-3-3H5.25a3 3 0 00-3 3m16.5 0h.008v.008h-.008v-.008z" /></svg>ICT Services</h3>
-            <ul class="mt-4 list-disc list-outside pl-5 space-y-2 text-sm text-white/80"><li>Document digitising & management</li><li>Asset integrity management</li><li>Networking, cabling & system integration</li><li>Full-cycle support & maintenance</li></ul>
-          </div>
-        </div>
-      </div>
-
-      <div x-show="activeView === 'talent'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" style="display: none;">
-        <div class="glass-card rounded-2xl p-8 max-w-3xl mx-auto">
-          <h3 class="font-semibold text-white text-xl text-center mb-6 flex items-center justify-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-blue-400"><path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m-7.5-2.962A3.75 3.75 0 0115 9.75v6.472a3.75 3.75 0 01-3.75 3.75H3.75a3.75 3.75 0 01-3.75-3.75V9.75a3.75 3.75 0 013.75-3.75h.007v6.472a2.25 2.25 0 002.25 2.25H9" /></svg>Digital Transformation Manpower</h3>
-          <div class="grid sm:grid-cols-2 gap-x-8 gap-y-3">
-            <ul class="list-disc list-outside pl-5 space-y-2 text-white"><li>System Architect</li><li>AI / ML Specialist</li><li>Data Steward</li><li>Data Scientist</li></ul>
-            <ul class="list-disc list-outside pl-5 space-y-2 text-white"><li>UI / UX Designer</li><li>Data Analyst</li><li>Cyber Security Analyst</li><li>Mobile App Developer</li></ul>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-{# --- SINGLE CALL TO ACTION --- #}
-<section class="py-20 bg-white">
-  <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center" data-aos="fade-up">
-    <h2 class="text-3xl font-bold text-slate-900 tracking-tight">
-      Looking to start a project?
-    </h2>
-    <p class="mt-4 text-lg text-slate-600 max-w-2xl mx-auto">
-      Ready to transform your business? Tell us your timeline and scope to get started.
-    </p>
-    <div class="mt-8">
-      <a href="{{ url_for('main.submit_proposal') }}" 
-         class="inline-block rounded-lg text-white px-10 py-3 font-semibold tracking-wide transition duration-300 ease-in-out hover:opacity-90" 
-         style="background-color: #030C69;">
-        Request a Proposal
+    <!-- Bottom CTA -->
+    <div class="mt-16 text-center">
+      <p class="text-slate-600 mb-6">
+        Ready to accelerate your digital journey? Let’s design, build, and optimise your digital solutions together.
+      </p>
+  <a href="{{ url_for('main.submit_proposal') }}"
+    class="inline-flex items-center rounded-2xl text-white px-6 py-3 font-medium transition" style="background:#030C69; border:none;">
+  Request a proposal
       </a>
     </div>
   </div>

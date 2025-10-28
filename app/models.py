@@ -1,20 +1,14 @@
-try:
-    from zoneinfo import ZoneInfo
-except ImportError:
-    from backports.zoneinfo import ZoneInfo  # pip install backports.zoneinfo
-
 from datetime import datetime
+from zoneinfo import ZoneInfo
+from . import db
 from . import db
 
-def kl_now(naive=True):
+def kl_now():
     """
-    Return Malaysia local time (UTC+8).
-    - By default (naive=True) returns a naive datetime (tzinfo stripped) because
-      MySQL DATETIME doesn't store tzinfo.
-    - If you want to keep timezone info and any transitions, call kl_now(naive=False).
+    Return Malaysia local time (UTC+8) as a *naive* datetime.
+    MySQL DATETIME doesn't store tzinfo, so we strip it.
     """
-    aware = datetime.now(ZoneInfo("Asia/Kuala_Lumpur"))
-    return aware.replace(tzinfo=None) if naive else aware
+    return datetime.now(ZoneInfo("Asia/Kuala_Lumpur")).replace(tzinfo=None)
 
 class Applicant(db.Model):
     """Simple model to store CV submissions.
@@ -29,11 +23,19 @@ class Applicant(db.Model):
     email = db.Column(db.String(200), nullable=False)
     position = db.Column(db.String(255), nullable=False)
     availability = db.Column(db.String(255), nullable=False)
+    # Filename and path are optional: we store uploaded files on disk and
+    # don't require the DB row to include them.
     filename = db.Column(db.String(255), nullable=True)
     file_path = db.Column(db.String(512), nullable=True)
     created_at = db.Column(db.DateTime, default=kl_now, nullable=False)
 
     def __init__(self, **kwargs):
+        """Flexible constructor: accept kwargs and only set attributes
+        that correspond to mapped columns. This prevents SQLAlchemy's
+        default declarative constructor from raising TypeError when
+        older code or external callers pass unexpected keywords.
+        """
+        # Only assign known column names (protect against unexpected kwargs)
         cols = set(self.__table__.columns.keys())
         for k, v in kwargs.items():
             if k in cols:
@@ -56,3 +58,4 @@ class Proposal(db.Model):
 
     def __repr__(self):
         return f"<Proposal {self.id} {self.company_name} - {self.service}>"
+

@@ -13,8 +13,8 @@
 <section id="clients" class="py-8 bg-slate-50 text-center">
   <div class="max-w-6xl mx-auto px-6">
     <h2 class="text-3xl font-semibold"> CIDB </h2>
-    <div class="mt-4 flex justify-center">
-      <img src="{{ url_for('static', filename='img/SCORE.jpg') }}" alt="CIDB Score" class="zoomable w-full md:w-1/2 mx-auto h-auto rounded-md shadow-sm transform transition-transform duration-200 hover:scale-105 cursor-pointer hover:shadow-2xl" />
+    <div class="mt-8 flex justify-center">
+  <img src="{{ url_for('static', filename='img/SCORE.jpg') }}" alt="Score Star" class="max-w-2xl max-h-[500px] w-full h-auto mx-auto my-10 rounded-lg shadow-2xl object-contain flex items-center justify-center">
     </div>
   </div>
 </section>
@@ -22,7 +22,7 @@
 <section id="clients" class="py-20 bg-slate-50 text-center">
   <div class="max-w-6xl mx-auto px-6">
     <div class="mt-8 flex justify-center">
-      <img src="{{ url_for('static', filename='img/CIDB2.png') }}" alt="CIDB" class="zoomable w-full md:w-1/2 mx-auto h-auto rounded-md bg-white p-1 border-2 border-black-800 shadow-sm transform transition-transform duration-200 hover:scale-105 cursor-pointer hover:shadow-2xl" />
+  <img src="{{ url_for('static', filename='img/CIDB2.png') }}" alt="" class="max-w-2xl max-h-[500px] w-full h-auto mx-auto my-10 rounded-lg shadow-2xl object-contain flex items-center justify-center">
     </div>
   </div>
 </section>
@@ -154,19 +154,6 @@
       </div>
     </details>
   </div>
-</section>
-
-<!-- Shared modal for zooming any image on this page -->
-<div id="imgModal" class="hidden fixed inset-0 z-50 bg-black/70" aria-hidden="true" style="display:none;">
-  <button id="closeModal" class="fixed top-4 right-4 text-white text-3xl leading-none px-3 py-1 z-60" aria-label="Close">&times;</button>
-  <div id="modalDialog" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-auto px-2 flex flex-col items-center justify-center">
-    <img id="modalImg" src="" alt="Zoom" class="block max-h-[90vh] w-[calc(100vw-2rem)] h-auto object-contain transform transition-transform duration-150" style="cursor: grab; margin:0; touch-action:none;" />
-    <div class="flex items-center justify-center gap-2 mt-4">
-      <button id="zoomOut" class="bg-white text-slate-700 px-3 py-1 rounded" aria-label="Zoom out">-</button>
-      <button id="resetZoom" class="bg-white text-slate-700 px-3 py-1 rounded" aria-label="Reset zoom">Reset</button>
-      <button id="zoomIn" class="bg-white text-slate-700 px-3 py-1 rounded" aria-label="Zoom in">+</button>
-    </div>
-  </div>
   <span class="sr-only" role="status">Image viewer</span>
   <style>
     /* Improve tap target and layout while modal is open */
@@ -174,121 +161,5 @@
   </style>
 </div>
 
-{% endblock %}
-
-{% block extra_scripts %}
-<script>
-  (function(){
-    const modal = document.getElementById('imgModal');
-    const modalImg = document.getElementById('modalImg');
-    const closeBtn = document.getElementById('closeModal');
-    const zoomIn = document.getElementById('zoomIn');
-    const zoomOut = document.getElementById('zoomOut');
-    const resetZoom = document.getElementById('resetZoom');
-    const thumbs = Array.from(document.querySelectorAll('img.zoomable'));
-
-    let scale = 1;
-    let tx = 0, ty = 0;
-    let dragging = false, dragStartX = 0, dragStartY = 0, startTx = 0, startTy = 0;
-
-    function clampPan(){
-      const baseW = modalImg.offsetWidth || modalImg.naturalWidth || 1;
-      const baseH = modalImg.offsetHeight || modalImg.naturalHeight || 1;
-      const maxPanX = Math.max((baseW * (scale - 1)) / 2, 0) + 10;
-      const maxPanY = Math.max((baseH * (scale - 1)) / 2, 0) + 10;
-      tx = Math.max(-maxPanX, Math.min(maxPanX, tx));
-      ty = Math.max(-maxPanY, Math.min(maxPanY, ty));
-    }
-
-    function applyTransform(withTransition = true){
-      if(withTransition) modalImg.style.transition = 'transform 160ms ease';
-      modalImg.style.transform = `translate(${tx}px, ${ty}px) scale(${scale})`;
-    }
-
-    function lockScroll(){ document.documentElement.style.overflow = 'hidden'; document.body.style.overflow = 'hidden'; }
-    function unlockScroll(){ document.documentElement.style.overflow = ''; document.body.style.overflow = ''; }
-
-    function openModalWith(src, alt){
-      modalImg.src = src; modalImg.alt = alt || '';
-      scale = 1; tx = 0; ty = 0; applyTransform(false);
-      modal.classList.remove('hidden'); modal.style.display = 'flex'; modal.setAttribute('aria-hidden','false');
-      modal.style.zIndex = '9999';
-      modalImg.style.visibility = 'visible'; modalImg.style.opacity = '1';
-      lockScroll();
-      closeBtn.focus();
-    }
-
-    function closeModal(){
-      modal.classList.add('hidden'); modal.style.display = 'none'; modal.setAttribute('aria-hidden','true');
-      unlockScroll(); scale = 1; tx = 0; ty = 0; applyTransform(false);
-      modalImg.style.transition = 'transform 160ms ease'; modalImg.style.visibility = '';
-    }
-
-    // Bind all thumbnails
-    thumbs.forEach(img => {
-      img.addEventListener('click', () => openModalWith(img.src, img.alt));
-    });
-
-    closeBtn.addEventListener('click', closeModal);
-    modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
-    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
-
-    zoomIn && zoomIn.addEventListener('click', () => { scale = Math.min(scale + 0.25, 5); clampPan(); applyTransform(); });
-    zoomOut && zoomOut.addEventListener('click', () => { scale = Math.max(scale - 0.25, 0.25); if(scale === 1){ tx = 0; ty = 0; } clampPan(); applyTransform(); });
-    resetZoom && resetZoom.addEventListener('click', () => { scale = 1; tx = 0; ty = 0; applyTransform(); });
-
-    modalImg.addEventListener('wheel', (e) => {
-      if (modal.classList.contains('hidden')) return;
-      e.preventDefault();
-      if (e.ctrlKey || e.altKey) {
-        const rect = modalImg.getBoundingClientRect();
-        const px = e.clientX - (rect.left + rect.width/2);
-        const py = e.clientY - (rect.top + rect.height/2);
-        const oldScale = scale;
-        scale = e.deltaY < 0 ? Math.min(scale + 0.12, 5) : Math.max(scale - 0.12, 0.25);
-        const factor = (scale/oldScale) - 1;
-        tx = tx - px * factor; ty = ty - py * factor;
-        clampPan(); applyTransform(); return;
-      }
-      if (scale > 1) {
-        const panAmount = e.deltaY; if (e.shiftKey) tx -= panAmount; else ty -= panAmount;
-        clampPan(); applyTransform(false); return;
-      }
-      const oldScale = scale; scale = e.deltaY < 0 ? Math.min(scale + 0.12, 5) : Math.max(scale - 0.12, 0.25);
-      const factor = (scale/oldScale) - 1; tx = tx - 0 * factor; ty = ty - 0 * factor; clampPan(); applyTransform();
-    }, { passive: false });
-
-    modalImg.addEventListener('mousedown', (e) => {
-      if (scale <= 1) return; dragging = true; modalImg.style.cursor = 'grabbing'; modalImg.style.transition = 'none';
-      dragStartX = e.clientX; dragStartY = e.clientY; startTx = tx; startTy = ty; e.preventDefault();
-    });
-    window.addEventListener('mousemove', (e) => { if (!dragging) return; tx = startTx + (e.clientX - dragStartX); ty = startTy + (e.clientY - dragStartY); clampPan(); applyTransform(false); });
-    window.addEventListener('mouseup', () => { if (dragging) { dragging = false; modalImg.style.cursor = 'grab'; modalImg.style.transition = 'transform 160ms ease'; } });
-
-    let touchStartDist = 0, touchMid = null, touchStartScale = 1, touchStartTx = 0, touchStartTy = 0;
-    modalImg.addEventListener('touchstart', (e) => {
-      if (e.touches.length === 2) {
-        e.preventDefault(); const t0 = e.touches[0], t1 = e.touches[1]; touchStartDist = Math.hypot(t1.clientX - t0.clientX, t1.clientY - t0.clientY);
-        touchMid = { x: (t0.clientX + t1.clientX)/2, y: (t0.clientY + t1.clientY)/2 };
-        touchStartScale = scale; touchStartTx = tx; touchStartTy = ty;
-      } else if (e.touches.length === 1 && scale > 1) {
-        dragging = true; dragStartX = e.touches[0].clientX; dragStartY = e.touches[0].clientY; startTx = tx; startTy = ty;
-      }
-    }, { passive: false });
-    modalImg.addEventListener('touchmove', (e) => {
-      if (e.touches.length === 2) {
-        e.preventDefault(); const t0 = e.touches[0], t1 = e.touches[1]; const dist = Math.hypot(t1.clientX - t0.clientX, t1.clientY - t0.clientY);
-        const oldScale = scale; scale = Math.max(0.25, Math.min(5, touchStartScale * (dist / touchStartDist)));
-        const factor = (scale/oldScale) - 1; const rect = modalImg.getBoundingClientRect(); const cx = rect.left + rect.width/2; const cy = rect.top + rect.height/2; const px = touchMid.x - cx; const py = touchMid.y - cy;
-        tx = tx - px * factor; ty = ty - py * factor; clampPan(); applyTransform();
-      } else if (e.touches.length === 1 && dragging) {
-        e.preventDefault(); tx = startTx + (e.touches[0].clientX - dragStartX); ty = startTy + (e.touches[0].clientY - dragStartY); clampPan(); applyTransform(false);
-      }
-    }, { passive: false });
-    modalImg.addEventListener('touchend', () => { dragging = false; modalImg.style.transition = 'transform 160ms ease'; });
-
-    modalImg.addEventListener('dblclick', () => { scale = 1; tx = 0; ty = 0; applyTransform(); });
-  })();
-</script>
 {% endblock %}
 
