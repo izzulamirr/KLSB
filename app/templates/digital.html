@@ -34,38 +34,17 @@
   }
 
   /* Styling for the inner frosted glass cards */
-  /* Make the inner cards white with dark text while keeping the surrounding section blue */
   .glass-card {
-    background: #ffffff; /* white card */
-    color: #0b1220;      /* dark text */
-    border: 1px solid rgba(11,18,32,0.06);
-    box-shadow: 0 6px 20px rgba(8,12,30,0.18);
-    transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
   }
   .glass-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 12px 28px rgba(8,12,30,0.24);
-  }
-
-  /* Ensure text elements inside cards are dark even if utility classes set them to white */
-  .glass-card h2,
-  .glass-card h3,
-  .glass-card p,
-  .glass-card li,
-  .glass-card .inner-tab,
-  .glass-card .main-nav-btn {
-    color: #0b1220 !important;
-  }
-
-  /* Keep small muted copy slightly softer */
-  .glass-card p,
-  .glass-card .muted {
-    color: rgba(11,18,32,0.7) !important;
-  }
-
-  /* Buttons that explicitly use a dark background (inline style) should keep their white text — don't force them black */
-  .glass-card a[style], .glass-card button[style] {
-    color: inherit;
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-4px);
   }
 </style>
 {% endblock %}

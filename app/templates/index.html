@@ -1,160 +1,93 @@
 {% extends "base.html" %}
 {% block title %}Kemuncak Lanai{% endblock %}
 {% block extra_head %}
+<link rel="preload" as="image" href="{{ url_for('static', filename='img/hero.jpg') }}">
+
 <style>
-  /* Keep hero card titles consistent across breakpoints
-     - vertically centered (already handled by flex)
-     - force single-line appearance on mobile to preserve layout
-     - use clamp() so text scales moderately between mobile and desktop
-  */
-  .hero-cards .hero-card-title{
-    /* allow up to two lines, then truncate - keeps layout but shows more of long titles */
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
-    line-clamp: 2;
-    overflow: hidden;
-    white-space: normal;
-    text-overflow: ellipsis;
-    text-align: center;
-  font-size: clamp(0.95rem, 3.2vw, 1.125rem) !important;
-  line-height: 1.15 !important;
-  text-transform: uppercase;
-  letter-spacing: 0.03em;
-    padding: 0 0.75rem;
-    max-height: calc(1.15em * 2); /* ensures container doesn't grow beyond two lines */
-  }
-  /* Slight tweak for very narrow screens so the title has a tiny bit more breathing room */
-  @media (max-width:420px){
-    .hero-cards .hero-card-title{ font-size: 0.95rem !important; }
-  }
-  /* Ensure small badge/logo images fill their holder without stretching */
-  .logo-holder img,
-  .logo-holder picture img{
-    /* Force fill the badge area while preserving aspect ratio. This overrides
-       any inline width/max-height that might prevent the image from scaling.
-    */
-    width: 100% !important;
-    height: 100% !important;
-    max-width: none !important;
-    max-height: none !important;
-    display: block !important;
-    object-fit: contain !important; /* preserves aspect ratio without stretching */
-    object-position: center center !important; /* explicitly center the image inside the badge */
-     padding: 4px !important; /* smaller breathing room inside the rounded badge */
-  }
-  /* Make badge container a bit smaller on desktop so it's not too large, while keeping mobile compact */
-  .logo-holder{
-    height: 100px !important;
-    width: 200px !important;
-    border-radius: 18px !important;
-    
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    margin: 0 auto !important;
-    text-align: center !important;
-  }
-  @media (max-width:740px){
-    .logo-holder{ height: 120px !important; width: 120px !important; }
-  }
-  /* CTA improvements */
-  .cta-primary{
-    background: linear-gradient(90deg,#02208a 0%, #0b3bb8 100%);
-    color: #fff !important;
-    box-shadow: 0 6px 18px rgba(11,59,184,0.18);
-    transition: transform .18s ease, box-shadow .18s ease, opacity .18s ease;
-  }
-  .cta-primary:hover{ transform: translateY(-4px) scale(1.02); box-shadow: 0 10px 30px rgba(11,59,184,0.22); }
-  .cta-secondary{ background: transparent; border: 1px solid rgba(255,255,255,0.18); color: #fff !important; }
-  .cta-secondary:hover{ background: rgba(255,255,255,0.06); }
+  /* --- Hide the scrollbar --- */
+  .scrollbar-hide::-webkit-scrollbar { display: none; }
+  .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
 
-  /* Hero title subtle lift */
-  .hero-title{ display:inline-block; transform-origin:center; animation: heroLift 700ms ease both; }
+  /* --- Glowing Border Effect for Service Cards --- */
+  @keyframes rotate-glow { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+  .service-card::before {
+    content: ''; position: absolute; z-index: -1; inset: -3px;
+    background: conic-gradient(#dbdbdb);
+    filter: blur(10px); opacity: 0; transition: opacity 0.3s ease-in-out;
+
+  }
+  .service-card:hover::before { opacity: 1; }
+
+  /* --- Frosted Glass Card Style --- */
+  .service-card {
+    background: #ffffff; /* white card */
+
+    border: 1px solid rgba(15,23,42,0.06);
+    box-shadow: 0 8px 20px -8px rgba(2,6,23,0.08);
+    transition: transform 0.22s ease, box-shadow 0.22s ease;
+  }
+  .service-card:hover { transform: translateY(-6px); box-shadow: 0 18px 40px -12px rgba(2,6,23,0.12); }
+  .service-card .hero-card-title {
+    color: #111111 !important; text-shadow: none; display: -webkit-box; -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2; overflow: hidden; text-align: center;
+    font-size: clamp(0.95rem, 3.2vw, 1.125rem) !important; line-height: 1.15 !important; text-transform: uppercase;
+  }
+    /* Remove underline/lines on the service card text and links (including hover) */
+    a.service-card, a.service-card:hover, .service-card .hero-card-title, .service-card .hero-card-title:hover {
+      text-decoration: none !important;
+    }
+  /* Render existing logo <img> elements as solid black silhouettes */
+  .service-card img { filter: grayscale(1) brightness(0) contrast(1) !important; height: 60px !important; margin-bottom: 1rem; }
+  .service-card:hover img { filter: grayscale(1) brightness(0) contrast(1) !important; }
+  
+  
+  .service-card img { filter: brightness(0) invert(1); height: 60px !important; margin-bottom: 1rem; }
+  
+  /* Ken Burns Effect for Hero */
+  @keyframes kenburns { 0% { transform: scale(1); } 100% { transform: scale(1.1); } }
+  .hero-bg-animate { animation: kenburns 30s ease-in-out infinite alternate; }
+
+  /* Hero title animation */
+  .hero-title{ display:inline-block; animation: heroLift 700ms ease both; }
   @keyframes heroLift{ from{ transform: translateY(8px); opacity:0 } to{ transform: translateY(0); opacity:1 } }
-
-  /* Hero cards - entrance animation (staggered by JS) */
-  .hero-cards .group{ opacity:0; transform: translateY(8px) scale(.995); transition: opacity .45s cubic-bezier(.2,.9,.2,1), transform .45s cubic-bezier(.2,.9,.2,1); }
-  .hero-cards .group.is-visible{ opacity:1; transform: translateY(0) scale(1); }
-  /* Slight hover uplift for cards already present */
-  .hero-cards .group:hover{ box-shadow: 0 18px 40px rgba(5,15,70,0.12); }
-  /* Make background-image divs truly fill the card area */
-  .hero-cards .group > .bg-cover {
-    background-size: cover !important;
-    background-position: center center !important;
-    background-repeat: no-repeat !important;
-    width: 100% !important;
-    height: 100% !important;
-    z-index: 10; /* sits below overlays but above base */
+  
+  /* --- FIXED: Truly Infinite Client Logo Scroller --- */
+  @keyframes scroll {
+    from { transform: translateX(-100%); }
+    /* FIX: Changed from -100% to -50% to create a seamless loop */
+    to { transform: translateX(-50%); } 
   }
-  /* Slightly larger card height on medium+ screens so imagery reads better */
-  @media (min-width: 6px){
-    .hero-cards .group{ min-height: 140px !important; height: 140px !important; }
-  }
-  /* Mobile-specific tweaks: make images show more focal area and increase card height */
-  @media (max-width: 768px){
-    .hero-cards{ gap: 10px; }
-    .hero-cards .group{ height: 120px !important; min-height: 120px !important; }
-    .hero-cards .group > .bg-cover{ background-position: center top !important; }
-    /* Reduce overlay darkness on small screens so images read brighter */
-    .hero-cards .group > .bg-cover + .absolute.bg-gradient-to-r,
-    .hero-cards .group > .bg-cover + .absolute.z-30.bg-gradient-to-t,
-    .hero-cards .group .absolute.z-30.bg-gradient-to-r{ opacity: 0.56 !important; }
-    .hero-card-title{ font-size: 0.9rem !important; padding: 0 .6rem !important; }
-  }
-
-  /* Feature cards: stack and center logo + text on small screens */
-  @media (max-width: 640px){
-    .feature-grid-enhanced{ display: grid !important; grid-template-columns: 1fr !important; gap: 1rem !important; }
-    .feature-grid-enhanced > .relative{ display: block; }
-    .feature-card{ display: flex !important; flex-direction: column !important; align-items: center !important; text-align: center !important; padding: 1rem !important; }
-    .feature-card .logo-holder{ margin: 0 0 0.75rem 0 !important; height: 120px !important; width: 220px !important; }
-    .feature-card .vcenter{ display: block !important; }
-    .feature-card h3, .feature-card p{ text-align: center !important; }
-  }
-
-  /* Center feature card content (logo + text) by default for consistent presentation */
-  .feature-grid-enhanced .feature-card{
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    justify-content: flex-start !important;
-    text-align: center !important;
-    gap: 0.5rem;
-    padding: 1rem;
-  }
-  .feature-grid-enhanced .feature-card .vcenter{ width: 100%; }
-  /* Accent badge for hero cards (hover on desktop, tap to reveal on mobile) */
-  .accent-badge{
-    position: absolute;
-    top: 0.6rem;
-    right: 0.6rem;
-    width: 48px;
-    height: 48px;
-    border-radius: 10px;
-    /* make badge background transparent to remove the white box */
-    background: transparent !important;
-    border: 1px solid rgba(255,255,255,0.06);
-    box-shadow: 0 6px 18px rgba(12,34,80,0.06);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    transform: translateY(-6px) scale(.96);
-    transition: opacity .18s ease, transform .18s ease;
-    z-index: 60;
-    pointer-events: none;
+  .logo-scroller {
     overflow: hidden;
+    position: relative;
   }
-  /* Per-card smaller badge modifier for when a specific card needs a reduced badge size */
-  .accent-badge--sm{
-    width: 34px !important;
-    height: 34px !important;
-    border-radius: 8px !important;
+  .logo-scroller .logo-track {
+    display: flex;
+    width: max-content;
+    /* start paused until images are decoded to avoid frame jank */
+    animation: scroll 120s linear infinite;
+    animation-play-state: paused;
+    will-change: transform;
+    /* GPU hint for smoother transforms */
+    transform: translateZ(0);
   }
-  .accent-badge--sm img{ padding: 2px !important; }
-  
-  
+  .logo-scroller img {
+    height: 60px;
+    margin: 0 40px;
+    flex-shrink: 0;
+    filter: grayscale(100%);
+    opacity: 0.6;
+    transition: filter 0.3s ease, opacity 0.3s ease;
+  }
+  .logo-scroller img:hover {
+    filter: grayscale(0%);
+    opacity: 1;
+  }
+
+  /* Feature cards section styles */
+  .logo-holder img { width: 100% !important; height: 100% !important; object-fit: contain !important; }
+  .logo-holder { height: 100px !important; width: 200px !important; border-radius: 18px !important; display: inline-flex !important; align-items: center !important; justify-content: center !important; margin: 0 auto !important; }
+  @media (max-width:740px){ .logo-holder{ height: 120px !important; width: 120px !important; } }
 </style>
 {% endblock %}
 
@@ -167,13 +100,10 @@
 {% set logo_construction = url_for('static', filename='img/logo/construction_icon.png') %}
 {% set logo_supply = url_for('static', filename='img/logo/supply_icon.png') %}
 
-<!-- Hero -->
-<section class="relative min-h-screen overflow-hidden text-center flex items-center">
-  <div class="absolute inset-0 -z-10 bg-cover bg-center" style="background-image: url('{{ hero_image }}'); background-position: center center;"></div>
-    <div class="absolute inset-0 -z-10 bg-cover bg-center" style="background-image: url('{{ hero_image }}'); background-position: center center; filter: brightness(0.70) contrast(1.06) saturate(1.03);"></div>
-    <!-- Slightly stronger white wash for a brighter hero look -->
-    <div class="absolute inset-0 -z-10" style="background-color: rgba(121, 121, 121, 0.36); mix-blend-mode: lighten;"></div>
-  <div class="w-full max-w-5xl mx-auto px-6 py-28">
+<section class="relative min-h-screen overflow-hidden text-center flex items-center justify-center">
+  <div class="absolute inset-0 -z-10 bg-cover bg-center hero-bg-animate" style="background-image: url('{{ hero_image }}');"></div>
+  <div class="absolute inset-0 -z-10 bg-black/60"></div>
+  <div class="w-full max-w-4xl mx-auto px-6 py-28" data-aos="fade-up">
   <h1 class="text-4xl sm:text-6xl uppercase font-bold text-white font-montserrat hero-title"
     style="text-shadow: 0 0 6px rgba(173, 216, 230, 0.8),   /* lightblue */
            0 0 12px rgba(173, 216, 230, 0.5),
@@ -182,91 +112,9 @@
    style="color:#fff !important;">
   Your one-stop partner for manpower, engineering, digital solutions, specialized inspections, construction and supply trading.
 </p>
-
-    <div class="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
-    <a href="/services" class="rounded-2xl text-white px-6 py-3 text-sm font-medium shadow cta-primary">Explore services</a>
-  <a href="/get-in-touch" class="rounded-2xl text-white px-6 py-3 text-sm font-medium cta-secondary" style="border:none;">Request a proposal</a>
-    </div>
-  <div class="mt-14 grid gap-6 sm:grid-cols-3 text-center hero-cards">
-  <a href="{{ url_for('main.services_manpower') }}" class="group no-underline relative block rounded-2xl overflow-hidden shadow-lg bg-white/20 backdrop-blur-sm border border-transparent hover:border-indigo-100 transition-transform duration-300 ease-out hover:scale-105 hover:-translate-y-1 text-center h-36">
-      <!-- Background image -->
-  <div class="absolute inset-0 bg-cover bg-center transform transition-transform duration-500 group-hover:scale-105 bg-cover" style="background-image: url('{{ img_manpower }}'); background-position: center center;"></div>
-    <div class="accent-badge"><img src="{{ url_for('static', filename='img/AWP1111.png') }}" alt="badge"></div>
-      <!-- Gradient overlay -->
-    <div class="absolute inset-0 z-30 bg-gradient-to-r from-black/70 to-transparent opacity-80 group-hover:opacity-95 pointer-events-none"></div>
-    <div class="absolute inset-0 z-30 bg-gradient-to-t from-black/40 via-transparent to-black/25 group-hover:from-black/60 pointer-events-none"></div>
-  <!-- Accent badge removed -->
-      <!-- Text (centered) -->
-  <div class="relative z-40 flex items-center justify-center h-full">
-  <div class="hero-card-title text-base sm:text-lg font-semibold text-white drop-shadow-md">PROFESSIONAL & TECHNICAL MANPOWER</div>
-    </div>
-    </a>
-
-  <a href="{{ url_for('main.services_engineering') }}" class="group no-underline relative block rounded-2xl overflow-hidden shadow-lg bg-white/20 backdrop-blur-sm border border-transparent hover:border-indigo-100 transition-transform duration-300 ease-out hover:scale-105 hover:-translate-y-1 text-center h-36">
-  <div class="absolute inset-0 bg-cover bg-center transform transition-transform duration-500 group-hover:scale-105 bg-cover" style="background-image: url('{{ img_engineering }}'); background-position: center center;"></div>
-  <div class="accent-badge accent-badge--sm"><img src="{{ url_for('static', filename='img/AWP1111.png') }}" alt="badge"></div>
-  <div class="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent opacity-40 group-hover:opacity-60 pointer-events-none"></div>
-  <div class="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-black/20 group-hover:from-black/50 pointer-events-none"></div>
-  <div class="absolute inset-0 z-30 bg-gradient-to-r from-black/70 to-transparent opacity-80 group-hover:opacity-95 pointer-events-none"></div>
-  <div class="absolute inset-0 z-30 bg-gradient-to-t from-black/40 via-transparent to-black/25 group-hover:from-black/60 pointer-events-none"></div>
-  
-  <!-- Accent badge removed -->
-    <div class="relative z-40 flex items-center justify-center h-full">
-  <div class="hero-card-title text-base sm:text-lg font-semibold text-white drop-shadow-md">ENGINEERING SOLUTIONS</div>
-    </div>
-    </a>
-
-  <a href="{{ url_for('main.services_digital') }}" class="group no-underline relative block rounded-2xl overflow-hidden shadow-lg bg-white/20 backdrop-blur-sm border border-transparent hover:border-indigo-100 transition-transform duration-300 ease-out hover:scale-105 hover:-translate-y-1 text-center h-36">
-  <div class="absolute inset-0 bg-cover bg-center transform transition-transform duration-500 group-hover:scale-105 bg-cover" style="background-image: url('{{ img_digital }}'); background-position: center center;"></div>
-  <div class="accent-badge"><img src="{{ url_for('static', filename='img/AWP1111.png') }}" alt="badge"></div>
-  <div class="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent opacity-40 group-hover:opacity-60 pointer-events-none"></div>
-  <div class="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-black/20 group-hover:from-black/50 pointer-events-none"></div>
-  <div class="absolute inset-0 z-30 bg-gradient-to-r from-black/70 to-transparent opacity-80 group-hover:opacity-95 pointer-events-none"></div>
-  <div class="absolute inset-0 z-30 bg-gradient-to-t from-black/40 via-transparent to-black/25 group-hover:from-black/60 pointer-events-none"></div>
-  <!-- Accent badge removed -->
-    <div class="relative z-40 flex items-center justify-center h-full">
-  <div class="hero-card-title text-base sm:text-lg font-semibold text-white drop-shadow-md">DIGITAL SOLUTIONS & CYBERSECURITY</div>
-    </div>
-    </a>
-
-  <a href="{{ url_for('main.services_inspection') }}" class="group no-underline relative block rounded-2xl overflow-hidden shadow-lg bg-white/20 backdrop-blur-sm border border-transparent hover:border-indigo-100 transition-transform duration-300 ease-out hover:scale-105 hover:-translate-y-1 text-center h-36">
-  <div class="absolute inset-0 bg-cover bg-center transform transition-transform duration-500 group-hover:scale-105 bg-cover" style="background-image: url('{{ img_inspection }}'); background-position: center center;"></div>
-  <div class="accent-badge"><img src="{{ url_for('static', filename='img/AWP1111.png') }}" alt="badge"></div>
-  <div class="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent opacity-40 group-hover:opacity-60 pointer-events-none"></div>
-  <div class="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-black/20 group-hover:from-black/50 pointer-events-none"></div>
-  <div class="absolute inset-0 z-30 bg-gradient-to-r from-black/70 to-transparent opacity-80 group-hover:opacity-95 pointer-events-none"></div>
-  <div class="absolute inset-0 z-30 bg-gradient-to-t from-black/40 via-transparent to-black/25 group-hover:from-black/60 pointer-events-none"></div>
-  <!-- Accent badge removed -->
-    <div class="relative z-40 flex items-center justify-center h-full">
-  <div class="hero-card-title text-base sm:text-lg font-semibold text-white drop-shadow-md">SPECIALIZED INSPECTION</div>
-    </div>
-    </a>
-
-  <a href="{{ url_for('main.services_construction') }}" class="group no-underline relative block rounded-2xl overflow-hidden shadow-lg bg-white/20 backdrop-blur-sm border border-transparent hover:border-indigo-100 transition-transform duration-300 ease-out hover:scale-105 hover:-translate-y-1 text-center h-36">
-  <div class="absolute inset-0 bg-cover bg-center transform transition-transform duration-500 group-hover:scale-105 bg-cover" style="background-image: url('{{ img_construction }}'); background-position: center center;"></div>
-  <div class="accent-badge"><img src="{{ url_for('static', filename='img/AWP1111.png') }}" alt="badge"></div>
-  <div class="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent opacity-40 group-hover:opacity-60 pointer-events-none"></div>
-  <div class="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-black/20 group-hover:from-black/50 pointer-events-none"></div>
-  <div class="absolute inset-0 z-30 bg-gradient-to-r from-black/70 to-transparent opacity-80 group-hover:opacity-95 pointer-events-none"></div>
-  <div class="absolute inset-0 z-30 bg-gradient-to-t from-black/40 via-transparent to-black/25 group-hover:from-black/60 pointer-events-none"></div>
-  <!-- Accent badge removed -->
-    <div class="relative z-40 flex items-center justify-center h-full">
-  <div class="hero-card-title text-base sm:text-lg font-semibold text-white drop-shadow-md">GENERAL CONSTRUCTION</div>
-    </div>
-    </a>
-
-  <a href="{{ url_for('main.services_supply') }}" class="group no-underline relative block rounded-2xl overflow-hidden shadow-lg bg-white/20 backdrop-blur-sm border border-transparent hover:border-indigo-100 transition-transform duration-300 ease-out hover:scale-105 hover:-translate-y-1 text-center h-36">
-  <div class="absolute inset-0 bg-cover bg-center transform transition-transform duration-500 group-hover:scale-105 bg-cover" style="background-image: url('{{ img_supply }}'); background-position: center center;"></div>
-  <div class="accent-badge"><img src="{{ url_for('static', filename='img/AWP1111.png') }}" alt="badge"></div>
-  <div class="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent opacity-40 group-hover:opacity-60 pointer-events-none"></div>
-  <div class="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-black/20 group-hover:from-black/50 pointer-events-none"></div>
-  <div class="absolute inset-0 z-30 bg-gradient-to-r from-black/70 to-transparent opacity-80 group-hover:opacity-95 pointer-events-none"></div>
-  <div class="absolute inset-0 z-30 bg-gradient-to-t from-black/40 via-transparent to-black/25 group-hover:from-black/60 pointer-events-none"></div>
-  <!-- Accent badge removed -->
-    <div class="relative z-40 flex items-center justify-center h-full">
-  <div class="hero-card-title text-base sm:text-lg font-semibold text-white drop-shadow-md">SUPPLY & TRADING</div>
-    </div>
-    </a>
+    <div class="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
+      <a href="/services" class="inline-flex items-center justify-center rounded-2xl text-white px-6 py-3 font-medium transition" style="background:#030C69; border:none;">Explore Services</a>
+      <a href="/proposal" class="inline-flex items-center justify-center rounded-2xl text-white px-6 py-3 font-medium transition bg-white/10 border border-white/20 hover:bg-white/20">Request a Proposal</a>
     </div>
   </div>
 </section>
@@ -336,148 +184,28 @@
     <div class="max-w-3xl mx-auto text-center" data-aos="fade-up">
       <h2 class="text-3xl sm:text-4xl font-bold tracking-tight">Why Choose KLSB</h2>
     </div>
-
-    <!-- Value pillars with small popups -->
-    <div class="mt-14 feature-grid-enhanced md:grid-cols-2 lg:grid-cols-4">
-      <div class="relative">
-        <button class="feature-card h-card text-left cursor-pointer border border-transparent hover:border-slate-200 transition" data-pillar="feature-certified" aria-haspopup="dialog">
-          <div class="logo-holder flex items-center justify-center rounded-2xl">
-            <img src="{{ url_for('static', filename='img/logo/Certified_Latest.jpg') }}" alt="Execution discipline logo" loading="lazy">
-          </div>
-          <div class="vcenter">
-            <h3 class="font-semibold mb-2 flex items-center justify-center">Certified Expertise</h3>
+    <div class="mt-14 grid md:grid-cols-2 lg:grid-cols-4 gap-8" data-aos="fade-up" data-aos-delay="100">
+        <button class="text-center p-6 border border-transparent rounded-2xl shadow-sm hover:shadow-xl hover:-translate-y-1 transition" data-pillar="feature-certified" aria-haspopup="dialog">
+            <div class="logo-holder mx-auto mb-4"><img src="{{ url_for('static', filename='img/logo/Certified_Latest.jpg') }}" alt="Certified Expertise logo" loading="lazy"></div>
+            <h3 class="font-semibold mb-2">Certified Expertise</h3>
             <p class="text-sm text-slate-600">Certified personnel with proven execution history.</p>
         </button>
-      </div>
-      <div class="relative">
-        <button class="feature-card text-left cursor-pointer border border-transparent hover:border-slate-200 transition" data-pillar="feature-execution" aria-haspopup="dialog">
-          <div class="logo-holder flex items-center justify-center rounded-2xl">
-            <img src="{{ url_for('static', filename='img/logo/execution.jpg') }}" alt="Execution discipline logo" style="max-height:810px; width:auto; display:block;">
-          </div>
-          <h3 class="font-semibold mb-2 flex items-center justify-center">Execution Discipline</h3>
-          <p class="text-sm text-slate-600">Structured governance & QA/QC loops enable predictability.</p>
+        <button class="text-center p-6 border border-transparent rounded-2xl shadow-sm hover:shadow-xl hover:-translate-y-1 transition" data-pillar="feature-execution" aria-haspopup="dialog">
+            <div class="logo-holder mx-auto mb-4"><img src="{{ url_for('static', filename='img/logo/execution.jpg') }}" alt="Execution Discipline logo" loading="lazy"></div>
+            <h3 class="font-semibold mb-2">Execution Discipline</h3>
+            <p class="text-sm text-slate-600">Structured governance & QA/QC loops enable predictability.</p>
         </button>
-        
-      </div>
-      <div class="relative">
-        <button class="feature-card text-left cursor-pointer border border-transparent hover:border-slate-200 transition" data-pillar="feature-integrated" aria-haspopup="dialog">
-          <div class="logo-holder flex items-center justify-center rounded-2xl">
-            <img src="{{ url_for('static', filename='img/logo/intergrated.jpg') }}" alt="Integrated capability collaboration" loading="lazy">
-          </div>
-            <h3 class="font-semibold mb-2 flex items-center justify-center">Integrated Capability</h3>
-          <p class="text-sm text-slate-600">Cross-domain services under unified coordination.</p>
+        <button class="text-center p-6 border border-transparent rounded-2xl shadow-sm hover:shadow-xl hover:-translate-y-1 transition" data-pillar="feature-integrated" aria-haspopup="dialog">
+            <div class="logo-holder mx-auto mb-4"><img src="{{ url_for('static', filename='img/logo/intergrated.jpg') }}" alt="Integrated Capability logo" loading="lazy"></div>
+            <h3 class="font-semibold mb-2">Integrated Capability</h3>
+            <p class="text-sm text-slate-600">Cross-domain services under unified coordination.</p>
         </button>
-        
-      </div>
-      <div class="relative">
-        <button class="feature-card text-left cursor-pointer border border-transparent hover:border-slate-200 transition" data-pillar="feature-adaptive" aria-haspopup="dialog">
-          <div class="logo-holder flex items-center justify-center rounded-2xl">
-            <img src="{{ url_for('static', filename='img/logo/engagement.jpg') }}" alt="Adaptive engagement flexibility" loading="lazy">
-          </div>
-          <h3 class="font-semibold mb-2 flex items-center justify-center">Adaptive Engagement</h3>
-          <p class="text-sm text-slate-600">Engagement models aligned to phase & risk appetite.</p>
+        <button class="text-center p-6 border border-transparent rounded-2xl shadow-sm hover:shadow-xl hover:-translate-y-1 transition" data-pillar="feature-adaptive" aria-haspopup="dialog">
+            <div class="logo-holder mx-auto mb-4"><img src="{{ url_for('static', filename='img/logo/engagement.jpg') }}" alt="Adaptive Engagement logo" loading="lazy"></div>
+            <h3 class="font-semibold mb-2">Adaptive Engagement</h3>
+            <p class="text-sm text-slate-600">Engagement models aligned to phase & risk appetite.</p>
         </button>
     </div>
-
-    <!-- Pillar modals (full-window centered) -->
-    <div id="pillar-popup-feature-certified" class="pillar-modal hidden fixed inset-0 z-50 flex items-center justify-center" role="dialog" aria-modal="true" aria-labelledby="pillar-title-certified">
-      <div class="absolute inset-0 bg-black/50" aria-hidden="true"></div>
-      <div class="relative z-10 max-w-xl w-[min(92%,720px)] bg-white rounded-xl shadow-xl p-6 pillar-panel">
-        <div class="relative">
-          <div class="text-center">
-            <h3 id="pillar-title-certified" class="text-xl font-semibold inline-block">Certified Expertise</h3>
-          </div>
-          <button type="button" class="pillar-close absolute right-4 top-4 text-slate-400 hover:text-teal-600 text-2xl leading-none font-bold" aria-label="Close">&times;</button>
-        </div>
-        <div class="modal-hero mt-4"><img src="{{ url_for('static', filename='img/logo/Certified_Latest.jpg') }}" alt="Certified experts" class="w-full h-48 object-cover rounded-md"></div>
-        <p class="mt-4 text-sm text-slate-700">Our teams hold platform and discipline certifications and follow documented competency programs so you get experienced practitioners who deliver to standards.</p>
-        <ul class="list-disc pl-5 mt-4 text-sm space-y-1">
-          <li>Platform & discipline certifications (Aveva, Hexagon and others)</li>
-          <li>Continuous training programs and competency matrices</li>
-          <li>Quality gates, peer reviews and audit trails</li>
-          <li>Access to domain SMEs for technical escalation</li>
-        </ul>
-      </div>
-    </div>
-
-    <div id="pillar-popup-feature-execution" class="pillar-modal hidden fixed inset-0 z-50 flex items-center justify-center" role="dialog" aria-modal="true" aria-labelledby="pillar-title-execution">
-      <div class="absolute inset-0 bg-black/50" aria-hidden="true"></div>
-      <div class="relative z-10 max-w-xl w-[min(92%,720px)] bg-white rounded-xl shadow-xl p-6 pillar-panel">
-        <div class="flex items-start justify-between gap-4">
-          <h3 id="pillar-title-execution" class="text-xl font-semibold">Execution Discipline</h3>
-          <button type="button" class="pillar-close text-slate-400 hover:text-teal-600 text-2xl leading-none font-bold" aria-label="Close">&times;</button>
-        </div>
-        <div class="modal-hero mt-4"><img src="{{ url_for('static', filename='img/logo/Execution.jpg') }}" alt="Execution discipline" class="w-full h-48 object-cover rounded-md"></div>
-        <p class="mt-4 text-sm text-slate-700">We apply proven governance, QA/QC and schedule discipline to keep projects predictable and on track — minimising rework and commercial surprises.</p>
-        <ul class="list-disc pl-5 mt-4 text-sm space-y-1">
-          <li>Governance frameworks and stage-gate controls</li>
-          <li>Integrated schedule and resource tracking</li>
-          <li>Risk registers with clear mitigation owners</li>
-          <li>Client-facing status dashboards and KPIs</li>
-        </ul>
-      </div>
-    </div>
-
-    <div id="pillar-popup-feature-integrated" class="pillar-modal hidden fixed inset-0 z-50 flex items-center justify-center" role="dialog" aria-modal="true" aria-labelledby="pillar-title-integrated">
-      <div class="absolute inset-0 bg-black/50" aria-hidden="true"></div>
-      <div class="relative z-10 max-w-xl w-[min(92%,720px)] bg-white rounded-xl shadow-xl p-6 pillar-panel">
-        <div class="flex items-start justify-between gap-4">
-          <h3 id="pillar-title-integrated" class="text-xl font-semibold">Integrated Capability</h3>
-          <button type="button" class="pillar-close text-slate-400 hover:text-teal-600 text-2xl leading-none font-bold" aria-label="Close">&times;</button>
-        </div>
-        <div class="modal-hero mt-4"><img src="{{ url_for('static', filename='img/logo/intergrated.jpg') }}" alt="Integrated capability" class="w-full h-48 object-cover rounded-md"></div>
-        <p class="mt-4 text-sm text-slate-700">We combine manpower, engineering and digital capability to provide single-source accountability and smoother handovers across project stages.</p>
-        <ul class="list-disc pl-5 mt-4 text-sm space-y-1">
-          <li>Cross-discipline coordination and single-source accountability</li>
-          <li>Integrated data and model handover processes</li>
-          <li>Supply and construction interface management</li>
-          <li>Lifecycle support from design through to handover</li>
-        </ul>
-      </div>
-    </div>
-
-    <div id="pillar-popup-feature-adaptive" class="pillar-modal hidden fixed inset-0 z-50 flex items-center justify-center" role="dialog" aria-modal="true" aria-labelledby="pillar-title-adaptive">
-      <div class="absolute inset-0 bg-black/50" aria-hidden="true"></div>
-      <div class="relative z-10 max-w-2xl w-[min(96%,960px)] bg-white rounded-xl shadow-xl p-6 pillar-panel">
-        <div class="flex items-start justify-between gap-4">
-          <h3 id="pillar-title-adaptive" class="text-xl font-semibold">Adaptive Engagement</h3>
-          <button type="button" class="pillar-close text-slate-400 hover:text-teal-600 text-2xl leading-none font-bold" aria-label="Close">&times;</button>
-        </div>
-        <div class="modal-hero mt-4"><img src="{{ url_for('static', filename='img/logo/engagement.jpg') }}" alt="Adaptive engagement" class="w-full h-56 object-cover rounded-md"></div>
-        <p class="mt-4 text-sm text-slate-700">Flexible commercial models and resourcing aligned to project phase and risk appetite, so clients get the capacity and capability they need when they need it.</p>
-        <ul class="list-disc pl-5 mt-4 text-sm space-y-1">
-          <li>Fixed-scope, hybrid and time-and-materials engagement options</li>
-          <li>Scaled teams to match demand and deliverables</li>
-          <li>Local + international resourcing for specialist roles</li>
-          <li>Rapid ramp-up and controlled ramp-down to manage cost</li>
-        </ul>
-      </div>
-    </div>
-   
-
-    <!-- Metrics / Indicators -->
-    <div class="mt-24">
-      <h3 class="text-xl font-semibold tracking-tight">Delivery Footprint</h3>
-      <p class="mt-2 text-slate-600 max-w-2xl">Growing multi-industry support with scalable resource pools and active project governance.</p>
-      <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        <div class="rounded-2xl bg-slate-900 text-white p-6 shadow-sm flex flex-col items-center text-center">
-          <div class="text-4xl font-bold leading-none" data-metric="clients">12+</div>
-          <div class="mt-2 text-xs uppercase tracking-wide text-slate-300">Active Clients</div>
-          <p class="mt-3 text-sm text-slate-200">Regional EPCs & operators (expanding).</p>
-        </div>
-        <div class="rounded-2xl bg-white border p-6 shadow-sm flex flex-col items-center text-center">
-          <div class="text-4xl font-bold leading-none" data-metric="projects">7</div>
-          <div class="mt-2 text-xs uppercase tracking-wide text-slate-500">Projects Running</div>
-          <p class="mt-3 text-sm text-slate-600">Design, modelling, security & supply tracks.</p>
-        </div>
-        <div class="rounded-2xl bg-white border p-6 shadow-sm flex flex-col items-center text-center">
-          <div class="text-4xl font-bold leading-none" data-metric="industries">5</div>
-          <div class="mt-2 text-xs uppercase tracking-wide text-slate-500">Industries Served</div>
-          <p class="mt-3 text-sm text-slate-600">Energy, petrochem, infra, marine, utilities.</p>
-        </div>
-      </div>
-    </div>
-
   </div>
 </section>
 
@@ -600,43 +328,10 @@ document.addEventListener('DOMContentLoaded', () => {
 </script>
 
 <script>
-// Stagger hero cards on load for a polished entrance
-document.addEventListener('DOMContentLoaded', function(){
-  const cards = Array.from(document.querySelectorAll('.hero-cards .group'));
-  cards.forEach((c, i)=>{
-    setTimeout(()=> c.classList.add('is-visible'), 90 * i);
-  });
-});
-</script>
-
-<script>
-// Tap-to-show accent badge on touch devices: first tap reveals badge, second tap follows link
+// Wait for client logos to be decoded before starting scroll animation to reduce jank
 (function(){
-  if(!('ontouchstart' in window)) return; // only for touch devices
-  document.addEventListener('DOMContentLoaded', ()=>{
-    const groups = Array.from(document.querySelectorAll('.hero-cards .group'));
-    groups.forEach(g=>{
-      let tapped = false;
-      g.addEventListener('click', function(e){
-        const anchor = g.closest('a');
-        if(!anchor) return;
-        if(!g.classList.contains('show-badge')){
-          e.preventDefault();
-          // hide any other badges
-          document.querySelectorAll('.hero-cards .group.show-badge').forEach(n=> n.classList.remove('show-badge'));
-          g.classList.add('show-badge');
-          // remove after 3s if not tapped again
-          setTimeout(()=> g.classList.remove('show-badge'), 3000);
-          return false;
-        }
-        // if badge already shown, allow normal navigation
-      });
-    });
-  });
-})();
-</script>
-
-{% endblock %}
+  const scroller = document.querySelector('.logo-scroller .logo-track');
+  if (!scroller) return;
 
   const imgs = Array.from(scroller.querySelectorAll('img'));
   // If there are no images or all already complete, start immediately

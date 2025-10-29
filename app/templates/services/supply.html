@@ -178,14 +178,20 @@
   </div>
 </section>
 
-    <!-- Bottom CTA -->
-    <div class="mt-16">
-      <p class="text-slate-600 mb-6">
-        Tell us your requirements (items, quantities, event scope, or permits) and timeline — we’ll tailor a package for you.
-      </p>
-  <a href="{{ url_for('main.submit_proposal') }}"
-    class="inline-flex items-center rounded-2xl text-white px-6 py-3 font-medium transition" style="background:#030C69; border:none;">
-  Request a proposal
+{# --- SINGLE CALL TO ACTION --- #}
+<section class="py-20 bg-white">
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center" data-aos="fade-up">
+    <h2 class="text-3xl font-bold text-slate-900 tracking-tight">
+      Streamline Your Operations
+    </h2>
+    <p class="mt-4 text-lg text-slate-600 max-w-2xl mx-auto">
+      Tell us your requirements—items, quantities, event scope, or permits—and we’ll tailor a package for you.
+    </p>
+    <div class="mt-8">
+      <a href="{{ url_for('main.submit_proposal') }}" 
+         class="inline-block rounded-lg text-white px-10 py-3 font-semibold tracking-wide transition duration-300 ease-in-out hover:opacity-90" 
+         style="background-color: #030C69;">
+        Request a Proposal
       </a>
     </div>
   </div>

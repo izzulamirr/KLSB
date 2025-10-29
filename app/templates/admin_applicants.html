@@ -21,6 +21,7 @@
       {% endif %}
     {% endwith %}
 
+    <!-- Applicants Section -->
     <div class="flex justify-between items-center mb-6">
         <h1 class="text-3xl font-bold text-[#030C69]">Submitted Applicants</h1>
         <div class="flex gap-3 items-center">
@@ -68,6 +69,7 @@
       <p class="text-gray-600 mb-12">No applicants found yet.</p>
     {% endif %}
 
+    <!-- Proposals Section -->
     <div class="flex justify-between items-center mb-6">
       <h1 class="text-3xl font-bold text-[#030C69]">Submitted Proposals</h1>
       <div class="flex gap-3 items-center">
@@ -84,6 +86,7 @@
             <th class="px-3 py-2 text-left">ID</th>
             <th class="px-3 py-2 text-left">Company Name</th>
             <th class="px-3 py-2 text-left">Client Email</th>
+            <th class="px-3 py-2 text-left">Contact Number</th>
             <th class="px-3 py-2 text-left">Service</th>
             <th class="px-3 py-2 text-left">Details</th>
             <th class="px-3 py-2 text-left">Submitted</th>
@@ -95,6 +98,7 @@
               <td class="px-3 py-2 align-top">{{ proposal.id }}</td>
               <td class="px-3 py-2 align-top">{{ proposal.company_name }}</td>
               <td class="px-3 py-2 align-top">{{ proposal.client_email }}</td>
+              <td class="px-3 py-2 align-top">{{ proposal.contact_number }}</td>
               <td class="px-3 py-2 align-top">{{ proposal.service }}</td>
               <td class="px-3 py-2 align-top whitespace-pre-wrap">{{ proposal.proposal_details }}</td>
               <td class="px-3 py-2 align-top">{{ proposal.created_at.strftime('%Y-%m-%d %H:%M') if proposal.created_at else '' }}</td>
@@ -111,13 +115,11 @@
 </section>
 {% endblock %}
 
-
 {% block extra_scripts %}
 <script>
   // This makes the flash message disappear
   const flashMessages = document.getElementById('flash-messages');
   if (flashMessages) {
-    // ✅ Timeout changed to 1 second (1000 milliseconds)
     setTimeout(() => {
       flashMessages.style.display = 'none';
     }, 1000);

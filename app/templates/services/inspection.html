@@ -57,52 +57,11 @@
     color: #0b1220 !important;
   }
 
-      <section class="rounded-2xl border bg-white p-6 shadow-sm">
-        <h2 class="text-xl font-semibold mb-2">Industrial Radiotracer Technology</h2>
-        <p class="text-slate-600 mb-3">
-          A powerful tool for diagnosing flow behavior and process efficiency.
-        </p>
-        <div class="rounded-xl bg-indigo-50 p-4 mt-3">
-          <ul class="list-disc list-inside text-slate-700 space-y-1 justify-left">
-            <li>Leak detection in pipelines and heat exchangers</li>
-            <li>Flow distribution analysis in complex systems</li>
-            <li>Residence time distribution (RTD) studies for process optimization</li>
-          </ul>
-        </div>
-      </section>
-
-    <!-- Why Choose -->
-      <section class="rounded-2xl border bg-white p-6 shadow-sm">
-        <h2 class="text-2xl font-semibold text-center mb-2">Why Choose KLSB?</h2>
-        <div class="grid sm:grid-cols-3 gap-6 text-slate-700">
-          <div class="rounded-xl bg-indigo-50 p-4">
-            <h3 class="font-semibold">Collaboration with Agensi Nuklear Malaysia (ANM)</h3>
-            <p class="mt-2 text-sm">Access to cutting-edge nuclear technology and expertise</p>
-          </div>
-          <div class="rounded-xl bg-indigo-50 p-4">
-            <h3 class="font-semibold">Advanced Inspection Methods</h3>
-            <p class="mt-2 text-sm">Non-destructive, real-time diagnostics for minimal downtime</p>
-          </div>
-          <div class="rounded-xl bg-indigo-50 p-4">
-            <h3 class="font-semibold">Experienced Team</h3>
-            <p class="mt-2 text-sm">Specialists with extensive industry knowledge and hands-on expertise</p>
-          </div>
-        </div>
-      </section>
-
-<!-- Bottom CTA -->
-<div class="mt-16 text-center">
-  <p class="text-slate-600 mb-6">
-    Need certified, project-ready personnel? Tell us your timeline and scope.
-  </p>
-  <a href="{{ url_for('main.submit_proposal') }}"
-    class="inline-flex items-center rounded-2xl text-white px-6 py-3 font-medium transition" style="background:#030C69; border:none;">
-  Request a proposal
-  </a>
-</div>
-
-  </div>
-</section>
+  /* Keep small muted copy slightly softer */
+  .glass-card p,
+  .glass-card .muted {
+    color: rgba(11,18,32,0.7) !important;
+  }
 
   /* Buttons that explicitly use a dark background (inline style) should keep their white text — don't force them black */
   .glass-card a[style], .glass-card button[style] {
