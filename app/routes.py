@@ -370,6 +370,54 @@ def profile():
 def projects():
     return render_template("projects.html", page_class="home-page center-content")
 
+# ------------------- JOB VACANCIES -------------------
+@main_bp.route("/jobs")
+def jobs():
+    """Public page listing open vacancies.
+
+    No database table yet, so we maintain a lightweight in-memory list
+    that can be easily moved to a DB later.
+    """
+    openings = [
+        {
+            "title": "Senior Piping Designer (E3D)",
+            "dept": "Engineering",
+            "type": "Contract",
+            "location": "Kuala Lumpur, MY",
+            "posted": "2025-10-01",
+        },
+        {
+            "title": "Process Engineer",
+            "dept": "Engineering",
+            "type": "Full-time",
+            "location": "Kuala Lumpur, MY",
+            "posted": "2025-09-20",
+        },
+        {
+            "title": "E3D / AVEVA Admin",
+            "dept": "Digital",
+            "type": "Contract",
+            "location": "Remote / Hybrid",
+            "posted": "2025-09-15",
+        },
+        {
+            "title": "HSE Officer",
+            "dept": "Manpower",
+            "type": "Project-based",
+            "location": "Johor, MY",
+            "posted": "2025-08-30",
+        },
+        {
+            "title": "Instrumentation & Control Engineer",
+            "dept": "Engineering",
+            "type": "Full-time",
+            "location": "Kuala Lumpur, MY",
+            "posted": "2025-08-15",
+        },
+    ]
+
+    return render_template("jobs.html", jobs=openings, page_class="home-page center-content")
+
 @main_bp.route("/services", endpoint="services_page")
 def services_page():
     return render_template("services.html", page_class="home-page center-content")
@@ -379,7 +427,14 @@ def services_page():
 @main_bp.route("/services/manpower/send-cv", methods=["GET", "POST"])
 def services_manpower_send_cv():
     if request.method == "GET":
-        return render_template("services/send_cv.html", form=None, errors=None)
+        # Allow pre-filling the position from query string, e.g. /send-cv?position=HSE%20Officer
+        prefill = {
+            "full_name": "",
+            "email": "",
+            "position": request.args.get("position", ""),
+            "availability": "",
+        }
+        return render_template("services/send_cv.html", form=prefill, errors=None)
 
     errors = []
     full_name    = (request.form.get("full_name") or "").strip()

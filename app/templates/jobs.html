@@ -1,0 +1,421 @@
+{% extends "base.html" %}
+{% block title %}Careers — Join KLSB{% endblock %}
+
+{% block content %}
+<div style="background: linear-gradient(180deg, #010428 0%, #030C69 100%); min-height: 100vh;">
+
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="max-w-7xl mx-auto px-6 py-20 text-center">
+      <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/20 text-white text-sm font-semibold mb-6 backdrop-blur-sm" data-aos="fade-up">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z" />
+        </svg>
+        <span>We're Growing</span>
+      </div>
+      
+      <h1 class="text-5xl sm:text-6xl lg:text-7xl font-extrabold text-white tracking-tight mb-6 leading-tight" data-aos="fade-up" data-aos-delay="100" style="letter-spacing: -0.02em;">
+        Build Your Career<br>With KLSB
+      </h1>
+      
+      <p class="text-lg sm:text-xl text-slate-200 max-w-3xl mx-auto leading-relaxed mb-8" data-aos="fade-up" data-aos-delay="200">
+        Join our team of engineering, digital, and technical professionals driving innovation across Malaysia's energy and industrial sectors.
+      </p>
+
+      {% if jobs and jobs|length > 0 %}
+      <div class="flex flex-wrap gap-4 justify-center items-center text-white/80 text-sm" data-aos="fade-up" data-aos-delay="300">
+        <div class="flex items-center gap-2">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 14.15v4.25c0 1.094-.787 2.036-1.872 2.18-2.087.277-4.216.42-6.378.42s-4.291-.143-6.378-.42c-1.085-.144-1.872-1.086-1.872-2.18v-4.25m16.5 0a2.18 2.18 0 00.75-1.661V8.706c0-1.081-.768-2.015-1.837-2.175a48.114 48.114 0 00-3.413-.387m4.5 8.006c-.194.165-.42.295-.673.38A23.978 23.978 0 0112 15.75c-2.648 0-5.195-.429-7.577-1.22a2.016 2.016 0 01-.673-.38m0 0A2.18 2.18 0 013 12.489V8.706c0-1.081.768-2.015 1.837-2.175a48.111 48.111 0 013.413-.387m7.5 0V5.25A2.25 2.25 0 0013.5 3h-3a2.25 2.25 0 00-2.25 2.25v.894m7.5 0a48.667 48.667 0 00-7.5 0M12 12.75h.008v.008H12v-.008z" />
+          </svg>
+          <span><strong class="font-semibold text-white">{{ jobs|length }}</strong> Open Positions</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
+          </svg>
+          <span>Multiple Locations</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <span>Full-time & Contract</span>
+        </div>
+      </div>
+      {% endif %}
+    </div>
+  </section>
+
+  <!-- Open Positions Section -->
+  <section class="positions-section pb-20">
+    <div class="max-w-7xl mx-auto px-6">
+      
+      {% if jobs and jobs|length > 0 %}
+      <!-- Section Header -->
+      <div class="mb-10" data-aos="fade-up">
+        <h2 class="text-3xl font-bold text-white mb-3">Open Positions</h2>
+        <p class="text-slate-300 text-lg">Explore our current opportunities and find your perfect role.</p>
+      </div>
+
+      <!-- Job Cards Grid -->
+      <div class="jobs-grid" data-aos="fade-up" data-aos-delay="100">
+        {% for job in jobs %}
+        <article class="job-card" data-aos="fade-up" data-aos-delay="{{ loop.index * 50 }}">
+          <!-- Job Header -->
+          <div class="job-header">
+            <div class="job-icon-wrapper">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="job-icon-svg">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 14.15v4.25c0 1.094-.787 2.036-1.872 2.18-2.087.277-4.216.42-6.378.42s-4.291-.143-6.378-.42c-1.085-.144-1.872-1.086-1.872-2.18v-4.25m16.5 0a2.18 2.18 0 00.75-1.661V8.706c0-1.081-.768-2.015-1.837-2.175a48.114 48.114 0 00-3.413-.387m4.5 8.006c-.194.165-.42.295-.673.38A23.978 23.978 0 0112 15.75c-2.648 0-5.195-.429-7.577-1.22a2.016 2.016 0 01-.673-.38m0 0A2.18 2.18 0 013 12.489V8.706c0-1.081.768-2.015 1.837-2.175a48.111 48.111 0 013.413-.387m7.5 0V5.25A2.25 2.25 0 0013.5 3h-3a2.25 2.25 0 00-2.25 2.25v.894m7.5 0a48.667 48.667 0 00-7.5 0M12 12.75h.008v.008H12v-.008z" />
+              </svg>
+            </div>
+            <div class="job-meta-badges">
+              <span class="job-dept-badge">{{ job.dept }}</span>
+              <span class="job-type-badge">{{ job.type }}</span>
+            </div>
+          </div>
+
+          <!-- Job Title -->
+          <h3 class="job-title">{{ job.title }}</h3>
+
+          <!-- Job Details -->
+          <div class="job-details">
+            <div class="job-detail-item">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="detail-icon">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
+              </svg>
+              <span>{{ job.location }}</span>
+            </div>
+            <div class="job-detail-item">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="detail-icon">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
+              </svg>
+              <span>Posted {{ job.posted }}</span>
+            </div>
+          </div>
+
+          <!-- Apply Button -->
+          <a href="{{ url_for('main.services_manpower_send_cv') }}?position={{ job.title|urlencode }}" class="job-apply-btn">
+            <span>Apply Now</span>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="apply-arrow">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+            </svg>
+          </a>
+        </article>
+        {% endfor %}
+      </div>
+
+      {% else %}
+      <!-- No Openings Message -->
+      <div class="no-jobs-message" data-aos="fade-up">
+        <div class="no-jobs-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 14.15v4.25c0 1.094-.787 2.036-1.872 2.18-2.087.277-4.216.42-6.378.42s-4.291-.143-6.378-.42c-1.085-.144-1.872-1.086-1.872-2.18v-4.25m16.5 0a2.18 2.18 0 00.75-1.661V8.706c0-1.081-.768-2.015-1.837-2.175a48.114 48.114 0 00-3.413-.387m4.5 8.006c-.194.165-.42.295-.673.38A23.978 23.978 0 0112 15.75c-2.648 0-5.195-.429-7.577-1.22a2.016 2.016 0 01-.673-.38m0 0A2.18 2.18 0 013 12.489V8.706c0-1.081.768-2.015 1.837-2.175a48.111 48.111 0 013.413-.387m7.5 0V5.25A2.25 2.25 0 0013.5 3h-3a2.25 2.25 0 00-2.25 2.25v.894m7.5 0a48.667 48.667 0 00-7.5 0M12 12.75h.008v.008H12v-.008z" />
+          </svg>
+        </div>
+        <h3 class="no-jobs-title">No Open Positions Right Now</h3>
+        <p class="no-jobs-text">We're not actively hiring at the moment, but we're always interested in connecting with talented professionals. Send us your CV and we'll reach out when the right opportunity arises.</p>
+        <a href="{{ url_for('main.services_manpower_send_cv') }}" class="no-jobs-btn">Submit Your CV</a>
+      </div>
+      {% endif %}
+
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="cta-section">
+    <div class="max-w-4xl mx-auto px-6 py-16 text-center" data-aos="fade-up">
+      <div class="cta-card">
+        <h2 class="cta-title">Don't See the Right Role?</h2>
+        <p class="cta-text">We're always looking for talented individuals to join our team. Send us your CV and we'll keep you in mind for future opportunities that match your skills and experience.</p>
+        <a href="{{ url_for('main.services_manpower_send_cv') }}" class="cta-button">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+          </svg>
+          <span>Send Your CV</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- Styles -->
+<style>
+/* Jobs Grid Layout */
+.jobs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  gap: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .jobs-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Job Card */
+.job-card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 2rem;
+  border: 1px solid rgba(8,12,30,0.08);
+  box-shadow: 0 8px 24px rgba(8,12,30,0.12);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.job-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 48px rgba(8,12,30,0.18);
+  border-color: rgba(3,12,105,0.15);
+}
+
+/* Job Header */
+.job-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.job-icon-wrapper {
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #030C69 0%, #0518a8 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.job-icon-svg {
+  width: 28px;
+  height: 28px;
+  color: #ffffff;
+}
+
+.job-meta-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: flex-end;
+}
+
+.job-dept-badge,
+.job-type-badge {
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.375rem 0.75rem;
+  border-radius: 9999px;
+  white-space: nowrap;
+}
+
+.job-dept-badge {
+  background: rgba(3,12,105,0.1);
+  color: #030C69;
+  border: 1px solid rgba(3,12,105,0.15);
+}
+
+.job-type-badge {
+  background: rgba(16,185,129,0.1);
+  color: #059669;
+  border: 1px solid rgba(16,185,129,0.15);
+}
+
+/* Job Title */
+.job-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #0b1220;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+
+/* Job Details */
+.job-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1rem 0;
+  border-top: 1px solid rgba(8,12,30,0.08);
+  border-bottom: 1px solid rgba(8,12,30,0.08);
+}
+
+.job-detail-item {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  color: rgba(11,18,32,0.7);
+  font-size: 0.9375rem;
+}
+
+.detail-icon {
+  width: 18px;
+  height: 18px;
+  color: #030C69;
+  flex-shrink: 0;
+}
+
+/* Apply Button */
+.job-apply-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.625rem;
+  padding: 0.875rem 1.75rem;
+  background: linear-gradient(135deg, #030C69 0%, #0518a8 100%);
+  color: #ffffff;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 1rem;
+  text-decoration: none;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: none;
+  cursor: pointer;
+  margin-top: auto;
+}
+
+.job-apply-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(3,12,105,0.3);
+}
+
+.apply-arrow {
+  width: 18px;
+  height: 18px;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.job-apply-btn:hover .apply-arrow {
+  transform: translateX(4px);
+}
+
+/* No Jobs Message */
+.no-jobs-message {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: rgba(255,255,255,0.05);
+  border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.1);
+  backdrop-filter: blur(10px);
+}
+
+.no-jobs-icon {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 1.5rem;
+  background: rgba(255,255,255,0.1);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.no-jobs-icon svg {
+  width: 40px;
+  height: 40px;
+  color: #ffffff;
+}
+
+.no-jobs-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 1rem;
+}
+
+.no-jobs-text {
+  font-size: 1.125rem;
+  color: rgba(255,255,255,0.8);
+  max-width: 600px;
+  margin: 0 auto 2rem;
+  line-height: 1.6;
+}
+
+.no-jobs-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+  padding: 1rem 2rem;
+  background: #ffffff;
+  color: #030C69;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 1rem;
+  text-decoration: none;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.no-jobs-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(255,255,255,0.2);
+}
+
+/* CTA Card */
+.cta-card {
+  background: rgba(255,255,255,0.05);
+  border-radius: 20px;
+  padding: 3rem 2rem;
+  border: 1px solid rgba(255,255,255,0.1);
+  backdrop-filter: blur(10px);
+}
+
+.cta-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 1rem;
+  letter-spacing: -0.01em;
+}
+
+.cta-text {
+  font-size: 1.125rem;
+  color: rgba(255,255,255,0.8);
+  max-width: 700px;
+  margin: 0 auto 2rem;
+  line-height: 1.6;
+}
+
+.cta-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+  padding: 1rem 2rem;
+  background: #ffffff;
+  color: #030C69;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 1rem;
+  text-decoration: none;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.cta-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(255,255,255,0.2);
+}
+
+@media (max-width: 640px) {
+  .job-title {
+    font-size: 1.25rem;
+  }
+  
+  .cta-title {
+    font-size: 1.5rem;
+  }
+  
+  .cta-card {
+    padding: 2rem 1.5rem;
+  }
+}
+</style>
+
+{% endblock %}

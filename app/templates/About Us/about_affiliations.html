@@ -12,19 +12,20 @@
   .aff-card {
     background: #ffffff;
     color: #0b1220;
-    border: 1px solid rgba(11,18,32,0.06);
-    box-shadow: 0 6px 20px rgba(8,12,30,0.18);
-    border-radius: 1rem;
-    padding: 2rem;
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    border: 1px solid rgba(11,18,32,0.08);
+    box-shadow: 0 4px 16px rgba(8,12,30,0.12);
+    border-radius: 1.25rem;
+    padding: 2.5rem;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     height: 100%;
     display: flex;
     flex-direction: column;
   }
 
   .aff-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 12px 28px rgba(8,12,30,0.24);
+    transform: translateY(-8px);
+    box-shadow: 0 16px 40px rgba(8,12,30,0.2);
+    border-color: rgba(3, 12, 105, 0.15);
   }
 
   .aff-card-head {
@@ -50,18 +51,19 @@
   }
 
   .aff-title {
-    font-size: 1.25rem;
+    font-size: 1.375rem;
     font-weight: 700;
     color: #0b1220;
     line-height: 1.3;
     flex: 1;
+    letter-spacing: -0.01em;
   }
 
   .aff-body {
-    font-size: 0.9375rem;
+    font-size: 1rem;
     color: rgba(11,18,32,0.75);
-    line-height: 1.6;
-    margin-bottom: 1.5rem;
+    line-height: 1.7;
+    margin-bottom: 1.75rem;
   }
 
   .aff-points {
@@ -73,25 +75,26 @@
 
   .aff-points li {
     position: relative;
-    padding-left: 1.75rem;
-    margin-bottom: 0.75rem;
+    padding-left: 2rem;
+    margin-bottom: 0.875rem;
     color: rgba(11,18,32,0.7);
-    font-size: 0.875rem;
-    line-height: 1.5;
+    font-size: 0.9375rem;
+    line-height: 1.6;
   }
 
   .aff-points li::before {
     content: '';
     position: absolute;
     left: 0;
-    top: 0.4rem;
-    width: 1rem;
-    height: 1rem;
+    top: 0.45rem;
+    width: 1.125rem;
+    height: 1.125rem;
     background: linear-gradient(135deg, #030C69, #0518a8);
     border-radius: 0.25rem;
     display: flex;
     align-items: center;
     justify-content: center;
+    box-shadow: 0 2px 6px rgba(3, 12, 105, 0.2);
   }
 
   .aff-points li::after {
@@ -105,21 +108,23 @@
   }
 
   .aff-meta {
-    display: inline-flex;
+    display: flex;
     align-items: center;
     gap: 0.5rem;
-    padding: 0.5rem 1rem;
-    background: linear-gradient(135deg, rgba(3,12,105,0.08), rgba(3,12,105,0.04));
+    padding: 0.625rem 1.25rem;
+    background: linear-gradient(135deg, #030C69, #0518a8);
     border-radius: 9999px;
     font-size: 0.8125rem;
-    font-weight: 500;
-    color: rgba(11,18,32,0.6);
+    font-weight: 600;
+    color: #ffffff;
     margin-top: auto;
+    box-shadow: 0 2px 8px rgba(3, 12, 105, 0.15);
+    letter-spacing: 0.01em;
   }
 
   .aff-meta span {
-    color: #030C69;
-
+    color: #ffffff;
+    font-weight: 700;
   }
 
   /* Partnership card styles */
@@ -203,9 +208,9 @@
 <section class="py-20 bg-white">
   <div class="max-w-7xl mx-auto px-6">
     
-    <div class="text-center mb-12" data-aos="fade-up">
-      <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-black">Industry Affiliations</h2>
-      <p class="mt-4 max-w-3xl mx-auto text-white/80 leading-relaxed">
+    <div class="text-center mb-16" data-aos="fade-up">
+      <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-gray-900 mb-4">Industry Affiliations</h2>
+      <p class="mt-4 max-w-3xl mx-auto text-gray-600 leading-relaxed text-lg">
         Active participation in leading industry councils strengthens our ability to anticipate change, align with evolving standards and advocate for a resilient, competitive energy & engineering ecosystem.
       </p>
     </div>
@@ -226,7 +231,13 @@
           <li>Collaboration / networking catalyst</li>
           <li>Supports sustainability & competitiveness</li>
         </ul>
-        <div class="aff-meta">Strategic Focus: <span>Growth Enablement</span></div>
+        <div class="aff-meta">
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/>
+            <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"/>
+          </svg>
+          <span>Growth Enablement</span>
+        </div>
       </article>
 
       <!-- MOGEC -->
@@ -243,7 +254,12 @@
           <li>Capability & competency uplift</li>
           <li>Innovation & technical collaboration</li>
         </ul>
-        <div class="aff-meta">Strategic Focus: <span>Technical Excellence</span></div>
+        <div class="aff-meta">
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clip-rule="evenodd"/>
+          </svg>
+          <span>Technical Excellence</span>
+        </div>
       </article>
 
       <!-- EIC -->
@@ -260,7 +276,12 @@
           <li>Export & diversification pathways</li>
           <li>Global supply chain connectivity</li>
         </ul>
-        <div class="aff-meta">Strategic Focus: <span>Global Insight</span></div>
+        <div class="aff-meta">
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM4.332 8.027a6.012 6.012 0 011.912-2.706C6.512 5.73 6.974 6 7.5 6A1.5 1.5 0 019 7.5V8a2 2 0 004 0 2 2 0 011.523-1.943A5.977 5.977 0 0116 10c0 .34-.028.675-.083 1H15a2 2 0 00-2 2v2.197A5.973 5.973 0 0110 16v-2a2 2 0 00-2-2 2 2 0 01-2-2 2 2 0 00-1.668-1.973z" clip-rule="evenodd"/>
+          </svg>
+          <span>Global Insight</span>
+        </div>
       </article>
       
     </div>
