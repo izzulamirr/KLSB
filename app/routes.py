@@ -7,7 +7,7 @@ from io import StringIO, BytesIO
 import csv
 from flask import Response, send_file, abort
 from app import db
-from app.models import Applicant
+from app.models import Applicant, JobListing
 from functools import wraps
 from flask import session, flash
 
@@ -354,6 +354,166 @@ def admin_export_proposals_xlsx_view():
         mimetype="application/vnd.ms-excel; charset=utf-8",
         headers={"Content-Disposition": f"attachment; filename={filename}"}
     )
+
+# ------------------- ADMIN: JOB LISTINGS -------------------
+@main_bp.route("/admin/jobs", endpoint="admin_jobs")
+@admin_required
+def admin_jobs():
+    """Admin page to view all job listings."""
+    jobs = JobListing.query.order_by(JobListing.created_at.desc()).all()
+    return render_template("admin_jobs.html", jobs=jobs)
+
+@main_bp.route("/admin/jobs/add", methods=["GET", "POST"], endpoint="admin_add_job")
+@admin_required
+def admin_add_job():
+    """Admin page to add a new job listing."""
+    print(f"DEBUG: admin_add_job called with method: {request.method}")
+    if request.method == "POST":
+        print(f"DEBUG: Form data: {dict(request.form)}")
+        title = request.form.get("title", "").strip()
+        department = request.form.get("department", "").strip()
+        job_type = request.form.get("type", "").strip()
+        location = request.form.get("location", "").strip()
+        summary = request.form.get("summary", "").strip()
+        points = request.form.get("points", "").strip()
+        posted_date = request.form.get("posted_date", "").strip()
+        is_active = request.form.get("is_active") == "on"
+
+        # Validation
+        errors = []
+        if not title:
+            errors.append("Job Title is required")
+        if not department:
+            errors.append("Department is required")
+        if not job_type:
+            errors.append("Employment Type is required")
+        if not location:
+            errors.append("Location is required")
+
+        if errors:
+            for error in errors:
+                flash(error, "error")
+            # Create a temporary object to preserve form data
+            temp_job = type('obj', (object,), {
+                'title': title,
+                'department': department,
+                'type': job_type,
+                'location': location,
+                'summary': summary,
+                'points': points,
+                'posted_date': posted_date,
+                'is_active': is_active
+            })()
+            return render_template("admin_job_form.html", job=temp_job, mode="add")
+
+        new_job = JobListing(
+            title=title,
+            department=department,
+            type=job_type,
+            location=location,
+            summary=summary,
+            points=points,
+            posted_date=posted_date or "Recently posted",
+            is_active=is_active
+        )
+        # Persist to database
+        try:
+            print(f"DEBUG: About to add job to database: {new_job.title}")
+            db.session.add(new_job)
+            print("DEBUG: Job added to session, committing...")
+            db.session.commit()
+            print(f"DEBUG: Commit successful! Job ID: {new_job.id}")
+            flash(f"Job listing '{title}' added successfully.", "success")
+            return redirect(url_for("main.admin_jobs"))
+        except Exception as e:
+            db.session.rollback()
+            current_app.logger.exception("Failed to add job listing")
+            flash(f"Failed to add job listing: {e}", "error")
+            # Preserve entered data on error
+            return render_template("admin_job_form.html", job=new_job, mode="add")
+    
+
+    return render_template("admin_job_form.html", job=None, mode="add")
+
+@main_bp.route("/admin/jobs/<int:job_id>/edit", methods=["GET", "POST"], endpoint="admin_edit_job")
+@admin_required
+def admin_edit_job(job_id):
+    """Admin page to edit an existing job listing."""
+    job = JobListing.query.get_or_404(job_id)
+
+    if request.method == "POST":
+        title = request.form.get("title", "").strip()
+        department = request.form.get("department", "").strip()
+        job_type = request.form.get("type", "").strip()
+        location = request.form.get("location", "").strip()
+        summary = request.form.get("summary", "").strip()
+        points = request.form.get("points", "").strip()
+        posted_date = request.form.get("posted_date", "").strip()
+        is_active = request.form.get("is_active") == "on"
+
+        # Validation
+        errors = []
+        if not title:
+            errors.append("Job Title is required")
+        if not department:
+            errors.append("Department is required")
+        if not job_type:
+            errors.append("Employment Type is required")
+        if not location:
+            errors.append("Location is required")
+
+        if errors:
+            for error in errors:
+                flash(error, "error")
+            # Preserve form data in the job object temporarily
+            job.title = title
+            job.department = department
+            job.type = job_type
+            job.location = location
+            job.summary = summary
+            job.points = points
+            job.posted_date = posted_date
+            job.is_active = is_active
+            return render_template("admin_job_form.html", job=job, mode="edit")
+
+        # Update job
+        job.title = title
+        job.department = department
+        job.type = job_type
+        job.location = location
+        job.summary = summary
+        job.points = points
+        job.posted_date = posted_date
+        job.is_active = is_active
+
+        db.session.commit()
+        flash(f"Job listing '{job.title}' updated successfully.", "success")
+        return redirect(url_for("main.admin_jobs"))
+
+    return render_template("admin_job_form.html", job=job, mode="edit")
+
+@main_bp.route("/admin/jobs/<int:job_id>/delete", methods=["POST"], endpoint="admin_delete_job")
+@admin_required
+def admin_delete_job(job_id):
+    """Admin endpoint to delete a job listing."""
+    job = JobListing.query.get_or_404(job_id)
+    job_title = job.title
+    db.session.delete(job)
+    db.session.commit()
+    flash(f"Job listing '{job_title}' deleted successfully.", "success")
+    return redirect(url_for("main.admin_jobs"))
+
+@main_bp.route("/admin/jobs/<int:job_id>/toggle", methods=["POST"], endpoint="admin_toggle_job")
+@admin_required
+def admin_toggle_job(job_id):
+    """Admin endpoint to toggle job active status."""
+    job = JobListing.query.get_or_404(job_id)
+    job.is_active = not job.is_active
+    db.session.commit()
+    status = "activated" if job.is_active else "deactivated"
+    flash(f"Job listing '{job.title}' {status}.", "success")
+    return redirect(url_for("main.admin_jobs"))
+
 # ===================== /ADMIN SECTION =====================
 
 
@@ -373,48 +533,22 @@ def projects():
 # ------------------- JOB VACANCIES -------------------
 @main_bp.route("/jobs")
 def jobs():
-    """Public page listing open vacancies.
-
-    No database table yet, so we maintain a lightweight in-memory list
-    that can be easily moved to a DB later.
-    """
-    openings = [
-        {
-            "title": "Senior Piping Designer (E3D)",
-            "dept": "Engineering",
-            "type": "Contract",
-            "location": "Kuala Lumpur, MY",
-            "posted": "2025-10-01",
-        },
-        {
-            "title": "Process Engineer",
-            "dept": "Engineering",
-            "type": "Full-time",
-            "location": "Kuala Lumpur, MY",
-            "posted": "2025-09-20",
-        },
-        {
-            "title": "E3D / AVEVA Admin",
-            "dept": "Digital",
-            "type": "Contract",
-            "location": "Remote / Hybrid",
-            "posted": "2025-09-15",
-        },
-        {
-            "title": "HSE Officer",
-            "dept": "Manpower",
-            "type": "Project-based",
-            "location": "Johor, MY",
-            "posted": "2025-08-30",
-        },
-        {
-            "title": "Instrumentation & Control Engineer",
-            "dept": "Engineering",
-            "type": "Full-time",
-            "location": "Kuala Lumpur, MY",
-            "posted": "2025-08-15",
-        },
-    ]
+    """Public page listing open vacancies from the database."""
+    # Fetch active job listings from database
+    job_listings = JobListing.query.filter_by(is_active=True).order_by(JobListing.created_at.desc()).all()
+    
+    # Transform to dict format for template compatibility
+    openings = []
+    for job in job_listings:
+        openings.append({
+            "id": job.id,
+            "title": job.title,
+            "dept": job.department,
+            "type": job.type,
+            "location": job.location,
+            "description": job.summary or job.points or "",
+            "posted": job.posted_date or (job.created_at.strftime("%Y-%m-%d") if job.created_at else "N/A"),
+        })
 
     return render_template("jobs.html", jobs=openings, page_class="home-page center-content")
 

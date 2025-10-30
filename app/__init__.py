@@ -29,4 +29,19 @@ def create_app():
     from .routes import main_bp
     app.register_blueprint(main_bp)
 
+    # Global template context: open jobs count for floating badge
+    @app.context_processor
+    def inject_open_jobs_count():
+        from flask import has_request_context
+        if not has_request_context():
+            return {"open_jobs_count": 0}
+        try:
+            # Local import to avoid circular dependency at import time
+            from .models import JobListing
+            count = JobListing.query.filter_by(is_active=True).count()
+        except Exception:
+            # On DB errors, fail gracefully
+            count = 0
+        return {"open_jobs_count": count}
+
     return app

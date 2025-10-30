@@ -10,15 +10,15 @@ class BaseConfig:
     SECRET_KEY = "4d453d84e5c971b955366b277637c340ed34d10b9b05850bd3e6dc24de04980d"
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
-    # === MySQL (your cPanel DB) ===
-    DB_USER = "kemunca_akmalhaziq"
-    DB_PASS = "akmal@kl$8kl$8"             # contains @ and $, so we URL-encode below
-    DB_NAME = "kemunca_website_Akmal"
+    # === MySQL (your local DB) ===
+    DB_USER = "root"                      # Default XAMPP/Laragon/MAMP user
+    DB_PASS = ""                          # Empty for local development
+    DB_NAME = "klsb_test"                 # Your database from phpMyAdmin
     DB_HOST = "localhost"
     DB_PORT = "3306"
 
     user_q = quote_plus(DB_USER)
-    pass_q = quote_plus(DB_PASS)
+    pass_q = quote_plus(DB_PASS) if DB_PASS else ""
     db_q   = quote_plus(DB_NAME)
 
     SQLALCHEMY_DATABASE_URI = (
