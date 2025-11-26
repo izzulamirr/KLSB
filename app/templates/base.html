@@ -2,7 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=5, viewport-fit=cover, user-scalable=yes"/>
+  <meta name="mobile-web-app-capable" content="yes"/>
+  <meta name="theme-color" content="#030C69"/>
+  <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
   <title>{% block title %}KLSB{% endblock %}</title>
   <meta name="description" content="KLSB – Professional services, projects and client solutions" />
   <meta property="og:title" content="KLSB" />
@@ -67,13 +70,25 @@
     /* Prevent flash of unstyled content */
     body {
       opacity: 0;
-      animation: bodyFadeIn 0.3s ease forwards;
+      animation: bodyFadeIn 0.6s ease forwards;
+      animation-delay: 0.1s;
     }
 
     @keyframes bodyFadeIn {
       to {
         opacity: 1;
       }
+    }
+
+    /* Loading state for Alpine.js components */
+    [x-cloak] { 
+      display: none !important; 
+    }
+
+    /* Ensure content appears smoothly */
+    .fade-in-ready {
+      opacity: 1 !important;
+      transition: opacity 0.3s ease-in-out;
     }
 
     /* Mobile and Tablet: Hide desktop nav, show hamburger */
@@ -116,6 +131,10 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='css/components.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/utilities.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/modern.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/kiosk-responsive.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/large-display-overrides.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/android-kiosk.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/signage-32inch.css') }}">
   
   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
   <!-- Leaflet CSS for interactive maps -->
@@ -149,9 +168,7 @@
             <a href="/" class="nav-link" data-nav>Home</a>
             <a href="/services" class="nav-link" data-nav>Services</a>
             <div class="relative group" data-nav-parent>
-              <button class="nav-link inline-flex items-center gap-1" aria-haspopup="true" aria-expanded="false">About Us
-                <svg width="14" height="14" viewBox="0 0 20 20" fill="none" class="transition-transform group-hover:translate-y-[1px]"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              </button>
+              <button class="nav-link inline-flex items-center gap-1" aria-haspopup="true" aria-expanded="false">About Us</button>
               <div class="invisible opacity-0 group-hover:opacity-100 group-hover:visible transition duration-200 absolute left-1/2 transform -translate-x-1/2 top-full pt-3">
                 <div class="rounded-xl border border-slate-200 shadow-lg bg-white p-2 flex flex-col gap-1 dropdown-panel" style="min-width:220px;">
                   <div class="dropdown-arrow" aria-hidden="true"></div>
@@ -361,14 +378,18 @@
   </main>
 
   <!-- Floating Jobs Badge (Site-wide, non-admin only) -->
-  {% if not request.path.startswith('/admin') and request.path != '/jobs' and (open_jobs_count or 0) > 0 %}
+  {% if not request.path.startswith('/admin') and request.path != '/jobs' %}
   <a href="{{ url_for('main.jobs') }}" class="floating-jobs-badge" aria-label="View open positions" title="We're hiring!">
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="badge-icon">
       <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 14.15v4.25c0 1.094-.787 2.036-1.872 2.18-2.087.277-4.216.42-6.378.42s-4.291-.143-6.378-.42c-1.085-.144-1.872-1.086-1.872-2.18v-4.25m16.5 0a2.18 2.18 0 00.75-1.661V8.706c0-1.081-.768-2.015-1.837-2.175a48.114 48.114 0 00-3.413-.387m4.5 8.006c-.194.165-.42.295-.673.38A23.978 23.978 0 0112 15.75c-2.648 0-5.195-.429-7.577-1.22a2.016 2.016 0 01-.673-.38m0 0A2.18 2.18 0 013 12.489V8.706c0-1.081.768-2.015 1.837-2.175a48.111 48.111 0 013.413-.387m7.5 0V5.25A2.25 2.25 0 0013.5 3h-3a2.25 2.25 0 00-2.25 2.25v.894m7.5 0a48.667 48.667 0 00-7.5 0M12 12.75h.008v.008H12v-.008z" />
     </svg>
     <div class="badge-content">
       <span class="badge-label">We're Hiring</span>
-      <span class="badge-count">{{ open_jobs_count }} Open Position{{ 's' if open_jobs_count != 1 else '' }}</span>
+      {% if open_jobs_count and open_jobs_count|int > 0 %}
+        <span class="badge-count">{{ open_jobs_count }} Open Position{{ 's' if open_jobs_count != 1 else '' }}</span>
+      {% else %}
+        <span class="badge-count">No Open Positions</span>
+      {% endif %}
     </div>
     <div class="badge-pulse"></div>
   </a>
@@ -534,23 +555,90 @@
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
   <!-- Leaflet JS (loaded before Alpine so map APIs are available to x-init handlers) -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-  
   <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
   <script>
-    // Initialize AOS (Animate on Scroll)
-    AOS.init({
-      duration: 800,
-      once: true,
-    });
-    
-    // ADD THIS SCRIPT TO INITIALIZE THE 3D TILT CARDS
+    // Wait for all scripts to load before initializing
     document.addEventListener('DOMContentLoaded', function() {
-      VanillaTilt.init(document.querySelectorAll("[data-tilt]"), {
-        max: 15,     // Max tilt rotation (degrees)
-        speed: 400,  // Speed of the enter/exit transition
-        perspective: 1000 // Creates a more pronounced 3D effect
+      // Initialize AOS with a slight delay to ensure DOM is fully ready
+      setTimeout(function() {
+        if (typeof AOS !== 'undefined') {
+          AOS.init({
+            duration: 800,
+            once: true,
+            offset: 50,
+            delay: 100,
+            disable: false
+          });
+        }
+      }, 100);
+      
+      // Initialize 3D Tilt Cards after a short delay
+      setTimeout(function() {
+        if (typeof VanillaTilt !== 'undefined') {
+          VanillaTilt.init(document.querySelectorAll("[data-tilt]"), {
+            max: 15,
+            speed: 400,
+            perspective: 1000
+          });
+        }
+      }, 200);
+    });
+
+    // Also trigger AOS refresh when Alpine.js is ready
+    document.addEventListener('alpine:init', () => {
+      // Refresh AOS after Alpine components initialize
+      setTimeout(() => {
+        if (typeof AOS !== 'undefined') {
+          AOS.refresh();
+        }
+        // Add fade-in-ready class to body to ensure smooth appearance
+        document.body.classList.add('fade-in-ready');
+      }, 300);
+    });
+
+    // Fallback: ensure content appears even if Alpine doesn't load
+    window.addEventListener('load', function() {
+      setTimeout(() => {
+        document.body.classList.add('fade-in-ready');
+        if (typeof AOS !== 'undefined') {
+          AOS.refresh();
+        }
+      }, 500);
+    });
+
+    // Global image fallback: replace broken <img> with placeholder.svg
+    document.addEventListener('DOMContentLoaded', function() {
+      const placeholder = "{{ url_for('static', filename='img/placeholder.svg') }}";
+      // Replace broken images
+      const imgs = document.querySelectorAll('img');
+      imgs.forEach(img => {
+        // if image already broken, replace now
+        img.addEventListener('error', function() {
+          if (img.getAttribute('data-fallback-applied')) return;
+          img.setAttribute('data-fallback-applied', '1');
+          img.src = placeholder;
+        });
+        // defensive check: if image not loaded (naturalWidth === 0)
+        if (img.complete && img.naturalWidth === 0) {
+          img.dispatchEvent(new Event('error'));
+        }
+      });
+
+      // Replace missing background images (elements with inline background-image)
+      const els = document.querySelectorAll('[style*="background-image"]');
+      els.forEach(el => {
+        const match = /url\(["']?([^\)"']+)["']?\)/.exec(el.style.backgroundImage);
+        if (!match) return;
+        const url = match[1];
+        // only check local static images
+        if (!url.includes('/static/img/')) return;
+        const imgTest = new Image();
+        imgTest.onerror = function() {
+          el.style.backgroundImage = `url(${placeholder})`;
+        };
+        imgTest.src = url;
       });
     });
 

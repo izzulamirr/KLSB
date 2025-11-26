@@ -1,5 +1,12 @@
 {% extends "base.html" %}
 {% block title %}Submit a Proposal — KLSB{% endblock %}
+
+{% block extra_head %}
+{% if config.RECAPTCHA_ENABLED %}
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+{% endif %}
+{% endblock %}
+
 {% block content %}
 
 <section class="py-20 bg-white">
@@ -64,6 +71,12 @@
           <option value="Supply Trading & Event Management">Supply Trading & Event Management</option>
         </select>
       </div>
+
+      {% if config.RECAPTCHA_ENABLED %}
+      <div class="flex justify-center">
+        <div class="g-recaptcha" data-sitekey="{{ config.RECAPTCHA_SITE_KEY }}"></div>
+      </div>
+      {% endif %}
 
       <!-- Submit -->
       <div class="text-center">

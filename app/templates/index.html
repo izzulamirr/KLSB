@@ -53,8 +53,7 @@
   
   /* --- FIXED: Truly Infinite Client Logo Scroller --- */
   @keyframes scroll {
-    from { transform: translateX(-100%); }
-    /* FIX: Changed from -100% to -50% to create a seamless loop */
+    from { transform: translateX(0); }
     to { transform: translateX(-50%); } 
   }
   .logo-scroller {
@@ -64,11 +63,9 @@
   .logo-scroller .logo-track {
     display: flex;
     width: max-content;
-    /* start paused until images are decoded to avoid frame jank */
     animation: scroll 120s linear infinite;
-    animation-play-state: paused;
+    animation-play-state: running;
     will-change: transform;
-    /* GPU hint for smoother transforms */
     transform: translateZ(0);
   }
   .logo-scroller img {
@@ -92,7 +89,7 @@
 {% endblock %}
 
 {% block content %}
-{% set hero_image = url_for('static', filename='img/hero.jpg') %}
+{% set hero_image = url_for('static', filename='img/hero.jpg') + '?v=' + range(1000, 9999) | random | string %}
 {% set logo_manpower = url_for('static', filename='img/logo/manpower_icon.png') %}
 {% set logo_engineering = url_for('static', filename='img/logo/engineering_icon.png') %}
 {% set logo_digital = url_for('static', filename='img/logo/digital_icon.png') %}
@@ -101,9 +98,16 @@
 {% set logo_supply = url_for('static', filename='img/logo/supply_icon.png') %}
 
 <section class="relative min-h-screen overflow-hidden text-center flex items-center justify-center">
-  <div class="absolute inset-0 -z-10 bg-cover bg-center hero-bg-animate" style="background-image: url('{{ hero_image }}');"></div>
-  <div class="absolute inset-0 -z-10 bg-black/60"></div>
-  <div class="w-full max-w-4xl mx-auto px-6 py-28" data-aos="fade-up">
+  <!-- Hero background image with explicit styles -->
+  <div id="hero-bg" class="absolute hero-bg-animate" aria-hidden="true"
+       style="top:0; left:0; right:0; bottom:0; background-image: url('{{ hero_image }}'); background-size: cover; background-position: center center; background-repeat: no-repeat; z-index: 1;"></div>
+  <!-- Fallback image in case background-image fails -->
+  <img id="hero-fallback" src="{{ hero_image }}" alt="Hero background" aria-hidden="true"
+       style="position: absolute; top:0; left:0; width:100%; height:100%; object-fit:cover; display:none; z-index:1;" />
+  <!-- Dark overlay for text readability -->
+  <div class="absolute" aria-hidden="true" style="top:0; left:0; right:0; bottom:0; background-color: rgba(0,0,0,0.6); z-index: 2;"></div>
+  <!-- Content layer -->
+  <div class="w-full max-w-4xl mx-auto px-6 py-28" style="position: relative; z-index: 10;" data-aos="fade-up">
   <h1 class="text-4xl sm:text-6xl uppercase font-bold text-white font-montserrat hero-title"
     style="text-shadow: 0 0 6px rgba(173, 216, 230, 0.8),   /* lightblue */
            0 0 12px rgba(173, 216, 230, 0.5),
@@ -126,12 +130,12 @@
       <p class="mt-4 text-slate-300">Integrated solutions designed to drive efficiency and growth across your operations.</p>
     </div>
 
-    <div class="mt-16 relative" data-aos="fade-up" data-aos-delay="100" x-data>
+    <div class="mt-16 relative" data-aos="fade-up" data-aos-delay="100" x-data="serviceSlider()" x-init="init()">>
       
-      <button @click="$refs.slider.scrollBy({ left: -308, behavior: 'smooth' })" class="absolute -left-4 top-1/2 -translate-y-1/2 z-10 bg-slate-800/50 hover:bg-slate-800/80 p-2 rounded-full text-white transition hidden md:block">
+      <button @click="scrollLeft()" class="absolute -left-4 top-1/2 -translate-y-1/2 z-10 bg-slate-800/50 hover:bg-slate-800/80 p-2 rounded-full text-white transition hidden md:block">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" /></svg>
       </button>
-      <button @click="$refs.slider.scrollBy({ left: 308, behavior: 'smooth' })" class="absolute -right-4 top-1/2 -translate-y-1/2 z-10 bg-slate-800/50 hover:bg-slate-800/80 p-2 rounded-full text-white transition hidden md:block">
+      <button @click="scrollRight()" class="absolute -right-4 top-1/2 -translate-y-1/2 z-10 bg-slate-800/50 hover:bg-slate-800/80 p-2 rounded-full text-white transition hidden md:block">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg>
       </button>
 
@@ -239,7 +243,7 @@
 <section id="clients" class="py-20 bg-white text-center">
   <div class="max-w-6xl mx-auto px-6" data-aos="fade-up">
     <h2 class="text-3xl font-semibold">Our Major Clients</h2>
-    <div class="mt-12 logo-scroller" x-data="{
+    <div class="mt-12 logo-scroller" x-cloak x-data="{
         logos: [
             { src: '{{ url_for('static', filename='img/clients/petronas.jpg') }}', alt: 'Petronas' },
             { src: '{{ url_for('static', filename='img/clients/basf.jpg') }}', alt: 'BASF Petronas' },
@@ -329,49 +333,103 @@ document.addEventListener('DOMContentLoaded', () => {
 
 <script>
 // Wait for client logos to be decoded before starting scroll animation to reduce jank
-(function(){
-  const scroller = document.querySelector('.logo-scroller .logo-track');
-  if (!scroller) return;
+document.addEventListener('DOMContentLoaded', function() {
+  // Add a small delay to ensure all styles are loaded
+  setTimeout(function() {
+    const scroller = document.querySelector('.logo-scroller .logo-track');
+    if (!scroller) return;
 
-  const imgs = Array.from(scroller.querySelectorAll('img'));
-  // If there are no images or all already complete, start immediately
-  if (imgs.length === 0) {
+    const imgs = Array.from(scroller.querySelectorAll('img'));
+    // Start animation immediately for better user experience
     scroller.style.animationPlayState = 'running';
-    return;
-  }
-
-  let finished = 0;
-  const startAnimation = () => {
-    scroller.style.animationPlayState = 'running';
-  };
-
-  const onImgDecoded = () => {
-    finished += 1;
-    if (finished >= imgs.length) startAnimation();
-  };
-
-  // Safety timeout — don't wait forever (in case of slow network)
-  const timeoutId = setTimeout(() => startAnimation(), 2500);
-
-  imgs.forEach(img => {
-    // Some browsers support decode()
-    if (img.decode) {
-      img.decode().then(onImgDecoded).catch(onImgDecoded);
-    } else if (img.complete) {
-      // already loaded
-      onImgDecoded();
-    } else {
-      img.addEventListener('load', onImgDecoded);
-      img.addEventListener('error', onImgDecoded);
-    }
-  });
-
-  // Clear timeout if animation started normally
-  const observer = new MutationObserver(() => {
-    if (scroller.style.animationPlayState === 'running') clearTimeout(timeoutId);
-  });
-  observer.observe(scroller, { attributes: true, attributeFilter: ['style'] });
-})();
+    
+    // Still preload images for better performance
+    imgs.forEach(img => {
+      if (img.decode && !img.complete) {
+        img.decode().catch(() => {}); // Silent fail for decode errors
+      }
+    });
+  }, 500); // Wait 500ms for styles and Alpine to load
+});
 </script>
 
 {% endblock %}
+
+<script>
+// Service slider Alpine.js component
+function serviceSlider() {
+  return {
+    init() {
+      // Initialize slider after component is ready
+      this.$nextTick(() => {
+        // Ensure smooth scrolling is enabled
+        if (this.$refs.slider) {
+          this.$refs.slider.style.scrollBehavior = 'smooth';
+        }
+      });
+    },
+    scrollLeft() {
+      if (this.$refs.slider) {
+        this.$refs.slider.scrollBy({ left: -308, behavior: 'smooth' });
+      }
+    },
+    scrollRight() {
+      if (this.$refs.slider) {
+        this.$refs.slider.scrollBy({ left: 308, behavior: 'smooth' });
+      }
+    }
+  }
+}
+
+// Register the component globally
+document.addEventListener('alpine:init', () => {
+  Alpine.data('serviceSlider', serviceSlider);
+});
+</script>
+
+<!-- Hero preload & fallback script -->
+<script>
+  (function(){
+    var imgUrl = '{{ hero_image }}';
+    var heroBg = document.getElementById('hero-bg');
+    var heroFallback = document.getElementById('hero-fallback');
+    
+    console.log('Hero image URL:', imgUrl);
+    console.log('Hero BG element:', heroBg);
+    console.log('Hero fallback element:', heroFallback);
+    
+    // Make sure hero bg is visible by default
+    if(heroBg) {
+      heroBg.style.visibility = 'visible';
+      heroBg.style.opacity = '1';
+    }
+    
+    // Preload image to check if it loads
+    var img = new Image();
+    img.onload = function(){
+      console.log('Hero image loaded successfully:', imgUrl);
+      if(heroBg) {
+        heroBg.style.visibility = 'visible';
+        heroBg.style.opacity = '1';
+      }
+    };
+    img.onerror = function(){
+      console.error('Hero image failed to load:', imgUrl);
+      // Show fallback img tag instead
+      if(heroFallback) {
+        heroFallback.style.display = 'block';
+        console.log('Showing fallback image');
+      }
+      if(heroBg) {
+        heroBg.style.backgroundImage = 'none';
+      }
+    };
+    img.src = imgUrl;
+    
+    // If already loaded (cached)
+    if(img.complete && img.naturalWidth > 0){
+      console.log('Hero image was cached, showing immediately');
+      if(heroBg) heroBg.style.visibility = 'visible';
+    }
+  })();
+</script>

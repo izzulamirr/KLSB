@@ -81,6 +81,50 @@
     color: #0b1220;
     border-bottom-color: rgba(11,18,32,0.08);
   }
+  /* Prevent horizontal overflow on this page (fix sideways scrolling on small screens) */
+  body {
+    overflow-x: hidden;
+  }
+  .talent-dashboard-container, .talent-dashboard-container * {
+    box-sizing: border-box;
+    max-width: 100%;
+  }
+  /* Ensure background images and hero don't force width > 100% */
+  .bg-cover, .talent-dashboard-container .absolute, .talent-dashboard-container .bg-cover {
+    max-width: 100%;
+    overflow: hidden;
+  }
+  /* Mobile: make the dashboard behave like a fixed/top-sticky panel without breaking flow */
+  @media (max-width: 640px) {
+    .talent-dashboard-container {
+      position: -webkit-sticky;
+      position: sticky;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 30;
+      width: 100%;
+      overflow-x: hidden;
+    }
+
+    /* Prevent grid/flex children from forcing overflow */
+    .talent-dashboard-container .grid,
+    .talent-dashboard-container .glass-card,
+    .talent-dashboard-container .grid > * {
+      min-width: 0;
+      max-width: 100%;
+      box-sizing: border-box;
+      overflow-wrap: break-word;
+      word-break: break-word;
+    }
+
+    /* Ensure hero background doesn't cause horizontal scroll on mobile */
+    .relative.inset-0, .absolute.inset-0 {
+      left: 0;
+      right: 0;
+      max-width: 100%;
+    }
+  }
 </style>
 {% endblock %}
 
@@ -88,9 +132,9 @@
 {% set hero_bg = url_for('static', filename='img/manpower.jpg') %}
 
 <section class="relative min-h-[500px] flex items-center justify-center text-center">
-  <div class="absolute inset-0 -z-10 bg-cover bg-center" style="background-image: url('{{ hero_bg }}');"></div>
-  <div class="absolute inset-0 -z-10 bg-gradient-to-t from-black/70 to-black/30"></div>
-  <div class="w-full max-w-4xl px-4 sm:px-6 lg:px-8 py-16">
+  <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('{{ hero_bg }}'); z-index: 1;"></div>
+  <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-black/30" style="z-index: 2;"></div>
+  <div class="w-full max-w-4xl px-4 sm:px-6 lg:px-8 py-16 relative" style="z-index: 3;">
     <h1 class="text-4xl sm:text-5xl font-bold text-white drop-shadow-lg mb-4" data-aos="fade-up">Professional & Technical Manpower</h1>
     <p class="text-xl text-white/90 drop-shadow-md max-w-2xl mx-auto" data-aos="fade-up" data-aos-delay="100" style="color:#fff !important;">We provide elite professional and technical manpower, meticulously matched to your project's unique demands for culture, skill, and safety.</p>
   </div>

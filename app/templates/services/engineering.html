@@ -120,9 +120,9 @@
 
 {# --- HERO SECTION --- #}
 <section class="relative min-h-[500px] flex items-center justify-center text-center">
-  <div class="absolute inset-0 -z-10 bg-cover bg-center" style="background-image: url('{{ hero_bg }}');"></div>
-  <div class="absolute inset-0 -z-10 bg-gradient-to-t from-black/70 to-black/30"></div>
-  <div class="w-full max-w-4xl px-4 sm:px-6 lg:px-8 py-16">
+  <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('{{ hero_bg }}'); z-index: 1;"></div>
+  <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-black/30" style="z-index: 2;"></div>
+  <div class="w-full max-w-4xl px-4 sm:px-6 lg:px-8 py-16 relative" style="z-index: 3;">
     <h1 class="text-4xl sm:text-5xl font-bold text-white drop-shadow-lg mb-4" data-aos="fade-up">Engineering Services</h1>
     <p class="text-xl text-white/90 drop-shadow-md max-w-3xl mx-auto" data-aos="fade-up" data-aos-delay="100" style="color:#fff !important;">
       Our 3D Modelling & Design Consultancy supports projects from detailed design, fabrication to installation, upgrades, and commissioning in both greenfield and brownfield developments.
