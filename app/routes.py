@@ -8,6 +8,7 @@ import csv
 from flask import Response, send_file, abort
 from app import db
 from app.models import Applicant, JobListing
+from app.cv_converter import convert_cv_to_klsb_ocr
 from functools import wraps
 from flask import session, flash
 import time
@@ -170,6 +171,13 @@ def admin_applicants_view():
     # ✅ Pass both applicants and proposals to the template
     return render_template("admin_applicants.html", applicants=applicants, proposals=proposals)
 
+
+@main_bp.route("/admin/cv-converter", methods=["GET"], endpoint="admin_cv_converter_view")
+@admin_required
+def admin_cv_converter_view():
+    """Simple page to trigger OCR-based CV conversion."""
+    return render_template("admin_cv_converter.html")
+
 # --- Download uploaded CV ---
 @main_bp.route("/admin/applicants/<int:applicant_id>/download", endpoint="admin_download_applicant_file")
 @admin_required
@@ -187,6 +195,113 @@ def admin_download_applicant_file_view(applicant_id):
 
     download_name = a.filename or os.path.basename(path)
     return send_file(path, as_attachment=True, download_name=download_name)
+
+
+@main_bp.route("/admin/cv/convert-ocr", methods=["POST"], endpoint="admin_cv_convert_ocr")
+@admin_required
+def admin_cv_convert_ocr():
+    """Convert an applicant CV into KLSB_877 format using OCR/text extraction."""
+    data = {}
+    if request.is_json:
+        data.update(request.get_json(silent=True) or {})
+    data.update(request.form.to_dict())
+
+    applicant_id = data.get("applicant_id")
+    full_name = (data.get("full_name") or "").strip()
+    email = (data.get("email") or "").strip()
+    position = (data.get("position") or "").strip()
+    phone = (data.get("phone") or "").strip()
+    dob = (data.get("dob") or "").strip()
+    nationality = (data.get("nationality") or "").strip()
+    marital_status = (data.get("marital_status") or "").strip()
+    address = (data.get("address") or "").strip()
+    cv_file = request.files.get("cv_file")
+
+    project_root = os.path.abspath(os.path.join(current_app.root_path, ".."))
+    upload_folder = current_app.config.get("UPLOAD_FOLDER") or os.path.join(current_app.root_path, "uploads", "cv")
+    klsb_folder = os.path.join(upload_folder, "klsb_formatted")
+    os.makedirs(klsb_folder, exist_ok=True)
+
+    source_path = None
+    temp_path = None
+
+    if applicant_id:
+        try:
+            applicant = Applicant.query.get_or_404(int(applicant_id))
+            source_path = applicant.file_path or ""
+            if not os.path.isabs(source_path):
+                candidate = os.path.join(project_root, source_path)
+                if os.path.exists(candidate):
+                    source_path = candidate
+                else:
+                    source_path = os.path.join(current_app.root_path, source_path)
+            if not os.path.exists(source_path):
+                return jsonify({"status": "error", "errors": [f"CV file not found: {source_path}"]}), 404
+
+            full_name = full_name or applicant.full_name
+            position = position or applicant.position
+            email = email or applicant.email
+        except Exception as exc:
+            current_app.logger.exception("Failed to load applicant for OCR conversion")
+            return jsonify({"status": "error", "errors": [str(exc)]}), 400
+
+    else:
+        if not cv_file or cv_file.filename == "":
+            return jsonify({"status": "error", "errors": ["Provide applicant_id or upload cv_file."]}), 400
+        safe_orig = secure_filename(cv_file.filename or "cv.pdf")
+        rand = secrets.token_hex(6)
+        ext = os.path.splitext(safe_orig)[1] or ".pdf"
+        temp_name = f"ocr_{rand}{ext}"
+        temp_path = os.path.join(klsb_folder, temp_name)
+        try:
+            cv_file.save(temp_path)
+            source_path = temp_path
+        except Exception:
+            current_app.logger.exception("Failed to save uploaded CV for OCR conversion")
+            return jsonify({"status": "error", "errors": ["Unable to save uploaded file."]}), 500
+
+    try:
+        converted_path, detected_fields = convert_cv_to_klsb_ocr(
+            source_path,
+            klsb_folder,
+            overrides={
+                "name": full_name,
+                "position": position,
+                "email": email,
+                "phone": phone,
+                "dob": dob,
+                "nationality": nationality,
+                "marital_status": marital_status,
+                "address": address,
+            },
+        )
+    except Exception as exc:
+        current_app.logger.exception("CV OCR conversion failed")
+        return jsonify({"status": "error", "errors": [str(exc)]}), 500
+    finally:
+        if temp_path and os.path.exists(temp_path):
+            try:
+                os.remove(temp_path)
+            except Exception:
+                pass
+
+    rel_path = os.path.relpath(converted_path, start=current_app.root_path).replace("\\", "/")
+    final_name = os.path.basename(converted_path)
+
+    if applicant_id:
+        applicant.filename = final_name
+        applicant.file_path = rel_path
+        db.session.add(applicant)
+        db.session.commit()
+
+    return jsonify(
+        {
+            "status": "success",
+            "filename": final_name,
+            "stored_at": rel_path,
+            "detected_fields": detected_fields,
+        }
+    ), 201
 
 # --- CSV export ---
 @main_bp.route("/admin/applicants/export/csv", endpoint="admin_export_applicants_csv")

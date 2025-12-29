@@ -80,9 +80,9 @@ class BaseConfig:
     # Site URL for links in emails
     SITE_URL = os.environ.get('SITE_URL', 'https://kemuncaklanai.com.my/')
 
-    DB_USER = "kemunca_akmalhaziq"
-    DB_PASS = "akmal@kl$8kl$8"             # contains @ and $, so we URL-encode below
-    DB_NAME = "kemunca_website_Akmal"
+    DB_USER = "root"
+    DB_PASS = ""             # contains @ and $, so we URL-encode below
+    DB_NAME = "klsb_test"
     DB_HOST = "localhost"
     DB_PORT = "3306"
 

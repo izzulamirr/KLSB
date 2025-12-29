@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+{% block title %}CV Converter{% endblock %}
+
+{% block content %}
+<section class="py-12 bg-white">
+  <div class="max-w-4xl mx-auto px-6 space-y-6">
+    <div class="flex items-center justify-between">
+      <h1 class="text-3xl font-bold text-[#030C69]">CV Converter (OCR)</h1>
+      <a href="{{ url_for('main.admin_applicants') }}" class="text-sm text-blue-600 hover:underline">Back to Applicants</a>
+    </div>
+
+    <div class="p-4 bg-slate-50 border border-slate-200 rounded-lg space-y-3 text-sm">
+      <p class="font-semibold">How it works</p>
+      <ul class="list-disc list-inside space-y-1 text-slate-700">
+        <li>Option A: Enter an existing applicant ID to convert the stored CV.</li>
+        <li>Option B: Upload a CV file directly.</li>
+        <li>Optional overrides: name, position, email, phone (prefill/override detected fields).</li>
+      </ul>
+    </div>
+
+    <div class="p-6 bg-white border border-slate-200 rounded-lg shadow-sm space-y-4">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label class="block text-sm font-medium text-slate-700">Applicant ID (optional)</label>
+          <input id="applicant_id" type="number" class="w-full border rounded px-3 py-2 text-sm" placeholder="e.g. 12" />
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-slate-700">Upload CV (optional)</label>
+          <input id="cv_file" name="cv_file" type="file" accept=".pdf,.doc,.docx" class="w-full text-sm" />
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-slate-700">Name override</label>
+          <input id="full_name" type="text" class="w-full border rounded px-3 py-2 text-sm" placeholder="Full Name" />
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-slate-700">Position override</label>
+          <input id="position" type="text" class="w-full border rounded px-3 py-2 text-sm" placeholder="e.g. SENIOR PIPING DESIGNER" />
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-slate-700">Email override</label>
+          <input id="email" type="email" class="w-full border rounded px-3 py-2 text-sm" placeholder="Email" />
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-slate-700">Phone override</label>
+          <input id="phone" type="text" class="w-full border rounded px-3 py-2 text-sm" placeholder="+603 2181 8078" />
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-slate-700">Date of Birth override</label>
+          <input id="dob" type="text" class="w-full border rounded px-3 py-2 text-sm" placeholder="16 AUGUST 1985" />
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-slate-700">Nationality override</label>
+          <input id="nationality" type="text" class="w-full border rounded px-3 py-2 text-sm" placeholder="MALAYSIAN" />
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-slate-700">Marital Status override</label>
+          <input id="marital_status" type="text" class="w-full border rounded px-3 py-2 text-sm" placeholder="MARRIED" />
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-slate-700">Address override</label>
+          <input id="address" type="text" class="w-full border rounded px-3 py-2 text-sm" placeholder="Contact Address" />
+        </div>
+      </div>
+
+      <button id="convert-btn" class="bg-[#030C69] text-white px-4 py-2 rounded hover:bg-[#02074f] text-sm font-semibold">Convert</button>
+
+      <div id="result" class="text-sm text-slate-800"></div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block extra_scripts %}
+<script type="text/javascript">
+const btn = document.getElementById('convert-btn');
+const resultEl = document.getElementById('result');
+
+btn?.addEventListener('click', async () => {
+  resultEl.textContent = 'Working...';
+  const formData = new FormData();
+  const id = document.getElementById('applicant_id').value;
+  if (id) formData.append('applicant_id', id);
+  ['full_name','position','email','phone','dob','nationality','marital_status','address'].forEach(k => {
+    const v = document.getElementById(k).value;
+    if (v) formData.append(k, v);
+  });
+  const fileInput = document.getElementById('cv_file');
+  if (fileInput && fileInput.files.length > 0) {
+    formData.append('cv_file', fileInput.files[0]);
+  }
+
+  try {
+    const resp = await fetch("{{ url_for('main.admin_cv_convert_ocr') }}", {
+      method: 'POST',
+      body: formData
+    });
+    const data = await resp.json();
+    if (resp.ok && data.status === 'success') {
+      resultEl.innerHTML = "✅ Converted: " + data.filename + "<br/>Stored at: " + data.stored_at + "<br/>Detected: " + JSON.stringify(data.detected_fields);
+    } else {
+      resultEl.innerHTML = "❌ Error: " + ((data.errors || []).join(', ') || resp.statusText);
+    }
+  } catch (e) {
+    resultEl.textContent = '❌ Error: ' + e.message;
+  }
+});
+</script>
+{% endblock %}

@@ -9,3 +9,8 @@ itsdangerous==2.2.0
 click==8.1.7
 tzdata==2024.1
 openpyxl==3.1.2
+pypdf==4.2.0
+reportlab==4.2.0
+pdf2image==1.17.0
+pytesseract==0.3.10
+Pillow==10.4.0

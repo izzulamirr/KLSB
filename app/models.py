@@ -1,7 +1,7 @@
 from datetime import datetime
 from zoneinfo import ZoneInfo
 from . import db
-from . import db
+
 
 def kl_now():
     """
@@ -43,6 +43,25 @@ class Applicant(db.Model):
 
     def __repr__(self):
         return f"<Applicant {self.id} {self.full_name} - {self.position}>"
+
+
+class JobListing(db.Model):
+    __tablename__ = "job_listings"
+
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(255), nullable=False)
+    department = db.Column(db.String(100), nullable=False)
+    location = db.Column(db.String(255), nullable=True)
+    type = db.Column(db.String(100), nullable=True)
+    summary = db.Column(db.Text, nullable=True)
+    points = db.Column(db.Text, nullable=True)
+    posted_date = db.Column(db.String(50), default="Recently posted", nullable=True)
+    is_active = db.Column(db.Boolean, default=True, nullable=False)
+    created_at = db.Column(db.DateTime, default=kl_now, nullable=False)
+    updated_at = db.Column(db.DateTime, default=kl_now, onupdate=kl_now, nullable=False)
+
+    def __repr__(self):
+        return f"<JobListing {self.id} {self.title} - {self.department}>"
     
     
 class Proposal(db.Model):
