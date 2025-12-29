@@ -3,6 +3,7 @@
   const header = document.getElementById('site-header');
   const toggle = document.querySelector('.nav-toggle');
   const panel = document.getElementById('mobile-nav');
+  const closeBtn = document.querySelector('.mobile-close-btn');
   const focusableSelectors = 'a[href], button:not([disabled])';
   let lastFocused;
 
@@ -13,9 +14,9 @@
     if(expanded){
       panel.removeAttribute('hidden');
       lastFocused = document.activeElement;
-      // focus first link
-      const firstLink = panel.querySelector(focusableSelectors);
-      if(firstLink) firstLink.focus();
+      // focus close button if it exists, otherwise first link
+      const firstFocus = closeBtn || panel.querySelector(focusableSelectors);
+      if(firstFocus) firstFocus.focus();
       document.addEventListener('keydown', onKeydown);
     } else {
       panel.setAttribute('hidden', '');
@@ -34,6 +35,13 @@
     toggle.addEventListener('click', () => {
       const expanded = toggle.getAttribute('aria-expanded') === 'true';
       setExpanded(!expanded);
+    });
+  }
+
+  // Close button handler
+  if(closeBtn){
+    closeBtn.addEventListener('click', () => {
+      setExpanded(false);
     });
   }
 

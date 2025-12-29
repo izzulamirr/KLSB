@@ -1,204 +1,534 @@
 {% extends 'base.html' %}
 {% block title %}Board of Directors — KLSB{% endblock %}
-{% block content %}
+
 {% block extra_head %}
 <style>
-  /* Page-scoped override: force modal text to black and normalize blend-mode for this page only */
-  .board-modal-overlay p,
-  .board-modal-overlay .modal-title,
-  .board-modal-overlay ul,
-  .board-modal-overlay li,
-  .board-modal-overlay h2 {
-    color: #000 !important;
-    mix-blend-mode: normal !important;
+  /* Blue gradient background matching manpower page */
+  .blue-gradient-bg {
+    background: linear-gradient(180deg, #010428 0%, #030C69 100%);
   }
-  /* Force paragraph text inside card buttons (used for both directors and managers) to black */
-  .director-card p,
-  button.director-card p {
-    color: #000 !important;
-    -webkit-text-fill-color: #000 !important;
-    mix-blend-mode: normal !important;
+
+  /* White glass cards for content */
+  .glass-card {
+    background: #ffffff;
+    color: #0b1220;
+    border: 1px solid rgba(11,18,32,0.06);
+    box-shadow: 0 6px 20px rgba(8,12,30,0.18);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+  
+  .glass-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 28px rgba(8,12,30,0.24);
+  }
+
+  /* Profile cards with image overlays */
+  .profile-card {
+    position: relative;
+    overflow: hidden;
+    border-radius: 1rem;
+    background: #ffffff;
+    box-shadow: 0 6px 20px rgba(8,12,30,0.18);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+  }
+  
+  .profile-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 16px 32px rgba(8,12,30,0.28);
+  }
+  
+  .profile-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+  
+  .profile-card:hover img {
+    transform: scale(1.05);
+  }
+  
+  .profile-card .overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.4) 60%, transparent 100%);
+    padding: 1.5rem;
+    color: white;
+  }
+  
+  .profile-card .overlay h3,
+  .profile-card .overlay p {
+    color: #ffffff !important;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+  }
+
+  /* Modal styling */
+  .board-modal-overlay {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: rgba(0,0,0,0.7) !important;
+    backdrop-filter: blur(8px);
+    z-index: 99999 !important;
+    inset: 0 !important;
+  }
+  
+  .board-modal-overlay .board-modal-close { 
+    z-index: 100001 !important; 
+  }
+  
+  .board-modal-overlay > div {
+    max-height: 90vh !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch;
+    background: white;
+    border-radius: 1rem;
+    box-shadow: 0 24px 48px rgba(0,0,0,0.3);
+  }
+  
+  .board-modal-overlay .modal-title {
+    color: #0b1220 !important;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+  
+  .board-modal-overlay p,
+  .board-modal-overlay ul,
+  .board-modal-overlay li {
+    color: #0b1220 !important;
+    line-height: 1.7;
+  }
+  
+  .board-modal-overlay ul {
+    margin-top: 1.5rem !important;
+    padding-left: 1.5rem !important;
+  }
+  
+  .board-modal-overlay li {
+    margin-bottom: 0.75rem !important;
+  }
+
+  /* Responsive adjustments */
+  
+  /* Desktop: Maintain grid layout */
+  @media (min-width: 769px) {
+    #board .grid {
+      display: grid !important;
+      grid-template-columns: repeat(3, 1fr) !important;
+      gap: 2rem !important;
+    }
+    
+    #managers .grid {
+      display: grid !important;
+      grid-template-columns: repeat(3, 1fr) !important;
+      gap: 2rem !important;
+    }
+    
+    .profile-card {
+      display: flex !important;
+      flex-direction: column !important;
+    }
+    
+    .profile-card img {
+      width: 100% !important;
+      height: 100% !important;
+    }
+    
+    .profile-card .overlay {
+      position: absolute !important;
+      bottom: 0 !important;
+      left: 0 !important;
+      right: 0 !important;
+      width: 100% !important;
+      background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.4) 60%, transparent 100%) !important;
+    }
+  }
+  
+  /* Tablet and Mobile: List layout */
+  @media (max-width: 768px) {
+    .board-modal-overlay > div {
+      max-height: 95vh !important;
+      margin: 1rem;
+      width: 90% !important;
+    }
+    
+    /* Mobile vertical list layout: single column instead of grid */
+    #board .grid,
+    #managers .grid {
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 1rem !important;
+    }
+    
+    /* Make cards horizontal list items with fixed height */
+    .profile-card {
+      height: 10rem !important;
+      border-radius: 0.75rem !important;
+      display: flex !important;
+      flex-direction: row !important;
+    }
+    
+    .profile-card img {
+      width: 40% !important;
+      height: 100% !important;
+      object-fit: cover !important;
+      flex-shrink: 0 !important;
+    }
+    
+    /* Adjust overlay to cover only the right side (text area) */
+    .profile-card .overlay {
+      position: relative !important;
+      width: 60% !important;
+      background: linear-gradient(to right, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.75) 100%) !important;
+      padding: 1rem !important;
+      display: flex !important;
+      flex-direction: column !important;
+      justify-content: center !important;
+      bottom: auto !important;
+      left: auto !important;
+      right: auto !important;
+    }
+    
+    .profile-card .overlay h3 {
+      font-size: 0.95rem !important;
+      line-height: 1.3 !important;
+      margin-bottom: 0.25rem !important;
+    }
+    
+    .profile-card .overlay p {
+      font-size: 0.8rem !important;
+    }
+    
+    /* Reduce hero padding on mobile */
+    .blue-gradient-bg {
+      padding-top: 3rem !important;
+      padding-bottom: 3rem !important;
+    }
+    
+    /* Reduce section padding */
+    #board,
+    #managers {
+      padding-top: 3rem !important;
+      padding-bottom: 3rem !important;
+    }
+    
+    /* Adjust heading sizes */
+    h1 {
+      font-size: 2rem !important;
+      line-height: 2.5rem !important;
+    }
+    
+    h2 {
+      font-size: 1.5rem !important;
+      line-height: 2rem !important;
+    }
+    
+    /* Reduce section description text */
+    #board p,
+    #managers p {
+      font-size: 1rem !important;
+    }
+    
+    /* Add some spacing for mobile readability */
+    .max-w-7xl {
+      padding-left: 1rem !important;
+      padding-right: 1rem !important;
+    }
+  }
+  
+  /* Extra small mobile devices */
+  @media (max-width: 480px) {
+    .profile-card {
+      height: 9rem !important;
+    }
+    
+    .profile-card .overlay h3 {
+      font-size: 0.85rem !important;
+    }
+    
+    .profile-card .overlay p {
+      font-size: 0.75rem !important;
+    }
+    
+    h1 {
+      font-size: 1.75rem !important;
+    }
   }
 </style>
 {% endblock %}
-<section class="py-24 bg-white" id="board">
-  <div class="max-w-7xl mx-auto px-6">
-    <h1 class="text-4xl font-bold tracking-tight text-center mb-12">Board of Directors</h1>
-    <div class="grid gap-10 md:grid-cols-2 lg:grid-cols-4">
-  <button class="relative group director-card rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 transition h-80 md:h-96 lg:h-[28rem]" data-modal-target="manager-sobry" aria-haspopup="dialog">
-            <img src="{{ url_for('static', filename='img/Management/org.jpg') }}" alt="Shazli Bin Razak" class="absolute inset-0 w-full h-full object-cover group-hover:scale-[1.03] transition-transform" loading="lazy">
-            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent pointer-events-none"></div>
-            <div class="absolute bottom-0 left-0 right-0 p-6 z-10">
-              <h3 class="font-semibold text-white leading-snug text-lg">Shazli Bin Razak</h3>
-              <p class="mt-1 text-sm text-black">Managing Director</p>
-            </div>
-          </button>
-  <button class="relative group director-card rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 transition h-80 md:h-96 lg:h-[28rem]" data-modal-target="manager-hafiz" aria-haspopup="dialog">
-        <img src="{{ url_for('static', filename='img/Management/org.jpg') }}" alt="Ahmad Syahmy Bin Muhammad Shamsuddin" class="absolute inset-0 w-full h-full object-cover group-hover:scale-[1.03] transition-transform" loading="lazy">
-        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent pointer-events-none"></div>
-        <div class="absolute bottom-0 left-0 right-0 p-6 z-10">
-          <h3 class="font-semibold text-white leading-snug text-lg">Ahmad Syahmy Bin Muhammad Shamsuddin</h3>
-          <p class="mt-1 text-sm text-black">Executive Director</p>
-        </div>
-      </button>
-  <button class="relative group director-card rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 transition h-80 md:h-96 lg:h-[28rem]" data-modal-target="manager-sabaruddin" aria-haspopup="dialog">
-        <img src="{{ url_for('static', filename='img/Management/org.jpg') }}" alt="Mohd Faizal Bin Rifae" class="absolute inset-0 w-full h-full object-cover group-hover:scale-[1.03] transition-transform" loading="lazy">
-        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent pointer-events-none"></div>
-        <div class="absolute bottom-0 left-0 right-0 p-6 z-10">
-          <h3 class="font-semibold text-white leading-snug text-lg">Mohd Faizal Bin Rifae</h3>
-          <p class="mt-1 text-sm text-black">Operation Director</p>
-        </div>
-      </button>
-  <button class="relative group director-card rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 transition h-80 md:h-96 lg:h-[28rem]" data-modal-target="manager-asrul" aria-haspopup="dialog">
-        <img src="{{ url_for('static', filename='img/Management/org.jpg') }}" alt="Ts. Amir Hisham Albakri" class="absolute inset-0 w-full h-full object-cover group-hover:scale-[1.03] transition-transform" loading="lazy">
-        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent pointer-events-none"></div>
-        <div class="absolute bottom-0 left-0 right-0 p-6 z-10">
-          <h3 class="font-semibold text-white leading-snug text-lg">Ts. Amir Hisham Albakri</h3>
-          <p class="mt-1 text-sm text-black">Sales & BD Director</p>
-        </div>
-      </button>
-    </div>
+
+{% block content %}
+<!-- Hero Section with Blue Gradient -->
+<section class="blue-gradient-bg py-20">
+  <div class="max-w-7xl mx-auto px-6 text-center">
+    <h1 class="text-5xl font-bold text-white mb-6" data-aos="fade-up">Our Leadership Team</h1>
+    <p class="text-xl text-white/90 max-w-3xl mx-auto" data-aos="fade-up" data-aos-delay="100">
+      Meet the experienced professionals driving KLSB's vision and excellence in engineering and technical services across the region.
+    </p>
   </div>
-<!-- Managers section -->
-<section class="py-24 bg-white" id="managers">
+</section>
+
+<!-- Board of Directors Section - White Background -->
+<section class="bg-white py-24" id="board">
   <div class="max-w-7xl mx-auto px-6">
-    <h1 class="text-4xl font-bold tracking-tight text-center mb-12">Managers</h1>
-    <div class="grid gap-10 md:grid-cols-2 lg:grid-cols-3">
-      <button class="relative group director-card rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 transition h-56 md:h-60 lg:h-64" data-modal-target="manager-sobry" aria-haspopup="dialog">
-            <img src="{{ url_for('static', filename='img/Management/org.jpg') }}" alt="Ahmad Sobry" class="absolute inset-0 w-full h-full object-cover group-hover:scale-[1.03] transition-transform" loading="lazy">
-            <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent pointer-events-none"></div>
-            <div class="absolute bottom-0 left-0 right-0 p-4 z-10">
-              <h3 class="font-semibold text-white leading-snug text-base">Ahmad Sobry</h3>
-              <p class="mt-1 text-xs text-black">Project Manager</p>
-            </div>
-          </button>
-      <button class="relative group director-card rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 transition h-56 md:h-60 lg:h-64" data-modal-target="manager-hafiz" aria-haspopup="dialog">
-        <img src="{{ url_for('static', filename='img/Management/org.jpg') }}" alt="Hafiz Azizan" class="absolute inset-0 w-full h-full object-cover group-hover:scale-[1.03] transition-transform" loading="lazy">
-        <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent pointer-events-none"></div>
-        <div class="absolute bottom-0 left-0 right-0 p-4 z-10">
-          <h3 class="font-semibold text-white leading-snug text-base">Hafiz Azizan</h3>
-          <p class="mt-1 text-xs text-black">Talent & Recruitment Manager</p>
+    <div class="text-center mb-16">
+      <h2 class="text-4xl font-bold text-gray-900 mb-4">Board of Directors</h2>
+      <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+        Strategic leadership with decades of combined experience in engineering, operations, and business development.
+      </p>
+    </div>
+    
+    <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+      <!-- Director Card 1: Shazli Bin Razak -->
+      <button class="profile-card h-[28rem] md:h-[32rem] focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600" 
+              data-modal-target="director-shazli" 
+              aria-haspopup="dialog">
+        <img src="{{ url_for('static', filename='img/Management/org.jpg') }}" 
+             alt="Shazli Bin Razak" 
+             loading="lazy">
+        <div class="overlay">
+          <h3 class="text-xl font-bold mb-1">Shazli Bin Razak</h3>
+          <p class="text-sm">Managing Director</p>
         </div>
       </button>
-      <button class="relative group director-card rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 transition h-56 md:h-60 lg:h-64" data-modal-target="manager-sabaruddin" aria-haspopup="dialog">
-        <img src="{{ url_for('static', filename='img/Management/org.jpg') }}" alt="Sabaruddin Sabri" class="absolute inset-0 w-full h-full object-cover group-hover:scale-[1.03] transition-transform" loading="lazy">
-        <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent pointer-events-none"></div>
-        <div class="absolute bottom-0 left-0 right-0 p-4 z-10">
-          <h3 class="font-semibold text-white leading-snug text-base">Sabaruddin Sabri</h3>
-          <p class="mt-1 text-xs text-black">Engineering Manager</p>
+
+      <!-- Director Card 2: Ahmad Syahmy -->
+      <button class="profile-card h-[28rem] md:h-[32rem] focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600" 
+              data-modal-target="director-syahmy" 
+              aria-haspopup="dialog">
+        <img src="{{ url_for('static', filename='img/Management/org.jpg') }}" 
+             alt="Ahmad Syahmy Bin Muhammad Shamsuddin" 
+             loading="lazy">
+        <div class="overlay">
+          <h3 class="text-xl font-bold mb-1">Ahmad Syahmy Bin Muhammad Shamsuddin</h3>
+          <p class="text-sm">Executive Director</p>
         </div>
       </button>
-  <button class="relative group director-card rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 transition h-56 md:h-60 lg:h-64" data-modal-target="manager-asrul" aria-haspopup="dialog">
-        <img src="{{ url_for('static', filename='img/Management/org.jpg') }}" alt="Asrul Azizie" class="absolute inset-0 w-full h-full object-cover group-hover:scale-[1.03] transition-transform" loading="lazy">
-        <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent pointer-events-none"></div>
-        <div class="absolute bottom-0 left-0 right-0 p-4 z-10">
-          <h3 class="font-semibold text-white leading-snug text-base">Asrul Azizie</h3>
-          <p class="mt-1 text-xs text-black">IT Manager</p>
-        </div>
-      </button>
-      <button class="relative group director-card rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 transition h-56 md:h-60 lg:h-64" data-modal-target="manager-shazarina" aria-haspopup="dialog">
-        <img src="{{ url_for('static', filename='img/Management/org.jpg') }}" alt="Shazarina Shafiee" class="absolute inset-0 w-full h-full object-cover group-hover:scale-[1.03] transition-transform" loading="lazy">
-        <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent pointer-events-none"></div>
-        <div class="absolute bottom-0 left-0 right-0 p-4 z-10">
-          <h3 class="font-semibold text-white leading-snug text-base">Shazarina Shafiee</h3>
-          <p class="mt-1 text-xs text-black">HR Admin & Finance Manager</p>
+
+      <!-- Director Card 3: Mohd Faizal -->
+      <button class="profile-card h-[28rem] md:h-[32rem] focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600" 
+              data-modal-target="director-faizal" 
+              aria-haspopup="dialog">
+        <img src="{{ url_for('static', filename='img/Management/org.jpg') }}" 
+             alt="Mohd Faizal Bin Rifae" 
+             loading="lazy">
+        <div class="overlay">
+          <h3 class="text-xl font-bold mb-1">Mohd Faizal Bin Rifae</h3>
+          <p class="text-sm">Operation Director</p>
         </div>
       </button>
     </div>
   </div>
 </section>
-<!-- Managers section - larger cards for desktop -->
-      <button class="relative group director-card rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 transition h-80 md:h-96 lg:h-[28rem]" data-modal-target="director-syahmy" aria-haspopup="dialog">
-        <img src="{{ url_for('static', filename='img/Management/org.jpg') }}" alt="Ahmad Syahmy Bin Muhammad Shamsuddin" class="absolute inset-0 w-full h-full object-cover group-hover:scale-[1.03] transition-transform" loading="lazy">
-        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent pointer-events-none"></div>
-        <div class="absolute bottom-0 left-0 right-0 p-6 z-10">
-          <h3 class="font-semibold text-white leading-snug text-base">Hafiz Azizan</h3>
-          <p class="mt-1 text-xs text-white/90">Talent & Recruitment Manager</p>
+
+<!-- Management Team Section - Blue Gradient Background -->
+<section class="blue-gradient-bg py-24" id="managers">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="text-center mb-16">
+      <h2 class="text-4xl font-bold text-white mb-4">Management Team</h2>
+      <p class="text-lg text-white/90 max-w-2xl mx-auto">
+        Dedicated professionals managing daily operations, technical delivery, and business growth across all departments.
+      </p>
+    </div>
+    
+    <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+      <!-- Manager Card 1: Amir Hisham -->
+      <button class="profile-card h-72 md:h-80 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400" 
+              data-modal-target="manager-amir" 
+              aria-haspopup="dialog">
+        <img src="{{ url_for('static', filename='img/Management/org.jpg') }}" 
+             alt="Ts. Amir Hisham Albakri" 
+             loading="lazy">
+        <div class="overlay">
+          <h3 class="text-lg font-bold mb-1">Ts. Amir Hisham Albakri</h3>
+          <p class="text-sm">Sales & BD Director</p>
         </div>
       </button>
-      <button class="relative group director-card rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 transition h-80 md:h-96 lg:h-[28rem]" data-modal-target="director-faizal" aria-haspopup="dialog">
-        <img src="{{ url_for('static', filename='img/Management/org.jpg') }}" alt="Mohd Faizal Bin Rifae" class="absolute inset-0 w-full h-full object-cover group-hover:scale-[1.03] transition-transform" loading="lazy">
-        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent pointer-events-none"></div>
-        <div class="absolute bottom-0 left-0 right-0 p-6 z-10">
-          <h3 class="font-semibold text-white leading-snug text-base">Sabaruddin Sabri</h3>
-          <p class="mt-1 text-xs text-white/90">Engineering Manager</p>
+
+      <!-- Manager Card 2: Ahmad Sobry -->
+      <button class="profile-card h-72 md:h-80 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400" 
+              data-modal-target="manager-sobry" 
+              aria-haspopup="dialog">
+        <img src="{{ url_for('static', filename='img/Management/org.jpg') }}" 
+             alt="Ahmad Sobry" 
+             loading="lazy">
+        <div class="overlay">
+          <h3 class="text-lg font-bold mb-1">Ahmad Sobry</h3>
+          <p class="text-sm">Project Manager</p>
         </div>
       </button>
-  <button class="relative group director-card rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 transition h-80 md:h-96 lg:h-[28rem]" data-modal-target="director-amir" aria-haspopup="dialog">
-        <img src="{{ url_for('static', filename='img/Management/org.jpg') }}" alt="Ts. Amir Hisham Albakri" class="absolute inset-0 w-full h-full object-cover group-hover:scale-[1.03] transition-transform" loading="lazy">
-        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent pointer-events-none"></div>
-        <div class="absolute bottom-0 left-0 right-0 p-6 z-10">
-          <h3 class="font-semibold text-white leading-snug text-base">Asrul Azizie</h3>
-          <p class="mt-1 text-xs text-white/90">IT Manager</p>
+
+      <!-- Manager Card 3: Hafiz Azizan -->
+      <button class="profile-card h-72 md:h-80 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400" 
+              data-modal-target="manager-hafiz" 
+              aria-haspopup="dialog">
+        <img src="{{ url_for('static', filename='img/Management/org.jpg') }}" 
+             alt="Hafiz Azizan" 
+             loading="lazy">
+        <div class="overlay">
+          <h3 class="text-lg font-bold mb-1">Hafiz Azizan</h3>
+          <p class="text-sm">Talent & Recruitment Manager</p>
         </div>
       </button>
-  <button class="relative group director-card rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 transition h-80 md:h-96 lg:h-[28rem]" data-modal-target="manager-shazarina" aria-haspopup="dialog">
-        <img src="{{ url_for('static', filename='img/Management/org.jpg') }}" alt="Ts. Amir Hisham Albakri" class="absolute inset-0 w-full h-full object-cover group-hover:scale-[1.03] transition-transform" loading="lazy">
-        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent pointer-events-none"></div>
-        <div class="absolute bottom-0 left-0 right-0 p-6 z-10">
-          <h3 class="font-semibold text-white leading-snug text-base">Shazarina Shafiee</h3>
-          <p class="mt-1 text-xs text-white/90">HR Admin & Finance Manager</p>
+
+      <!-- Manager Card 4: Sabaruddin Sabri -->
+      <button class="profile-card h-72 md:h-80 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400" 
+              data-modal-target="manager-sabaruddin" 
+              aria-haspopup="dialog">
+        <img src="{{ url_for('static', filename='img/Management/org.jpg') }}" 
+             alt="Sabaruddin Sabri" 
+             loading="lazy">
+        <div class="overlay">
+          <h3 class="text-lg font-bold mb-1">Sabaruddin Sabri</h3>
+          <p class="text-sm">Engineering Manager</p>
+        </div>
+      </button>
+
+      <!-- Manager Card 5: Asrul Azizie -->
+      <button class="profile-card h-72 md:h-80 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400" 
+              data-modal-target="manager-asrul" 
+              aria-haspopup="dialog">
+        <img src="{{ url_for('static', filename='img/Management/org.jpg') }}" 
+             alt="Asrul Azizie" 
+             loading="lazy">
+        <div class="overlay">
+          <h3 class="text-lg font-bold mb-1">Asrul Azizie</h3>
+          <p class="text-sm">IT Manager</p>
+        </div>
+      </button>
+
+      <!-- Manager Card 6: Shazarina Shafiee -->
+      <button class="profile-card h-72 md:h-80 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400" 
+              data-modal-target="manager-shazarina" 
+              aria-haspopup="dialog">
+        <img src="{{ url_for('static', filename='img/Management/org.jpg') }}" 
+             alt="Shazarina Shafiee" 
+             loading="lazy">
+        <div class="overlay">
+          <h3 class="text-lg font-bold mb-1">Shazarina Shafiee</h3>
+          <p class="text-sm">HR Admin & Finance Manager</p>
         </div>
       </button>
     </div>
   </div>
 </section>
-<div class="hidden" id="modal-source-manager-sobry">
-    <div class="modal-hero -mx-6 -mt-6 overflow-hidden rounded-t-xl">
-  <img src="{{ url_for('static', filename='img/Management/org.jpg') }}" alt="Shazli Bin Razak" class="w-full h-72 object-cover block">
+
+<!-- Modal Sources for Directors -->
+<div class="hidden" id="modal-source-director-shazli">
+  <div class="modal-hero -mx-6 -mt-6 overflow-hidden rounded-t-xl">
+    <img src="{{ url_for('static', filename='img/Management/org.jpg') }}" alt="Shazli Bin Razak" class="w-full h-72 object-cover block">
   </div>
   <h2 class="modal-title">Shazli Bin Razak — Managing Director</h2>
-  <p class="text-black" style="color:#000 !important">Shazli brings strategic leadership and extensive experience in large-scale project delivery across the region, focusing on aligning commercial outcomes with engineering execution.</p>
+  <p>Shazli brings strategic leadership and extensive experience in large-scale project delivery across the region, focusing on aligning commercial outcomes with engineering execution.</p>
   <ul class="list-disc pl-5 mt-4 text-sm space-y-1">
     <li>20+ years in engineering and project management</li>
     <li>Specialist in multi-discipline delivery coordination</li>
     <li>Trusted advisor to major EPCs and operators</li>
   </ul>
 </div>
-<div class="hidden" id="modal-source-manager-hafiz">
-    <div class="modal-hero -mx-6 -mt-6 overflow-hidden rounded-t-xl">
-  <img src="{{ url_for('static', filename='img/Management/org.jpg') }}" alt="Ahmad Syahmy Bin Muhammad Shamsuddin" class="w-full h-72 object-cover block">
+
+<div class="hidden" id="modal-source-director-syahmy">
+  <div class="modal-hero -mx-6 -mt-6 overflow-hidden rounded-t-xl">
+    <img src="{{ url_for('static', filename='img/Management/org.jpg') }}" alt="Ahmad Syahmy Bin Muhammad Shamsuddin" class="w-full h-72 object-cover block">
   </div>
   <h2 class="modal-title">Ahmad Syahmy Bin Muhammad Shamsuddin — Executive Director</h2>
-  <p class="text-black" style="color:#000 !important">Ahmad Syahmy leads operational excellence and ensures delivery quality through rigorous processes and a focus on capability development.</p>
+  <p>Ahmad Syahmy leads operational excellence and ensures delivery quality through rigorous processes and a focus on capability development.</p>
   <ul class="list-disc pl-5 mt-4 text-sm space-y-1">
     <li>Proven track record in operations leadership</li>
     <li>Expertise in resource planning and optimisation</li>
     <li>Champion for training and technical competency</li>
   </ul>
 </div>
+
+<div class="hidden" id="modal-source-director-faizal">
+  <div class="modal-hero -mx-6 -mt-6 overflow-hidden rounded-t-xl">
+    <img src="{{ url_for('static', filename='img/Management/org.jpg') }}" alt="Mohd Faizal Bin Rifae" class="w-full h-72 object-cover block">
+  </div>
+  <h2 class="modal-title">Mohd Faizal Bin Rifae — Operation Director</h2>
+  <p>Mohd Faizal brings operational leadership and experience overseeing project execution and site operations.</p>
+  <ul class="list-disc pl-5 mt-4 text-sm space-y-1">
+    <li>Operations management</li>
+    <li>Project execution oversight</li>
+    <li>Contractor coordination</li>
+  </ul>
+</div>
+
+<!-- Modal Sources for Managers -->
+<div class="hidden" id="modal-source-manager-amir">
+  <div class="modal-hero -mx-6 -mt-6 overflow-hidden rounded-t-xl">
+    <img src="{{ url_for('static', filename='img/Management/org.jpg') }}" alt="Ts. Amir Hisham Albakri" class="w-full h-72 object-cover block">
+  </div>
+  <h2 class="modal-title">Ts. Amir Hisham Albakri — Sales & BD Director</h2>
+  <p>Amir Hisham focuses on business development, client relationships and commercial growth across the region.</p>
+  <ul class="list-disc pl-5 mt-4 text-sm space-y-1">
+    <li>Business development</li>
+    <li>Client relationship management</li>
+    <li>Commercial strategy</li>
+  </ul>
+</div>
+
+<div class="hidden" id="modal-source-manager-sobry">
+  <div class="modal-hero -mx-6 -mt-6 overflow-hidden rounded-t-xl">
+    <img src="{{ url_for('static', filename='img/Management/org.jpg') }}" alt="Ahmad Sobry" class="w-full h-72 object-cover block">
+  </div>
+  <h2 class="modal-title">Ahmad Sobry — Project Manager</h2>
+  <p>Ahmad Sobry is a seasoned manager with over 20 years of experience in engineering and project management.</p>
+  <ul class="list-disc pl-5 mt-4 text-sm space-y-1">
+    <li>20+ years in engineering and project management</li>
+  </ul>
+</div>
+
+<div class="hidden" id="modal-source-manager-hafiz">
+  <div class="modal-hero -mx-6 -mt-6 overflow-hidden rounded-t-xl">
+    <img src="{{ url_for('static', filename='img/Management/org.jpg') }}" alt="Hafiz Azizan" class="w-full h-72 object-cover block">
+  </div>
+  <h2 class="modal-title">Hafiz Azizan — Talent & Recruitment Manager</h2>
+  <p>Hafiz Azizan leads operational excellence and ensures delivery quality through rigorous processes and a focus on capability development.</p>
+  <ul class="list-disc pl-5 mt-4 text-sm space-y-1">
+    <li>Champion for training and technical competency</li>
+  </ul>
+</div>
+
 <div class="hidden" id="modal-source-manager-sabaruddin">
   <div class="modal-hero -mx-6 -mt-6 overflow-hidden rounded-t-xl">
-  <img src="{{ url_for('static', filename='img/Management/org.jpg') }}" alt="Sabaruddin Sabri" class="w-full h-72 object-cover block">
+    <img src="{{ url_for('static', filename='img/Management/org.jpg') }}" alt="Sabaruddin Sabri" class="w-full h-72 object-cover block">
   </div>
   <h2 class="modal-title">Sabaruddin Sabri — Engineering Manager</h2>
-  <p class="text-black" style="color:#000 !important">Sabaruddin manages engineering teams, ensuring technical quality and delivery across projects.</p>
+  <p>Sabaruddin manages engineering teams, ensuring technical quality and delivery across projects.</p>
   <ul class="list-disc pl-5 mt-4 text-sm space-y-1">
     <li>Technical leadership and mentoring</li>
     <li>Quality assurance and compliance</li>
     <li>Coordination with cross-functional teams</li>
   </ul>
 </div>
+
 <div class="hidden" id="modal-source-manager-asrul">
   <div class="modal-hero -mx-6 -mt-6 overflow-hidden rounded-t-xl">
-  <img src="{{ url_for('static', filename='img/Management/org.jpg') }}" alt="Asrul Azizie" class="w-full h-72 object-cover block">
+    <img src="{{ url_for('static', filename='img/Management/org.jpg') }}" alt="Asrul Azizie" class="w-full h-72 object-cover block">
   </div>
   <h2 class="modal-title">Asrul Azizie — IT Manager</h2>
-  <p class="text-black" style="color:#000 !important">Asrul oversees IT operations, infrastructure and supports systems that keep the business running smoothly.</p>
+  <p>Asrul oversees IT operations, infrastructure and supports systems that keep the business running smoothly.</p>
   <ul class="list-disc pl-5 mt-4 text-sm space-y-1">
     <li>Systems administration and support</li>
     <li>Infrastructure planning and security</li>
     <li>Technical vendor management</li>
   </ul>
 </div>
+
 <div class="hidden" id="modal-source-manager-shazarina">
   <div class="modal-hero -mx-6 -mt-6 overflow-hidden rounded-t-xl">
-  <img src="{{ url_for('static', filename='img/Management/org.jpg') }}" alt="Mohd Faizal Bin Rifae" class="w-full h-80 object-cover object-center block">
+    <img src="{{ url_for('static', filename='img/Management/org.jpg') }}" alt="Shazarina Shafiee" class="w-full h-80 object-cover object-center block">
   </div>
   <h2 class="modal-title">Shazarina Shafiee — HR Admin & Finance Manager</h2>
-  <p class="text-black" style="color:#000 !important">Handles HR administration and financial support functions.</p>
+  <p>Handles HR administration and financial support functions.</p>
 </div>
+
 {% endblock %}
+
 {% block extra_body %}
   <script src="{{ url_for('static', filename='js/board-modals.js') }}" defer></script>
 {% endblock %}

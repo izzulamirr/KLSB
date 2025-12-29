@@ -1,17 +1,227 @@
 {% extends 'base.html' %}
 {% block title %}Industry Affiliations — KLSB{% endblock %}
-{% block content %}
-<section class="py-24 bg-white">
-  <div class="max-w-7xl mx-auto px-6">
-    <h1 class="text-4xl font-bold tracking-tight">Memberships & Affiliations</h1>
-    <p class="mt-6 max-w-3xl text-slate-600 leading-relaxed">Active participation in leading industry councils strengthens our ability to anticipate change, align with evolving standards and advocate for a resilient, competitive energy & engineering ecosystem. These affiliations reinforce delivery quality, governance discipline and market insight.</p>
 
-    <div class="mt-14 grid gap-8 md:grid-cols-2 xl:grid-cols-3">
+{% block extra_head %}
+<style>
+  /* Blue gradient background matching other pages */
+  .affiliations-container {
+    background: linear-gradient(180deg, #010428 0%, #030C69 100%);
+  }
+
+  /* White glass cards with dark text */
+  .aff-card {
+    background: #ffffff;
+    color: #0b1220;
+    border: 1px solid rgba(11,18,32,0.08);
+    box-shadow: 0 4px 16px rgba(8,12,30,0.12);
+    border-radius: 1.25rem;
+    padding: 2.5rem;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .aff-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 16px 40px rgba(8,12,30,0.2);
+    border-color: rgba(3, 12, 105, 0.15);
+  }
+
+  .aff-card-head {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid rgba(11,18,32,0.08);
+  }
+
+  .aff-avatar {
+    width: 80px;
+    height: 80px;
+    flex-shrink: 0;
+    background: #f8fafc;
+    border-radius: 0.75rem;
+    padding: 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(11,18,32,0.06);
+  }
+
+  .aff-title {
+    font-size: 1.375rem;
+    font-weight: 700;
+    color: #0b1220;
+    line-height: 1.3;
+    flex: 1;
+    letter-spacing: -0.01em;
+  }
+
+  .aff-body {
+    font-size: 1rem;
+    color: rgba(11,18,32,0.75);
+    line-height: 1.7;
+    margin-bottom: 1.75rem;
+  }
+
+  .aff-points {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1.5rem 0;
+    flex: 1;
+  }
+
+  .aff-points li {
+    position: relative;
+    padding-left: 2rem;
+    margin-bottom: 0.875rem;
+    color: rgba(11,18,32,0.7);
+    font-size: 0.9375rem;
+    line-height: 1.6;
+  }
+
+  .aff-points li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.45rem;
+    width: 1.125rem;
+    height: 1.125rem;
+    background: linear-gradient(135deg, #030C69, #0518a8);
+    border-radius: 0.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 6px rgba(3, 12, 105, 0.2);
+  }
+
+  .aff-points li::after {
+    content: '✓';
+    position: absolute;
+    left: 0.25rem;
+    top: 0.3rem;
+    color: #ffffff;
+    font-size: 0.625rem;
+    font-weight: 700;
+  }
+
+  .aff-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.625rem 1.25rem;
+    background: linear-gradient(135deg, #030C69, #0518a8);
+    border-radius: 9999px;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: #ffffff;
+    margin-top: auto;
+    box-shadow: 0 2px 8px rgba(3, 12, 105, 0.15);
+    letter-spacing: 0.01em;
+  }
+
+  .aff-meta span {
+    color: #ffffff;
+    font-weight: 700;
+  }
+
+  /* Partnership card styles */
+  .partnership-card {
+    background: #ffffff;
+    color: #0b1220;
+    border: 1px solid rgba(11,18,32,0.06);
+    box-shadow: 0 4px 16px rgba(8,12,30,0.15);
+    border-radius: 1rem;
+    padding: 2rem;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+
+  .partnership-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(8,12,30,0.22);
+  }
+
+  .partnership-logo {
+    width: 120px;
+    height: 80px;
+    background: #f8fafc;
+    border-radius: 0.75rem;
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+    border: 1px solid rgba(11,18,32,0.06);
+  }
+
+  .partnership-title {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: #0b1220;
+    margin-bottom: 0.75rem;
+  }
+
+  .partnership-desc {
+    font-size: 0.9375rem;
+    color: rgba(11,18,32,0.75);
+    line-height: 1.6;
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .aff-card-head {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .aff-avatar {
+      width: 100px;
+      height: 100px;
+    }
+
+    .aff-title {
+      font-size: 1.125rem;
+    }
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+{% set hero_bg = url_for('static', filename='img/about.jpg') %}
+
+{# --- HERO SECTION --- #}
+<section class="relative min-h-[400px] flex items-center justify-center text-center affiliations-container py-20">
+  <div class="absolute inset-0 -z-10 bg-cover bg-center" style="background-image: url('{{ hero_bg }}');"></div>
+  <div class="absolute inset-0 -z-10 bg-gradient-to-t from-black/70 to-black/30"></div>
+  <div class="w-full max-w-4xl px-4 sm:px-6 lg:px-8 py-16">
+    <h1 class="text-4xl sm:text-5xl font-bold text-white drop-shadow-lg mb-4" data-aos="fade-up">Memberships & Affiliations</h1>
+    <p class="text-xl text-white/90 drop-shadow-md max-w-3xl mx-auto" data-aos="fade-up" data-aos-delay="100">
+      Strategic partnerships and industry leadership driving excellence and innovation
+    </p>
+  </div>
+</section>
+
+{# --- AFFILIATIONS SECTION --- #}
+<section class="py-20 bg-white">
+  <div class="max-w-7xl mx-auto px-6">
+    
+    <div class="text-center mb-16" data-aos="fade-up">
+      <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-gray-900 mb-4">Industry Affiliations</h2>
+      <p class="mt-4 max-w-3xl mx-auto text-gray-600 leading-relaxed text-lg">
+        Active participation in leading industry councils strengthens our ability to anticipate change, align with evolving standards and advocate for a resilient, competitive energy & engineering ecosystem.
+      </p>
+    </div>
+
+    <div class="grid gap-8 md:grid-cols-2 xl:grid-cols-3" data-aos="fade-up" data-aos-delay="100">
+      
       <!-- MOGSC -->
       <article class="aff-card group">
         <div class="aff-card-head">
           <div class="aff-avatar">
-            <img src="{{ url_for('static', filename='img/Other Logo/mogsclogoPNG.png') }}" alt="MOGSC logo" class="w-full h-full object-contain" loading="lazy">
+            <img src="{{ url_for('static', filename='img/Other_Logo/mogsclogoPNG.png') }}" alt="MOGSC logo" class="w-full h-full object-contain" loading="lazy">
           </div>
           <h2 class="aff-title">Malaysian Oil, Gas & Energy Services Council</h2>
         </div>
@@ -21,14 +231,20 @@
           <li>Collaboration / networking catalyst</li>
           <li>Supports sustainability & competitiveness</li>
         </ul>
-        <div class="aff-meta">Strategic Focus: <span>Growth Enablement</span></div>
+        <div class="aff-meta">
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/>
+            <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"/>
+          </svg>
+          <span>Growth Enablement</span>
+        </div>
       </article>
 
       <!-- MOGEC -->
       <article class="aff-card group">
         <div class="aff-card-head">
           <div class="aff-avatar">
-            <img src="{{ url_for('static', filename='img/Other Logo/Mogec.png') }}" alt="MOGEC logo" class="w-full h-full object-contain" loading="lazy">
+            <img src="{{ url_for('static', filename='img/Other_Logo/Mogec.png') }}" alt="MOGEC logo" class="w-full h-full object-contain" loading="lazy">
           </div>
           <h2 class="aff-title">Malaysian Oil & Gas Engineering Council</h2>
         </div>
@@ -38,14 +254,19 @@
           <li>Capability & competency uplift</li>
           <li>Innovation & technical collaboration</li>
         </ul>
-        <div class="aff-meta">Strategic Focus: <span>Technical Excellence</span></div>
+        <div class="aff-meta">
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clip-rule="evenodd"/>
+          </svg>
+          <span>Technical Excellence</span>
+        </div>
       </article>
 
       <!-- EIC -->
       <article class="aff-card group">
         <div class="aff-card-head">
           <div class="aff-avatar">
-            <img src="{{ url_for('static', filename='img/Other Logo/EIC.jpeg') }}" alt="EIC logo" class="w-full h-full object-contain" loading="lazy">
+            <img src="{{ url_for('static', filename='img/Other_Logo/EIC.jpeg') }}" alt="EIC logo" class="w-full h-full object-contain" loading="lazy">
           </div>
           <h2 class="aff-title">Energy Industries Council</h2>
         </div>
@@ -55,18 +276,53 @@
           <li>Export & diversification pathways</li>
           <li>Global supply chain connectivity</li>
         </ul>
-        <div class="aff-meta">Strategic Focus: <span>Global Insight</span></div>
+        <div class="aff-meta">
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM4.332 8.027a6.012 6.012 0 011.912-2.706C6.512 5.73 6.974 6 7.5 6A1.5 1.5 0 019 7.5V8a2 2 0 004 0 2 2 0 011.523-1.943A5.977 5.977 0 0116 10c0 .34-.028.675-.083 1H15a2 2 0 00-2 2v2.197A5.973 5.973 0 0110 16v-2a2 2 0 00-2-2 2 2 0 01-2-2 2 2 0 00-1.668-1.973z" clip-rule="evenodd"/>
+          </svg>
+          <span>Global Insight</span>
+        </div>
       </article>
+      
     </div>
   </div>
 </section>
 
-<section class="py-24 bg-white">
+{# --- PARTNERSHIPS SECTION
+<section class="affiliations-container py-20">
   <div class="max-w-7xl mx-auto px-6">
-    <h1 class="text-4xl font-bold tracking-tight">Partnerships & Collaborations</h1>
-    <p class="mt-6 max-w-3xl text-slate-600 leading-relaxed">We actively engage in partnerships and collaborations with key industry players to enhance our service offerings and drive innovation. These strategic alliances enable us to leverage complementary strengths and deliver greater value to our clients.</p>
+    
+    <div class="text-center mb-12" data-aos="fade-up">
+      <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-white">Partnerships & Collaborations</h2>
+      <p class="mt-4 max-w-3xl mx-auto text-slate-600 leading-relaxed">
+        We actively engage in partnerships and collaborations with key industry players to enhance our service offerings and drive innovation. These strategic alliances enable us to leverage complementary strengths and deliver greater value to our clients.
+      </p>
+    </div>
 
+    <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3" data-aos="fade-up" data-aos-delay="100">
+      
+      
+    </div>
+  </div>
+</section> --- #}
 
-
+{# --- CALL TO ACTION --- #}
+<section class="py-20 bg-gradient-to-br from-slate-50 to-blue-50">
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center" data-aos="fade-up">
+    <h2 class="text-3xl font-bold text-slate-900 tracking-tight">
+      Interested in Collaboration?
+    </h2>
+    <p class="mt-4 text-lg text-slate-600 max-w-2xl mx-auto">
+      We're always open to exploring new partnerships and collaborative opportunities that drive mutual growth and industry advancement.
+    </p>
+    <div class="mt-8">
+      <a href="{{ url_for('main.contact') }}" 
+         class="inline-block rounded-lg text-white px-10 py-3 font-semibold tracking-wide transition duration-300 ease-in-out hover:opacity-90" 
+         style="background-color: #030C69;">
+        Get in Touch
+      </a>
+    </div>
+  </div>
+</section>
 
 {% endblock %}

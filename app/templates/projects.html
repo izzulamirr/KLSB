@@ -1,167 +1,675 @@
 {% extends "base.html" %}
 {% block title %}Projects & Case Studies — KLSB{% endblock %}
+
 {% block content %}
+<div style="background: linear-gradient(180deg, #010428 0%, #030C69 100%); color: #e2e8f0;">
 
-<!-- Hero / Intro -->
-<section class="relative overflow-hidden bg-gradient-to-b from-slate-50 to-white">
-  <div class="max-w-7xl mx-auto px-6 pt-36 pb-20">
-    <h1 class="text-4xl sm:text-5xl font-bold tracking-tight">Projects & Track Records</h1>
-    <p class="mt-6 text-lg text-slate-600 leading-relaxed max-w-3xl">Representative engagements illustrating how integrated manpower, engineering and digital enablement compress risk and elevate delivery certainty.</p>
-
-  </div>
-</section>
-
-<!-- Filters -->
-<section class="sticky top-20 z-30 border-y bg-white/90 backdrop-blur supports-[backdrop-filter]:bg-white/70">
+<section class="pt-20 pb-12">
   <div class="max-w-7xl mx-auto px-6">
-    <div class="flex flex-wrap items-center gap-3 py-4" id="project-filters" aria-label="Project filters">
-      <button class="filter-chip is-active" data-filter="all">All</button>
-      <button class="filter-chip" data-filter="engineering">Engineering</button>
-      <button class="filter-chip" data-filter="digital">Digital</button>
-      <button class="filter-chip" data-filter="cyber">Cybersecurity</button>
-      <button class="filter-chip" data-filter="manpower">Manpower</button>
-      <button class="filter-chip" data-filter="inspection">Inspection</button>
-      <button class="filter-chip" data-filter="construction">Construction</button>
-      <button class="filter-chip" data-filter="supply">Supply</button>
+    <div class="text-center">
+      <h1 class="text-5xl sm:text-6xl font-extrabold tracking-tight text-white mb-5" style="letter-spacing: -0.02em;">Projects & Track Records</h1>
+      <p class="mt-4 text-gray-300 text-lg max-w-3xl mx-auto" style="line-height: 1.7;">A concise history of our delivered projects and key achievements. Below are highlights and a year-by-year breakdown you can expand to view detailed entries.</p>
+    </div>
+
+    <div class="mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div id="kpi-projects" class="kpi-card">
+        <div class="text-sm uppercase tracking-wider text-gray-300 font-medium mb-3">Projects Displayed</div>
+        <div id="kpi-projects-count" class="text-5xl font-extrabold text-white" style="background: linear-gradient(135deg, #ffffff 0%, rgba(255,255,255,0.8) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">0</div>
+      </div>
+      <div class="kpi-card">
+        <div class="text-sm uppercase tracking-wider text-gray-300 font-medium mb-3">Years Active</div>
+        <div class="text-5xl font-extrabold text-white" style="background: linear-gradient(135deg, #ffffff 0%, rgba(255,255,255,0.8) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">12</div>
+      </div>
+      <div class="kpi-card">
+        <div class="text-sm uppercase tracking-wider text-gray-300 font-medium mb-3">Clients Served</div>
+        <div class="text-5xl font-extrabold text-white" style="background: linear-gradient(135deg, #ffffff 0%, rgba(255,255,255,0.8) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">100+</div>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- Project Grid -->
-<section class="py-24">
-  <div class="max-w-7xl mx-auto px-6">
-    <div class="grid gap-8 md:grid-cols-2 xl:grid-cols-3" id="project-grid">
-
-      <!-- Project Card Template Examples -->
-      <article class="project-card" data-cat="engineering digital" data-modal-target="proj-model-integration" aria-haspopup="dialog" aria-controls="modal-proj-model-integration">
-        <div class="project-media"><img src="{{ url_for('static', filename='img/hero.jpg') }}" alt="Integrated 3D model coordination" loading="lazy"></div>
-        <div class="project-body">
-          <h3 class="project-title">Digital Model Integration</h3>
-          <p class="project-excerpt">Unified multi-discipline model reducing rework loops & interface delay.</p>
-          <div class="project-tags"><span>Engineering</span><span>Digital</span></div>
+<section class="py-6 filter-section-sticky">
+  <div class="max-w-7xl mx-auto px-6 space-y-5">
+    <div class="filter-row">
+      <div class="filter-label">Industry</div>
+      <div class="filter-scroll-wrapper">
+        <div id="industry-filters" class="filter-chips-container">
+          <button class="filter-chip" data-industry="all">All</button>
+          <button class="filter-chip" data-industry="engineering">Engineering</button>
+          <button class="filter-chip" data-industry="manpower">Manpower</button>
+          <button class="filter-chip" data-industry="construction">Construction</button>
+          <button class="filter-chip" data-industry="cybersecurity">Cybersecurity</button>
+          <button class="filter-chip" data-industry="inspection">Inspection</button>
+          <button class="filter-chip" data-industry="supply-trading">Supply Trading</button>
         </div>
-      </article>
-
-      <article class="project-card" data-cat="cyber digital" data-modal-target="proj-cyber-hardening" aria-haspopup="dialog" aria-controls="modal-proj-cyber-hardening">
-        <div class="project-media"><img src="{{ url_for('static', filename='img/2584721_XL.jpg') }}" alt="Cyber hardening" loading="lazy"></div>
-        <div class="project-body">
-          <h3 class="project-title">Cyber Hardening Program</h3>
-          <p class="project-excerpt">Endpoint segmentation & policy uplift decreasing attack surface.</p>
-          <div class="project-tags"><span>Cybersecurity</span><span>Digital</span></div>
+      </div>
+    </div>
+    <div class="filter-row">
+      <div class="filter-label">Year</div>
+      <div class="filter-scroll-wrapper">
+        <div id="year-filters" class="filter-chips-container">
+          <button class="filter-chip" data-year="all">All</button>
+          {% for year in range(2026, 2014, -1) %}
+            <button class="filter-chip" data-year="{{ year }}">{{ year }}</button>
+          {% endfor %}
         </div>
-      </article>
-
-      <article class="project-card" data-cat="manpower" data-modal-target="proj-manpower-ramp" aria-haspopup="dialog" aria-controls="modal-proj-manpower-ramp">
-        <div class="project-media"><img src="{{ url_for('static', filename='img/business-2717427.jpg') }}" alt="Manpower ramp" loading="lazy"></div>
-        <div class="project-body">
-          <h3 class="project-title">Specialist Ramp-Up</h3>
-          <p class="project-excerpt">Rapid onboarding of certified designers across critical disciplines.</p>
-          <div class="project-tags"><span>Manpower</span></div>
-        </div>
-      </article>
-
-      <article class="project-card" data-cat="inspection engineering" data-modal-target="proj-inspection" aria-haspopup="dialog" aria-controls="modal-proj-inspection">
-        <div class="project-media"><img src="{{ url_for('static', filename='img/shutterstock_744825085-min.jpg') }}" alt="Inspection services" loading="lazy"></div>
-        <div class="project-body">
-          <h3 class="project-title">Specialized Inspection</h3>
-          <p class="project-excerpt">Asset integrity verification with structured digital trace capture.</p>
-          <div class="project-tags"><span>Inspection</span><span>Engineering</span></div>
-        </div>
-      </article>
-
-      <article class="project-card" data-cat="construction" data-modal-target="proj-construction" aria-haspopup="dialog" aria-controls="modal-proj-construction">
-        <div class="project-media"><img src="{{ url_for('static', filename='img/4.png') }}" alt="Construction coordination" loading="lazy"></div>
-        <div class="project-body">
-          <h3 class="project-title">Construction Package Support</h3>
-          <p class="project-excerpt">Coordinated package tracking & materials readiness enablement.</p>
-          <div class="project-tags"><span>Construction</span></div>
-        </div>
-      </article>
-
-      <article class="project-card" data-cat="supply" data-modal-target="proj-supply" aria-haspopup="dialog" aria-controls="modal-proj-supply">
-        <div class="project-media"><img src="{{ url_for('static', filename='img/5.png') }}" alt="Supply trading" loading="lazy"></div>
-        <div class="project-body">
-          <h3 class="project-title">Supply & Trading Enablement</h3>
-          <p class="project-excerpt">Coordinated vendor sourcing & event management logistics.</p>
-          <div class="project-tags"><span>Supply</span></div>
-        </div>
-      </article>
-
+      </div>
     </div>
   </div>
 </section>
 
-<!-- Hidden Modal Sources -->
-<div class="hidden" id="modal-source-proj-model-integration">
-  <div class="modal-hero"><img src="{{ url_for('static', filename='img/hero.jpg') }}" alt="Model integration"></div>
-  <h2 class="modal-title">Digital Model Integration</h2>
-  <p>Consolidated multi-discipline 3D model stewardship improving interface clarity and reducing engineering iteration churn.</p>
-  <ul class="list-disc pl-5 mt-4 text-sm space-y-1">
-    <li>Cross-platform (Aveva/Hexagon) reconciliation</li>
-    <li>Metadata hygiene & revision control</li>
-    <li>As-built alignment & deviation logging</li>
-    <li>Dashboards surfacing clash / status KPIs</li>
-  </ul>
-</div>
-<div class="hidden" id="modal-source-proj-cyber-hardening">
-  <div class="modal-hero"><img src="{{ url_for('static', filename='img/2584721_XL.jpg') }}" alt="Cyber hardening"></div>
-  <h2 class="modal-title">Cyber Hardening Program</h2>
-  <p>Phased uplift of endpoint and identity posture across engineering toolchain landscape.</p>
-  <ol class="list-decimal pl-5 mt-4 text-sm space-y-1">
-    <li>Baseline assessment & asset mapping</li>
-    <li>Policy segmentation & MFA coverage</li>
-    <li>Patch cadence normalization</li>
-    <li>Continuous monitoring dashboards</li>
-  </ol>
-</div>
-<div class="hidden" id="modal-source-proj-manpower-ramp">
-  <div class="modal-hero"><img src="{{ url_for('static', filename='img/business-2717427.jpg') }}" alt="Manpower ramp"></div>
-  <h2 class="modal-title">Specialist Ramp-Up</h2>
-  <p>Rapid deployment of certified designers and discipline specialists within compressed schedule window.</p>
-  <ul class="list-disc pl-5 mt-4 text-sm space-y-1">
-    <li>Competency matrix aligned to work packs</li>
-    <li>Mentored onboarding & QA loops</li>
-    <li>Utilization analytics & velocity tracking</li>
-    <li>Retention support & succession planning</li>
-  </ul>
-</div>
-<div class="hidden" id="modal-source-proj-inspection">
-  <div class="modal-hero"><img src="{{ url_for('static', filename='img/shutterstock_744825085-min.jpg') }}" alt="Inspection"></div>
-  <h2 class="modal-title">Specialized Inspection</h2>
-  <p>Structured inspection workflow capturing condition data with digital trace for integrity engineering.</p>
-  <ul class="list-disc pl-5 mt-4 text-sm space-y-1">
-    <li>Scope matrix & priority tagging</li>
-    <li>Field data capture templates</li>
-    <li>Anomaly classification & escalation</li>
-    <li>Remediation tracking dashboards</li>
-  </ul>
-</div>
-<div class="hidden" id="modal-source-proj-construction">
-  <div class="modal-hero"><img src="{{ url_for('static', filename='img/4.png') }}" alt="Construction"></div>
-  <h2 class="modal-title">Construction Package Support</h2>
-  <p>Coordinated materials & package readiness oversight minimizing on‑site idle time.</p>
-  <ul class="list-disc pl-5 mt-4 text-sm space-y-1">
-    <li>Look‑ahead readiness snapshots</li>
-    <li>Material receipt & variance logging</li>
-    <li>Permit / interface tracking</li>
-    <li>Progress KPI & constraint board</li>
-  </ul>
-</div>
-<div class="hidden" id="modal-source-proj-supply">
-  <div class="modal-hero"><img src="{{ url_for('static', filename='img/5.png') }}" alt="Supply enablement"></div>
-  <h2 class="modal-title">Supply & Trading Enablement</h2>
-  <p>Vendor sourcing orchestration and logistics coordination increasing transparency & cycle speed.</p>
-  <ul class="list-disc pl-5 mt-4 text-sm space-y-1">
-    <li>Vendor qualification & shortlisting</li>
-    <li>Bid comparison analytics</li>
-    <li>Event & logistics alignment</li>
-    <li>Performance & compliance KPIs</li>
-  </ul>
-</div>
+<section class="py-12">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="space-y-6">
+      <style>
+        :root {
+          --text-primary: #0b1220;
+          --text-secondary: rgba(11, 18, 32, 0.7);
+          --text-company: #e2e8f0;
+          --border-color: rgba(255,255,255,0.12);
+          --bg-accent: rgba(255, 255, 255, 0.06);
+          --bg-hover: rgba(255, 255, 255, 0.08);
+          --duplicate-bg: rgba(250, 204, 21, 0.08);
+          --duplicate-border: #f59e0b;
+          --duplicate-badge-bg: rgba(250, 204, 21, 0.1);
+          --duplicate-badge-text: #fcd34d;
+          --project-card-bg: #ffffff;
+          --industry-chip-bg: rgba(3, 12, 105, 0.1);
+          --industry-chip-text: #030C69;
+        }
 
+        /* KPI Cards */
+        .kpi-card {
+          background: rgba(255, 255, 255, 0.08);
+          padding: 2rem;
+          border-radius: 1rem
+          backdrop-blur-md;
+          border: 1px solid rgba(255, 255, 255, 0.15);
+          box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          text-align: center;
+        }
+        .kpi-card:hover {
+          transform: translateY(-4px);
+          box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+          border-color: rgba(255, 255, 255, 0.25);
+        }
 
+        /* Filter Section (refined card look) */
+        .filter-section-sticky {
+          background: linear-gradient(180deg, #030C69 0%, #020952 100%);
+          padding: 1.25rem 0;
+          margin: 1rem 0;
+          border-radius: 0.75rem;
+          border: 1px solid rgba(255, 255, 255, 0.06);
+          box-shadow: 0 8px 30px rgba(2, 9, 82, 0.35);
+          -webkit-backdrop-filter: blur(6px);
+          backdrop-filter: blur(6px);
+        }
+
+        /* Filter row layout */
+        .filter-row {
+          display: flex;
+          align-items: center;
+          gap: 1.5rem;
+        }
+
+        /* Filter labels */
+        .filter-label {
+          flex-shrink: 0;
+          min-width: 85px;
+          font-size: 0.875rem;
+          font-weight: 600;
+          color: #ffffff;
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
+        }
+
+        /* Scrollable wrapper for chips */
+        .filter-scroll-wrapper {
+          flex: 1;
+          overflow: hidden;
+          position: relative;
+        }
+
+        /* Chips container - scrollable */
+        .filter-chips-container {
+          display: flex;
+          gap: 0.5rem;
+          flex-wrap: wrap;
+          padding: 0.5rem 0;
+        }
+
+        /* Filter Chips */
+        .filter-chip {
+          padding: 0.5rem 0.95rem;
+          background-color: rgba(255, 255, 255, 0.06);
+          color: rgba(255, 255, 255, 0.9);
+          border: 1px solid rgba(255, 255, 255, 0.08);
+          border-radius: 0.75rem;
+          font-size: 0.875rem;
+          cursor: pointer;
+          transition: transform 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease;
+          font-weight: 600;
+          letter-spacing: 0.01em;
+          flex-shrink: 0;
+          white-space: nowrap;
+        }
+        .filter-chip:hover { 
+          transform: translateY(-2px);
+          background-color: rgba(255, 255, 255, 0.12);
+          color: #fff;
+          border-color: rgba(255, 255, 255, 0.12);
+          box-shadow: 0 6px 18px rgba(2, 9, 82, 0.28);
+        }
+        .filter-chip.active { 
+          background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);
+          color: #0b1220;
+          font-weight: 700;
+          border-color: #ffffff;
+          box-shadow: 0 6px 20px rgba(255, 255, 255, 0.12);
+        }
+
+        /* Mobile: Enable horizontal scrolling for filter chips */
+        @media (max-width: 768px) {
+          .filter-section-sticky { 
+            padding: 1rem 0; 
+          }
+          
+          .filter-row {
+            gap: 1rem;
+          }
+          
+          .filter-label {
+            min-width: 75px;
+            font-size: 0.8125rem;
+          }
+          
+          /* Make chips scrollable horizontally */
+          .filter-chips-container {
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            overflow-y: hidden;
+            -webkit-overflow-scrolling: touch;
+            scroll-behavior: smooth;
+            padding: 0.5rem 0;
+            scrollbar-width: thin;
+          }
+          
+          /* Subtle scrollbar */
+          .filter-chips-container::-webkit-scrollbar {
+            height: 4px;
+          }
+          .filter-chips-container::-webkit-scrollbar-track {
+            background: transparent;
+          }
+          .filter-chips-container::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 4px;
+          }
+          .filter-chips-container::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.25);
+          }
+        }
+        
+        /* Extra small screens */
+        @media (max-width: 480px) {
+          .filter-section-sticky { 
+            padding: 0.75rem 0; 
+          }
+          
+          .filter-label {
+            min-width: 65px;
+            font-size: 0.75rem;
+          }
+          
+          .filter-chip {
+            padding: 0.45rem 0.85rem;
+            font-size: 0.8125rem;
+          }
+        }
+
+        /* Details/Summary (Year Sections) */
+        details summary { 
+          list-style: none;
+        }
+        details summary::-webkit-details-marker { 
+          display: none;
+        }
+        details summary::after { 
+          content: '+';
+          float: right;
+          font-size: 1.75rem;
+          font-weight: 300;
+          transition: transform 0.25s ease-in-out;
+        }
+        details[open] summary::after { 
+          transform: rotate(45deg);
+        }
+
+        /* Year Section Container */
+        details {
+          background: rgba(255, 255, 255, 0.06);
+          border-radius: 1rem;
+          border: 1px solid rgba(255, 255, 255, 0.12);
+          overflow: hidden;
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+        details:hover {
+          border-color: rgba(255, 255, 255, 0.2);
+          box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+        }
+        details summary {
+          padding: 1.5rem 2rem;
+          font-size: 1.125rem;
+          font-weight: 600;
+          color: #ffffff;
+          cursor: pointer;
+          background: rgba(255, 255, 255, 0.05);
+          transition: all 0.25s ease;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        details summary:hover {
+          background: rgba(255, 255, 255, 0.1);
+        }
+        details[open] summary {
+          background: rgba(255, 255, 255, 0.08);
+        }
+
+        /* Projects List */
+        .space-y-4 {
+          list-style: none;
+          padding-left: 0;
+        }
+        .space-y-4 li {
+          padding: 1.25rem 1.5rem;
+          border-radius: 0.75rem;
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .space-y-4 li:hover {
+          background-color: rgba(255, 255, 255, 0.06);
+          transform: translateX(4px);
+        }
+
+        /* Project Card */
+        .project-card {
+          background-color: var(--project-card-bg) !important;
+          padding: 1.5rem !important;
+          border-radius: 0.75rem;
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          color: var(--text-primary) !important;
+          border: 1px solid rgba(8, 12, 30, 0.08) !important;
+          box-shadow: 0 2px 8px rgba(8, 12, 30, 0.04);
+        }
+        .project-card:hover {
+          background-color: var(--project-card-bg) !important;
+          transform: translateY(-4px);
+          box-shadow: 0 12px 32px rgba(8, 12, 30, 0.12);
+          border-color: rgba(8, 12, 30, 0.12) !important;
+        }
+
+        /* Project Card Text */
+        .project-card .text-sm {
+          font-weight: 600;
+          color: var(--text-primary) !important;
+          font-size: 0.9375rem;
+        }
+        .project-card .text-slate-400 {
+          color: rgba(11, 18, 32, 0.5) !important;
+          font-weight: 500;
+        }
+        .project-card .text-slate-700 {
+          margin-top: 0.5rem;
+          color: var(--text-secondary) !important;
+          font-weight: 400;
+          line-height: 1.6;
+        }
+
+        /* Industry Chip */
+        .industry-chip {
+          display: inline-block;
+          padding: 0.375rem 0.875rem;
+          background: linear-gradient(135deg, rgba(3, 12, 105, 0.12) 0%, rgba(3, 12, 105, 0.08) 100%);
+          color: #030C69;
+          font-size: 0.8125rem;
+          font-weight: 600;
+          border-radius: 9999px;
+          border: 1px solid rgba(3, 12, 105, 0.15);
+          transition: all 0.2s ease;
+          letter-spacing: 0.01em;
+        }
+        .industry-chip:hover {
+          background: linear-gradient(135deg, rgba(3, 12, 105, 0.18) 0%, rgba(3, 12, 105, 0.12) 100%);
+          transform: translateY(-1px);
+          box-shadow: 0 2px 8px rgba(3, 12, 105, 0.15);
+        }
+
+        /* Duplicate Entry Styling */
+        .duplicate-entry {
+          background-color: var(--duplicate-bg) !important;
+          border-left: 4px solid var(--duplicate-border) !important;
+        }
+        .duplicate-badge {
+          display: inline-block;
+          margin-left: 0.5rem;
+          padding: 0.125rem 0.5rem;
+          font-size: 0.7rem;
+          background: var(--duplicate-badge-bg);
+          color: var(--duplicate-badge-text);
+          border-radius: 0.375rem;
+          font-weight: 700;
+        }
+
+        /* Section spacing */
+        details > div {
+          padding: 2rem;
+          padding-top: 1rem;
+        }
+
+        /* Responsive Mobile Styles */
+        @media (max-width: 768px) {
+          .kpi-card {
+            padding: 1.5rem;
+          }
+          .kpi-card .text-5xl {
+            font-size: 2.5rem;
+          }
+          
+          .filter-section-sticky {
+            padding: 1.25rem;
+          }
+          
+          .filter-chip {
+            padding: 0.5rem 1rem;
+            font-size: 0.8125rem;
+          }
+          
+          details summary {
+            padding: 1.25rem 1.5rem;
+            font-size: 1rem;
+          }
+          
+          details > div {
+            padding: 1.5rem;
+          }
+          
+          .project-card {
+            padding: 1.25rem !important;
+          }
+          
+          .space-y-4 li {
+            padding: 1rem 1.25rem;
+          }
+        }
+        
+        @media (max-width: 480px) {
+          h1 {
+            font-size: 2.25rem !important;
+          }
+          
+          .kpi-card {
+            padding: 1.25rem;
+          }
+          
+          .filter-chip {
+            padding: 0.5rem 0.875rem;
+            font-size: 0.75rem;
+          }
+          
+          .project-card {
+            padding: 1rem !important;
+          }
+        }
+      </style>
+      
+      {% for year in range(2026, 2014, -1) %}
+      <details class="year-section rounded-xl border border-[var(--border-color)] bg-[var(--bg-accent)] backdrop-blur-sm transition-all duration-300 ease-in-out">
+        <summary class="px-6 py-4 text-lg font-semibold text-white cursor-pointer hover:bg-[var(--bg-hover)]">{{ year }} — Projects</summary>
+        <div class="p-6 pt-2">
+          <ul class="space-y-4 projects-list">
+          {% if year == 2015 %}
+            <li class="flex flex-col" data-industry="engineering" data-year="2015">
+              <div class="flex justify-between items-start"><div class="text-sm">RNZ Petrofac / Petronas Carigali (Turkmenistan)</div><div class="text-sm text-slate-400 text-right flex-shrink-0 pl-4">2015</div></div>
+              <div class="text-slate-700 mt-1">Conversion of PDS to PDMS Model for Turkmenistan Block 1 Development Project – Onshore Gas Terminal</div>
+              <div class="mt-3 text-right"><span class="industry-chip">Engineering Solutions</span></div>
+            </li>
+            <li class="flex flex-col" data-industry="engineering" data-year="2015">
+              <div class="flex justify-between items-start"><div class="text-sm">Innoveam / Talisman Malaysia Limited</div><div class="text-sm text-slate-400 text-right flex-shrink-0 pl-4">2015</div></div>
+              <div class="text-slate-700 mt-1">Conceptual Study and 3D PDMS Design for New Riser for BOD, BOC Platform</div>
+              <div class="mt-3 text-right"><span class="industry-chip">Engineering Solutions</span></div>
+            </li>
+            <li class="flex flex-col" data-industry="engineering" data-year="2015">
+              <div class="flex justify-between items-start"><div class="text-sm">MTC Engineering / SBM Offshore</div><div class="text-sm text-slate-400 text-right flex-shrink-0 pl-4">2015</div></div>
+              <div class="text-slate-700 mt-1">PDMS Cats &amp; Spec Database Development for Yetagun FPSO Marine System Project (JIS Catalogue)</div>
+              <div class="mt-3 text-right"><span class="industry-chip">Engineering Solutions</span></div>
+            </li>
+            <li class="flex flex-col" data-industry="engineering" data-year="2015">
+              <div class="flex justify-between items-start"><div class="text-sm">Innoveam / PETRONAS Carigali (PMO)</div><div class="text-sm text-slate-400 text-right flex-shrink-0 pl-4">2015</div></div>
+              <div class="text-slate-700 mt-1">Provision of PIPE Stress Analysis Services for Temana Revisit &amp; Upgrading Project</div>
+              <div class="mt-3 text-right"><span class="industry-chip">Engineering Solutions</span></div>
+            </li>
+          {% elif year == 2016 %}
+            <li class="flex flex-col" data-industry="engineering" data-year="2016">
+              <div class="flex justify-between items-start"><div class="text-sm">Petronas Group Technical Solutions / PPMSB</div><div class="text-sm text-slate-400 text-right flex-shrink-0 pl-4">2016</div></div>
+              <div class="text-slate-700 mt-1">SmartPlant 3D System Setup and configuration for S3D Database FEED For Euro 5 Plant, Melaka</div>
+              <div class="mt-3 text-right"><span class="industry-chip">Engineering Solutions</span></div>
+            </li>
+            <li class="flex flex-col" data-industry="engineering" data-year="2016">
+              <div class="flex justify-between items-start"><div class="text-sm">Petronas Chemical Methanol Labuan Sdn Bhd</div><div class="text-sm text-slate-400 text-right flex-shrink-0 pl-4">2016</div></div>
+              <div class="text-slate-700 mt-1">Provision of Plant Piping Isometric Engineering Drawing Updating, Development for PC Methanol</div>
+              <div class="mt-3 text-right"><span class="industry-chip">Engineering Solutions</span></div>
+            </li>
+            <li class="flex flex-col" data-industry="engineering" data-year="2016">
+              <div class="flex justify-between items-start"><div class="text-sm">Ocean Might Sdn Bhd / Repsol Malaysia</div><div class="text-sm text-slate-400 text-right flex-shrink-0 pl-4">2016</div></div>
+              <div class="text-slate-700 mt-1">Production of Pipe Support Shop Drawing for Kinabalu WHP – (AVEVA MDS Deliverables)</div>
+              <div class="mt-3 text-right"><span class="industry-chip">Engineering Solutions</span></div>
+            </li>
+            <li class="flex flex-col" data-industry="engineering" data-year="2016">
+              <div class="flex justify-between items-start"><div class="text-sm">Innoveam Sdn Bhd / Timor GAP (Timor Leste)</div><div class="text-sm text-slate-400 text-right flex-shrink-0 pl-4">2016</div></div>
+              <div class="text-slate-700 mt-1">Development of 3D PDMS Model for Betano, Suai &amp; LNG Plant for 3D Virtual Model</div>
+              <div class="mt-3 text-right"><span class="industry-chip">Engineering Solutions</span></div>
+            </li>
+            <li class="flex flex-col" data-industry="engineering" data-year="2016">
+              <div class="flex justify-between items-start"><div class="text-sm">TH Heavy Engineering Berhad</div><div class="text-sm text-slate-400 text-right flex-shrink-0 pl-4">2016</div></div>
+              <div class="text-slate-700 mt-1">PDMS Administration and Global PDMS Setup for Layang FPSO Project THHE – GPS Dubai</div>
+              <div class="mt-3 text-right"><span class="industry-chip">Engineering Solutions</span></div>
+            </li>
+            <li class="flex flex-col" data-industry="construction" data-year="2016">
+              <div class="flex justify-between items-start"><div class="text-sm">Petronas Gas Berhad</div><div class="text-sm text-slate-400 text-right flex-shrink-0 pl-4">2016</div></div>
+              <div class="text-slate-700 mt-1">Supply, Delivery, Fabrication &amp; Installation of Gas Cooler Fan Netting For Unit #1 and Unit #2 at Segamat Compressor Station</div>
+              <div class="mt-3 text-right"><span class="industry-chip">Construction</span></div>
+            </li>
+          {% elif year == 2017 %}
+            <li class="flex flex-col" data-industry="engineering" data-year="2017"><div class="flex justify-between items-start"><div class="text-sm">SYS McConnel Dowell Joint Venture</div><div class="text-sm text-slate-400 text-right flex-shrink-0 pl-4">2017</div></div><div class="text-slate-700 mt-1">Petronas RAPID Project — P12B SOLID PRODUCT JETTY AND ASSOCIATED HANDLING FACILITIES (SPJ) AT TANJUNG SETAPA FOR RAPID PROJECT</div><div class="mt-3 text-right"><span class="industry-chip">Engineering Solutions</span></div></li>
+            <li class="flex flex-col" data-industry="engineering" data-year="2017"><div class="flex justify-between items-start"><div class="text-sm">Petronas GTS Sdn Bhd</div><div class="text-sm text-slate-400 text-right flex-shrink-0 pl-4">2017</div></div><div class="text-slate-700 mt-1">Petronas Penapisan Melaka Sdn Bhd — EURO 5 PLANT FEED PROJECT</div><div class="mt-3 text-right"><span class="industry-chip">Engineering Solutions</span></div></li>
+            <li class="flex flex-col" data-industry="engineering" data-year="2017"><div class="flex justify-between items-start"><div class="text-sm">Petronas GTS</div><div class="text-sm text-slate-400 text-right flex-shrink-0 pl-4">2017</div></div><div class="text-slate-700 mt-1">S3D System Setup and configuration for S3D Database FEED For Gasoline Euro 5 Plant, Melaka</div><div class="mt-3 text-right"><span class="industry-chip">Engineering Solutions</span></div></li>
+            <li class="flex flex-col" data-industry="engineering" data-year="2017"><div class="flex justify-between items-start"><div class="text-sm">Petronas GTS</div><div class="text-sm text-slate-400 text-right flex-shrink-0 pl-4">2017</div></div><div class="text-slate-700 mt-1">SmartPlant 3D Project Administration and 3D Model Database Merging for SAMUR Project</div><div class="mt-3 text-right"><span class="industry-chip">Engineering Solutions</span></div></li>
+            <li class="flex flex-col" data-industry="engineering" data-year="2017"><div class="flex justify-between items-start"><div class="text-sm">Petronas GTS</div><div class="text-sm text-slate-400 text-right flex-shrink-0 pl-4">2017</div></div><div class="text-slate-700 mt-1">Development of 3D Model for SSGP Pipeline As Built (Geo Pigging + Lidar Data + Lidar Photo)</div><div class="mt-3 text-right"><span class="industry-chip">Engineering Solutions</span></div></li>
+            <li class="flex flex-col" data-industry="engineering" data-year="2017"><div class="flex justify-between items-start"><div class="text-sm">SMI Global Sdn Bhd</div><div class="text-sm text-slate-400 text-right flex-shrink-0 pl-4">2017</div></div><div class="text-slate-700 mt-1">Design Calculation and Professional Engineering Drawing For Scaffolding Tower Tubular for Vessel 2100-V-505 Working Platform Work</div><div class="mt-3 text-right"><span class="industry-chip">Engineering Solutions</span></div></li>
+            <li class="flex flex-col" data-industry="engineering" data-year="2017"><div class="flex justify-between items-start"><div class="text-sm">OG Tech Project Resources Sdn Bhd</div><div class="text-sm text-slate-400 text-right flex-shrink-0 pl-4">2017</div></div><div class="text-slate-700 mt-1">Design Calculation for Professional Engineering Drawing For Hanging Tubular Working Platform Common And Tower for Scaffolding Work 2110 Area – Cable Tray</div><div class="mt-3 text-right"><span class="industry-chip">Engineering Solutions</span></div></li>
+            <li class="flex flex-col" data-industry="engineering" data-year="2017"><div class="flex justify-between items-start"><div class="text-sm">Toyo Engineering &amp; Construction Sdn Bhd</div><div class="text-sm text-slate-400 text-right flex-shrink-0 pl-4">2017</div></div><div class="text-slate-700 mt-1">Professional Engineering Drawing and Calculation For Hanging Tubular Working Platform Common Scaffolding Work 2130 &amp; 2140 Pipe Rack RAPID</div><div class="mt-3 text-right"><span class="industry-chip">Engineering Solutions</span></div></li>
+            <li class="flex flex-col" data-industry="engineering" data-year="2017"><div class="flex justify-between items-start"><div class="text-sm">Petronas GTS</div><div class="text-sm text-slate-400 text-right flex-shrink-0 pl-4">2017</div></div><div class="text-slate-700 mt-1">Provision of Conceptual Engineering Support Service for Development of Sepat Phase 2B drawings deliverables and 3D Model Development</div><div class="mt-3 text-right"><span class="industry-chip">Engineering Solutions</span></div></li>
+            <li class="flex flex-col" data-industry="engineering" data-year="2017"><div class="flex justify-between items-start"><div class="text-sm">Petronas GTS</div><div class="text-sm text-slate-400 text-right flex-shrink-0 pl-4">2017</div></div><div class="text-slate-700 mt-1">Provision of Conceptual Engineering Support Service for Development of BEKOK Oil Project 3D Model and drawings deliverables</div><div class="mt-3 text-right"><span class="industry-chip">Engineering Solutions</span></div></li>
+            <li class="flex flex-col" data-industry="construction" data-year="2017"><div class="flex justify-between items-start"><div class="text-sm">KEJURUTERAAN QKS SDN BHD (KQKS)</div><div class="text-sm text-slate-400 text-right flex-shrink-0 pl-4">2017</div></div><div class="text-slate-700 mt-1">Provision of Scaffolding for Erection, Dismantle and Material Rental for the installation of Cable Tray and Piping System (Rapid Package 14, Pengerang). Scaffold for cable tray installation, piping installation, painting and insulation; supply scaffold material and logistics.</div><div class="mt-3 text-right"><span class="industry-chip">Construction</span></div></li>
+            <li class="flex flex-col" data-industry="construction" data-year="2017"><div class="flex justify-between items-start"><div class="text-sm">System Protection &amp; Maintenance Sdn Bhd</div><div class="text-sm text-slate-400 text-right flex-shrink-0 pl-4">2017</div></div><div class="text-slate-700 mt-1">Provision of Scaffolding for Erection, Dismantle and Material Rental (Rapid Pengerang Package 14). Scaffold for cable tray installation, piping installation, painting and insulation; supply scaffold material and logistics.</div><div class="mt-3 text-right"><span class="industry-chip">Construction</span></div></li>
+          {% elif year == 2018 %}
+            <li class="flex flex-col" data-industry="engineering" data-year="2018"><div class="flex justify-between items-start"><div class="text-sm">Grand Teknik Sdn Bhd</div><div class="text-sm text-slate-400 text-right flex-shrink-0 pl-4">2018</div></div><div class="text-slate-700 mt-1">Petronas RAPID Project — WIRELESS PERVASSIVE (AP) INSTALLTION PROJECT</div><div class="mt-3 text-right"><span class="industry-chip">Engineering Solutions</span></div></li>
+            <li class="flex flex-col" data-industry="engineering" data-year="2018"><div class="flex justify-between items-start"><div class="text-sm">Basenet Sdn Bhd</div><div class="text-sm text-slate-400 text-right flex-shrink-0 pl-4">2018</div></div><div class="text-slate-700 mt-1">Petronas RAPID Project — WIRELESS PERVASSIVE (AP) INSTALLTION PROJECT</div><div class="mt-3 text-right"><span class="industry-chip">Engineering Solutions</span></div></li>
+            <li class="flex flex-col" data-industry="engineering" data-year="2018"><div class="flex justify-between items-start"><div class="text-sm">Petronas-GTS</div><div class="text-sm text-slate-400 text-right flex-shrink-0 pl-4">2018</div></div><div class="text-slate-700 mt-1">SABAH AMMONIA UREA (SAMUR) — SP3D DATABASE MERGER - MODEL DATA REUSE FOR SAMUR PROJECT</div><div class="mt-3 text-right"><span class="industry-chip">Engineering Solutions</span></div></li>
+            <li class="flex flex-col" data-industry="engineering" data-year="2018"><div class="flex justify-between items-start"><div class="text-sm">PETRONAS</div><div class="text-sm text-slate-400 text-right flex-shrink-0 pl-4">2018</div></div><div class="text-slate-700 mt-1">BASF Petronas Chemical Sdn Bhd — S3D MODELING AND EXTRACTION OF ISOMETRIC DRAWINGS FOR BASF OXO PLANT</div><div class="mt-3 text-right"><span class="industry-chip">Engineering Solutions</span></div></li>
+            <li class="flex flex-col" data-industry="engineering" data-year="2018"><div class="flex justify-between items-start"><div class="text-sm">Petronas-GTS</div><div class="text-sm text-slate-400 text-right flex-shrink-0 pl-4">2018</div></div><div class="text-slate-700 mt-1">PCEPESB — PLANT CHANGE DOCUMENT UPDATED (SPPID) FOR PCEPESB</div><div class="mt-3 text-right"><span class="industry-chip">Engineering Solutions</span></div></li>
+            <li class="flex flex-col" data-industry="manpower" data-year="2018"><div class="flex justify-between items-start"><div class="text-sm">PETRONAS GTS</div><div class="text-sm text-slate-400 text-right flex-shrink-0 pl-4">2018</div></div><div class="text-slate-700 mt-1">Project Engineer / HSE Officer / Pipe Stress Engineer / Mechanical Engineer &amp; Instrument Engineer / Document Controller</div><div class="mt-3 text-right"><span class="industry-chip">Manpower</span></div></li>
+            <li class="flex flex-col" data-industry="manpower" data-year="2018"><div class="flex justify-between items-start"><div class="text-sm">BUREAU VERITAS / RNZ Petrofac</div><div class="text-sm text-slate-400 text-right flex-shrink-0 pl-4">2018</div></div><div class="text-slate-700 mt-1">Mechanical Engineer, Piping Engineer, PDMS Designer / Drafter</div><div class="mt-3 text-right"><span class="industry-chip">Manpower</span></div></li>
+            <li class="flex flex-col" data-industry="manpower" data-year="2018"><div class="flex justify-between items-start"><div class="text-sm">Wood Group / Strand Aerospace</div><div class="text-sm text-slate-400 text-right flex-shrink-0 pl-4">2018</div></div><div class="text-slate-700 mt-1">PDMS Designers, Discipline Engineers, PMT and Project Support Staff, Structural Designer</div><div class="mt-3 text-right"><span class="industry-chip">Manpower</span></div></li>
+            <li class="flex flex-col" data-industry="manpower" data-year="2018"><div class="flex justify-between items-start"><div class="text-sm">BASF / Handal Simflexi</div><div class="text-sm text-slate-400 text-right flex-shrink-0 pl-4">2018</div></div><div class="text-slate-700 mt-1">AWP Workface Coordinator / Designer &amp; Drafter / Process Engineer</div><div class="mt-3 text-right"><span class="industry-chip">Manpower</span></div></li>
+            <li class="flex flex-col" data-industry="manpower" data-year="2018"><div class="flex justify-between items-start"><div class="text-sm">BaseNET Technology Sdn Bhd / Petronas ICT</div><div class="text-sm text-slate-400 text-right flex-shrink-0 pl-4">2018</div></div><div class="text-slate-700 mt-1">Installation and Cable Pulling Works (Power and Signal) for Pervasive Wireless Project Rapid Pengerang — Pulling power and signal cable; operate boom lifts for installation.</div><div class="mt-3 text-right"><span class="industry-chip">Manpower</span></div></li>
+            <li class="flex flex-col" data-industry="construction" data-year="2018"><div class="flex justify-between items-start"><div class="text-sm">BaseNET Technology Sdn Bhd / Petronas ICT</div><div class="text-sm text-slate-400 text-right flex-shrink-0 pl-4">2018</div></div><div class="text-slate-700 mt-1">Provision of Scaffolding for Erection, Dismantle and Material Rental (Rapid Pengerang Packages 2,3,4,22 &amp; 1). Scaffold for cable tray installation and access point installation; supply scaffold material and logistics.</div><div class="mt-3 text-right"><span class="industry-chip">Construction</span></div></li>
+            <li class="flex flex-col" data-industry="manpower" data-year="2018"><div class="flex justify-between items-start"><div class="text-sm">BaseNET Technology Sdn Bhd / Petronas ICT</div><div class="text-sm text-slate-400 text-right flex-shrink-0 pl-4">2018</div></div><div class="text-slate-700 mt-1">Installation, Cable Pulling and Electrical Termination Works (Manpower) — Pervasive Wireless Project Rapid Pengerang.</div><div class="mt-3 text-right"><span class="industry-chip">Manpower</span></div></li>
+            <li class="flex flex-col" data-industry="engineering" data-year="2018"><div class="flex justify-between items-start"><div class="text-sm">PETRONAS GTS</div><div class="text-sm text-slate-400 text-right flex-shrink-0 pl-4">2018</div></div><div class="text-slate-700 mt-1">Petronas Flange Management Tools (P-FMT) mapping isometric using QA tool and Smart Plant 3D</div><div class="mt-3 text-right"><span class="industry-chip">Engineering Solutions</span></div></li>
+            <li class="flex flex-col" data-industry="engineering" data-year="2018"><div class="flex justify-between items-start"><div class="text-sm">PETRONAS GTS</div><div class="text-sm text-slate-400 text-right flex-shrink-0 pl-4">2018</div></div><div class="text-slate-700 mt-1">Provision of Drafting Services for ALEXIS GPP</div><div class="mt-3 text-right"><span class="industry-chip">Engineering Solutions</span></div></li>
+          {% elif year == 2019 %}
+            <li class="flex flex-col" data-industry="construction" data-year="2019"><div class="flex justify-between items-start"><div class="text-sm">Grand Teknik</div><div class="text-sm text-slate-400 text-right flex-shrink-0 pl-4">2019</div></div><div class="text-slate-700 mt-1">Fabrication of Concrete for Footing Stand for Melaka — Supply and design footing concrete; provide mole and lab test report; arrange logistics for delivery.</div><div class="mt-3 text-right"><span class="industry-chip">Construction</span></div></li>
+            <li class="flex flex-col" data-industry="supply-trading" data-year="2019"><div class="flex justify-between items-start"><div class="text-sm">BaseNET Technology Sdn Bhd</div><div class="text-sm text-slate-400 text-right flex-shrink-0 pl-4">2019</div></div><div class="text-slate-700 mt-1">Provision of Electrical Material &amp; Supply Raw Material Cable Tray and accessories — manpower arrangement, site survey and verification for Material Take Off (MTO); installation of cable tray and logistics.</div><div class="mt-3 text-right"><span class="industry-chip">Supply Trading</span></div></li>
+            <li class="flex flex-col" data-industry="construction" data-year="2019"><div class="flex justify-between items-start"><div class="text-sm">Grand Teknik</div><div class="text-sm text-slate-400 text-right flex-shrink-0 pl-4">2019</div></div><div class="text-slate-700 mt-1">Provision of Scaffolding for Erection, Dismantle and Material Rental — supply manpower for scaffold installation, access point installation and logistics.</div><div class="mt-3 text-right"><span class="industry-chip">Construction</span></div></li>
+            <li class="flex flex-col" data-industry="construction" data-year="2019"><div class="flex justify-between items-start"><div class="text-sm">Grand Teknik</div><div class="text-sm text-slate-400 text-right flex-shrink-0 pl-4">2019</div></div><div class="text-slate-700 mt-1">Provision of Fabrication Access Point Stand (AP Stand) Support for Melaka MRCSB — supply material, fabrication, WQT arrangements, WPS, witness inspection and daily progress reports.</div><div class="mt-3 text-right"><span class="industry-chip">Construction</span></div></li>
+            <li class="flex flex-col" data-industry="manpower" data-year="2019"><div class="flex justify-between items-start"><div class="text-sm">BaseNET Technology Sdn Bhd / Petronas ICT</div><div class="text-sm text-slate-400 text-right flex-shrink-0 pl-4">2019</div></div><div class="text-slate-700 mt-1">Provision of Manpower Supply and Equipment for Abseiler (Rope Access) for Rapid Pengerang (Levels 1–3) — method statements, JHA, demonstrations and installation using rope access.</div><div class="mt-3 text-right"><span class="industry-chip">Manpower</span></div></li>
+            <li class="flex flex-col" data-industry="engineering" data-year="2019"><div class="flex justify-between items-start"><div class="text-sm">Petronas-GTS</div><div class="text-sm text-slate-400 text-right flex-shrink-0 pl-4">2019</div></div><div class="text-slate-700 mt-1">Petronas RAPID Project — PETRONAS FLANGE MANAGEMENT TOOLS (P-FMT) DEVELOPMENT FOR RAPID PROJECT</div><div class="mt-3 text-right"><span class="industry-chip">Engineering Solutions</span></div></li>
+            <li class="flex flex-col" data-industry="engineering" data-year="2019"><div class="flex justify-between items-start"><div class="text-sm">Petronas GTS</div><div class="text-sm text-slate-400 text-right flex-shrink-0 pl-4">2019</div></div><div class="text-slate-700 mt-1">MLNG Train 9 — Incorporation of redline mark up into SmartPlant 3D Model and update SmartPlant P&amp;ID (SPPID) as per redline</div><div class="mt-3 text-right"><span class="industry-chip">Engineering Solutions</span></div></li>
+            <li class="flex flex-col" data-industry="engineering" data-year="2019"><div class="flex justify-between items-start"><div class="text-sm">Petronas GTS</div><div class="text-sm text-slate-400 text-right flex-shrink-0 pl-4">2019</div></div><div class="text-slate-700 mt-1">PFLNG P&amp;ID drawing conversion and updating redline mark up into SmartPlant P&amp;ID database</div><div class="mt-3 text-right"><span class="industry-chip">Engineering Solutions</span></div></li>
+            <li class="flex flex-col" data-industry="engineering" data-year="2019"><div class="flex justify-between items-start"><div class="text-sm">Petronas ABF</div><div class="text-sm text-slate-400 text-right flex-shrink-0 pl-4">2019</div></div><div class="text-slate-700 mt-1">ABF FEED 3rd Boiler Design Using Smart Plant 3D and Smart Plant P&amp;ID</div><div class="mt-3 text-right"><span class="industry-chip">Engineering Solutions</span></div></li>
+            <li class="flex flex-col" data-industry="engineering" data-year="2019"><div class="flex justify-between items-start"><div class="text-sm">BASF / Petronas Chemical</div><div class="text-sm text-slate-400 text-right flex-shrink-0 pl-4">2019</div></div><div class="text-slate-700 mt-1">HRPIB Development of As-Built Smart Plant 3D Model (Cloudworx) from Laser Scanning</div><div class="mt-3 text-right"><span class="industry-chip">Engineering Solutions</span></div></li>
+            <li class="flex flex-col" data-industry="engineering" data-year="2019"><div class="flex justify-between items-start"><div class="text-sm">PRefChem</div><div class="text-sm text-slate-400 text-right flex-shrink-0 pl-4">2019</div></div><div class="text-slate-700 mt-1">Development of Flange Management Database (FMT) — P-FMT development using Smart Plant 3D for RAPID Project</div><div class="mt-3 text-right"><span class="industry-chip">Engineering Solutions</span></div></li>
+            <li class="flex flex-col" data-industry="manpower" data-year="2019"><div class="flex justify-between items-start"><div class="text-sm">McDermott</div><div class="text-sm text-slate-400 text-right flex-shrink-0 pl-4">2019</div></div><div class="text-slate-700 mt-1">S3D Designer</div><div class="mt-3 text-right"><span class="industry-chip">Manpower</span></div></li>
+            <li class="flex flex-col" data-industry="manpower" data-year="2019"><div class="flex justify-between items-start"><div class="text-sm">VME Process</div><div class="text-sm text-slate-400 text-right flex-shrink-0 pl-4">2019</div></div><div class="text-slate-700 mt-1">Engineer, 3D Designer and Drafter</div><div class="mt-3 text-right"><span class="industry-chip">Manpower</span></div></li>
+            <li class="flex flex-col" data-industry="inspection" data-year="2019"><div class="flex justify-between items-start"><div class="text-sm">Air Selangor</div><div class="text-sm text-slate-400 text-right flex-shrink-0 pl-4">2019</div></div><div class="text-slate-700 mt-1">Client: Pengurusan Air Selangor — 3D Laser Scanning, Dimensional Control Survey Consultancy Services &amp; Transfer of Technology &amp; Knowledge (TOTK)</div><div class="mt-3 text-right"><span class="industry-chip">Inspection</span></div></li>
+            <li class="flex flex-col" data-industry="inspection" data-year="2019"><div class="flex justify-between items-start"><div class="text-sm">Air Selangor</div><div class="text-sm text-slate-400 text-right flex-shrink-0 pl-4">2019</div></div><div class="text-slate-700 mt-1">Client: Pengurusan Air Selangor — 3D Terrestrial Laser Scanning (TLS) and Modelling Services at 150 Locations of Pengurusan Air Selangor’s Pump House and Reservoir (3D Laser Scanning; Dimensional Control Survey; As-Built 3D Modelling; 2D Drawing Production)</div><div class="mt-3 text-right"><span class="industry-chip">Inspection</span></div></li>
+            <li class="flex flex-col" data-industry="inspection" data-year="2019"><div class="flex justify-between items-start"><div class="text-sm">Petronas</div><div class="text-sm text-slate-400 text-right flex-shrink-0 pl-4">2019</div></div><div class="text-slate-700 mt-1">Client: PETRONAS — 3D Laser Scanning and Dimensional Control Survey for FSO Firewater Replacement</div><div class="mt-3 text-right"><span class="industry-chip">Inspection</span></div></li>
+            <li class="flex flex-col" data-industry="inspection" data-year="2019"><div class="flex justify-between items-start"><div class="text-sm">Air Selangor</div><div class="text-sm text-slate-400 text-right flex-shrink-0 pl-4">2019</div></div><div class="text-slate-700 mt-1">Client: Pengurusan Air Selangor — 3D Laser Scanning and Dimensional Control Survey for Tank Verticality, Ovality and Verticality Assessment (As-Built Point Cloud; 3D Modelling; 2D Drawing Production; Site Report)</div><div class="mt-3 text-right"><span class="industry-chip">Inspection</span></div></li>
+            <li class="flex flex-col" data-industry="inspection" data-year="2019"><div class="flex justify-between items-start"><div class="text-sm">ROSEN</div><div class="text-sm text-slate-400 text-right flex-shrink-0 pl-4">2019</div></div><div class="text-slate-700 mt-1">Client: Rosen, Philippines — 3D Laser Scanning and Dimensional Control Survey for Tank Verticality, Ovality and Verticality Assessment</div><div class="mt-3 text-right"><span class="industry-chip">Inspection</span></div></li>
+            <li class="flex flex-col" data-industry="inspection" data-year="2019"><div class="flex justify-between items-start"><div class="text-sm">Air Selangor</div><div class="text-sm text-slate-400 text-right flex-shrink-0 pl-4">2019</div></div><div class="text-slate-700 mt-1">Client: Pengurusan Air Selangor — Consultancy Services for 3D Terrestrial Laser Scanning (TLS) for Pengurusan Air Selangor - Development of Comprehensive Modules and Undertake 3D TLS Works at Selected Sites</div><div class="mt-3 text-right"><span class="industry-chip">Inspection</span></div></li>
+            <li class="flex flex-col" data-industry="inspection" data-year="2019"><div class="flex justify-between items-start"><div class="text-sm">Carimin / Petronas Carigali Sdn Bhd</div><div class="text-sm text-slate-400 text-right flex-shrink-0 pl-4">2019</div></div><div class="text-slate-700 mt-1">Angsi Echo Structural and Piping Modification - Deck Extension - Hook Up and Commissioning</div><div class="mt-3 text-right"><span class="industry-chip">Inspection</span></div></li>
+            <li class="flex flex-col" data-industry="inspection" data-year="2019"><div class="flex justify-between items-start"><div class="text-sm">Malaya Glass</div><div class="text-sm text-slate-400 text-right flex-shrink-0 pl-4">2019</div></div><div class="text-slate-700 mt-1">Client: Malaya Glass — Malaya Glass M2 Furnace Rebuild (As-Built Point Cloud; 3D Modelling; 2D Drawing Production; Site Report)</div><div class="mt-3 text-right"><span class="industry-chip">Inspection</span></div></li>
+            <li class="flex flex-col" data-industry="inspection" data-year="2019"><div class="flex justify-between items-start"><div class="text-sm">Shell Eastern Petroleum Pte Ltd</div><div class="text-sm text-slate-400 text-right flex-shrink-0 pl-4">2019</div></div><div class="text-slate-700 mt-1">Client: Shell Eastern Petroleum Pte Ltd — 3D Laser Scanning, Dimensional Control Survey and Simulation of C7507 Removal</div><div class="mt-3 text-right"><span class="industry-chip">Inspection</span></div></li>
+          {% elif year == 2020 %}
+            <li class="flex flex-col" data-industry="engineering" data-year="2020"><div class="flex justify-between items-start"><div class="text-sm">VME COMPANIES</div><div class="text-sm text-slate-400 text-right flex-shrink-0 pl-4">2020</div></div><div class="text-slate-700 mt-1">SAUDI ARABIAN OIL COMPANY — AS-BUILT PDS 3D MODEL, UPDATING GA AND ISOMETRIC DRAWING FOR WASIT GAS PLANT</div><div class="mt-3 text-right"><span class="industry-chip">Engineering Solutions</span></div></li>
+            <li class="flex flex-col" data-industry="engineering" data-year="2020"><div class="flex justify-between items-start"><div class="text-sm">TNF ENERGY SDN BHD</div><div class="text-sm text-slate-400 text-right flex-shrink-0 pl-4">2020</div></div><div class="text-slate-700 mt-1">BASF Petronas Chemical Sdn Bhd — AS-BUILT SMART PLANT 3D FOR HRPIB</div><div class="mt-3 text-right"><span class="industry-chip">Engineering Solutions</span></div></li>
+            <li class="flex flex-col" data-industry="engineering" data-year="2020"><div class="flex justify-between items-start"><div class="text-sm">MODEC</div><div class="text-sm text-slate-400 text-right flex-shrink-0 pl-4">2020</div></div><div class="text-slate-700 mt-1">Equinor Bacalhau FPSO — Provision of AVEVA P&amp;ID Conversion for Bacalhau FPSO Project</div><div class="mt-3 text-right"><span class="industry-chip">Engineering Solutions</span></div></li>
+            <li class="flex flex-col" data-industry="engineering" data-year="2020"><div class="flex justify-between items-start"><div class="text-sm">VESTIGO</div><div class="text-sm text-slate-400 text-right flex-shrink-0 pl-4">2020</div></div><div class="text-slate-700 mt-1">VESTIGO PETROLEUM SDN BHD — Provision of Modification and HUC of Wellhead Platform for Larut Infill Development Project</div><div class="mt-3 text-right"><span class="industry-chip">Engineering Solutions</span></div></li>
+            <li class="flex flex-col" data-industry="engineering" data-year="2020"><div class="flex justify-between items-start"><div class="text-sm">HILTI</div><div class="text-sm text-slate-400 text-right flex-shrink-0 pl-4">2020</div></div><div class="text-slate-700 mt-1">JGC-FLUOR BC LNG JV — Provision of 3D Modelling of Integrated Flooring System (IFS) for LNG Canada</div><div class="mt-3 text-right"><span class="industry-chip">Engineering Solutions</span></div></li>
+            <li class="flex flex-col" data-industry="engineering" data-year="2020"><div class="flex justify-between items-start"><div class="text-sm">HHA / Vestigo</div><div class="text-sm text-slate-400 text-right flex-shrink-0 pl-4">2020</div></div><div class="text-slate-700 mt-1">Modification &amp; HUC Tie In of Wellhead Platform For Larut Infill Project</div><div class="mt-3 text-right"><span class="industry-chip">Engineering Solutions</span></div></li>
+            <li class="flex flex-col" data-industry="manpower" data-year="2020"><div class="flex justify-between items-start"><div class="text-sm">WOOD PLC / FW</div><div class="text-sm text-slate-400 text-right flex-shrink-0 pl-4">2020</div></div><div class="text-slate-700 mt-1">Manpower Supply / Construction Manager</div><div class="mt-3 text-right"><span class="industry-chip">Manpower</span></div></li>
+            <li class="flex flex-col" data-industry="manpower" data-year="2020"><div class="flex justify-between items-start"><div class="text-sm">Bureau Veritas</div><div class="text-sm text-slate-400 text-right flex-shrink-0 pl-4">2020</div></div><div class="text-slate-700 mt-1">HSE Officer</div><div class="mt-3 text-right"><span class="industry-chip">Manpower</span></div></li>
+            <li class="flex flex-col" data-industry="manpower" data-year="2020"><div class="flex justify-between items-start"><div class="text-sm">Ranhill Worley</div><div class="text-sm text-slate-400 text-right flex-shrink-0 pl-4">2020</div></div><div class="text-slate-700 mt-1">HSE Officer</div><div class="mt-3 text-right"><span class="industry-chip">Manpower</span></div></li>
+          {% elif year == 2021 %}
+            <li class="flex flex-col" data-industry="engineering" data-year="2021"><div class="flex justify-between items-start"><div class="text-sm">Petronas-GTS</div><div class="text-sm text-slate-400 text-right flex-shrink-0 pl-4">2021</div></div><div class="text-slate-700 mt-1">PCEPESB — PLANT CHANGE DOCUMENT UPDATED (SPPID) FOR PCEPESB</div><div class="mt-3 text-right"><span class="industry-chip">Engineering Solutions</span></div></li>
+            <li class="flex flex-col" data-industry="engineering" data-year="2021"><div class="flex justify-between items-start"><div class="text-sm">MMHE</div><div class="text-sm text-slate-400 text-right flex-shrink-0 pl-4">2021</div></div><div class="text-slate-700 mt-1">PETRONAS — SPECIAL PIPE SUPPORT IFC DRAWING FOR KASAWARI PROJECT</div><div class="mt-3 text-right"><span class="industry-chip">Engineering Solutions</span></div></li>
+            <li class="flex flex-col" data-industry="manpower" data-year="2021"><div class="flex justify-between items-start"><div class="text-sm">Technip FMC</div><div class="text-sm text-slate-400 text-right flex-shrink-0 pl-4">2021</div></div><div class="text-slate-700 mt-1">Manpower Supply - Process Engineer / Engineer and 3D Designer</div><div class="mt-3 text-right"><span class="industry-chip">Manpower</span></div></li>
+            <li class="flex flex-col" data-industry="construction" data-year="2021"><div class="flex justify-between items-start"><div class="text-sm">SDMax Sdn Bhd</div><div class="text-sm text-slate-400 text-right flex-shrink-0 pl-4">2021</div></div><div class="text-slate-700 mt-1">Renovation work on existing office, existing cafeteria, new arch way and new single story office at Teluk Ramunia Yard, Pengerang, Johor.</div><div class="mt-3 text-right"><span class="industry-chip">Construction</span></div></li>
+            <li class="flex flex-col" data-industry="manpower" data-year="2021"><div class="flex justify-between items-start"><div class="text-sm">Ranhill Worley</div><div class="text-sm text-slate-400 text-right flex-shrink-0 pl-4">2021</div></div><div class="text-slate-700 mt-1">E3D Designer</div><div class="mt-3 text-right"><span class="industry-chip">Manpower</span></div></li>
+          {% elif year == 2022 %}
+            <li class="flex flex-col" data-industry="engineering" data-year="2022"><div class="flex justify-between items-start"><div class="text-sm">Petronas-GTS</div><div class="text-sm text-slate-400 text-right flex-shrink-0 pl-4">2022</div></div><div class="text-slate-700 mt-1">PCASB — PROVISION OF ENGINEERING SERVICES FOR 3D MODEL DEVELOPMENT (INTELLIGENT MODEL) FOR PCASB</div><div class="mt-3 text-right"><span class="industry-chip">Engineering Solutions</span></div></li>
+            <li class="flex flex-col" data-industry="engineering" data-year="2022"><div class="flex justify-between items-start"><div class="text-sm">MIE / DIALOG / HILTI</div><div class="text-sm text-slate-400 text-right flex-shrink-0 pl-4">2022</div></div><div class="text-slate-700 mt-1">Petronas Carigali Sdn Bhd — Provision of engineering, procurement, construction, installation &amp; commissioning (EPCIC) of brownfield modification package for Bayan Redevelopment Project Gas Phase 2; HILTI provision of 3D support conversion, shop drawing and as-built for Bayan project</div><div class="mt-3 text-right"><span class="industry-chip">Engineering Solutions</span></div></li>
+            <li class="flex flex-col" data-industry="manpower" data-year="2022"><div class="flex justify-between items-start"><div class="text-sm">Shell Malaysia Trading - Penang</div><div class="text-sm text-slate-400 text-right flex-shrink-0 pl-4">2022</div></div><div class="text-slate-700 mt-1">AGT Supervisor / HSE Officers</div><div class="mt-3 text-right"><span class="industry-chip">Manpower</span></div></li>
+            <li class="flex flex-col" data-industry="manpower" data-year="2022"><div class="flex justify-between items-start"><div class="text-sm">NOV Malaysia</div><div class="text-sm text-slate-400 text-right flex-shrink-0 pl-4">2022</div></div><div class="text-slate-700 mt-1">Multi Discipline Engineers, Designers &amp; Drafters</div><div class="mt-3 text-right"><span class="industry-chip">Manpower</span></div></li>
+            <li class="flex flex-col" data-industry="manpower" data-year="2022"><div class="flex justify-between items-start"><div class="text-sm">McDermott Asia Pacific</div><div class="text-sm text-slate-400 text-right flex-shrink-0 pl-4">2022</div></div><div class="text-slate-700 mt-1">Multi Discipline Engineers, Designers &amp; Drafters</div><div class="mt-3 text-right"><span class="industry-chip">Manpower</span></div></li>
+            <li class="flex flex-col" data-industry="manpower" data-year="2022"><div class="flex justify-between items-start"><div class="text-sm">MIE Industrial</div><div class="text-sm text-slate-400 text-right flex-shrink-0 pl-4">2022</div></div><div class="text-slate-700 mt-1">Multi Discipline Engineers, Designers &amp; Drafters</div><div class="mt-3 text-right"><span class="industry-chip">Manpower</span></div></li>
+            <li class="flex flex-col" data-industry="manpower" data-year="2022"><div class="flex justify-between items-start"><div class="text-sm">JJ-Lurgi Engineering Sdn Bhd</div><div class="text-sm text-slate-400 text-right flex-shrink-0 pl-4">2022 - 2023</div></div><div class="text-slate-700 mt-1">Multi Discipline Engineers, Designers &amp; Drafters</div><div class="mt-3 text-right"><span class="industry-chip">Manpower</span></div></li>
+            <li class="flex flex-col" data-industry="manpower" data-year="2022"><div class="flex justify-between items-start"><div class="text-sm">MMC Oil &amp; Gas Sdn Bhd</div><div class="text-sm text-slate-400 text-right flex-shrink-0 pl-4">2022 - 2023</div></div><div class="text-slate-700 mt-1">Multi Discipline Engineers, Designers &amp; Drafters</div><div class="mt-3 text-right"><span class="industry-chip">Manpower</span></div></li>
+          {% elif year == 2023 %}
+            <li class="flex flex-col" data-industry="engineering" data-year="2023"><div class="flex justify-between items-start"><div class="text-sm">JJ-Lurgi Engineering Sdn Bhd</div><div class="text-sm text-slate-400 text-right flex-shrink-0 pl-4">2023</div></div><div class="text-slate-700 mt-1">DEVELOPMENT OF AUTOCAD PLANT 3D AND PIPE STRESS ANALYSIS FOR PETRON BATAAN REFINERY, CME PLANT PROJECT (C344)</div><div class="mt-3 text-right"><span class="industry-chip">Engineering Solutions</span></div></li>
+            <li class="flex flex-col" data-industry="engineering" data-year="2023"><div class="flex justify-between items-start"><div class="text-sm">Mecip Global Engineers Sdn Bhd (MECIP)</div><div class="text-sm text-slate-400 text-right flex-shrink-0 pl-4">2023</div></div><div class="text-slate-700 mt-1">PROVISION OF ENGINEERING SERVICES FOR DRAWING AS‐BUILT UPDATING FOR PRPC &amp; PFLNG</div><div class="mt-3 text-right"><span class="industry-chip">Engineering Solutions</span></div></li>
+            <li class="flex flex-col" data-industry="engineering" data-year="2023"><div class="flex justify-between items-start"><div class="text-sm">Maju Integrated Engineers Sdn Bhd</div><div class="text-sm text-slate-400 text-right flex-shrink-0 pl-4">2023</div></div><div class="text-slate-700 mt-1">PROVISION OF ENGINEERING SERVICES FOR PSI TAGGING AND PSI UPDATING FOR PGB GTR &amp; PEDMS DOCUMENT UPLOADING</div><div class="mt-3 text-right"><span class="industry-chip">Engineering Solutions</span></div></li>
+            <li class="flex flex-col" data-industry="engineering" data-year="2023"><div class="flex justify-between items-start"><div class="text-sm">BuildCAD Solutions Sdn Bhd</div><div class="text-sm text-slate-400 text-right flex-shrink-0 pl-4">2023</div></div><div class="text-slate-700 mt-1">PROVISION OF PIPING FABRICATION DRAWING PREPARATION FOR KWINANA COAVALENT LITHIUM PLANT</div><div class="mt-3 text-right"><span class="industry-chip">Engineering Solutions</span></div></li>
+            <li class="flex flex-col" data-industry="engineering" data-year="2023"><div class="flex justify-between items-start"><div class="text-sm">Technip Energies (TEN)</div><div class="text-sm text-slate-400 text-right flex-shrink-0 pl-4">2023</div></div><div class="text-slate-700 mt-1">SMART PLANT P&amp;ID CONVERSION FOR PAPUA LNG PROJECT</div><div class="mt-3 text-right"><span class="industry-chip">Engineering Solutions</span></div></li>
+            <li class="flex flex-col" data-industry="engineering" data-year="2023"><div class="flex justify-between items-start"><div class="text-sm">SINOPEC ENGINEERING GROUP MALAYSIA SDN BHD</div><div class="text-sm text-slate-400 text-right flex-shrink-0 pl-4">2023</div></div><div class="text-slate-700 mt-1">SMART PLANT TOOLS RECTIFICATIONS FOR SINOPEC P012A RAPID PROJECT</div><div class="mt-3 text-right"><span class="industry-chip">Engineering Solutions</span></div></li>
+            <li class="flex flex-col" data-industry="engineering" data-year="2023"><div class="flex justify-between items-start"><div class="text-sm">Plastic Energy Engineering SEA Sdn Bhd</div><div class="text-sm text-slate-400 text-right flex-shrink-0 pl-4">2023</div></div><div class="text-slate-700 mt-1">PROVISION OF ENGINEERING CAD SERVICE AND SUPPORT FOR PLASTIC ENERGY’S CHEMICAL RECYCLING PLANT</div><div class="mt-3 text-right"><span class="industry-chip">Engineering Solutions</span></div></li>
+            <li class="flex flex-col" data-industry="engineering" data-year="2023"><div class="flex justify-between items-start"><div class="text-sm">LYNAS RARE EARTH LTD</div><div class="text-sm text-slate-400 text-right flex-shrink-0 pl-4">2023</div></div><div class="text-slate-700 mt-1">KALGOORLIE RARE EARTHS PROCESSING FACILITY (PHASE 1 &amp; PHASE 2)</div><div class="mt-3 text-right"><span class="industry-chip">Engineering Solutions</span></div></li>
+          {% elif year == 2024 %}
+            <li class="flex flex-col" data-industry="manpower" data-year="2024"><div class="flex justify-between items-start"><div class="text-sm">AEM Energy Solutions Sdn. Bhd.</div><div class="text-sm text-slate-400 text-right flex-shrink-0 pl-4">2024 - 2026</div></div><div class="text-slate-700 mt-1">E3D Admin / Data Analyst &amp; Data Admin</div><div class="mt-3 text-right"><span class="industry-chip">Manpower</span></div></li>
+            <li class="flex flex-col" data-industry="manpower" data-year="2024"><div class="flex justify-between items-start"><div class="text-sm">PTTEP Sarawak Oil Limited</div><div class="text-sm text-slate-400 text-right flex-shrink-0 pl-4">2024 - 2026</div></div><div class="text-slate-700 mt-1">Consultancy and Audit</div><div class="mt-3 text-right"><span class="industry-chip">Manpower</span></div></li>
+            <li class="flex flex-col" data-industry="engineering" data-year="2024"><div class="flex justify-between items-start"><div class="text-sm">HASKELL Malaysia Services Sdn Bhd</div><div class="text-sm text-slate-400 text-right flex-shrink-0 pl-4">2024</div></div><div class="text-slate-700 mt-1">SAFRAN MALAYSIA SDN BHD — HASKELL PROFESSIONAL AVEVA E3D SERVICES SENDAYAN CAPACITY EXPANSION</div><div class="mt-3 text-right"><span class="industry-chip">Engineering Solutions</span></div></li>
+            <li class="flex flex-col" data-industry="cybersecurity" data-year="2024"><div class="flex justify-between items-start"><div class="text-sm">JX Nippon Oil &amp; Gas Exploration (Malaysia) Limited</div><div class="text-sm text-slate-400 text-right flex-shrink-0 pl-4">2024</div></div><div class="text-slate-700 mt-1">Provision of Information, Communications and Technology Consultancy Services for Nippon’s digital transformation</div><div class="mt-3 text-right"><span class="industry-chip">Cybersecurity</span></div></li>
+          {% elif year == 2025 %}
+            <li class="flex flex-col" data-industry="manpower" data-year="2025"><div class="flex justify-between items-start"><div class="text-sm">Petrofac-RNZ Malaysia</div><div class="text-sm text-slate-400 text-right flex-shrink-0 pl-4">2025 - 2026</div></div><div class="text-slate-700 mt-1">E3D Admin</div><div class="mt-3 text-right"><span class="industry-chip">Manpower</span></div></li>
+            <li class="flex flex-col" data-industry="manpower" data-year="2025"><div class="flex justify-between items-start"><div class="text-sm">Kerry Emulgro</div><div class="text-sm text-slate-400 text-right flex-shrink-0 pl-4">2025 - 2026</div></div><div class="text-slate-700 mt-1">Site Piping Engineer, Site Instrument Engineer, Site C&amp;A Engineer</div><div class="mt-3 text-right"><span class="industry-chip">Manpower</span></div></li>
+          {% elif year == 2026 %}
+            <li class="flex flex-col" data-industry="manpower" data-year="2026"><div class="flex justify-between items-start"><div class="text-sm">McDermott Asia Pacific Sdn Bhd</div><div class="text-sm text-slate-400 text-right flex-shrink-0 pl-4">2025 - 2026</div></div><div class="text-slate-700 mt-1">Senior Piping Designer</div><div class="mt-3 text-right"><span class="industry-chip">Manpower</span></div></li>
+          {% else %}
+             <li class="no-projects-message" style="display: none;"><div class="text-slate-400">No projects listed for this year.</div></li>
+          {% endif %}
+          </ul>
+        </div>
+      </details>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+</div>
 {% endblock %}
+
 {% block extra_body %}
 {{ super() }}
-<script src="{{ url_for('static', filename='js/projects.js') }}" defer></script>
+<script>
+  // Add project-card class to all relevant list items for styling and selection
+  try {
+    document.querySelectorAll('li[data-industry]').forEach(li => {
+      if (!li.classList.contains('project-card')) {
+        li.classList.add('project-card');
+      }
+    });
+  } catch (e) {
+    console.error("Could not apply project-card class:", e);
+  }
+
+  // --- Filtering Logic ---
+  document.addEventListener('DOMContentLoaded', () => {
+    let currentIndustryFilter = 'all';
+    let currentYearFilter = 'all';
+
+    const industryFilters = document.getElementById('industry-filters');
+    const yearFilters = document.getElementById('year-filters');
+    const projectCards = document.querySelectorAll('.project-card');
+    const yearSections = document.querySelectorAll('.year-section');
+    const kpiCountElement = document.getElementById('kpi-projects-count');
+
+    function applyFilters() {
+      let visibleProjectsCount = 0;
+
+      projectCards.forEach(card => {
+        const industryMatch = (currentIndustryFilter === 'all' || card.dataset.industry === currentIndustryFilter);
+        const yearMatch = (currentYearFilter === 'all' || card.dataset.year == currentYearFilter);
+
+        if (industryMatch && yearMatch) {
+          card.style.display = 'flex';
+          visibleProjectsCount++;
+        } else {
+          card.style.display = 'none';
+        }
+      });
+      
+      yearSections.forEach(section => {
+        const visibleCardsInSection = section.querySelectorAll('.project-card[style*="display: flex"]');
+        if (visibleCardsInSection.length > 0) {
+            section.style.display = 'block';
+            if (currentYearFilter !== 'all') {
+                section.open = true;
+            }
+        } else {
+            section.style.display = 'none';
+        }
+      });
+
+      if (kpiCountElement) {
+        kpiCountElement.textContent = visibleProjectsCount;
+      }
+    }
+
+    industryFilters.addEventListener('click', (e) => {
+      const button = e.target.closest('button.filter-chip');
+      if (button) {
+        industryFilters.querySelector('.active')?.classList.remove('active');
+        button.classList.add('active');
+        currentIndustryFilter = button.dataset.industry;
+        applyFilters();
+      }
+    });
+
+    yearFilters.addEventListener('click', (e) => {
+      const button = e.target.closest('button.filter-chip');
+      if (button) {
+        yearFilters.querySelector('.active')?.classList.remove('active');
+        button.classList.add('active');
+        currentYearFilter = button.dataset.year;
+        applyFilters();
+      }
+    });
+
+    // Set initial active state and run filters on load
+    industryFilters.querySelector('[data-industry="all"]').classList.add('active');
+    yearFilters.querySelector('[data-year="all"]').classList.add('active');
+    applyFilters();
+  });
+</script>
 {% endblock %}

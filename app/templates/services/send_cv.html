@@ -1,5 +1,12 @@
 {% extends "base.html" %}
 {% block title %}Send CV — KLSB{% endblock %}
+
+{% block extra_head %}
+{% if config.RECAPTCHA_ENABLED %}
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+{% endif %}
+{% endblock %}
+
 {% block content %}
 
 <section class="py-16 bg-white">
@@ -47,9 +54,16 @@
         <input name="cv_file" type="file" accept=".pdf,.doc,.docx" required class="mt-1 block w-full" />
       </div>
 
+      {% if config.RECAPTCHA_ENABLED %}
+      <div class="flex justify-center">
+        <div class="g-recaptcha" data-sitekey="{{ config.RECAPTCHA_SITE_KEY }}"></div>
+      </div>
+      {% endif %}
+
       <!-- Button aligned left -->
       <div class="text-left">
-        <button type="submit" class="inline-flex items-center rounded-2xl bg-slate-900 text-white px-6 py-3 font-medium hover:bg-slate-800">
+        <button type="submit" class="inline-flex items-center rounded-2xl text-white px-6 py-3 font-medium shadow hover:shadow-md transition"
+           style="background:#030C69; border:none;">
           Send CV
         </button>
       </div>

@@ -1,0 +1,527 @@
+/* Kiosk Display & Mega Screen Responsive System */
+/* This file ensures the website adapts dynamically to all screen sizes from mobile to large kiosk displays */
+
+/* ============================================
+   FLUID TYPOGRAPHY & SPACING SYSTEM
+   ============================================ */
+:root {
+  /* Fluid font sizes using clamp() for smooth scaling across all screen sizes */
+  --fs-xs: clamp(0.75rem, 0.7rem + 0.25vw, 1rem);
+  --fs-sm: clamp(0.875rem, 0.8rem + 0.35vw, 1.125rem);
+  --fs-base: clamp(1rem, 0.9rem + 0.5vw, 1.25rem);
+  --fs-lg: clamp(1.125rem, 1rem + 0.625vw, 1.5rem);
+  --fs-xl: clamp(1.25rem, 1.1rem + 0.75vw, 1.875rem);
+  --fs-2xl: clamp(1.5rem, 1.3rem + 1vw, 2.5rem);
+  --fs-3xl: clamp(1.875rem, 1.5rem + 1.5vw, 3.5rem);
+  --fs-4xl: clamp(2.25rem, 1.8rem + 2vw, 5rem);
+  --fs-5xl: clamp(3rem, 2.5rem + 2.5vw, 6.5rem);
+  
+  /* Fluid spacing that scales with viewport */
+  --spacing-xs: clamp(0.25rem, 0.2rem + 0.25vw, 0.5rem);
+  --spacing-sm: clamp(0.5rem, 0.4rem + 0.5vw, 1rem);
+  --spacing-md: clamp(1rem, 0.8rem + 1vw, 2rem);
+  --spacing-lg: clamp(1.5rem, 1.2rem + 1.5vw, 3rem);
+  --spacing-xl: clamp(2rem, 1.5rem + 2.5vw, 5rem);
+  --spacing-2xl: clamp(3rem, 2rem + 5vw, 8rem);
+  
+  /* Container max-widths for different screen categories */
+  --container-sm: 640px;
+  --container-md: 768px;
+  --container-lg: 1024px;
+  --container-xl: 1280px;
+  --container-2xl: 1536px;
+  --container-3xl: 1920px;
+  --container-4xl: 2560px;
+  --container-kiosk: 3840px; /* 4K displays */
+}
+
+/* ============================================
+   RESPONSIVE CONTAINER SYSTEM
+   ============================================ */
+.container,
+.site-header .container,
+.site-footer .container {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: clamp(1rem, 2vw, 3rem);
+  padding-right: clamp(1rem, 2vw, 3rem);
+}
+
+/* Progressive max-width for different screen sizes */
+@media (min-width: 640px) {
+  .container { max-width: var(--container-sm); }
+}
+
+@media (min-width: 768px) {
+  .container { max-width: var(--container-md); }
+}
+
+@media (min-width: 1024px) {
+  .container { max-width: var(--container-lg); }
+}
+
+@media (min-width: 1280px) {
+  .container { max-width: var(--container-xl); }
+}
+
+@media (min-width: 1536px) {
+  .container { max-width: var(--container-2xl); }
+}
+
+/* Large displays (1920px - 2560px) */
+@media (min-width: 1920px) {
+  .container { 
+    max-width: var(--container-3xl);
+    padding-left: clamp(2rem, 3vw, 5rem);
+    padding-right: clamp(2rem, 3vw, 5rem);
+  }
+}
+
+/* Mega screens and kiosk displays (2560px+) */
+@media (min-width: 2560px) {
+  .container { 
+    max-width: var(--container-4xl);
+    padding-left: clamp(3rem, 4vw, 8rem);
+    padding-right: clamp(3rem, 4vw, 8rem);
+  }
+}
+
+/* 4K and ultra-wide kiosk displays (3840px+) */
+@media (min-width: 3840px) {
+  .container { 
+    max-width: var(--container-kiosk);
+    padding-left: clamp(4rem, 5vw, 10rem);
+    padding-right: clamp(4rem, 5vw, 10rem);
+  }
+}
+
+/* ============================================
+   FLUID TYPOGRAPHY APPLICATION
+   ============================================ */
+body {
+  font-size: var(--fs-base);
+  line-height: 1.6;
+}
+
+h1 {
+  font-size: var(--fs-5xl);
+  line-height: 1.1;
+  margin-bottom: var(--spacing-lg);
+}
+
+h2 {
+  font-size: var(--fs-4xl);
+  line-height: 1.2;
+  margin-bottom: var(--spacing-md);
+}
+
+h3 {
+  font-size: var(--fs-3xl);
+  line-height: 1.3;
+  margin-bottom: var(--spacing-md);
+}
+
+h4 {
+  font-size: var(--fs-2xl);
+  line-height: 1.4;
+  margin-bottom: var(--spacing-sm);
+}
+
+h5 {
+  font-size: var(--fs-xl);
+  line-height: 1.5;
+  margin-bottom: var(--spacing-sm);
+}
+
+h6 {
+  font-size: var(--fs-lg);
+  line-height: 1.5;
+  margin-bottom: var(--spacing-sm);
+}
+
+p, li, td, th {
+  font-size: var(--fs-base);
+  line-height: 1.6;
+}
+
+small, .text-sm {
+  font-size: var(--fs-sm);
+}
+
+.text-xs {
+  font-size: var(--fs-xs);
+}
+
+/* ============================================
+   RESPONSIVE GRID SYSTEM
+   ============================================ */
+.grid {
+  display: grid;
+  gap: var(--spacing-md);
+  width: 100%;
+}
+
+/* Mobile-first: 1 column */
+.grid-cols-1 { grid-template-columns: 1fr; }
+
+/* Tablet: 2 columns */
+@media (min-width: 640px) {
+  .grid-cols-2 { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* Desktop: 3 columns */
+@media (min-width: 1024px) {
+  .grid-cols-3 { grid-template-columns: repeat(3, 1fr); }
+  .grid-cols-4 { grid-template-columns: repeat(4, 1fr); }
+}
+
+/* Large screens: More columns */
+@media (min-width: 1536px) {
+  .grid-cols-5 { grid-template-columns: repeat(5, 1fr); }
+  .grid-cols-6 { grid-template-columns: repeat(6, 1fr); }
+}
+
+/* Mega screens: Maximum columns */
+@media (min-width: 2560px) {
+  .grid-cols-8 { grid-template-columns: repeat(8, 1fr); }
+  .grid {
+    gap: var(--spacing-lg);
+  }
+}
+
+/* ============================================
+   RESPONSIVE IMAGES & MEDIA
+   ============================================ */
+img, video, iframe {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Ensure images scale properly on large displays */
+@media (min-width: 1920px) {
+  img {
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+  }
+}
+
+/* Logo scaling for different screen sizes */
+.branding-logo {
+  max-height: clamp(48px, 5vw, 120px);
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+
+/* ============================================
+   RESPONSIVE NAVIGATION
+   ============================================ */
+.nav-bar {
+  display: flex;
+  align-items: center;
+  gap: clamp(1rem, 2vw, 3rem);
+  padding: var(--spacing-sm) 0;
+}
+
+.nav-links {
+  display: flex;
+  gap: clamp(1rem, 1.5vw, 2.5rem);
+  align-items: center;
+}
+
+.nav-link {
+  font-size: var(--fs-base);
+  padding: var(--spacing-xs) var(--spacing-sm);
+}
+
+/* Large screen navigation adjustments */
+@media (min-width: 1920px) {
+  .nav-bar {
+    padding: var(--spacing-md) 0;
+  }
+  
+  .nav-link {
+    font-size: var(--fs-lg);
+  }
+}
+
+/* ============================================
+   RESPONSIVE BUTTONS & FORMS
+   ============================================ */
+button, .btn, input[type="submit"] {
+  font-size: var(--fs-base);
+  padding: clamp(0.5rem, 1vw, 1rem) clamp(1rem, 2vw, 2rem);
+  border-radius: clamp(0.375rem, 0.5vw, 0.75rem);
+  transition: all 0.3s ease;
+}
+
+input, textarea, select {
+  font-size: var(--fs-base);
+  padding: clamp(0.5rem, 1vw, 1rem);
+  border-radius: clamp(0.25rem, 0.5vw, 0.5rem);
+  width: 100%;
+}
+
+/* Form scaling for large displays */
+@media (min-width: 1920px) {
+  button, .btn, input[type="submit"] {
+    min-height: 48px;
+  }
+  
+  input, textarea, select {
+    min-height: 48px;
+  }
+}
+
+@media (min-width: 2560px) {
+  button, .btn, input[type="submit"] {
+    min-height: 64px;
+  }
+  
+  input, textarea, select {
+    min-height: 64px;
+  }
+}
+
+/* ============================================
+   RESPONSIVE SECTIONS & SPACING
+   ============================================ */
+section {
+  padding-top: var(--spacing-xl);
+  padding-bottom: var(--spacing-xl);
+}
+
+.hero {
+  padding-top: var(--spacing-2xl);
+  padding-bottom: var(--spacing-2xl);
+}
+
+/* Large display spacing */
+@media (min-width: 1920px) {
+  section {
+    padding-top: clamp(3rem, 5vw, 8rem);
+    padding-bottom: clamp(3rem, 5vw, 8rem);
+  }
+}
+
+/* ============================================
+   RESPONSIVE CARDS & COMPONENTS
+   ============================================ */
+.card, .feature-card, .project-card {
+  padding: var(--spacing-md);
+  border-radius: clamp(0.5rem, 1vw, 1.5rem);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+@media (min-width: 1920px) {
+  .card, .feature-card, .project-card {
+    padding: var(--spacing-lg);
+  }
+}
+
+/* Prevent cards from becoming too large on mega screens */
+@media (min-width: 2560px) {
+  .card, .feature-card, .project-card {
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+/* ============================================
+   KIOSK-SPECIFIC OPTIMIZATIONS
+   ============================================ */
+@media (min-width: 1920px) {
+  /* Increase touch target sizes for kiosk interaction */
+  button, a, input, select, textarea {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Enhance readability */
+  body {
+    letter-spacing: 0.01em;
+  }
+  
+  /* Optimize for viewing distance */
+  :root {
+    --optimal-line-length: 80ch;
+  }
+  
+  p, li {
+    max-width: var(--optimal-line-length);
+  }
+}
+
+/* Ultra-wide kiosk displays */
+@media (min-width: 3840px) {
+  /* Center content and prevent excessive width */
+  .content-wrapper {
+    max-width: 3200px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  /* Increase base font size for better readability at distance */
+  :root {
+    --fs-base: clamp(1.25rem, 1vw, 1.5rem);
+  }
+}
+
+/* ============================================
+   RESPONSIVE TABLES
+   ============================================ */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--fs-sm);
+}
+
+th, td {
+  padding: var(--spacing-sm);
+  text-align: left;
+}
+
+@media (min-width: 1920px) {
+  table {
+    font-size: var(--fs-base);
+  }
+  
+  th, td {
+    padding: var(--spacing-md);
+  }
+}
+
+/* ============================================
+   VIEWPORT HEIGHT UTILITIES
+   ============================================ */
+.min-h-screen {
+  min-height: 100vh;
+  min-height: 100dvh; /* Dynamic viewport height for mobile browsers */
+}
+
+.h-screen {
+  height: 100vh;
+  height: 100dvh;
+}
+
+/* ============================================
+   RESPONSIVE UTILITY CLASSES
+   ============================================ */
+/* Spacing utilities */
+.p-responsive { padding: var(--spacing-md); }
+.px-responsive { padding-left: var(--spacing-md); padding-right: var(--spacing-md); }
+.py-responsive { padding-top: var(--spacing-md); padding-bottom: var(--spacing-md); }
+.m-responsive { margin: var(--spacing-md); }
+.mx-responsive { margin-left: var(--spacing-md); margin-right: var(--spacing-md); }
+.my-responsive { margin-top: var(--spacing-md); margin-bottom: var(--spacing-md); }
+
+/* Gap utilities */
+.gap-responsive { gap: var(--spacing-md); }
+
+/* Text alignment for different screens */
+.text-center-mobile { text-align: center; }
+
+@media (min-width: 1024px) {
+  .text-center-mobile { text-align: left; }
+}
+
+/* ============================================
+   PRINT OPTIMIZATIONS
+   ============================================ */
+@media print {
+  * {
+    background: white !important;
+    color: black !important;
+  }
+  
+  .no-print, .nav-bar, .site-footer, button {
+    display: none !important;
+  }
+  
+  body {
+    font-size: 12pt;
+  }
+}
+
+/* ============================================
+   HIGH DPI DISPLAY OPTIMIZATIONS
+   ============================================ */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  /* Optimize rendering for retina and high-DPI displays */
+  body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  img {
+    image-rendering: -webkit-optimize-contrast;
+  }
+}
+
+/* ============================================
+   ACCESSIBILITY & REDUCED MOTION
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ============================================
+   ORIENTATION HANDLING
+   ============================================ */
+@media (orientation: landscape) and (max-height: 600px) {
+  /* Optimize for landscape orientation on shorter displays */
+  section {
+    padding-top: var(--spacing-md);
+    padding-bottom: var(--spacing-md);
+  }
+  
+  .hero {
+    padding-top: var(--spacing-lg);
+    padding-bottom: var(--spacing-lg);
+  }
+}
+
+/* ============================================
+   DYNAMIC CONTENT SCALING
+   ============================================ */
+/* Ensure content never becomes uncomfortably large */
+.content-limiter {
+  max-width: min(100%, 1600px);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Scale content proportionally on mega screens */
+@media (min-width: 2560px) {
+  .scale-content {
+    transform: scale(1.2);
+    transform-origin: top center;
+  }
+}
+
+/* ============================================
+   FLEXIBLE BOX LAYOUTS
+   ============================================ */
+.flex-responsive {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-md);
+  align-items: center;
+  justify-content: space-between;
+}
+
+@media (max-width: 768px) {
+  .flex-responsive {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}

@@ -1,0 +1,1129 @@
+/* Digital Signage Display Optimization - All Sizes */
+/* Optimized for 32", 43", 49", 55", and 65" portrait digital signage displays */
+
+/* ============================================
+   32" SIGNAGE DISPLAY (1700x460x850mm)
+   Display: 699.4mm (H) x 393.85mm (V)
+   Resolution: 1080x1920 portrait
+   ============================================ */
+@media (min-width: 1080px) and (max-width: 1280px) and (orientation: portrait) {
+  
+  :root {
+    /* Optimized font sizes for 32" @ 1080x1920 */
+    --signage-base: 1.25rem;      /* 20px */
+    --signage-sm: 1.125rem;        /* 18px */
+    --signage-lg: 1.5rem;          /* 24px */
+    --signage-xl: 2rem;            /* 32px */
+    --signage-2xl: 2.5rem;         /* 40px */
+    --signage-3xl: 3.5rem;         /* 56px */
+    --signage-4xl: 4.5rem;         /* 72px */
+    --signage-5xl: 6rem;           /* 96px */
+  }
+  
+  /* ==========================================
+     CONTAINER & LAYOUT
+     ========================================== */
+  .container {
+    max-width: 95%;
+    width: 95%;
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
+  }
+  
+  /* Full viewport usage */
+  html,
+  body {
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+  }
+  
+  body {
+    font-size: var(--signage-base);
+    line-height: 1.6;
+  }
+  
+  /* ==========================================
+     HEADER OPTIMIZATION
+     ========================================== */
+  .site-header {
+    min-height: 120px;
+    height: 120px;
+    padding: 1.5rem 0;
+  }
+  
+  .nav-bar {
+    min-height: 100px;
+  }
+  
+  .branding-logo {
+    max-height: 90px;
+    width: auto;
+  }
+  
+  /* Hide desktop nav, always show hamburger */
+  .nav-links {
+    display: none !important;
+  }
+  
+  .nav-toggle {
+    display: inline-flex !important;
+    min-width: 80px;
+    min-height: 80px;
+    border-radius: 20px;
+  }
+  
+  .nav-toggle .bars {
+    width: 40px;
+    height: 32px;
+  }
+  
+  .nav-toggle .bars span {
+    height: 4px;
+  }
+  
+  .nav-cta {
+    font-size: var(--signage-lg);
+    padding: 1.25rem 2rem;
+    min-height: 72px;
+    border-radius: 999px;
+  }
+  
+  /* ==========================================
+     MOBILE PANEL OPTIMIZATION
+     ========================================== */
+  .mobile-panel {
+    inset: 0;
+  }
+  
+  .mobile-sheet {
+    width: 100%;
+    max-width: 100%;
+    height: 100%;
+  }
+  
+  .mobile-nav-item {
+    font-size: var(--signage-xl);
+    padding: 1.5rem 2rem;
+    min-height: 90px;
+    border-radius: 1rem;
+  }
+  
+  .nav-icon {
+    width: 36px;
+    height: 36px;
+  }
+  
+  .nav-section-title {
+    font-size: var(--signage-lg);
+    padding: 1rem 2rem;
+    font-weight: 700;
+  }
+  
+  .mobile-header {
+    padding: 2rem;
+    min-height: 100px;
+  }
+  
+  .mobile-close-btn {
+    width: 64px;
+    height: 64px;
+  }
+  
+  .mobile-close-btn svg {
+    width: 32px;
+    height: 32px;
+  }
+  
+  /* ==========================================
+     TYPOGRAPHY
+     ========================================== */
+  h1 {
+    font-size: var(--signage-5xl);
+    line-height: 1.1;
+    margin-bottom: 2rem;
+  }
+  
+  h2 {
+    font-size: var(--signage-4xl);
+    line-height: 1.2;
+    margin-bottom: 1.75rem;
+  }
+  
+  h3 {
+    font-size: var(--signage-3xl);
+    line-height: 1.3;
+    margin-bottom: 1.5rem;
+  }
+  
+  h4 {
+    font-size: var(--signage-2xl);
+    line-height: 1.4;
+    margin-bottom: 1.25rem;
+  }
+  
+  h5 {
+    font-size: var(--signage-xl);
+    line-height: 1.5;
+    margin-bottom: 1rem;
+  }
+  
+  h6 {
+    font-size: var(--signage-lg);
+    line-height: 1.5;
+    margin-bottom: 1rem;
+  }
+  
+  p,
+  li,
+  td,
+  th {
+    font-size: var(--signage-base);
+    line-height: 1.7;
+  }
+  
+  small,
+  .text-sm {
+    font-size: var(--signage-sm);
+  }
+  
+  /* ==========================================
+     HERO SECTION
+     ========================================== */
+  .hero {
+    padding: 5rem 0 4rem;
+    min-height: 60vh;
+  }
+  
+  .hero-inner {
+    max-width: 90%;
+  }
+  
+  .hero h1 {
+    font-size: var(--signage-5xl);
+    margin-bottom: 2rem;
+  }
+  
+  .hero p {
+    font-size: var(--signage-xl);
+    line-height: 1.6;
+  }
+  
+  /* ==========================================
+     SECTIONS & SPACING
+     ========================================== */
+  section {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+  }
+  
+  section.py-20 {
+    padding-top: 6rem;
+    padding-bottom: 6rem;
+  }
+  
+  .site-main {
+    padding-top: 130px;
+    min-height: calc(100vh - 120px);
+  }
+  
+  /* ==========================================
+     GRID LAYOUTS
+     ========================================== */
+  .grid {
+    display: grid;
+    gap: 2.5rem;
+  }
+  
+  /* Always single column for narrow 32" portrait */
+  .grid-cols-1,
+  .grid-cols-2,
+  .grid-cols-3,
+  .grid-cols-4 {
+    grid-template-columns: 1fr;
+  }
+  
+  /* ==========================================
+     CARDS
+     ========================================== */
+  .card,
+  .feature-card,
+  .service-card,
+  .project-card {
+    padding: 2.5rem;
+    border-radius: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  
+  .card h3,
+  .feature-card h3,
+  .service-card h3 {
+    font-size: var(--signage-3xl);
+    margin-bottom: 1.5rem;
+  }
+  
+  .card p,
+  .feature-card p,
+  .service-card p {
+    font-size: var(--signage-base);
+    line-height: 1.7;
+  }
+  
+  /* ==========================================
+     BUTTONS & CTA
+     ========================================== */
+  button,
+  .btn,
+  .button,
+  input[type="submit"],
+  input[type="button"] {
+    min-height: 80px;
+    font-size: var(--signage-xl);
+    padding: 1.5rem 2.5rem;
+    border-radius: 1rem;
+    font-weight: 600;
+  }
+  
+  button:not(.nav-toggle):not(.mobile-close-btn) {
+    min-height: 80px;
+  }
+  
+  /* ==========================================
+     FORMS
+     ========================================== */
+  input:not([type="checkbox"]):not([type="radio"]),
+  textarea,
+  select {
+    min-height: 80px;
+    font-size: var(--signage-lg) !important;
+    padding: 1.25rem 1.75rem;
+    border-radius: 1rem;
+    border-width: 2px;
+  }
+  
+  label {
+    font-size: var(--signage-lg);
+    font-weight: 600;
+    margin-bottom: 1rem;
+    display: block;
+  }
+  
+  input[type="checkbox"],
+  input[type="radio"] {
+    min-width: 48px;
+    min-height: 48px;
+    margin-right: 1.5rem;
+  }
+  
+  /* ==========================================
+     RECAPTCHA SCALING
+     ========================================== */
+  .g-recaptcha {
+    transform: scale(1.5);
+    transform-origin: center center;
+    margin: 2rem 0;
+  }
+  
+  /* ==========================================
+     FOOTER
+     ========================================== */
+  .site-footer {
+    padding: 4rem 0;
+    font-size: var(--signage-base);
+  }
+  
+  .site-footer p,
+  .site-footer li,
+  .site-footer a {
+    font-size: var(--signage-lg);
+  }
+  
+  /* ==========================================
+     FLOATING JOBS BADGE
+     ========================================== */
+  .floating-jobs-badge {
+    padding: 1.75rem 2.25rem;
+    bottom: 40px;
+    right: 40px;
+    gap: 1rem;
+  }
+  
+  .badge-icon {
+    width: 2.75rem;
+    height: 2.75rem;
+  }
+  
+  .badge-label {
+    font-size: 1.125rem;
+  }
+  
+  .badge-count {
+    font-size: 1.5rem;
+  }
+  
+  .badge-pulse {
+    width: 16px;
+    height: 16px;
+    top: -6px;
+    right: -6px;
+  }
+  
+  /* ==========================================
+     DROPDOWN MENUS
+     ========================================== */
+  .dropdown-panel,
+  .dropdown-menu {
+    min-width: 350px;
+    padding: 1.5rem;
+    border-radius: 1.25rem;
+  }
+  
+  .dropdown-item {
+    font-size: var(--signage-xl);
+    padding: 1.25rem 1.75rem;
+    min-height: 80px;
+    border-radius: 1rem;
+  }
+  
+  /* ==========================================
+     TABLES
+     ========================================== */
+  table {
+    font-size: var(--signage-base);
+  }
+  
+  th,
+  td {
+    padding: 1.5rem;
+    font-size: var(--signage-lg);
+  }
+  
+  thead th {
+    font-size: var(--signage-xl);
+  }
+  
+  /* ==========================================
+     MODALS & POPUPS
+     ========================================== */
+  .modal,
+  .popup,
+  .dialog {
+    max-width: 90%;
+    padding: 3rem;
+    border-radius: 2rem;
+  }
+  
+  .modal h2,
+  .popup h2,
+  .dialog h2 {
+    font-size: var(--signage-3xl);
+  }
+  
+  .modal p,
+  .popup p,
+  .dialog p {
+    font-size: var(--signage-lg);
+  }
+  
+  /* ==========================================
+     BADGES & TAGS
+     ========================================== */
+  .badge,
+  .tag,
+  .chip {
+    font-size: var(--signage-base);
+    padding: 0.75rem 1.5rem;
+    border-radius: 1rem;
+  }
+  
+  /* Admin badge in header */
+  .site-header .badge,
+  span[style*="background:#030C69"] {
+    font-size: var(--signage-base);
+    padding: 0.75rem 1.5rem;
+  }
+  
+  /* ==========================================
+     ALERTS & NOTIFICATIONS
+     ========================================== */
+  .alert,
+  .notification,
+  .toast {
+    font-size: var(--signage-lg);
+    padding: 1.75rem 2rem;
+    border-radius: 1.25rem;
+  }
+  
+  /* ==========================================
+     IMAGES & MEDIA
+     ========================================== */
+  img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 1rem;
+  }
+  
+  /* Client logos */
+  .client-logo,
+  .partner-logo {
+    max-width: 200px;
+  }
+  
+  /* ==========================================
+     FOCUS STATES (for touch interaction)
+     ========================================== */
+  *:focus {
+    outline: 4px solid #0341c9;
+    outline-offset: 4px;
+  }
+  
+  button:focus,
+  a:focus,
+  input:focus,
+  select:focus,
+  textarea:focus {
+    outline: 4px solid #0341c9;
+    outline-offset: 4px;
+  }
+  
+  /* ==========================================
+     ADMIN PAGES
+     ========================================== */
+  /* Admin forms */
+  .admin-login form,
+  .admin-job-form form {
+    max-width: 90%;
+    margin: 0 auto;
+  }
+  
+  /* Admin tables */
+  .admin-table {
+    font-size: var(--signage-base);
+  }
+  
+  .admin-table th,
+  .admin-table td {
+    padding: 1.25rem;
+  }
+  
+  /* ==========================================
+     BREADCRUMBS
+     ========================================== */
+  .breadcrumb,
+  nav[aria-label="Breadcrumb"] {
+    font-size: var(--signage-lg);
+  }
+  
+  .breadcrumb li,
+  .breadcrumb a {
+    padding: 0.75rem 1rem;
+  }
+  
+  /* ==========================================
+     ICON SIZING
+     ========================================== */
+  svg:not(.nav-toggle svg):not(.mobile-close-btn svg):not(.badge-icon) {
+    width: 48px;
+    height: 48px;
+  }
+  
+  .icon-sm svg {
+    width: 32px;
+    height: 32px;
+  }
+  
+  .icon-lg svg {
+    width: 72px;
+    height: 72px;
+  }
+  
+  /* ==========================================
+     LOADING STATES
+     ========================================== */
+  .spinner,
+  .loading-spinner {
+    width: 64px;
+    height: 64px;
+  }
+  
+  /* ==========================================
+     SCROLLBAR STYLING
+     ========================================== */
+  ::-webkit-scrollbar {
+    width: 16px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: #f1f5f9;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: #0341c9;
+    border-radius: 8px;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: #030C69;
+  }
+}
+
+/* ============================================
+   43" SIGNAGE DISPLAY (1810x592x650mm)
+   Display: 942.2mm (H) x 530.4mm (V)
+   Resolution: 1080x1920 portrait
+   ============================================ */
+@media (min-width: 1080px) and (max-width: 1280px) and (orientation: portrait) and (min-height: 1920px) {
+  /* 43" uses same as 32" but with slightly adjusted spacing */
+  :root {
+    --signage-base: 1.375rem;      /* 22px - slightly larger for bigger display */
+    --signage-sm: 1.25rem;         /* 20px */
+    --signage-lg: 1.625rem;        /* 26px */
+    --signage-xl: 2.25rem;         /* 36px */
+    --signage-2xl: 2.75rem;        /* 44px */
+    --signage-3xl: 4rem;           /* 64px */
+    --signage-4xl: 5rem;           /* 80px */
+    --signage-5xl: 6.5rem;         /* 104px */
+  }
+  
+  section {
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+  }
+}
+
+/* ============================================
+   49" SIGNAGE DISPLAY (1860x683x850mm)
+   Display: 1073.8mm (H) x 604mm (V)
+   Resolution: 1200x1920 portrait
+   ============================================ */
+@media (min-width: 1200px) and (max-width: 1400px) and (orientation: portrait) {
+  :root {
+    --signage-base: 1.5rem;        /* 24px */
+    --signage-sm: 1.375rem;        /* 22px */
+    --signage-lg: 1.75rem;         /* 28px */
+    --signage-xl: 2.5rem;          /* 40px */
+    --signage-2xl: 3rem;           /* 48px */
+    --signage-3xl: 4.5rem;         /* 72px */
+    --signage-4xl: 5.5rem;         /* 88px */
+    --signage-5xl: 7rem;           /* 112px */
+  }
+  
+  .container {
+    max-width: 92%;
+  }
+  
+  .site-header {
+    min-height: 140px;
+  }
+  
+  .branding-logo {
+    max-height: 110px;
+  }
+  
+  button,
+  .btn,
+  input[type="submit"] {
+    min-height: 88px;
+    font-size: var(--signage-xl);
+    padding: 1.75rem 3rem;
+  }
+  
+  input:not([type="checkbox"]):not([type="radio"]),
+  textarea,
+  select {
+    min-height: 88px;
+    font-size: var(--signage-lg) !important;
+    padding: 1.5rem 2rem;
+  }
+  
+  /* Allow 2 columns on 49" displays */
+  .grid-cols-2,
+  .grid-cols-3,
+  .grid-cols-4 {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 3rem;
+  }
+  
+  .hero {
+    padding: 6rem 0 5rem;
+  }
+  
+  section {
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+  }
+}
+
+/* ============================================
+   55" SIGNAGE DISPLAY (1960x747x850mm)
+   Display: 1209.8mm (H) x 680.4mm (V)
+   Resolution: 1350x1920 portrait
+   ============================================ */
+@media (min-width: 1350px) and (max-width: 1550px) and (orientation: portrait) {
+  :root {
+    --signage-base: 1.625rem;      /* 26px */
+    --signage-sm: 1.5rem;          /* 24px */
+    --signage-lg: 1.875rem;        /* 30px */
+    --signage-xl: 2.75rem;         /* 44px */
+    --signage-2xl: 3.5rem;         /* 56px */
+    --signage-3xl: 5rem;           /* 80px */
+    --signage-4xl: 6rem;           /* 96px */
+    --signage-5xl: 7.5rem;         /* 120px */
+  }
+  
+  body {
+    font-size: var(--signage-base);
+  }
+  
+  .container {
+    max-width: 90%;
+    padding-left: 3rem;
+    padding-right: 3rem;
+  }
+  
+  .site-header {
+    min-height: 160px;
+    padding: 2rem 0;
+  }
+  
+  .branding-logo {
+    max-height: 130px;
+  }
+  
+  .nav-toggle {
+    min-width: 96px;
+    min-height: 96px;
+  }
+  
+  .mobile-nav-item {
+    font-size: var(--signage-2xl);
+    padding: 2rem 2.5rem;
+    min-height: 110px;
+  }
+  
+  .nav-icon {
+    width: 44px;
+    height: 44px;
+  }
+  
+  button,
+  .btn,
+  input[type="submit"] {
+    min-height: 96px;
+    font-size: var(--signage-xl);
+    padding: 2rem 3.5rem;
+    border-radius: 1.25rem;
+  }
+  
+  input:not([type="checkbox"]):not([type="radio"]),
+  textarea,
+  select {
+    min-height: 96px;
+    font-size: var(--signage-lg) !important;
+    padding: 1.75rem 2.25rem;
+    border-radius: 1.25rem;
+  }
+  
+  .grid {
+    gap: 3.5rem;
+  }
+  
+  /* 2 columns for 55" */
+  .grid-cols-2,
+  .grid-cols-3,
+  .grid-cols-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .card,
+  .feature-card,
+  .project-card {
+    padding: 3rem;
+    border-radius: 1.75rem;
+  }
+  
+  .hero {
+    padding: 7rem 0 6rem;
+  }
+  
+  section {
+    padding-top: 6rem;
+    padding-bottom: 6rem;
+  }
+  
+  .g-recaptcha {
+    transform: scale(1.75);
+  }
+  
+  .floating-jobs-badge {
+    padding: 2rem 2.5rem;
+    bottom: 50px;
+    right: 50px;
+  }
+  
+  .badge-icon {
+    width: 3rem;
+    height: 3rem;
+  }
+  
+  .badge-label {
+    font-size: 1.25rem;
+  }
+  
+  .badge-count {
+    font-size: 1.75rem;
+  }
+}
+
+/* ============================================
+   65" SIGNAGE DISPLAY (2000x868x850mm)
+   Display: 1427.5mm (H) x 802.5mm (V)
+   Resolution: 1440x2560 or 1600x2560 portrait
+   ============================================ */
+@media (min-width: 1440px) and (max-width: 1800px) and (orientation: portrait) {
+  :root {
+    --signage-base: 1.75rem;       /* 28px */
+    --signage-sm: 1.625rem;        /* 26px */
+    --signage-lg: 2rem;            /* 32px */
+    --signage-xl: 3rem;            /* 48px */
+    --signage-2xl: 4rem;           /* 64px */
+    --signage-3xl: 5.5rem;         /* 88px */
+    --signage-4xl: 7rem;           /* 112px */
+    --signage-5xl: 9rem;           /* 144px */
+  }
+  
+  body {
+    font-size: var(--signage-base);
+    line-height: 1.7;
+  }
+  
+  .container {
+    max-width: 88%;
+    padding-left: 4rem;
+    padding-right: 4rem;
+  }
+  
+  .site-header {
+    min-height: 180px;
+    padding: 2.5rem 0;
+  }
+  
+  .branding-logo {
+    max-height: 150px;
+  }
+  
+  .nav-toggle {
+    min-width: 112px;
+    min-height: 112px;
+    border-radius: 24px;
+  }
+  
+  .nav-toggle .bars {
+    width: 56px;
+    height: 44px;
+  }
+  
+  .nav-toggle .bars span {
+    height: 5px;
+  }
+  
+  .mobile-nav-item {
+    font-size: var(--signage-2xl);
+    padding: 2.5rem 3rem;
+    min-height: 130px;
+    border-radius: 1.5rem;
+  }
+  
+  .nav-icon {
+    width: 52px;
+    height: 52px;
+  }
+  
+  .nav-section-title {
+    font-size: var(--signage-xl);
+    padding: 1.5rem 3rem;
+  }
+  
+  h1 {
+    font-size: var(--signage-5xl);
+    margin-bottom: 2.5rem;
+  }
+  
+  h2 {
+    font-size: var(--signage-4xl);
+    margin-bottom: 2rem;
+  }
+  
+  h3 {
+    font-size: var(--signage-3xl);
+    margin-bottom: 2rem;
+  }
+  
+  button,
+  .btn,
+  input[type="submit"] {
+    min-height: 112px;
+    font-size: var(--signage-xl);
+    padding: 2.25rem 4rem;
+    border-radius: 1.5rem;
+  }
+  
+  input:not([type="checkbox"]):not([type="radio"]),
+  textarea,
+  select {
+    min-height: 112px;
+    font-size: var(--signage-lg) !important;
+    padding: 2rem 2.5rem;
+    border-radius: 1.5rem;
+    border-width: 3px;
+  }
+  
+  input[type="checkbox"],
+  input[type="radio"] {
+    min-width: 56px;
+    min-height: 56px;
+    margin-right: 2rem;
+  }
+  
+  label {
+    font-size: var(--signage-xl);
+    margin-bottom: 1.5rem;
+  }
+  
+  .grid {
+    gap: 4rem;
+  }
+  
+  /* 2-3 columns for 65" depending on content */
+  .grid-cols-2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .grid-cols-3,
+  .grid-cols-4 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .card,
+  .feature-card,
+  .project-card {
+    padding: 3.5rem;
+    border-radius: 2rem;
+  }
+  
+  .card h3,
+  .feature-card h3 {
+    font-size: var(--signage-3xl);
+  }
+  
+  .hero {
+    padding: 8rem 0 7rem;
+    min-height: 70vh;
+  }
+  
+  .hero h1 {
+    font-size: var(--signage-5xl);
+    margin-bottom: 3rem;
+  }
+  
+  .hero p {
+    font-size: var(--signage-2xl);
+  }
+  
+  section {
+    padding-top: 7rem;
+    padding-bottom: 7rem;
+  }
+  
+  section.py-20 {
+    padding-top: 10rem;
+    padding-bottom: 10rem;
+  }
+  
+  .site-footer {
+    padding: 5rem 0;
+  }
+  
+  .site-footer p,
+  .site-footer a {
+    font-size: var(--signage-xl);
+  }
+  
+  .g-recaptcha {
+    transform: scale(2);
+    margin: 3rem 0;
+  }
+  
+  .floating-jobs-badge {
+    padding: 2.5rem 3rem;
+    bottom: 60px;
+    right: 60px;
+    gap: 1.5rem;
+  }
+  
+  .badge-icon {
+    width: 3.5rem;
+    height: 3.5rem;
+  }
+  
+  .badge-label {
+    font-size: 1.5rem;
+  }
+  
+  .badge-count {
+    font-size: 2rem;
+  }
+  
+  .badge-pulse {
+    width: 20px;
+    height: 20px;
+  }
+  
+  .dropdown-panel,
+  .dropdown-menu {
+    min-width: 450px;
+    padding: 2rem;
+    border-radius: 1.5rem;
+  }
+  
+  .dropdown-item {
+    font-size: var(--signage-2xl);
+    padding: 1.75rem 2.25rem;
+    min-height: 100px;
+  }
+  
+  table {
+    font-size: var(--signage-lg);
+  }
+  
+  th,
+  td {
+    padding: 2rem;
+    font-size: var(--signage-xl);
+  }
+  
+  .modal,
+  .popup,
+  .dialog {
+    max-width: 85%;
+    padding: 4rem;
+    border-radius: 2.5rem;
+  }
+  
+  .modal h2 {
+    font-size: var(--signage-4xl);
+  }
+  
+  .modal p {
+    font-size: var(--signage-xl);
+  }
+  
+  svg:not(.nav-toggle svg):not(.mobile-close-btn svg):not(.badge-icon) {
+    width: 64px;
+    height: 64px;
+  }
+  
+  .icon-lg svg {
+    width: 96px;
+    height: 96px;
+  }
+  
+  *:focus {
+    outline: 5px solid #0341c9;
+    outline-offset: 5px;
+  }
+  
+  ::-webkit-scrollbar {
+    width: 20px;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+  }
+}
+
+/* ============================================
+   LANDSCAPE FALLBACK (if rotated)
+   ============================================ */
+@media (min-width: 1920px) and (max-width: 2048px) and (orientation: landscape) {
+  /* Apply similar styling if display is rotated to landscape */
+  body {
+    font-size: 1.125rem;
+  }
+  
+  .container {
+    max-width: 1600px;
+  }
+  
+  h1 {
+    font-size: 4rem;
+  }
+  
+  h2 {
+    font-size: 3rem;
+  }
+  
+  .grid-cols-3,
+  .grid-cols-4 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* ============================================
+   ANIMATIONS OPTIMIZATION FOR SIGNAGE
+   ============================================ */
+@media (min-width: 1080px) and (max-width: 1400px) and (orientation: portrait) {
+  /* Smooth transitions for professional look */
+  * {
+    transition-duration: 350ms;
+  }
+  
+  .card,
+  .feature-card,
+  .project-card {
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+  }
+  
+  .card:hover,
+  .feature-card:hover,
+  .project-card:hover {
+    transform: translateY(-8px);
+  }
+  
+  button:active,
+  .btn:active {
+    transform: scale(0.97);
+  }
+}
+
+/* ============================================
+   CONTENT READABILITY
+   ============================================ */
+@media (min-width: 1080px) and (max-width: 1400px) and (orientation: portrait) {
+  /* Optimal line length for readability on 32" display */
+  p,
+  li {
+    max-width: 100%;
+    margin-bottom: 1.25rem;
+  }
+  
+  /* Better spacing between sections */
+  section + section {
+    margin-top: 0;
+  }
+  
+  /* Ensure contrast for visibility from distance */
+  body {
+    color: #1e293b;
+  }
+  
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: #0f172a;
+    font-weight: 700;
+  }
+}

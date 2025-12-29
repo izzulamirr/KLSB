@@ -55,6 +55,55 @@
 .project-media img { width:100%; height:100%; object-fit:cover; transition: transform 1s ease; }
 .project-card:hover .project-media img { transform:scale(1.06); }
 .project-body { padding:1.15rem 1.15rem 1.25rem; display:flex; flex-direction:column; gap:.6rem; }
+.project-card .card-header { display:flex; align-items:center; justify-content:space-between; gap:1rem; padding-bottom:0.25rem; }
+.project-card .card-header .company-wrap { display:flex; flex-direction:row; gap:0.5rem; align-items:center; }
+.project-card .industry-badge { font-size:0.65rem !important; padding:.22rem .5rem !important; }
+.project-card .year-badge { font-weight:700; }
+.project-card .card-header .year-wrap { text-align:right; min-width:6.5rem; font-weight:700; color:var(--color-primary-accent, #334155); }
+.project-card .card-header .year-wrap .font-semibold { display:block; }
+
+/* Make header more compact on small screens */
+@media (max-width:640px){
+  .project-card .card-header { flex-direction:column; align-items:flex-start; gap:0.25rem; }
+  .project-card .card-header .year-wrap { text-align:left; min-width:0; }
+}
+
+/* Hide helper labels (Company / Year / Project Title) to avoid stacked labels */
+.project-card .card-header .text-sm.text-slate-500 { display: none; }
+.project-card .mt-3.text-slate-700 > .font-semibold { display: none; }
+
+/* Slight spacing adjustment when labels are hidden */
+.project-card .card-header .company-wrap { gap: .4rem; }
+.project-card .card-header .year-wrap { padding-left: .25rem; }
+
+/* Absolute badge bottom-right */
+.project-card .industry-badge {
+  position: absolute !important;
+  bottom: 12px !important;
+  right: 12px !important;
+  z-index: 30 !important;
+  background: #eef2ff !important; /* subtle tint */
+  color: #1e293b !important;
+  font-size:0.7rem !important;
+  padding: .2rem .45rem !important;
+  border-radius: .5rem !important;
+  box-shadow: 0 6px 18px -8px rgba(2,6,23,.08);
+}
+
+/* Inline company + owner */
+.project-card .company-wrap { display:flex; align-items:center; gap:.75rem; }
+.project-card .company-wrap .company-name { font-weight:600; color:#334155; }
+.project-card .company-wrap .owner-inline { font-size:1rem; color:#0f172a; font-weight:700; opacity:1; margin-right:.5rem; order:-1; }
+
+/* Owner displayed under the year on the right */
+.project-card .owner-under-year { margin-top:0.25rem; font-size:.9rem; color:#475569; font-weight:700; text-align:right; }
+
+/* ensure company and owner in company-wrap don't conflict with owner-under-year */
+.project-card .company-wrap .owner-inline { display:none; }
+
+/* Ensure project title content aligns left */
+.project-card .project-title-content { text-align:left; }
+.project-body { padding:1.15rem 1.15rem 2rem; display:flex; flex-direction:column; gap:.6rem; }
 .project-title { font-size:1.05rem; font-weight:600; line-height:1.25; }
 .project-excerpt { font-size:.8rem; line-height:1.4; color:#475569; }
 .project-tags { display:flex; flex-wrap:wrap; gap:.4rem; margin-top:.25rem; }
