@@ -1,152 +1,176 @@
 {% extends "base.html" %}
 {% block title %}KLSB — Digitalisation Consultancy{% endblock %}
-{% set hero_bg = url_for('static', filename='img/digital.jpeg') %}
-{% block content %}
 
-<section class="relative min-h-[280px] sm:min-h-[340px] flex items-center justify-center text-center">
-  <img src="{{ hero_bg }}" alt="Digital hero" loading="lazy" class="absolute inset-0 -z-20 w-full h-full object-cover object-center" style="object-position: center 45%;" />
-  <div class="absolute inset-0 -z-10 bg-black/40"></div>
-</div>
-  <div class="w-full px-4 sm:px-6 lg:px-8 py-16 flex flex-col items-center justify-center">
-  <h1 class="text-3xl sm:text-4xl font-bold text-white drop-shadow-lg mb-4">Digital Solution and Cybersecurity Consultancy</h1>
-  <p class="text-lg max-w-2xl mx-auto drop-shadow-md" style="color:#fff !important;">Helping organisations adopt and optimise digital transformation through customised solutions, data-driven strategies, and robust ICT support.</p>
+{% block extra_head %}
+{# --- STYLES FOR THE NEW DASHBOARD --- #}
+<style>
+  .talent-dashboard-container {
+    background: linear-gradient(180deg, #010428 0%, #030C69 100%);
+  }
+
+  /* Main navigation buttons for the dashboard */
+  .main-nav-btn {
+    position: relative;
+    transition: color 0.3s ease;
+  }
+  .main-nav-btn::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: #3b82f6; /* blue-500 */
+    transform: scaleX(0);
+    transform-origin: center;
+    transition: transform 0.3s ease;
+    box-shadow: 0 0 10px #3b82f6;
+  }
+  .main-nav-btn.active::after, .main-nav-btn:hover::after {
+    transform: scaleX(1);
+  }
+  .main-nav-btn.active {
+    color: white;
+  }
+
+  /* Styling for the inner frosted glass cards */
+  /* Make the inner cards white with dark text while keeping the surrounding section blue */
+  .glass-card {
+    background: #ffffff; /* white card */
+    color: #0b1220;      /* dark text */
+    border: 1px solid rgba(11,18,32,0.06);
+    box-shadow: 0 6px 20px rgba(8,12,30,0.18);
+    transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+  }
+  .glass-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 28px rgba(8,12,30,0.24);
+  }
+
+  /* Ensure text elements inside cards are dark even if utility classes set them to white */
+  .glass-card h2,
+  .glass-card h3,
+  .glass-card p,
+  .glass-card li,
+  .glass-card .inner-tab,
+  .glass-card .main-nav-btn {
+    color: #0b1220 !important;
+  }
+
+  /* Keep small muted copy slightly softer */
+  .glass-card p,
+  .glass-card .muted {
+    color: rgba(11,18,32,0.7) !important;
+  }
+
+  /* Buttons that explicitly use a dark background (inline style) should keep their white text — don't force them black */
+  .glass-card a[style], .glass-card button[style] {
+    color: inherit;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+{% set hero_bg = url_for('static', filename='img/digital.jpeg') %}
+
+{# --- HERO SECTION --- #}
+<section class="relative min-h-[500px] flex items-center justify-center text-center">
+  <div class="absolute inset-0 -z-10 bg-cover bg-center" style="background-image: url('{{ hero_bg }}');"></div>
+  <div class="absolute inset-0 -z-10 bg-gradient-to-t from-black/70 to-black/30"></div>
+  <div class="w-full max-w-4xl px-4 sm:px-6 lg:px-8 py-16">
+    <h1 class="text-4xl sm:text-5xl font-bold text-white drop-shadow-lg mb-4" data-aos="fade-up">
+      Digital & Cybersecurity Solutions
+    </h1>
+    <p class="text-xl text-white/90 drop-shadow-md max-w-2xl mx-auto" data-aos="fade-up" data-aos-delay="100" style="color:#fff !important;">
+      Helping organisations adopt and optimise digital transformation through customised solutions, data-driven strategies, and robust ICT support.
+    </p>
   </div>
 </section>
-<!-- Back to all services: left-aligned between hero and content -->
-<div class="bg-white">
-  <div style="height:2.5rem;"></div>
-  <nav class="text-sm text-slate-500 mb-6 text-left" style="margin-left:0; padding-left:0;">
-    <a href="{{ url_for('main.services_page') }}" class="hover:text-slate-700" style="margin-left:0; padding-left:1.5rem; display:inline-block;">← Back to all services</a>
-  </nav>
-</div>
-<section class="py-8 bg-white">
-  <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
 
+{# --- INTERACTIVE DASHBOARD SECTION --- #}
+<section class="talent-dashboard-container pt-16 pb-24 overflow-hidden">
+  <div class="max-w-7xl mx-auto px-6" x-data="{ activeView: 'strategy' }">
+    
+    <nav class="mb-12" data-aos="fade-up">
+      <a href="{{ url_for('main.services_page') }}" class="text-sm text-white/70 hover:text-white transition">← Back to all services</a>
+    </nav>
 
-    <!-- Header removed, now in hero section -->
-
-    <!-- Content Sections (stacked, compact) -->
-    <div class="grid grid-cols-1 gap-6 text-left max-w-3xl mx-auto">
-
-      <!-- Cybersecurity Consultancy -->
-      <section class="rounded-2xl border bg-white p-6 shadow-sm">
-        <h2 class="text-xl font-semibold text-center">Cybersecurity Consultancy</h2>
-        <p class="text-slate-600 max-w-2xl text-center mx-auto mt-2">
-          In elevating the maturity of cybersecurity awareness and adoption, 
-          KLSB is providing audit services jointly with a provider approved by NACSA and CSM.
-        </p>
-        <div class="rounded-xl bg-indigo-50 p-4 mt-4">
-          <ul class="list-disc list-outside text-slate-700 space-y-1 pl-5 text-left w-full">
-            <li>Security Policy &amp; Governance Frameworks</li>
-            <li>Endpoint &amp; Identity Protection</li>
-            <li>Network Infrastructure Hardening</li>
-            <li>Incident Response &amp; Recovery Planning</li>
-            <li>Employee Security Awareness Training</li>
-            <li>Risk Assessment</li>
-          </ul>
-        </div>
-      </section>
-
-      <!-- Digitalisation (3 items → single column) -->
-      <section class="rounded-2xl border bg-white p-6 shadow-sm">
-        <h2 class="text-xl font-semibold mb-2">Digitalisation</h2>
-        <div class="rounded-xl bg-indigo-50 p-4 mt-2">
-          <ul class="list-disc list-outside pl-5 text-left text-slate-700 space-y-1">
-            <li class="text-left">Technical support and consultancy throughout digital transformation</li>
-            <li class="text-left">Expertise in end-to-end digital solutions development</li>
-            <li class="text-left">Implementing the latest technological advancements and solutions</li>
-          </ul>
-        </div>
-      </section>
-
-      <!-- Data Analytics (3 items → single column) -->
-      <section class="rounded-2xl border bg-white p-6 shadow-sm">
-        <h2 class="text-xl font-semibold mb-2">Data Analytics</h2>
-        <div class="rounded-xl bg-indigo-50 p-4 mt-2">
-          <ul class="list-disc list-outside pl-5 text-left text-slate-700 space-y-1">
-            <li class="text-left">Asset performance analysis &amp; predictive modelling</li>
-            <li class="text-left">Prescriptive and preventive maintenance strategies</li>
-            <li class="text-left">Asset usage analytics, planning &amp; scheduling replacement/disposal</li>
-          </ul>
-        </div>
-      </section>
-
-      <!-- Customised Software Solutions (4 items → 2/2) -->
-      <section class="rounded-2xl border bg-white p-4 shadow-sm">
-        <h2 class="text-xl font-semibold mb-2">Customised Software Solutions</h2>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-          <div class="rounded-xl bg-indigo-50 p-4">
-            <ul class="list-disc list-outside pl-5 text-left text-slate-700 space-y-1">
-              <li class="text-left">Web, mobile and desktop applications</li>
-              <li class="text-left">Modern, interactive UI/UX design</li>
-            </ul>
-          </div>
-          <div class="rounded-xl bg-indigo-50 p-4">
-            <ul class="list-disc list-outside pl-5 text-left text-slate-700 space-y-1">
-              <li class="text-left">Software quality assurance to the highest standards</li>
-              <li class="text-left">Small to enterprise-scale projects</li>
-            </ul>
-          </div>
-        </div>
-      </section>
-
-      <!-- ICT Services (5 items → 2/3) -->
-      <section class="rounded-2xl border bg-white p-4 shadow-sm">
-        <h2 class="text-xl font-semibold mb-2">ICT Services</h2>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-          <div class="rounded-xl bg-indigo-50 p-4">
-            <ul class="list-disc list-outside pl-5 text-left text-slate-700 space-y-1">
-              <li class="text-left">Document digitising &amp; management services</li>
-              <li class="text-left">Asset integrity management</li>
-            </ul>
-          </div>
-          <div class="rounded-xl bg-indigo-50 p-4">
-            <ul class="list-disc list-outside pl-5 text-left text-slate-700 space-y-1">
-              <li class="text-left">Software deployment, networking &amp; communications (wired &amp; wireless)</li>
-              <li class="text-left">LAN, fibre cabling, system integration, electrical cabling</li>
-              <li class="text-left">Consultancy, support &amp; maintenance</li>
-            </ul>
-          </div>
-        </div>
-      </section>
-
-            <!-- Digital Transformation (8 items → 4/4) -->
-      <section class="rounded-2xl border bg-white p-4 shadow-sm">
-        <h2 class="text-xl font-semibold text-center mb-3">Digital Transformation</h2>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-          <div class="rounded-xl bg-indigo-50 p-4">
-            <ul class="list-disc list-outside pl-5 text-left text-slate-700 space-y-1">
-              <li class="text-left">System Architect</li>
-              <li class="text-left">AI / ML Specialist</li>
-              <li class="text-left">Data Steward</li>
-              <li class="text-left">Data Scientist</li>
-            </ul>
-          </div>
-          <div class="rounded-xl bg-indigo-50 p-4">
-            <ul class="list-disc list-outside pl-5 text-left text-slate-700 space-y-1">
-              <li class="text-left">UI / UX Designer</li>
-              <li class="text-left">Data Analyst</li>
-              <li class="text-left">Cyber Security Analyst</li>
-              <li class="text-left">Mobile App Developer</li>
-            </ul>
-          </div>
-        </div>
-      </section>
-
-
+    <div class="text-center mb-12" data-aos="fade-up">
+      <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-white">Our Digital Capabilities</h2>
+      <p class="mt-4 max-w-2xl mx-auto text-white/80">From high-level strategy to hands-on implementation, we provide end-to-end digital services.</p>
     </div>
 
-    <!-- Bottom CTA -->
-    <div class="mt-16 text-center">
-      <p class="text-slate-600 mb-6">
-        Ready to accelerate your digital journey? Let’s design, build, and optimise your digital solutions together.
-      </p>
-  <a href="/get-in-touch"
-    class="inline-flex items-center rounded-2xl text-white px-6 py-3 font-medium transition" style="background:#030C69; border:none;">
-  Request a proposal
+    <div class="flex flex-wrap justify-center gap-8 mb-12 border-b border-white/10" data-aos="fade-up" data-aos-delay="100">
+      <button @click="activeView = 'strategy'" class="main-nav-btn text-white/70 font-semibold pb-3" :class="{ 'active': activeView === 'strategy' }">Consultancy & Strategy</button>
+      <button @click="activeView = 'solutions'" class="main-nav-btn text-white/70 font-semibold pb-3" :class="{ 'active': activeView === 'solutions' }">Solutions & ICT</button>
+      <button @click="activeView = 'talent'" class="main-nav-btn text-white/70 font-semibold pb-3" :class="{ 'active': activeView === 'talent' }">Specialised Manpower</button>
+    </div>
+
+    <div class="relative min-h-[350px]" data-aos="fade-up" data-aos-delay="200">
+      
+      <div x-show="activeView === 'strategy'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 text-left">
+          <div class="glass-card rounded-xl p-6">
+            <h3 class="font-semibold text-white flex items-center gap-2 mb-2"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-blue-400"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.286zm0 13.036h.008v.008h-.008v-.008z" /></svg>Cybersecurity</h3>
+            <p class="mt-2 text-sm text-white/80">Audits and frameworks to elevate cybersecurity awareness and adoption.</p>
+            <ul class="mt-4 list-disc list-outside pl-5 space-y-1 text-sm text-white/80"><li>Policy & Governance</li><li>Endpoint Protection</li><li>Risk Assessment</li></ul>
+          </div>
+          <div class="glass-card rounded-xl p-6">
+            <h3 class="font-semibold text-white flex items-center gap-2 mb-2"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-blue-400"><path stroke-linecap="round" stroke-linejoin="round" d="M15.59 14.37a6 6 0 01-5.84 7.38v-4.82m5.84-2.56a14.95 14.95 0 00-5.84-2.56m0 0a14.95 14.95 0 01-5.84 2.56m5.84-2.56V4.72a14.95 14.95 0 00-5.84 2.56M12 12a6 6 0 01-5.84-7.38m5.84 7.38a6 6 0 005.84 7.38m-5.84-7.38L15.59 7.63" /></svg>Digitalisation</h3>
+            <p class="mt-2 text-sm text-white/80">End-to-end consultancy for your digital transformation journey.</p>
+            <ul class="mt-4 list-disc list-outside pl-5 space-y-1 text-sm text-white/80"><li>Technical Support</li><li>Solution Development</li><li>Technology Implementation</li></ul>
+          </div>
+          <div class="glass-card rounded-xl p-6">
+            <h3 class="font-semibold text-white flex items-center gap-2 mb-2"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-blue-400"><path stroke-linecap="round" stroke-linejoin="round" d="M7.5 14.25v2.25m3-4.5v4.5m3-6.75v6.75m3-9v9M6 20.25h12A2.25 2.25 0 0020.25 18V6A2.25 2.25 0 0018 3.75H6A2.25 2.25 0 003.75 6v12A2.25 2.25 0 006 20.25z" /></svg>Data Analytics</h3>
+            <p class="mt-2 text-sm text-white/80">Unlock insights with predictive modeling and maintenance strategies.</p>
+            <ul class="mt-4 list-disc list-outside pl-5 space-y-1 text-sm text-white/80"><li>Performance Analysis</li><li>Preventive Maintenance</li><li>Usage Analytics</li></ul>
+          </div>
+        </div>
+      </div>
+
+      <div x-show="activeView === 'solutions'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" style="display: none;">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-left">
+          <div class="glass-card rounded-xl p-6">
+            <h3 class="font-semibold text-white flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-blue-400"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 7.5l3 2.25-3 2.25m4.5 0h3m-9 8.25h13.5A2.25 2.25 0 0021 18V6a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 6v12a2.25 2.25 0 002.25 2.25z" /></svg>Custom Software</h3>
+            <ul class="mt-4 list-disc list-outside pl-5 space-y-2 text-sm text-white/80"><li>Web, mobile, and desktop applications</li><li>Modern, interactive UI/UX design</li><li>Enterprise-scale project delivery</li><li>Rigorous software quality assurance</li></ul>
+          </div>
+          <div class="glass-card rounded-xl p-6">
+            <h3 class="font-semibold text-white flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-blue-400"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 17.25v-.228a4.5 4.5 0 00-.12-1.03l-2.268-9.64a3.375 3.375 0 00-3.285-2.602H7.923a3.375 3.375 0 00-3.285 2.602l-2.268 9.64a4.5 4.5 0 00-.12 1.03v.228m19.5 0a3 3 0 01-3 3H5.25a3 3 0 01-3-3m19.5 0a3 3 0 00-3-3H5.25a3 3 0 00-3 3m16.5 0h.008v.008h-.008v-.008z" /></svg>ICT Services</h3>
+            <ul class="mt-4 list-disc list-outside pl-5 space-y-2 text-sm text-white/80"><li>Document digitising & management</li><li>Asset integrity management</li><li>Networking, cabling & system integration</li><li>Full-cycle support & maintenance</li></ul>
+          </div>
+        </div>
+      </div>
+
+      <div x-show="activeView === 'talent'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" style="display: none;">
+        <div class="glass-card rounded-2xl p-8 max-w-3xl mx-auto">
+          <h3 class="font-semibold text-white text-xl text-center mb-6 flex items-center justify-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-blue-400"><path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m-7.5-2.962A3.75 3.75 0 0115 9.75v6.472a3.75 3.75 0 01-3.75 3.75H3.75a3.75 3.75 0 01-3.75-3.75V9.75a3.75 3.75 0 013.75-3.75h.007v6.472a2.25 2.25 0 002.25 2.25H9" /></svg>Digital Transformation Manpower</h3>
+          <div class="grid sm:grid-cols-2 gap-x-8 gap-y-3">
+            <ul class="list-disc list-outside pl-5 space-y-2 text-white"><li>System Architect</li><li>AI / ML Specialist</li><li>Data Steward</li><li>Data Scientist</li></ul>
+            <ul class="list-disc list-outside pl-5 space-y-2 text-white"><li>UI / UX Designer</li><li>Data Analyst</li><li>Cyber Security Analyst</li><li>Mobile App Developer</li></ul>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{# --- SINGLE CALL TO ACTION --- #}
+<section class="py-20 bg-white">
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center" data-aos="fade-up">
+    <h2 class="text-3xl font-bold text-slate-900 tracking-tight">
+      Looking to start a project?
+    </h2>
+    <p class="mt-4 text-lg text-slate-600 max-w-2xl mx-auto">
+      Ready to transform your business? Tell us your timeline and scope to get started.
+    </p>
+    <div class="mt-8">
+      <a href="{{ url_for('main.submit_proposal') }}" 
+         class="inline-block rounded-lg text-white px-10 py-3 font-semibold tracking-wide transition duration-300 ease-in-out hover:opacity-90" 
+         style="background-color: #030C69;">
+        Request a Proposal
       </a>
     </div>
-
   </div>
 </section>
 

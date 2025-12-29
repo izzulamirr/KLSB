@@ -1,252 +1,190 @@
 {% extends "base.html" %}
 {% block title %}KLSB — Professional & Technical Manpower{% endblock %}
-{% set hero_bg = url_for('static', filename='img/2584721_XL.jpg') %}
-{% block content %}
 
-<section class="relative min-h-[280px] sm:min-h-[340px] flex items-center justify-center text-center">
+{% block extra_head %}
+<style>
+  /* --- STYLES FOR THE NEW "TALENT DASHBOARD" --- */
+    .talent-dashboard-container {
+      background: linear-gradient(180deg, #010428 0%, #030C69 100%);
+  }
+
+  /* Main navigation buttons for the dashboard */
+  .main-nav-btn {
+    position: relative;
+    transition: color 0.3s ease;
+  }
+  .main-nav-btn::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: #3b82f6; /* blue-500 */
+    transform: scaleX(0);
+    transform-origin: center;
+    transition: transform 0.3s ease;
+    box-shadow: 0 0 10px #3b82f6;
+  }
+  .main-nav-btn.active::after, .main-nav-btn:hover::after {
+    transform: scaleX(1);
+  }
+  .main-nav-btn.active {
+    color: white;
+  }
+
+  /* Make the inner cards white with dark text while keeping the surrounding section blue */
+  .glass-card {
+    background: #ffffff; /* white card */
+    color: #0b1220;      /* dark text */
+    border: 1px solid rgba(11,18,32,0.06);
+    box-shadow: 0 6px 20px rgba(8,12,30,0.18);
+    transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+  }
+  .glass-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 28px rgba(8,12,30,0.24);
+  }
+
+  /* Ensure text elements inside cards are dark even if utility classes set them to white */
+  .glass-card h2,
+  .glass-card h3,
+  .glass-card p,
+  .glass-card li,
+  .glass-card .inner-tab,
+  .glass-card .main-nav-btn {
+    color: #0b1220 !important;
+  }
+
+  /* Keep small muted copy slightly softer */
+  .glass-card p,
+  .glass-card .muted {
+    color: rgba(11,18,32,0.7) !important;
+  }
+
+  /* Buttons that explicitly use a dark background (inline style) should keep their white text — don't force them black */
+  .glass-card a[style], .glass-card button[style] {
+     /* Ensure buttons that set a dark background via inline style retain white text */
+    color: #ffffff !important;
+  }
+
+  /* Styling for inner tab navigation */
+  .inner-tab {
+    transition: all 0.2s ease;
+    border-bottom: 2px solid transparent;
+  }
+  .inner-tab.active {
+    color: #0b1220; /* dark */
+    border-bottom-color: rgba(11,18,32,0.12);
+  }
+  .inner-tab:not(.active):hover {
+    color: #0b1220;
+    border-bottom-color: rgba(11,18,32,0.08);
+  }
+  
+</style>
+{% endblock %}
+
+{% block content %}
+{% set hero_bg = url_for('static', filename='img/manpower.jpg') %}
+
+<section class="relative min-h-[500px] flex items-center justify-center text-center">
   <div class="absolute inset-0 -z-10 bg-cover bg-center" style="background-image: url('{{ hero_bg }}');"></div>
-  <div class="absolute inset-0 -z-10 bg-black/40"></div>
-</div>
-  <div class="w-full px-4 sm:px-6 lg:px-8 py-16 flex flex-col items-center justify-center">
-  <h1 class="text-3xl sm:text-4xl font-bold text-white drop-shadow-lg mb-4">Professional &amp; Technical Manpower</h1>
-  <p class="text-lg max-w-2xl mx-auto drop-shadow-md" style="color:#fff !important;">Based on a thorough understanding of the job specifications, organization culture, education & skill requirement, safety awareness and other critical attributes required for the specific position. We focus on productivity and efficiency improvement through training, skill enhancement program and also focus on key result area & cost optimization solution.</p>
+  <div class="absolute inset-0 -z-10 bg-gradient-to-t from-black/70 to-black/30"></div>
+  <div class="w-full max-w-4xl px-4 sm:px-6 lg:px-8 py-16">
+    <h1 class="text-4xl sm:text-5xl font-bold text-white drop-shadow-lg mb-4" data-aos="fade-up">Professional & Technical Manpower</h1>
+    <p class="text-xl text-white/90 drop-shadow-md max-w-2xl mx-auto" data-aos="fade-up" data-aos-delay="100" style="color:#fff !important;">We provide elite professional and technical manpower, meticulously matched to your project's unique demands for culture, skill, and safety.</p>
   </div>
 </section>
 
-<!-- Back to all services: left-aligned under hero, outside main content -->
-<div class="bg-white">
-  <div style="height:2.5rem;"></div>
-  <nav class="text-sm text-slate-500 mb-6 text-left" style="margin-left:0; padding-left:0;">
-    <a href="{{ url_for('main.services_page') }}" class="hover:text-slate-700" style="margin-left:0; padding-left:1.5rem; display:inline-block;">← Back to all services</a>
-  </nav>
-</div>
-<section class="py-8 bg-white">
-  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+<section class="talent-dashboard-container pt-16 pb-24 overflow-hidden">
+  <div class="max-w-7xl mx-auto px-6" x-data="{ activeView: 'scope' }">
+    
+    <nav class="mb-12" data-aos="fade-up">
+      <a href="{{ url_for('main.services_page') }}" class="text-sm text-white/70 hover:text-white transition">← Back to all services</a>
+    </nav>
 
+    <div class="text-center mb-12" data-aos="fade-up">
+      <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-white">The Talent Dashboard</h2>
+      <p class="mt-4 max-w-2xl mx-auto text-white/80">Explore our service frameworks, available roles, and recruitment capabilities.</p>
+    </div>
 
+    <div class="flex justify-center gap-8 mb-12 border-b border-white/10" data-aos="fade-up" data-aos-delay="100">
+      <button @click="activeView = 'scope'" class="main-nav-btn text-white/70 font-semibold pb-3" :class="{ 'active': activeView === 'scope' }">Scope of Work</button>
+      <button @click="activeView = 'roles'" class="main-nav-btn text-white/70 font-semibold pb-3" :class="{ 'active': activeView === 'roles' }">Available Roles</button>
+      <button @click="activeView = 'recruitment'" class="main-nav-btn text-white/70 font-semibold pb-3" :class="{ 'active': activeView === 'recruitment' }">Recruitment Services</button>
+    </div>
 
-    <!-- Header removed, now in hero section -->
-
-
-
-    <!-- Scope of Work -->
-    <div class="space-y-12 text-left">
-  <section class="rounded-2xl border bg-white p-6 shadow-sm [p]:text-justify">
-        <h2 class="text-2xl font-semibold text-center mb-2">Scope of Work</h2>
-        <div class="grid sm:grid-cols-4 gap-6 text-slate-700">
-          <div class="rounded-xl bg-indigo-100 p-4 text-slate-700">
-            <h3 class="font-semibold">TOTAL SCOPE OUTSOURCE</h3>
-            <p class="mt-2 text-sm text-slate-700 text-center">Specialised Engineering Study, 3D Modelling etc.</p>
+    <div class="relative min-h-[400px]" data-aos="fade-up" data-aos-delay="200">
+      <div x-show="activeView === 'scope'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 text-center text-white">
+          <div class="glass-card rounded-2xl p-6">
+            <h3 class="font-semibold text-white">TOTAL SCOPE OUTSOURCE</h3>
+            <p class="mt-2 text-sm text-white/80">Specialised Engineering Study, 3D Modelling etc.</p>
           </div>
-          <div class="rounded-xl bg-indigo-100 p-4 text-slate-700">
-            <h3 class="font-semibold">MANPOWER + WORKSTATION</h3>
-            <p class="mt-2 text-sm text-slate-700 text-center">Manpower supply and workstation to be stationed at Client Office</p>
+          <div class="glass-card rounded-2xl p-6">
+            <h3 class="font-semibold text-white">MANPOWER + WORKSTATION</h3>
+            <p class="mt-2 text-sm text-white/80">Manpower supply and workstation to be stationed at Client Office.</p>
           </div>
-          <div class="rounded-xl bg-indigo-100 p-4 text-slate-700">
-            <h3 class="font-semibold">MANPOWER + WORKSTATION + SOFTWARE</h3>
-            <p class="mt-2 text-sm text-slate-700 text-center">Manpower supply, workstation and any required software to be stationed at Client Office</p>
+          <div class="glass-card rounded-2xl p-6">
+            <h3 class="font-semibold text-white">MANPOWER + WORKSTATION + SOFTWARE</h3>
+            <p class="mt-2 text-sm text-white/80">Manpower supply, workstation and any required software.</p>
           </div>
-          <div class="rounded-xl bg-indigo-100 p-4 text-slate-700">
-            <h3 class="font-semibold">MANPOWER SUPPLY BODY ONLY</h3>
-            <p class="mt-2 text-sm text-slate-700 text-center">Manpower supply for all disicipline as required. Short term basis, hourly rate, monthly rate etc</p>
+          <div class="glass-card rounded-2xl p-6">
+            <h3 class="font-semibold text-white">MANPOWER SUPPLY (BODY ONLY)</h3>
+            <p class="mt-2 text-sm text-white/80">Flexible manpower supply for all disciplines as required.</p>
           </div>
         </div>
-      </section>
+      </div>
 
+      <div x-show="activeView === 'roles'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" style="display: none;"
+           x-data="{ activeTab: 'management' }">
+        <div class="glass-card rounded-2xl p-8">
+          <nav class="flex justify-center gap-6 mb-8 border-b border-white/10">
+            <button @click="activeTab = 'management'" class="inner-tab py-2 font-medium" :class="{'active': activeTab === 'management'}">Project Management</button>
+            <button @click="activeTab = 'engineering'" class="inner-tab py-2 font-medium" :class="{'active': activeTab === 'engineering'}">Engineering</button>
+            <button @click="activeTab = 'modelling'" class="inner-tab py-2 font-medium" :class="{'active': activeTab === 'modelling'}">3D Modelling</button>
+          </nav>
+          <div class="min-h-[150px] text-white">
+            <div x-show="activeTab === 'management'" x-transition><div class="grid sm:grid-cols-2 gap-x-8 gap-y-3"><ul class="list-disc list-outside pl-5 space-y-2"><li>Project Director</li><li>Project Manager</li><li>Contract Manager</li><li>Commissioning Manager</li><li>HSSE Manager</li></ul><ul class="list-disc list-outside pl-5 space-y-2"><li>QA/QC Manager</li><li>Engineering Manager</li><li>Procurement Manager</li><li>Planning & Control</li><li>Construction Manager</li></ul></div></div>
+            <div x-show="activeTab === 'engineering'" x-transition style="display: none;"><div class="grid sm:grid-cols-2 gap-x-8 gap-y-3"><ul class="list-disc list-outside pl-5 space-y-2"><li>Planning Engineer</li><li>Cost Engineer</li><li>Subcontract Engineer</li><li>Piping Engineer</li><li>Project Engineer</li><li>Process Engineer</li></ul><ul class="list-disc list-outside pl-5 space-y-2"><li>Mechanical Engineer</li><li>Electrical Engineer</li><li>Structural Engineer</li><li>Civil Engineer</li><li>Instrument Engineer</li><li>Process Safety Engineer</li></ul></div></div>
+            <div x-show="activeTab === 'modelling'" x-transition style="display: none;"><div class="grid sm:grid-cols-2 gap-x-8 gap-y-3"><ul class="list-disc list-outside pl-5 space-y-2"><li>3D Design Coordinator</li><li>AVEVA Administrator</li><li>AVEVA Instrument</li><li>AVEVA Electrical</li><li>AVEVA P&ID</li></ul><ul class="list-disc list-outside pl-5 space-y-2"><li>SP3D Admin</li><li>SP3D Designer</li><li>SP3L Admin</li><li>SPPID Admin</li><li>SPI Admin</li><li>E3D Designer</li></ul></div></div>
+          </div>
+        </div>
+      </div>
 
+      <div x-show="activeView === 'recruitment'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" style="display: none;">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 text-left">
+          <div class="glass-card rounded-xl p-6"><h3 class="font-semibold text-white">Talent Sourcing</h3><p class="mt-2 text-sm text-white">Identifying candidates via job boards, social media, and professional networks.</p></div>
+          <div class="glass-card rounded-xl p-6"><h3 class="font-semibold text-white">Staffing Solutions</h3><p class="mt-2 text-sm text-white/80">Providing temporary, contract, or permanent staffing for any need.</p></div>
+          <div class="glass-card rounded-xl p-6"><h3 class="font-semibold text-white">Candidate Screening</h3><p class="mt-2 text-sm text-white/80">Reviewing resumes, conducting interviews, and assessing candidate suitability.</p></div>
+          <div class="glass-card rounded-xl p-6"><h3 class="font-semibold text-white">Talent Management</h3><p class="mt-2 text-sm text-white/80">Developing strategies to manage and retain top talent within your organization.</p></div>
+          <div class="glass-card rounded-xl p-6"><h3 class="font-semibold text-white">Job Advertising</h3><p class="mt-2 text-sm text-white/80">Creating and promoting job postings through all relevant channels.</p></div>
+          <div class="glass-card rounded-xl p-6"><h3 class="font-semibold text-white">Recruitment Process Outsourcing (RPO)</h3><p class="mt-2 text-sm text-white/80">Managing the entire recruitment lifecycle on behalf of the client.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-      <h1 class="text-3xl sm:text-4xl font-bold mb-6">Specialized Top-tier Professional Technical Manpower</h1>
-      <div class="mb-10 flex justify-center">
-        <a href="{{ url_for('main.services_manpower_send_cv') }}"
-           class="inline-flex items-center rounded-2xl text-white px-6 py-3 font-medium shadow hover:shadow-md transition"
-           style="background:#030C69; border:none;">
-          Send CV
+<section class="pt-12 pb-12">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div class="glass-card rounded-2xl p-10 text-center" data-aos="fade-right">
+        <h2 class="text-2xl font-semibold mb-4 text-black">Are you a skilled professional?</h2>
+        <p class="text-white/80 mb-6">We are always looking for top-tier talent. Join our network of experts and find your next opportunity.</p>
+        <a href="{{ url_for('main.services_manpower_send_cv') }}" class="inline-flex items-center rounded-2xl text-white px-6 py-3 font-medium transition" style="background:#030C69; border:none;">
+          Send Your CV
         </a>
       </div>
-
-
-      <!-- Manpower -->
-      <section class="rounded-2xl border bg-white p-6 shadow-sm">
-  <h2 class="text-2xl font-semibold text-center mb-2">Manpower Project Management Services</h2>
-  <div class="rounded-xl bg-indigo-100 p-4 mt-3">
-    <div class="grid sm:grid-cols-2 gap-6">
-      <ul class="list-disc list-outside pl-5 text-left text-slate-700">
-        <li>Project Director</li>
-        <li>Project Manager</li>
-        <li>Contract Manager</li>
-        <li>Commissioning Manager</li>
-        <li>HSSE Manager</li>
-      </ul>
-      <ul class="list-disc list-outside pl-5 text-left text-slate-700">
-        <li>QA/QC Manager</li>
-        <li>Engineering Manager</li>
-        <li>Procurement Manager</li>
-        <li>Planning & Control</li>
-        <li>Construction Manager</li>
-      </ul>
-    </div>
-  </div>
-</section>
-
-      <section class="rounded-2xl border bg-white p-6 shadow-sm">
-        <h2 class="text-2xl font-semibold text-center mb-2">Manpower Engineering Services</h2>
-
-    <div class="rounded-xl bg-indigo-100 p-4 mt-3">
-      <div class="grid sm:grid-cols-2 gap-6">
-        <ul class="list-disc list-outside pl-5 text-left text-slate-700">
-          <li>Planning Engineer</li>
-          <li>Cost Engineer</li>
-          <li>Subcontract Engineer</li>
-          <li>Piping Engineer</li>
-          <li>Project Engineer</li>
-          <li>Process Engineer</li>
-        </ul>
-        <ul class="list-disc list-outside pl-5 text-left text-slate-700">
-          <li>Mechanical Engineer</li>
-          <li>Electrical Engineer</li>
-          <li>Structural Engineer</li>
-          <li>Civil Engineer</li>
-          <li>Instrument Engineer</li>
-          <li>Process Safety Engineer</li>
-        </ul>
+      <div class="glass-card rounded-2xl p-10 text-center" data-aos="fade-left">
+        <h2 class="text-2xl font-semibold mb-4 text-black">Looking to build a team?</h2>
+        <p class="text-white/80 mb-6">Need certified, project-ready personnel? Tell us your timeline and scope.</p>
+        <a href="{{ url_for('main.submit_proposal') }}" class="inline-flex items-center rounded-2xl text-white px-6 py-3 font-medium transition" style="background:#030C69; border:none;">
+          Request a Proposal
+        </a>
       </div>
     </div>
-</section>
-
-
-<section class="rounded-2xl border bg-white p-6 shadow-sm my-8">
-  <h2 class="text-2xl font-semibold text-center mb-2">Manpower 3D Modelling Services</h2>
-  <div class="rounded-xl bg-indigo-100 p-4 mt-3">
-    <div class="grid sm:grid-cols-2 gap-6 text-slate-700">
-      <ul class="list-disc list-outside pl-5 text-left">
-        <li>3D Design Coordinator</li>
-        <li>AVEVA Administrator</li>
-        <li>AVEVA Instrument</li>
-        <li>AVEVA Electrical</li>
-        <li>AVEVA P&ID</li>
-      </ul>
-      <ul class="list-disc list-outside pl-5 text-left">
-        <li>SP3D Admin</li>
-        <li>SP3D Designer</li>
-        <li>SP3L Admin</li>
-        <li>SPPID Admin</li>
-        <li>SPI Admin</li>
-        <li>E3D Designer</li>
-      </ul>
-    </div>
-  </div>
-</section>
-
-<section class="rounded-2xl border bg-white p-6 shadow-sm my-8">
-  <h2 class="text-2xl font-semibold text-center mb-2">Recruitment & Talent Sourcing Service</h2>
-  <p class="text-slate-600 text-center mb-5">
-    Sourcing and hiring talented individuals
-  </p>
-  <div class="max-w-5xl mx-auto">
-    <div class="mt-10 grid sm:grid-cols-2 gap-6 text-left">
-      <!-- 1 -->
-    <div class="rounded-2xl bg-indigo-100 p-6 text-slate-700">
-          <h3 class="font-semibold">Talent sourcing</h3>
-          <p class="mt-2 text-sm text-slate-600 text-center">
-            Identifying potential candidates through channels such as job boards, social media, and professional networks.
-          </p>
-        </div>
-      <!-- 2 -->
-    <div class="rounded-2xl bg-indigo-100 p-6 text-slate-700">
-          <h3 class="font-semibold">Staffing solutions</h3>
-          <p class="mt-2 text-sm text-slate-600">
-            Providing temporary, contract, or permanent staffing to meet clients’ short-term or long-term needs.
-          </p>
-        </div>
-      <!-- 3 -->
-    <div class="rounded-2xl bg-indigo-100 p-6 text-slate-700">
-          <h3 class="font-semibold">Candidate screening and assessment</h3>
-          <p class="mt-2 text-sm text-slate-600">
-            Reviewing resumes, conducting interviews, and assessing candidates’ skills, experience, and suitability for the role.
-          </p>
-        </div>
-      <!-- 4 -->
-    <div class="rounded-2xl bg-indigo-100 p-6 text-slate-700">
-          <h3 class="font-semibold">Talent management and retention</h3>
-          <p class="mt-2 text-sm text-slate-600">
-            Developing strategies to manage and retain top talent within the client’s organization.
-          </p>
-        </div>
-
-      <!-- 5 -->
-      <div class="rounded-2xl bg-indigo-100 p-6 text-slate-700">
-        <h3 class="font-semibold">Job posting and advertising</h3>
-        <p class="mt-2 text-sm text-slate-600">
-          Creating job postings and advertising vacancies through online job boards, social media, and professional networks.
-        </p>
-      </div>
-
-      <!-- 6 -->
-      <div class="rounded-2xl bg-indigo-100 p-6 text-slate-700">
-        <h3 class="font-semibold">HR consulting</h3>
-        <p class="mt-2 text-sm text-slate-600">
-          Providing advice and guidance on HR-related issues such as engagement, performance management, and compensation.
-        </p>
-      </div>
-
-      <!-- 7 -->
-      <div class="rounded-2xl bg-indigo-100 p-6 text-slate-700">
-        <h3 class="font-semibold">Employer branding</h3>
-        <p class="mt-2 text-sm text-slate-600">
-          Developing and promoting a client’s employer brand to attract and retain top talent.
-        </p>
-      </div>
-
-      <!-- 8 -->
-       
-      <div class="rounded-2xl bg-indigo-100 p-6 text-slate-700">
-        <h3 class="font-semibold">Employer compliance</h3>
-        <p class="mt-2 text-sm text-slate-600">
-          Ensuring that clients are compliant with relevant employment laws and regulations.
-        </p>
-      </div>
-
-      <!-- 9 -->
-      <div class="rounded-2xl bg-indigo-100 p-6 text-slate-700">
-        <h3 class="font-semibold">Recruitment marketing</h3>
-        <p class="mt-2 text-sm text-slate-600">
-          Developing marketing campaigns to attract potential candidates and promote job vacancies.
-        </p>
-      </div>
-
-      <!-- 10 -->
-      <div class="rounded-2xl bg-indigo-100 p-6 text-slate-700">
-        <h3 class="font-semibold">Recruitment process outsourcing (RPO)</h3>
-        <p class="mt-2 text-sm text-slate-600">
-          Managing the recruitment process on behalf of the client, from sourcing and screening to onboarding and training.
-        </p>
-      </div>
-
-    </div>
-  </div>
-  </section>
-        <div class="mb-10 flex justify-center">
-          <a href="{{ url_for('main.services_manpower_send_cv') }}"
-             class="inline-flex items-center rounded-2xl text-white px-6 py-3 font-medium shadow hover:shadow-md transition"
-             style="background:#030C69; border:none;">
-            Send CV
-          </a>
-        </div>
-      </div>
-        </div>
-      </section>
-    <!-- Bottom CTA -->
-
-    <div class="mt-16 mb-24"> <!-- Added mb-24 for extra space above footer -->
-      <p class="text-slate-600 mb-6">
-        Need certified, project-ready personnel? Tell us your timeline and scope.
-      </p>
-      <a href="/get-in-touch"
-        class="inline-flex items-center rounded-2xl text-white px-6 py-3 font-medium transition" style="background:#030C69; border:none;">
-        Request a proposal
-      </a>
-    </div>
-
   </div>
 </section>
 

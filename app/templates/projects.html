@@ -1,13 +1,30 @@
 {% extends "base.html" %}
 {% block title %}Projects & Case Studies — KLSB{% endblock %}
+
 {% block content %}
+<div style="background: linear-gradient(180deg, #010428 0%, #030C69 100%); color: #e2e8f0;">
 
-<!-- Hero / Intro -->
-<section class="relative overflow-hidden bg-gradient-to-b from-slate-50 to-white">
-  <div class="max-w-7xl mx-auto px-6 pt-36 pb-20">
-    <h1 class="text-4xl sm:text-5xl font-bold tracking-tight">Projects & Track Records</h1>
-    <p class="mt-6 text-lg text-slate-600 leading-relaxed max-w-3xl">Representative engagements illustrating how integrated manpower, engineering and digital enablement compress risk and elevate delivery certainty.</p>
+<section class="pt-20 pb-12">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="text-center">
+      <h1 class="text-5xl sm:text-6xl font-extrabold tracking-tight text-white mb-5" style="letter-spacing: -0.02em;">Projects & Track Records</h1>
+      <p class="mt-4 text-gray-300 text-lg max-w-3xl mx-auto" style="line-height: 1.7;">A concise history of our delivered projects and key achievements. Below are highlights and a year-by-year breakdown you can expand to view detailed entries.</p>
+    </div>
 
+    <div class="mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div id="kpi-projects" class="kpi-card">
+        <div class="text-sm uppercase tracking-wider text-gray-300 font-medium mb-3">Projects Displayed</div>
+        <div id="kpi-projects-count" class="text-5xl font-extrabold text-white" style="background: linear-gradient(135deg, #ffffff 0%, rgba(255,255,255,0.8) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">0</div>
+      </div>
+      <div class="kpi-card">
+        <div class="text-sm uppercase tracking-wider text-gray-300 font-medium mb-3">Years Active</div>
+        <div class="text-5xl font-extrabold text-white" style="background: linear-gradient(135deg, #ffffff 0%, rgba(255,255,255,0.8) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">12</div>
+      </div>
+      <div class="kpi-card">
+        <div class="text-sm uppercase tracking-wider text-gray-300 font-medium mb-3">Clients Served</div>
+        <div class="text-5xl font-extrabold text-white" style="background: linear-gradient(135deg, #ffffff 0%, rgba(255,255,255,0.8) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">100+</div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -27,8 +44,7 @@
   </div>
 </section>
 
-<!-- Project Grid -->
-<section class="py-24">
+<section class="py-12">
   <div class="max-w-7xl mx-auto px-6">
     <div class="grid gap-8 md:grid-cols-2 xl:grid-cols-3" id="project-grid">
 
@@ -85,83 +101,96 @@
           <p class="project-excerpt">Coordinated vendor sourcing & event management logistics.</p>
           <div class="project-tags"><span>Supply</span></div>
         </div>
-      </article>
-
+      </details>
+      {% endfor %}
     </div>
   </div>
 </section>
 
-<!-- Hidden Modal Sources -->
-<div class="hidden" id="modal-source-proj-model-integration">
-  <div class="modal-hero"><img src="{{ url_for('static', filename='img/hero.jpg') }}" alt="Model integration"></div>
-  <h2 class="modal-title">Digital Model Integration</h2>
-  <p>Consolidated multi-discipline 3D model stewardship improving interface clarity and reducing engineering iteration churn.</p>
-  <ul class="list-disc pl-5 mt-4 text-sm space-y-1">
-    <li>Cross-platform (Aveva/Hexagon) reconciliation</li>
-    <li>Metadata hygiene & revision control</li>
-    <li>As-built alignment & deviation logging</li>
-    <li>Dashboards surfacing clash / status KPIs</li>
-  </ul>
 </div>
-<div class="hidden" id="modal-source-proj-cyber-hardening">
-  <div class="modal-hero"><img src="{{ url_for('static', filename='img/2584721_XL.jpg') }}" alt="Cyber hardening"></div>
-  <h2 class="modal-title">Cyber Hardening Program</h2>
-  <p>Phased uplift of endpoint and identity posture across engineering toolchain landscape.</p>
-  <ol class="list-decimal pl-5 mt-4 text-sm space-y-1">
-    <li>Baseline assessment & asset mapping</li>
-    <li>Policy segmentation & MFA coverage</li>
-    <li>Patch cadence normalization</li>
-    <li>Continuous monitoring dashboards</li>
-  </ol>
-</div>
-<div class="hidden" id="modal-source-proj-manpower-ramp">
-  <div class="modal-hero"><img src="{{ url_for('static', filename='img/business-2717427.jpg') }}" alt="Manpower ramp"></div>
-  <h2 class="modal-title">Specialist Ramp-Up</h2>
-  <p>Rapid deployment of certified designers and discipline specialists within compressed schedule window.</p>
-  <ul class="list-disc pl-5 mt-4 text-sm space-y-1">
-    <li>Competency matrix aligned to work packs</li>
-    <li>Mentored onboarding & QA loops</li>
-    <li>Utilization analytics & velocity tracking</li>
-    <li>Retention support & succession planning</li>
-  </ul>
-</div>
-<div class="hidden" id="modal-source-proj-inspection">
-  <div class="modal-hero"><img src="{{ url_for('static', filename='img/shutterstock_744825085-min.jpg') }}" alt="Inspection"></div>
-  <h2 class="modal-title">Specialized Inspection</h2>
-  <p>Structured inspection workflow capturing condition data with digital trace for integrity engineering.</p>
-  <ul class="list-disc pl-5 mt-4 text-sm space-y-1">
-    <li>Scope matrix & priority tagging</li>
-    <li>Field data capture templates</li>
-    <li>Anomaly classification & escalation</li>
-    <li>Remediation tracking dashboards</li>
-  </ul>
-</div>
-<div class="hidden" id="modal-source-proj-construction">
-  <div class="modal-hero"><img src="{{ url_for('static', filename='img/4.png') }}" alt="Construction"></div>
-  <h2 class="modal-title">Construction Package Support</h2>
-  <p>Coordinated materials & package readiness oversight minimizing on‑site idle time.</p>
-  <ul class="list-disc pl-5 mt-4 text-sm space-y-1">
-    <li>Look‑ahead readiness snapshots</li>
-    <li>Material receipt & variance logging</li>
-    <li>Permit / interface tracking</li>
-    <li>Progress KPI & constraint board</li>
-  </ul>
-</div>
-<div class="hidden" id="modal-source-proj-supply">
-  <div class="modal-hero"><img src="{{ url_for('static', filename='img/5.png') }}" alt="Supply enablement"></div>
-  <h2 class="modal-title">Supply & Trading Enablement</h2>
-  <p>Vendor sourcing orchestration and logistics coordination increasing transparency & cycle speed.</p>
-  <ul class="list-disc pl-5 mt-4 text-sm space-y-1">
-    <li>Vendor qualification & shortlisting</li>
-    <li>Bid comparison analytics</li>
-    <li>Event & logistics alignment</li>
-    <li>Performance & compliance KPIs</li>
-  </ul>
-</div>
-
-
 {% endblock %}
+
 {% block extra_body %}
 {{ super() }}
-<script src="{{ url_for('static', filename='js/projects.js') }}" defer></script>
+<script>
+  // Add project-card class to all relevant list items for styling and selection
+  try {
+    document.querySelectorAll('li[data-industry]').forEach(li => {
+      if (!li.classList.contains('project-card')) {
+        li.classList.add('project-card');
+      }
+    });
+  } catch (e) {
+    console.error("Could not apply project-card class:", e);
+  }
+
+  // --- Filtering Logic ---
+  document.addEventListener('DOMContentLoaded', () => {
+    let currentIndustryFilter = 'all';
+    let currentYearFilter = 'all';
+
+    const industryFilters = document.getElementById('industry-filters');
+    const yearFilters = document.getElementById('year-filters');
+    const projectCards = document.querySelectorAll('.project-card');
+    const yearSections = document.querySelectorAll('.year-section');
+    const kpiCountElement = document.getElementById('kpi-projects-count');
+
+    function applyFilters() {
+      let visibleProjectsCount = 0;
+
+      projectCards.forEach(card => {
+        const industryMatch = (currentIndustryFilter === 'all' || card.dataset.industry === currentIndustryFilter);
+        const yearMatch = (currentYearFilter === 'all' || card.dataset.year == currentYearFilter);
+
+        if (industryMatch && yearMatch) {
+          card.style.display = 'flex';
+          visibleProjectsCount++;
+        } else {
+          card.style.display = 'none';
+        }
+      });
+      
+      yearSections.forEach(section => {
+        const visibleCardsInSection = section.querySelectorAll('.project-card[style*="display: flex"]');
+        if (visibleCardsInSection.length > 0) {
+            section.style.display = 'block';
+            if (currentYearFilter !== 'all') {
+                section.open = true;
+            }
+        } else {
+            section.style.display = 'none';
+        }
+      });
+
+      if (kpiCountElement) {
+        kpiCountElement.textContent = visibleProjectsCount;
+      }
+    }
+
+    industryFilters.addEventListener('click', (e) => {
+      const button = e.target.closest('button.filter-chip');
+      if (button) {
+        industryFilters.querySelector('.active')?.classList.remove('active');
+        button.classList.add('active');
+        currentIndustryFilter = button.dataset.industry;
+        applyFilters();
+      }
+    });
+
+    yearFilters.addEventListener('click', (e) => {
+      const button = e.target.closest('button.filter-chip');
+      if (button) {
+        yearFilters.querySelector('.active')?.classList.remove('active');
+        button.classList.add('active');
+        currentYearFilter = button.dataset.year;
+        applyFilters();
+      }
+    });
+
+    // Set initial active state and run filters on load
+    industryFilters.querySelector('[data-industry="all"]').classList.add('active');
+    yearFilters.querySelector('[data-year="all"]').classList.add('active');
+    applyFilters();
+  });
+</script>
 {% endblock %}

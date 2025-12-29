@@ -1,0 +1,46 @@
+1	PROVISION OF MINOR ENGINEERING SERVICES FOR BED FOR LONG TERM SOLUTION FOR PRPC UF WATER SERVICES	DAR ENERGY SDN BHD	2024
+2	PROVISION OF 3D MODELLING SERVICES FOR SENDAYAN CAPACITY EXPANSION	HASKELL MALAYSIA	2024
+3	DEVELOPMENT OF AUTOCAD PLANT 3D FOR END OF LIFE PLASTIC CHEMICAL RECYCLING PLANT	MEINHARDT EPCM SDN BHD	2024
+4	"Engineering Design and 3D Modelling Support for JJ Lurgi.
+ C344- Petron Bataan Refinery, CME Plant Project
+ C343-Physical Refinery 300 TPD Project"	JJ Lurgi Engineering	2023-2024
+5	HILTI 3D Support Conversion, Shop Drawing and As Built for Tiong A & Bekok A Project (Electrical and Instrument)	HILTI Asia IT Services	2023
+6	Provision of Engineering Services For PSI Tagging and PSI Updating For PGB GTR & PEDMS Document Uploading	Petronas GTS / PGB GTR	2023
+7	Provision of Engineering Services For Drawing As Built Updating for PRPC & PFLNG	Petronas GTS / PRPC & PFLNG	2023
+8	Provision of Engineering Services for PFLNG1 Plant Change and MOC Updating	PFLNG 1 / Mecip Global	2022
+9	Provision of Smart Plant P&ID Drawing Updating and As Builting for Petronas Gas Malaysia	Petronas GTS	2022
+10	Re-Engineering of General Arrangement Drawing at Duyong Platform For Petronas Carigali Sdn bhd	HHA Associate	2022
+11	Provision of HILTI 3D Support Conversion, Shop Drawing and As Built for Bayan Project	HILTI Asia IT Services	2022
+12	Isometric Drawing As Built for KLK Oleo Plant	LimTech / KLK	2021
+13	Production of Special Pipe Support Drawing for Kasawari Project	MMHE	2021
+14	Provision of Enginering Serevices For 3D Model Development (Intelligent Model) For PCASB	Petronas GTS	2021
+15	Provision of Enginering Serevices For SmartPlant PID Drawing Update For PCEPE	Petronas GTS	2021
+16	Provision of Engineering Services For PSI Tagging For MRCSB	Petronas GTS	2021
+17	Aveva E3D IFS (Integrated Flooring System) Modeling and Drawing Production for LNG Canada	HILTI	2020
+18	Modification & HUC Tie In of Wellhead Platform For Larut Infill Project	HHA / Vestigo	2020
+19	Engineering Design for Diesel Storage & Wet Slop Tank Fabrication For EPIC For Water Injection Wellhead Towers & Pipelines in Lam-West	ILK Construction	2019
+20	MLNG Train 9 Incorporation of redline mark up into Smart Plant3D Model and update SmartPlant P&ID (SPPID) as per redline mark up	Petronas GTS	2019
+21	PFLNG P&ID drawing conversion and updating redline mark up into Smart Plant P&ID database	Petronas GTS	2019
+22	Petronas ABF FEED 3rd Boiler Design Using Smart Plant 3D and Smart Plant P&ID	Petronas ABF	2019
+23	Petronas Chemical BASF HRPIB Development of As- Built Smart Plant 3D Model Cloudworx From Laser Scanning	BASF	2019
+24	Development of Flange Management Database (FMT), Petronas Flange Management Tools(P-FMT) development using Smart Plant3D For RAPID Project	PRefChem	2019
+25	Petronas Flange Management Tools(P-FMT) mapping isometric using QA tool and Smart Plant 3D	PETRONAS GTS	2018
+26	Provision of Drafting Services for ALEXIS GPP	PETRONAS GTS	2018
+27	S3D System Setup and configuration for S3D Database FEED For Gasoline Euro 5 Plant, Melaka	PETRONAS GTS	2017
+28	SmartPlant 3D Project Administration and 3D Model Database Merging for SAMUR Project	PETRONAS GTS	2017
+29	Development of 3D Model for SSGP Pipeline As Built (Geo Pigging + Lidar Data + Lidar Photo)	PETRONAS GTS	2017
+30	Development of Smart Plant 3D and Smart Plant P&ID for P12B Solid Product Jetty and Associated Handling Facilities (SPJ) at Tanjung Setapa for Rapid Project	SYS McConnell Dowell	2017
+31	Design Calculation and Professional Engineering Drawing For Scaffolding Tower Tubular for Vessel 2100-V-505 Working Platform Work	SMI GLOBAL SDN BHD	2017
+32	Design Calculation for Professional Engineering Drawing For Hanging Tubular Working Platform Common And Tower for Scaffolding Work 2110 Area – Cable Tray	OG TECH PROJECT RESOURCES SDN BHD	2017
+33	Professional Engineering Drawing and Calculation For Hanging Tubular Working Platform Common Scaffolding Work 2130 & 2140 Pipe Rack RAPID	TOYO ENGINEERING & CONSTRUCTION SDN BHD	2017
+34	Provision  of Conceptual Engineering Support Service for Development of Sepat Phase 2B drawings deliverables and 3D Model Development	PETRONAS GTS	2017
+35	Provision  of Conceptual Engineering Support Service for Development of BEKOK Oil Project 3D Model and drawings deliverables	PETRONAS GTS	2017
+36	SmartPlant 3D System Setup and configuration for S3D Database FEED For Euro 5 Plant, Melaka	Petronas Group Technical Solutions / PPMSB	2016
+37	Provision of Plant Piping Isometric Engineering Drawing Updating, Development for PC Methanol	Petronas Chemical Methanol Labuan Sdn Bhd	2016
+38	Production of Pipe Support Shop Drawing for Kinabalu WHP – (AVEVA MDS Deliverables)	Ocean Might Sdn Bhd / Repsol Malaysia	2016
+39	Development of 3D PDMS Model for Betano, Suai & LNG Plant for 3D Virtual Model	Innoveam Sdn Bhd / Timor GAP (Timor Leste)	2016
+40	PDMS Administration and Global PDMS Setup for Layang FPSO Project THHE – GPS Dubai	TH Heavy Engineering Berhad	2016
+41	Conversion of PDS to PDMS Model for Turkmenistan Block 1 Development Project – Onshore Gas Terminal	RNZ PETROFAC/Petronas Carigali Turkmenistan	2015
+42	Conceptual Study and 3D PDMS Design for New Riser for BOD, BOC Platform	Innoveam / Talisman Malaysia Limited	2015
+43	PDMS Cats & Spec Database Development for Yetagun FPSO Marine System Project (JIS Catalogue)	MTC Engineering / SBM Offshore	2015
+44	Provision of PIPE Stress Analysis Services for Temana Revisit & Upgrading Project	Innoveam / PETRONAS Carigali (PMO)	2015

@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block content %}
+<section class="py-12 bg-white">
+  <div class="max-w-7xl mx-auto px-6">
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div id="flash-messages" class="mb-6 space-y-2">
+          {% for category, msg in messages %}
+            <div class="text-sm p-3 rounded
+                        {% if category == 'error' %} bg-red-100 text-red-700
+                        {% elif category == 'warning' %} bg-yellow-100 text-yellow-800
+                        {% elif category == 'success' %} bg-green-100 text-green-700
+                        {% else %} bg-slate-100 text-slate-800 {% endif %}">
+              {{ msg }}
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    <!-- Applicants Section -->
+    <div class="flex justify-between items-center mb-6">
+        <h1 class="text-3xl font-bold text-[#030C69]">Submitted Applicants</h1>
+        <div class="flex gap-3 items-center flex-wrap">
+            <a href="{{ url_for('main.admin_jobs') }}" class="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 font-semibold text-sm">Manage Jobs</a>
+            <a href="{{ url_for('main.admin_export_applicants_csv') }}" class="bg-[#030C69] text-white px-4 py-2 rounded-md hover:bg-[#02074f] font-semibold text-sm">Export Applicants (CSV)</a>
+            <a href="{{ url_for('main.admin_export_applicants_xlsx') }}" class="bg-[#030C69] text-white px-4 py-2 rounded-md hover:bg-[#02074f] font-semibold text-sm">Export Applicants (XLSX)</a>
+            <a href="{{ url_for('main.admin_logout') }}" class="btn bg-red btn-secondary">Logout</a>
+          </div>
+    </div>
+
+    {% if applicants %}
+      <div class="overflow-x-auto shadow rounded-lg mb-12">
+        <table class="min-w-full border-collapse text-sm">
+          <thead class="bg-[#030C69] text-white">
+            <tr>
+              <th class="px-3 py-2 text-left">ID</th>
+              <th class="px-3 py-2 text-left">Full Name</th>
+              <th class="px-3 py-2 text-left">Email</th>
+              <th class="px-3 py-2 text-left">Position</th>
+              <th class="px-3 py-2 text-left">Availability</th>
+              <th class="px-3 py-2 text-left">File</th>
+              <th class="px-3 py-2 text-left">Submitted</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-200">
+            {% for a in applicants %}
+              <tr class="hover:bg-slate-50">
+                <td class="px-3 py-2">{{ a.id }}</td>
+                <td class="px-3 py-2">{{ a.full_name }}</td>
+                <td class="px-3 py-2">{{ a.email }}</td>
+                <td class="px-3 py-2">{{ a.position }}</td>
+                <td class="px-3 py-2">{{ a.availability }}</td>
+                <td class="px-3 py-2">
+                  {% if a.file_path %}
+                    <a href="{{ url_for('main.admin_download_applicant_file', applicant_id=a.id) }}" class="text-blue-600 hover:underline font-medium">Download</a>
+                  {% else %}
+                    <span class="text-gray-400">No file</span>
+                  {% endif %}
+                </td>
+                <td class="px-3 py-2">{{ a.created_at.strftime('%Y-%m-%d %H:%M') if a.created_at else '' }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    {% else %}
+      <p class="text-gray-600 mb-12">No applicants found yet.</p>
+    {% endif %}
+
+    <!-- Proposals Section -->
+    <div class="flex justify-between items-center mb-6">
+      <h1 class="text-3xl font-bold text-[#030C69]">Submitted Proposals</h1>
+      <div class="flex gap-3 items-center">
+        <a href="{{ url_for('main.admin_export_proposals_csv') }}" class="bg-[#030C69] text-white px-4 py-2 rounded-md hover:bg-[#02074f] font-semibold text-sm">Export Proposals (CSV)</a>
+        <a href="{{ url_for('main.admin_export_proposals_xlsx') }}" class="bg-[#030C69] text-white px-4 py-2 rounded-md hover:bg-[#02074f] font-semibold text-sm">Export Proposals (XLSX)</a>
+      </div>
+    </div>
+    
+    {% if proposals %}
+    <div class="overflow-x-auto shadow rounded-lg">
+      <table class="min-w-full border-collapse text-sm">
+        <thead class="bg-[#030C69] text-white">
+          <tr>
+            <th class="px-3 py-2 text-left">ID</th>
+            <th class="px-3 py-2 text-left">Company Name</th>
+            <th class="px-3 py-2 text-left">Client Email</th>
+            <th class="px-3 py-2 text-left">Contact Number</th>
+            <th class="px-3 py-2 text-left">Service</th>
+            <th class="px-3 py-2 text-left">Details</th>
+            <th class="px-3 py-2 text-left">Submitted</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-200">
+          {% for proposal in proposals %}
+            <tr class="hover:bg-slate-50">
+              <td class="px-3 py-2 align-top">{{ proposal.id }}</td>
+              <td class="px-3 py-2 align-top">{{ proposal.company_name }}</td>
+              <td class="px-3 py-2 align-top">{{ proposal.client_email }}</td>
+              <td class="px-3 py-2 align-top">{{ proposal.contact_number }}</td>
+              <td class="px-3 py-2 align-top">{{ proposal.service }}</td>
+              <td class="px-3 py-2 align-top whitespace-pre-wrap">{{ proposal.proposal_details }}</td>
+              <td class="px-3 py-2 align-top">{{ proposal.created_at.strftime('%Y-%m-%d %H:%M') if proposal.created_at else '' }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+      <p class="text-gray-600">No proposals found yet.</p>
+    {% endif %}
+
+  </div>
+</section>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+  // This makes the flash message disappear
+  const flashMessages = document.getElementById('flash-messages');
+  if (flashMessages) {
+    setTimeout(() => {
+      flashMessages.style.display = 'none';
+    }, 1000);
+  }
+</script>
+{% endblock %}
