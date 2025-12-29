@@ -2,10 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=5, viewport-fit=cover, user-scalable=yes"/>
-  <meta name="mobile-web-app-capable" content="yes"/>
-  <meta name="theme-color" content="#030C69"/>
-  <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>{% block title %}KLSB{% endblock %}</title>
   <meta name="description" content="KLSB – Professional services, projects and client solutions" />
   <meta property="og:title" content="KLSB" />
@@ -119,10 +116,6 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='css/components.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/utilities.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/modern.css') }}">
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/kiosk-responsive.css') }}">
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/large-display-overrides.css') }}">
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/android-kiosk.css') }}">
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/signage-32inch.css') }}">
   
   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
   <!-- Leaflet CSS for interactive maps -->
@@ -150,13 +143,24 @@
           {% endif %}
         </div>
 
-          <!-- Center: Navigation Links (hidden on all admin pages) -->
-          {% if not request.path.startswith('/admin') %}
+        {% if request.path.startswith('/admin') %}
+          
+          <div class="flex items-center justify-end">
+            {% if session.get('is_admin') %}
+              <a href="{{ url_for('main.admin_logout') }}" class="text-red-600 hover:underline font-medium">Logout</a>
+            {% endif %}
+          </div>
+
+        {% else %}
+
+          <!-- Center: Navigation Links -->
           <nav class="nav-links hidden sm:flex absolute left-1/2 transform -translate-x-1/2" aria-label="Main navigation">
             <a href="/" class="nav-link" data-nav>Home</a>
             <a href="/services" class="nav-link" data-nav>Services</a>
             <div class="relative group" data-nav-parent>
-              <button class="nav-link inline-flex items-center gap-1" aria-haspopup="true" aria-expanded="false">About Us</button>
+              <button class="nav-link inline-flex items-center gap-1" aria-haspopup="true" aria-expanded="false">About Us
+                <svg width="14" height="14" viewBox="0 0 20 20" fill="none" class="transition-transform group-hover:translate-y-[1px]"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
               <div class="invisible opacity-0 group-hover:opacity-100 group-hover:visible transition duration-200 absolute left-1/2 transform -translate-x-1/2 top-full pt-3">
                 <div class="rounded-xl border border-slate-200 shadow-lg bg-white p-2 flex flex-col gap-1 dropdown-panel" style="min-width:220px;">
                   <div class="dropdown-arrow" aria-hidden="true"></div>
@@ -173,11 +177,10 @@
             <a href="/contact" class="nav-link" data-nav>Contact</a>
             {% endif %}
           </nav>
-          {% endif %}
 
           <!-- Right: Get in Touch Button and Hamburger -->
           <div class="flex items-center gap-3 flex-shrink-0">
-            {% if not hide_contact_cta and not request.path.startswith('/admin') %}
+            {% if not hide_contact_cta %}
             <a href="{{ url_for('main.submit_proposal') }}" class="nav-cta desktop-only" data-cta style="background:#030C69; color:#fff; border:none;">
               <span>Get in touch</span>
             </a>
@@ -190,6 +193,7 @@
             </button>
           </div>
           
+        {% endif %}
       </div>
     </div>
   </header>
@@ -214,8 +218,7 @@
         </div>
       </div>
 
-      <!-- Mobile Navigation (hidden on all admin pages) -->
-      {% if not request.path.startswith('/admin') %}
+      <!-- Mobile Navigation -->
       <nav aria-label="Mobile navigation" class="mobile-nav-content">
         
         <!-- Main Links -->
@@ -335,7 +338,6 @@
         </a>
       </div>
       {% endif %}
-      {% endif %}
 
       <!-- Admin Section -->
       {% if session.get('is_admin') %}
@@ -360,30 +362,24 @@
     </div>
   </div>
 
-  <!-- Main Content Area -->
   <main id="main-content" class="site-main pt-24 md:pt-28 fade-in flex-grow">
     {% block content %}{% endblock %}
   </main>
 
-  <!-- Floating Jobs Badge (Site-wide, non-admin only) -->
-  {% if not request.path.startswith('/admin') and request.path != '/jobs' %}
+  <!-- Floating Jobs Badge (Site-wide) -->
+  {% if not request.path.startswith('/admin') %}
   <a href="{{ url_for('main.jobs') }}" class="floating-jobs-badge" aria-label="View open positions" title="We're hiring!">
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="badge-icon">
       <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 14.15v4.25c0 1.094-.787 2.036-1.872 2.18-2.087.277-4.216.42-6.378.42s-4.291-.143-6.378-.42c-1.085-.144-1.872-1.086-1.872-2.18v-4.25m16.5 0a2.18 2.18 0 00.75-1.661V8.706c0-1.081-.768-2.015-1.837-2.175a48.114 48.114 0 00-3.413-.387m4.5 8.006c-.194.165-.42.295-.673.38A23.978 23.978 0 0112 15.75c-2.648 0-5.195-.429-7.577-1.22a2.016 2.016 0 01-.673-.38m0 0A2.18 2.18 0 013 12.489V8.706c0-1.081.768-2.015 1.837-2.175a48.111 48.111 0 013.413-.387m7.5 0V5.25A2.25 2.25 0 0013.5 3h-3a2.25 2.25 0 00-2.25 2.25v.894m7.5 0a48.667 48.667 0 00-7.5 0M12 12.75h.008v.008H12v-.008z" />
     </svg>
     <div class="badge-content">
       <span class="badge-label">We're Hiring</span>
-      {% if open_jobs_count and open_jobs_count|int > 0 %}
-        <span class="badge-count">{{ open_jobs_count }} Open Position{{ 's' if open_jobs_count != 1 else '' }}</span>
-      {% else %}
-        <span class="badge-count">No Open Positions</span>
-      {% endif %}
+      <span class="badge-count">5 Open Positions</span>
     </div>
     <div class="badge-pulse"></div>
   </a>
   {% endif %}
 
-  <!-- Footer -->
   <footer class="site-footer pt-6 pb-10 -mt-px text-center text-sm text-slate-500 bg-[#020866] text-white">
     <div class="container flex flex-col gap-4">
       <div class="text-xs opacity-100">© 2025 KLSB. All rights reserved.</div>
@@ -532,7 +528,6 @@
     }
   </style>
 
-  <!-- Navigation scripts -->
   <script src="{{ url_for('static', filename='js/feature-cards.js') }}" defer></script>
   <script src="{{ url_for('static', filename='js/nav.js') }}" defer></script>
   

@@ -72,12 +72,6 @@
         </select>
       </div>
 
-      {% if config.RECAPTCHA_ENABLED %}
-      <div class="flex justify-center">
-        <div class="g-recaptcha" data-sitekey="{{ config.RECAPTCHA_SITE_KEY }}"></div>
-      </div>
-      {% endif %}
-
       <!-- Submit -->
       <div class="text-center">
         <button type="submit"

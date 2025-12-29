@@ -1,11 +1,9 @@
 import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from flask_mail import Mail
 from config import ProdConfig  # switch to DevConfig for local testing
 
 db = SQLAlchemy()
-mail = Mail()
 
 def create_app():
     app = Flask(__name__)
@@ -15,9 +13,6 @@ def create_app():
 
     # Init DB
     db.init_app(app)
-    
-    # Init Mail
-    mail.init_app(app)
 
     # Helpful defaults
     app.config["TEMPLATES_AUTO_RELOAD"] = True

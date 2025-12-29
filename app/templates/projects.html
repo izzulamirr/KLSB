@@ -28,31 +28,27 @@
   </div>
 </section>
 
-<section class="py-6 filter-section-sticky">
+<section class="py-6 sticky top-0 z-10 filter-section-sticky">
   <div class="max-w-7xl mx-auto px-6 space-y-5">
-    <div class="filter-row">
-      <div class="filter-label">Industry</div>
-      <div class="filter-scroll-wrapper">
-        <div id="industry-filters" class="filter-chips-container">
-          <button class="filter-chip" data-industry="all">All</button>
-          <button class="filter-chip" data-industry="engineering">Engineering</button>
-          <button class="filter-chip" data-industry="manpower">Manpower</button>
-          <button class="filter-chip" data-industry="construction">Construction</button>
-          <button class="filter-chip" data-industry="cybersecurity">Cybersecurity</button>
-          <button class="filter-chip" data-industry="inspection">Inspection</button>
-          <button class="filter-chip" data-industry="supply-trading">Supply Trading</button>
-        </div>
+    <div class="flex items-center gap-6">
+      <div class="text-sm text-white font-semibold flex-shrink-0 w-20 uppercase tracking-wide">Industry</div>
+      <div id="industry-filters" class="flex gap-2 flex-wrap py-2">
+        <button class="filter-chip" data-industry="all">All</button>
+        <button class="filter-chip" data-industry="engineering">Engineering</button>
+        <button class="filter-chip" data-industry="manpower">Manpower</button>
+        <button class="filter-chip" data-industry="construction">Construction</button>
+        <button class="filter-chip" data-industry="cybersecurity">Cybersecurity</button>
+        <button class="filter-chip" data-industry="inspection">Inspection</button>
+        <button class="filter-chip" data-industry="supply-trading">Supply Trading</button>
       </div>
     </div>
-    <div class="filter-row">
-      <div class="filter-label">Year</div>
-      <div class="filter-scroll-wrapper">
-        <div id="year-filters" class="filter-chips-container">
-          <button class="filter-chip" data-year="all">All</button>
-          {% for year in range(2026, 2014, -1) %}
-            <button class="filter-chip" data-year="{{ year }}">{{ year }}</button>
-          {% endfor %}
-        </div>
+    <div class="flex items-center gap-6">
+      <div class="text-sm text-white font-semibold flex-shrink-0 w-20 uppercase tracking-wide">Year</div>
+      <div id="year-filters" class="flex gap-2 flex-wrap py-2">
+        <button class="filter-chip" data-year="all">All</button>
+        {% for year in range(2026, 2014, -1) %}
+          <button class="filter-chip" data-year="{{ year }}">{{ year }}</button>
+        {% endfor %}
       </div>
     </div>
   </div>
@@ -82,7 +78,7 @@
         .kpi-card {
           background: rgba(255, 255, 255, 0.08);
           padding: 2rem;
-          border-radius: 1rem
+          border-radius: 1rem;
           backdrop-blur-md;
           border: 1px solid rgba(255, 255, 255, 0.15);
           box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
@@ -95,138 +91,40 @@
           border-color: rgba(255, 255, 255, 0.25);
         }
 
-        /* Filter Section (refined card look) */
+        /* Filter Section Sticky */
         .filter-section-sticky {
-          background: linear-gradient(180deg, #030C69 0%, #020952 100%);
-          padding: 1.25rem 0;
-          margin: 1rem 0;
-          border-radius: 0.75rem;
-          border: 1px solid rgba(255, 255, 255, 0.06);
-          box-shadow: 0 8px 30px rgba(2, 9, 82, 0.35);
-          -webkit-backdrop-filter: blur(6px);
-          backdrop-filter: blur(6px);
-        }
-
-        /* Filter row layout */
-        .filter-row {
-          display: flex;
-          align-items: center;
-          gap: 1.5rem;
-        }
-
-        /* Filter labels */
-        .filter-label {
-          flex-shrink: 0;
-          min-width: 85px;
-          font-size: 0.875rem;
-          font-weight: 600;
-          color: #ffffff;
-          text-transform: uppercase;
-          letter-spacing: 0.05em;
-        }
-
-        /* Scrollable wrapper for chips */
-        .filter-scroll-wrapper {
-          flex: 1;
-          overflow: hidden;
-          position: relative;
-        }
-
-        /* Chips container - scrollable */
-        .filter-chips-container {
-          display: flex;
-          gap: 0.5rem;
-          flex-wrap: wrap;
-          padding: 0.5rem 0;
+          background: rgba(3, 12, 105, 0.9);
+          backdrop-blur-lg;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+          box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
         }
 
         /* Filter Chips */
         .filter-chip {
-          padding: 0.5rem 0.95rem;
-          background-color: rgba(255, 255, 255, 0.06);
-          color: rgba(255, 255, 255, 0.9);
-          border: 1px solid rgba(255, 255, 255, 0.08);
+          padding: 0.625rem 1.25rem;
+          background-color: rgba(255, 255, 255, 0.08);
+          color: rgba(255, 255, 255, 0.75);
+          border: 1px solid rgba(255, 255, 255, 0.15);
           border-radius: 0.75rem;
           font-size: 0.875rem;
           cursor: pointer;
-          transition: transform 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease;
-          font-weight: 600;
+          transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+          font-weight: 500;
           letter-spacing: 0.01em;
-          flex-shrink: 0;
-          white-space: nowrap;
         }
         .filter-chip:hover { 
-          transform: translateY(-2px);
-          background-color: rgba(255, 255, 255, 0.12);
+          background-color: rgba(255, 255, 255, 0.15);
           color: #fff;
-          border-color: rgba(255, 255, 255, 0.12);
-          box-shadow: 0 6px 18px rgba(2, 9, 82, 0.28);
+          transform: translateY(-2px);
+          border-color: rgba(255, 255, 255, 0.25);
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
         .filter-chip.active { 
           background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);
           color: #0b1220;
-          font-weight: 700;
+          font-weight: 600;
           border-color: #ffffff;
-          box-shadow: 0 6px 20px rgba(255, 255, 255, 0.12);
-        }
-
-        /* Mobile: Enable horizontal scrolling for filter chips */
-        @media (max-width: 768px) {
-          .filter-section-sticky { 
-            padding: 1rem 0; 
-          }
-          
-          .filter-row {
-            gap: 1rem;
-          }
-          
-          .filter-label {
-            min-width: 75px;
-            font-size: 0.8125rem;
-          }
-          
-          /* Make chips scrollable horizontally */
-          .filter-chips-container {
-            flex-wrap: nowrap;
-            overflow-x: auto;
-            overflow-y: hidden;
-            -webkit-overflow-scrolling: touch;
-            scroll-behavior: smooth;
-            padding: 0.5rem 0;
-            scrollbar-width: thin;
-          }
-          
-          /* Subtle scrollbar */
-          .filter-chips-container::-webkit-scrollbar {
-            height: 4px;
-          }
-          .filter-chips-container::-webkit-scrollbar-track {
-            background: transparent;
-          }
-          .filter-chips-container::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.15);
-            border-radius: 4px;
-          }
-          .filter-chips-container::-webkit-scrollbar-thumb:hover {
-            background: rgba(255, 255, 255, 0.25);
-          }
-        }
-        
-        /* Extra small screens */
-        @media (max-width: 480px) {
-          .filter-section-sticky { 
-            padding: 0.75rem 0; 
-          }
-          
-          .filter-label {
-            min-width: 65px;
-            font-size: 0.75rem;
-          }
-          
-          .filter-chip {
-            padding: 0.45rem 0.85rem;
-            font-size: 0.8125rem;
-          }
+          box-shadow: 0 4px 16px rgba(255, 255, 255, 0.2);
         }
 
         /* Details/Summary (Year Sections) */

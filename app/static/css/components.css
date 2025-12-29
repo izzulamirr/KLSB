@@ -152,3 +152,48 @@ ul li {
 .pillar-panel::-webkit-scrollbar { width: 10px; }
 .pillar-panel::-webkit-scrollbar-thumb { background: rgba(15,23,42,0.12); border-radius: 999px; }
 
+/* --- Global alternating section backgrounds --- */
+:root {
+  --system-blue: #030C69;
+  --system-blue-weak: rgba(3,12,105,0.06);
+  --section-contrast: #e6eefb;
+}
+
+/* Apply alternation to top-level sections inside main (site-main) */
+.site-main > section {
+  background-color: transparent; /* default keep existing unless overridden */
+  transition: background-color .28s ease, color .22s ease;
+}
+
+/* Odd sections: white cards / light background */
+.site-main > section:nth-of-type(odd) {
+  background-color: #ffffff;
+  color: #0b1220;
+}
+
+/* Even sections: subtle system-blue background */
+.site-main > section:nth-of-type(even) {
+  background-color: var(--system-blue-weak);
+  color: var(--section-contrast);
+}
+
+/* Ensure inner containers keep their padding and don't get a double background */
+.site-main > section > .max-w-7xl,
+.site-main > section > .container,
+.site-main > section > .max-w-6xl,
+.site-main > section > .mx-auto {
+  background: transparent;
+}
+
+/* Make sure links/buttons inside blue sections use high-contrast colors */
+.site-main > section:nth-of-type(even) a,
+.site-main > section:nth-of-type(even) .btn,
+.site-main > section:nth-of-type(even) .nav-cta {
+  color: var(--section-contrast) !important;
+}
+
+/* Small screens: reduce contrast shift to avoid harsh blocks */
+@media (max-width: 640px) {
+  .site-main > section:nth-of-type(even) { background-color: rgba(3,12,105,0.045); }
+}
+
