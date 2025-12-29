@@ -1,0 +1,599 @@
+/* Large Display Component Overrides */
+/* This file overrides existing component styles for optimal display on kiosk and mega screens */
+
+/* ============================================
+   HEADER & NAVIGATION OPTIMIZATION
+   ============================================ */
+@media (min-width: 1920px) {
+  .site-header {
+    min-height: 100px;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+  
+  .nav-bar {
+    min-height: 80px;
+  }
+  
+  .nav-link {
+    font-size: 1.125rem;
+    padding: 0.75rem 1rem;
+  }
+  
+  .nav-cta {
+    font-size: 1rem;
+    padding: 0.875rem 1.5rem;
+  }
+}
+
+@media (min-width: 2560px) {
+  .site-header {
+    min-height: 120px;
+  }
+  
+  .nav-link {
+    font-size: 1.25rem;
+    padding: 1rem 1.25rem;
+  }
+  
+  .nav-cta {
+    font-size: 1.125rem;
+    padding: 1rem 2rem;
+  }
+}
+
+/* ============================================
+   HERO SECTION OPTIMIZATION
+   ============================================ */
+@media (min-width: 1920px) {
+  .hero {
+    padding-top: 8rem;
+    padding-bottom: 8rem;
+  }
+  
+  .hero-inner {
+    max-width: 1100px;
+  }
+  
+  .hero h1 {
+    font-size: clamp(3.5rem, 5vw, 6rem);
+    line-height: 1.1;
+  }
+  
+  .hero p {
+    font-size: clamp(1.25rem, 1.5vw, 1.75rem);
+    line-height: 1.6;
+  }
+}
+
+@media (min-width: 2560px) {
+  .hero {
+    padding-top: 10rem;
+    padding-bottom: 10rem;
+  }
+  
+  .hero-inner {
+    max-width: 1400px;
+  }
+}
+
+/* ============================================
+   CARD COMPONENTS OPTIMIZATION
+   ============================================ */
+@media (min-width: 1920px) {
+  .feature-card,
+  .service-card,
+  .project-card,
+  .card {
+    padding: 2rem;
+    border-radius: 1.25rem;
+  }
+  
+  .card h3,
+  .feature-card h3,
+  .service-card h3 {
+    font-size: clamp(1.5rem, 2vw, 2.25rem);
+  }
+  
+  .card p,
+  .feature-card p,
+  .service-card p {
+    font-size: clamp(1rem, 1.2vw, 1.25rem);
+  }
+}
+
+@media (min-width: 2560px) {
+  .feature-card,
+  .service-card,
+  .project-card,
+  .card {
+    padding: 3rem;
+    border-radius: 1.5rem;
+  }
+}
+
+/* ============================================
+   GRID LAYOUT OPTIMIZATION
+   ============================================ */
+@media (min-width: 1920px) {
+  .grid {
+    gap: 2.5rem;
+  }
+  
+  /* Automatically adjust grid columns for large displays */
+  .grid-cols-2 {
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  }
+  
+  .grid-cols-3 {
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  }
+  
+  .grid-cols-4 {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  }
+}
+
+@media (min-width: 2560px) {
+  .grid {
+    gap: 3rem;
+  }
+  
+  .grid-cols-2 {
+    grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+  }
+  
+  .grid-cols-3 {
+    grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+  }
+  
+  .grid-cols-4 {
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  }
+}
+
+/* ============================================
+   FOOTER OPTIMIZATION
+   ============================================ */
+@media (min-width: 1920px) {
+  .site-footer {
+    padding: 4rem 0;
+  }
+  
+  .site-footer p,
+  .site-footer li,
+  .site-footer a {
+    font-size: 1.125rem;
+  }
+}
+
+@media (min-width: 2560px) {
+  .site-footer {
+    padding: 5rem 0;
+  }
+  
+  .site-footer p,
+  .site-footer li,
+  .site-footer a {
+    font-size: 1.25rem;
+  }
+}
+
+/* ============================================
+   FORM ELEMENTS OPTIMIZATION
+   ============================================ */
+@media (min-width: 1920px) {
+  form input:not([type="checkbox"]):not([type="radio"]),
+  form textarea,
+  form select {
+    font-size: 1.125rem;
+    padding: 1rem 1.25rem;
+    border-radius: 0.75rem;
+  }
+  
+  form label {
+    font-size: 1.125rem;
+    margin-bottom: 0.75rem;
+  }
+  
+  form button[type="submit"],
+  form input[type="submit"] {
+    font-size: 1.125rem;
+    padding: 1rem 2rem;
+    border-radius: 0.75rem;
+  }
+}
+
+@media (min-width: 2560px) {
+  form input:not([type="checkbox"]):not([type="radio"]),
+  form textarea,
+  form select {
+    font-size: 1.25rem;
+    padding: 1.25rem 1.5rem;
+    border-radius: 1rem;
+  }
+  
+  form label {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+  }
+  
+  form button[type="submit"],
+  form input[type="submit"] {
+    font-size: 1.25rem;
+    padding: 1.25rem 2.5rem;
+    border-radius: 1rem;
+  }
+}
+
+/* ============================================
+   IMAGE & MEDIA OPTIMIZATION
+   ============================================ */
+@media (min-width: 1920px) {
+  /* Ensure images don't pixelate on large displays */
+  img {
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+  }
+  
+  /* Client logos and other small images */
+  .client-logo,
+  .partner-logo,
+  .icon {
+    max-width: 180px;
+  }
+}
+
+@media (min-width: 2560px) {
+  .client-logo,
+  .partner-logo,
+  .icon {
+    max-width: 220px;
+  }
+}
+
+/* ============================================
+   TABLE OPTIMIZATION
+   ============================================ */
+@media (min-width: 1920px) {
+  table {
+    font-size: 1.125rem;
+  }
+  
+  th,
+  td {
+    padding: 1rem 1.25rem;
+  }
+  
+  thead th {
+    font-size: 1.25rem;
+  }
+}
+
+@media (min-width: 2560px) {
+  table {
+    font-size: 1.25rem;
+  }
+  
+  th,
+  td {
+    padding: 1.25rem 1.5rem;
+  }
+  
+  thead th {
+    font-size: 1.5rem;
+  }
+}
+
+/* ============================================
+   MODAL & POPUP OPTIMIZATION
+   ============================================ */
+@media (min-width: 1920px) {
+  .modal,
+  .popup,
+  .dialog {
+    max-width: 900px;
+    padding: 3rem;
+    border-radius: 1.5rem;
+  }
+  
+  .modal h2,
+  .popup h2,
+  .dialog h2 {
+    font-size: 2.25rem;
+  }
+  
+  .modal p,
+  .popup p,
+  .dialog p {
+    font-size: 1.125rem;
+  }
+}
+
+@media (min-width: 2560px) {
+  .modal,
+  .popup,
+  .dialog {
+    max-width: 1200px;
+    padding: 4rem;
+    border-radius: 2rem;
+  }
+  
+  .modal h2,
+  .popup h2,
+  .dialog h2 {
+    font-size: 2.75rem;
+  }
+}
+
+/* ============================================
+   BUTTON & CTA OPTIMIZATION
+   ============================================ */
+@media (min-width: 1920px) {
+  .btn,
+  .button,
+  button:not(.nav-toggle) {
+    min-height: 56px;
+    font-size: 1.125rem;
+    padding: 1rem 2rem;
+    border-radius: 0.75rem;
+  }
+  
+  .btn-lg,
+  .button-large {
+    min-height: 64px;
+    font-size: 1.25rem;
+    padding: 1.25rem 2.5rem;
+  }
+}
+
+@media (min-width: 2560px) {
+  .btn,
+  .button,
+  button:not(.nav-toggle) {
+    min-height: 72px;
+    font-size: 1.25rem;
+    padding: 1.25rem 2.5rem;
+    border-radius: 1rem;
+  }
+  
+  .btn-lg,
+  .button-large {
+    min-height: 88px;
+    font-size: 1.5rem;
+    padding: 1.5rem 3rem;
+  }
+}
+
+/* ============================================
+   SECTION SPACING OPTIMIZATION
+   ============================================ */
+@media (min-width: 1920px) {
+  section {
+    padding-top: 6rem;
+    padding-bottom: 6rem;
+  }
+  
+  section.py-20 {
+    padding-top: 8rem;
+    padding-bottom: 8rem;
+  }
+}
+
+@media (min-width: 2560px) {
+  section {
+    padding-top: 8rem;
+    padding-bottom: 8rem;
+  }
+  
+  section.py-20 {
+    padding-top: 10rem;
+    padding-bottom: 10rem;
+  }
+}
+
+/* ============================================
+   ICON & SVG OPTIMIZATION
+   ============================================ */
+@media (min-width: 1920px) {
+  svg:not(.nav-toggle svg) {
+    width: clamp(32px, 3vw, 48px);
+    height: clamp(32px, 3vw, 48px);
+  }
+  
+  .icon-sm svg {
+    width: 24px;
+    height: 24px;
+  }
+  
+  .icon-lg svg {
+    width: 64px;
+    height: 64px;
+  }
+}
+
+@media (min-width: 2560px) {
+  svg:not(.nav-toggle svg) {
+    width: clamp(40px, 3vw, 64px);
+    height: clamp(40px, 3vw, 64px);
+  }
+  
+  .icon-lg svg {
+    width: 80px;
+    height: 80px;
+  }
+}
+
+/* ============================================
+   DROPDOWN & MENU OPTIMIZATION
+   ============================================ */
+@media (min-width: 1920px) {
+  .dropdown-panel,
+  .dropdown-menu {
+    min-width: 280px;
+    padding: 1rem;
+    border-radius: 1rem;
+  }
+  
+  .dropdown-item {
+    font-size: 1.125rem;
+    padding: 0.875rem 1.25rem;
+    border-radius: 0.75rem;
+  }
+}
+
+@media (min-width: 2560px) {
+  .dropdown-panel,
+  .dropdown-menu {
+    min-width: 350px;
+    padding: 1.25rem;
+    border-radius: 1.25rem;
+  }
+  
+  .dropdown-item {
+    font-size: 1.25rem;
+    padding: 1rem 1.5rem;
+    border-radius: 1rem;
+  }
+}
+
+/* ============================================
+   BREADCRUMB OPTIMIZATION
+   ============================================ */
+@media (min-width: 1920px) {
+  .breadcrumb,
+  nav[aria-label="Breadcrumb"] {
+    font-size: 1.125rem;
+  }
+  
+  .breadcrumb li,
+  .breadcrumb a {
+    padding: 0.5rem 0.75rem;
+  }
+}
+
+@media (min-width: 2560px) {
+  .breadcrumb,
+  nav[aria-label="Breadcrumb"] {
+    font-size: 1.25rem;
+  }
+}
+
+/* ============================================
+   BADGE & TAG OPTIMIZATION
+   ============================================ */
+@media (min-width: 1920px) {
+  .badge,
+  .tag,
+  .chip {
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+    border-radius: 0.75rem;
+  }
+}
+
+@media (min-width: 2560px) {
+  .badge,
+  .tag,
+  .chip {
+    font-size: 1.125rem;
+    padding: 0.625rem 1.25rem;
+    border-radius: 1rem;
+  }
+}
+
+/* ============================================
+   ALERT & NOTIFICATION OPTIMIZATION
+   ============================================ */
+@media (min-width: 1920px) {
+  .alert,
+  .notification,
+  .toast {
+    font-size: 1.125rem;
+    padding: 1.25rem 1.5rem;
+    border-radius: 1rem;
+  }
+}
+
+@media (min-width: 2560px) {
+  .alert,
+  .notification,
+  .toast {
+    font-size: 1.25rem;
+    padding: 1.5rem 2rem;
+    border-radius: 1.25rem;
+  }
+}
+
+/* ============================================
+   ANIMATION & TRANSITION SMOOTHING
+   ============================================ */
+@media (min-width: 1920px) {
+  /* Slower, smoother transitions for large displays */
+  * {
+    transition-duration: 350ms;
+  }
+  
+  .card,
+  .feature-card,
+  .project-card {
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+  }
+}
+
+/* ============================================
+   TOUCH TARGET OPTIMIZATION FOR KIOSK
+   ============================================ */
+@media (min-width: 1920px) {
+  /* Ensure all interactive elements meet minimum touch target size */
+  a,
+  button,
+  input[type="button"],
+  input[type="submit"],
+  input[type="checkbox"],
+  input[type="radio"],
+  select {
+    min-width: 48px;
+    min-height: 48px;
+  }
+  
+  /* Larger touch targets for kiosks */
+  .kiosk-mode a,
+  .kiosk-mode button {
+    min-width: 64px;
+    min-height: 64px;
+  }
+}
+
+@media (min-width: 2560px) {
+  a,
+  button,
+  input[type="button"],
+  input[type="submit"] {
+    min-width: 64px;
+    min-height: 64px;
+  }
+}
+
+/* ============================================
+   CONTENT WIDTH LIMITERS
+   ============================================ */
+@media (min-width: 1920px) {
+  /* Prevent text from becoming too wide and hard to read */
+  p,
+  li {
+    max-width: 85ch;
+  }
+  
+  article p,
+  .content p {
+    max-width: 75ch;
+  }
+}
+
+@media (min-width: 2560px) {
+  p,
+  li {
+    max-width: 90ch;
+  }
+}

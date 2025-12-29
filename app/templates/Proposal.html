@@ -1,5 +1,12 @@
 {% extends "base.html" %}
 {% block title %}Submit a Proposal — KLSB{% endblock %}
+
+{% block extra_head %}
+{% if config.RECAPTCHA_ENABLED %}
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+{% endif %}
+{% endblock %}
+
 {% block content %}
 
 <section class="py-20 bg-white">
