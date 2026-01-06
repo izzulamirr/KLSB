@@ -260,6 +260,9 @@ def admin_cv_convert_ocr():
             current_app.logger.exception("Failed to save uploaded CV for OCR conversion")
             return jsonify({"status": "error", "errors": ["Unable to save uploaded file."]}), 500
 
+    # Get output format preference (default to docx)
+    output_format = data.get("output_format", "docx")
+
     try:
         converted_path, detected_fields = convert_cv_to_klsb_ocr(
             source_path,
@@ -274,6 +277,7 @@ def admin_cv_convert_ocr():
                 "marital_status": marital_status,
                 "address": address,
             },
+            output_format=output_format
         )
     except Exception as exc:
         current_app.logger.exception("CV OCR conversion failed")

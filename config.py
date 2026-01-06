@@ -20,6 +20,12 @@ class BaseConfig:
     MAX_PROPOSAL_SUBMISSIONS_PER_HOUR = 3
     MAX_FILE_SIZE_MB = 10
     
+    # OpenAI Configuration for ChatGPT OCR
+    # Direct API key - replace with your actual key
+    OPENAI_API_KEY = "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"
+    
+    USE_CHATGPT_OCR = True  # ChatGPT OCR enabled
+    
     
     
 

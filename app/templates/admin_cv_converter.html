@@ -14,7 +14,9 @@
       <ul class="list-disc list-inside space-y-1 text-slate-700">
         <li>Option A: Enter an existing applicant ID to convert the stored CV.</li>
         <li>Option B: Upload a CV file directly.</li>
-        <li>Optional overrides: name, position, email, phone (prefill/override detected fields).</li>
+        <li>Choose output format: <strong>Word (.docx)</strong> with highlighting or <strong>PDF</strong>.</li>
+        <li>Word format highlights: <span class="bg-yellow-200 px-1">Education/Qualifications (Yellow)</span>, <span class="bg-yellow-200 px-1">Companies with Sdn Bhd (Yellow)</span>, <span class="bg-green-200 px-1">Projects (Green)</span></li>
+        <li>Optional overrides: name, position, email, phone, etc. (prefill/override detected fields).</li>
       </ul>
     </div>
 
@@ -27,6 +29,13 @@
         <div>
           <label class="block text-sm font-medium text-slate-700">Upload CV (optional)</label>
           <input id="cv_file" name="cv_file" type="file" accept=".pdf,.doc,.docx" class="w-full text-sm" />
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-slate-700">Output Format</label>
+          <select id="output_format" class="w-full border rounded px-3 py-2 text-sm">
+            <option value="docx" selected>Word Document (.docx) - With Highlighting</option>
+            <option value="pdf">PDF Document (.pdf)</option>
+          </select>
         </div>
         <div>
           <label class="block text-sm font-medium text-slate-700">Name override</label>
@@ -84,6 +93,11 @@ btn?.addEventListener('click', async () => {
     const v = document.getElementById(k).value;
     if (v) formData.append(k, v);
   });
+  
+  // Add output format
+  const outputFormat = document.getElementById('output_format').value;
+  formData.append('output_format', outputFormat);
+  
   const fileInput = document.getElementById('cv_file');
   if (fileInput && fileInput.files.length > 0) {
     formData.append('cv_file', fileInput.files[0]);
