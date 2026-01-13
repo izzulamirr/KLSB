@@ -1,0 +1,42 @@
+name,position,dob,nationality,marital_status,address,phone,email,linkedin,experience_summary,education,working_experience,skills,professional_training,computer_skills,professional_memberships,involvements
+John Smith,Software Engineer,15-Jan-1990,Malaysian,Single,"123 Main Street, Kuala Lumpur",012-3456789,john.smith@email.com,linkedin.com/in/johnsmith,"Experienced software engineer with 5 years in full-stack development. Proficient in Python, JavaScript, and cloud technologies.","Bachelor of Computer Science
+University of Malaya (UM)","Company: Tech Solutions Sdn Bhd
+Position: Senior Developer
+
+Job Description:
+• Led development of microservices architecture
+• Managed team of 3 junior developers
+• Implemented CI/CD pipelines using Jenkins
+• Reduced API response time by 40%","• Python
+• JavaScript
+• React
+• Docker
+• PostgreSQL
+• AWS
+• Git","• AWS Solutions Architect Course (2023)
+• Advanced Python Programming (2022)","• Python
+• JavaScript
+• React
+• Docker
+• AWS CLI","• IEEE: Professional Member","• Tech Innovation Committee Lead (2023)
+• Hackathon Judge at MyHack (2022)"
+Sarah Johnson,Data Analyst,22-Mar-1995,Malaysian,Married,"456 Oak Avenue, Petaling Jaya",016-7891234,sarah.j@email.com,linkedin.com/in/sarahjohnson,"Data professional with expertise in business analytics and visualization. Strong SQL and statistical analysis skills.","Bachelor of Statistics
+Universiti Malaya","Company: Analytics Pro Sdn Bhd
+Position: Senior Data Analyst
+
+Job Description:
+• Developed 50+ interactive dashboards using Power BI
+• Created data models for enterprise reporting
+• Mentored 2 junior analysts
+• Reduced report generation time by 60%","• SQL
+• Power BI
+• Python
+• Excel
+• Tableau
+• R
+• SAS","• Google Data Analytics Professional Certificate (2023)
+• Advanced SQL (2022)","• SQL
+• Power BI
+• Python
+• Tableau
+• Excel","• Malaysian Statistics Association: Member","• Data Science Working Group Chair (2023)"

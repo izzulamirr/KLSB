@@ -71,7 +71,13 @@
         </div>
       </div>
 
-      <button id="convert-btn" class="bg-[#030C69] text-white px-4 py-2 rounded hover:bg-[#02074f] text-sm font-semibold">Convert</button>
+      <div class="flex gap-3">
+        <button id="convert-btn" class="bg-[#030C69] text-white px-4 py-2 rounded hover:bg-[#02074f] text-sm font-semibold">Convert</button>
+        <button id="convert-chatgpt-btn" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 text-sm font-semibold flex items-center gap-2">
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M10.5 1.5H5.75A2.25 2.25 0 003.5 3.75v12.5A2.25 2.25 0 005.75 18.5h8.5a2.25 2.25 0 002.25-2.25V8"></path><path d="M14 1.5v5h5" stroke="currentColor" stroke-width="1.5" fill="none"></path></svg>
+          Convert with ChatGPT OCR
+        </button>
+      </div>
 
       <div id="result" class="text-sm text-slate-800"></div>
     </div>
@@ -82,10 +88,11 @@
 {% block extra_scripts %}
 <script type="text/javascript">
 const btn = document.getElementById('convert-btn');
+const chatgptBtn = document.getElementById('convert-chatgpt-btn');
 const resultEl = document.getElementById('result');
 
-btn?.addEventListener('click', async () => {
-  resultEl.textContent = 'Working...';
+// Helper function to gather form data
+function gatherFormData() {
   const formData = new FormData();
   const id = document.getElementById('applicant_id').value;
   if (id) formData.append('applicant_id', id);
@@ -94,7 +101,6 @@ btn?.addEventListener('click', async () => {
     if (v) formData.append(k, v);
   });
   
-  // Add output format
   const outputFormat = document.getElementById('output_format').value;
   formData.append('output_format', outputFormat);
   
@@ -102,6 +108,15 @@ btn?.addEventListener('click', async () => {
   if (fileInput && fileInput.files.length > 0) {
     formData.append('cv_file', fileInput.files[0]);
   }
+  
+  return formData;
+}
+
+// Regular convert button (uses traditional tesseract OCR)
+btn?.addEventListener('click', async () => {
+  resultEl.textContent = 'Step 1: Scanning text (OCR)...\nStep 2: Formatting to KLSB template...';
+  const formData = gatherFormData();
+  formData.append('use_chatgpt', 'false');  // Explicitly use tesseract
 
   try {
     const resp = await fetch("{{ url_for('main.admin_cv_convert_ocr') }}", {
@@ -116,6 +131,37 @@ btn?.addEventListener('click', async () => {
     }
   } catch (e) {
     resultEl.textContent = '❌ Error: ' + e.message;
+  }
+});
+
+// ChatGPT OCR convert button (uses ChatGPT Vision API)
+chatgptBtn?.addEventListener('click', async () => {
+  resultEl.innerHTML = 'Step 1: Scanning text with ChatGPT Vision (30-60s)...<br/>Step 2: Formatting to KLSB template...';
+  chatgptBtn.disabled = true;
+  chatgptBtn.style.opacity = '0.5';
+  
+  const formData = gatherFormData();
+  formData.append('use_chatgpt', 'true');  // Explicitly use ChatGPT
+
+  try {
+    const resp = await fetch("{{ url_for('main.admin_cv_convert_ocr') }}", {
+      method: 'POST',
+      body: formData
+    });
+    const data = await resp.json();
+    if (resp.ok && data.status === 'success') {
+      resultEl.innerHTML = "✅ <strong>ChatGPT OCR Complete!</strong><br/>File: " + data.filename + "<br/>Stored at: " + data.stored_at + "<br/><br/><strong>Detected Fields:</strong><br/>" + 
+        Object.entries(data.detected_fields || {})
+          .map(([k, v]) => `<strong>${k}:</strong> ${v}`)
+          .join('<br/>');
+    } else {
+      resultEl.innerHTML = "❌ Error: " + ((data.errors || []).join('<br/>') || resp.statusText);
+    }
+  } catch (e) {
+    resultEl.textContent = '❌ Error: ' + e.message;
+  } finally {
+    chatgptBtn.disabled = false;
+    chatgptBtn.style.opacity = '1';
   }
 });
 </script>

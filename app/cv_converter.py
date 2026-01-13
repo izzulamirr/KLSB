@@ -4,47 +4,41 @@ import base64
 from pathlib import Path
 from typing import Dict, Tuple, Optional
 
-# Optional dependencies
-try:  # Lightweight text extraction for text-based PDFs
-    from pypdf import PdfReader
-except Exception:  # pragma: no cover - optional
-    PdfReader = None
-
-try:  # OpenAI for ChatGPT OCR
+# Optional imports for external libraries
+try:
     from openai import OpenAI
-except Exception:  # pragma: no cover - optional
+except Exception:
     OpenAI = None
 
-try:  # OCR fallback (requires poppler + tesseract installed on the system)
+try:
     from pdf2image import convert_from_path
-    import pytesseract
-except Exception:  # pragma: no cover - optional
+except Exception:
     convert_from_path = None
-    pytesseract = None
 
-# Word document generation
+# Optional availability flags
 docx_available = True
+reportlab_available = True
+
 try:
     from docx import Document
-    from docx.shared import Pt, RGBColor, Inches
-    from docx.enum.text import WD_ALIGN_PARAGRAPH
+    from docx.shared import Pt, Inches
     from docx.oxml.ns import qn
-    from docx.oxml import OxmlElement
+    from docx.enum.text import WD_ALIGN_PARAGRAPH
 except Exception:
     docx_available = False
 
-reportlab_available = True
-try:  # PDF generation
+try:
     from reportlab.lib.pagesizes import letter
-    from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
-    from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle
     from reportlab.lib import colors
     from reportlab.lib.units import inch
-except Exception:  # pragma: no cover - optional until conversion is invoked
+    from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle
+    from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+except Exception:
     reportlab_available = False
 
 
 def slugify_filename(name: str) -> str:
+    """Convert CV name to slug format for filenames."""
     name = name or "cv"
     name = name.strip().lower()
     name = re.sub(r"[^a-z0-9]+", "-", name)
@@ -56,7 +50,6 @@ def _get_next_cv_number(output_dir: str) -> str:
     if not os.path.exists(output_dir):
         return "KLSB_001"
     
-    # Find all existing KLSB files
     existing_files = []
     for filename in os.listdir(output_dir):
         match = re.match(r'KLSB_(\d{3})', filename)
@@ -66,13 +59,44 @@ def _get_next_cv_number(output_dir: str) -> str:
     if not existing_files:
         return "KLSB_001"
     
-    # Get the highest number and increment
     next_num = max(existing_files) + 1
     return f"KLSB_{next_num:03d}"
 
 
+
+def _get_poppler_path() -> Optional[str]:
+    """Return poppler_path for pdf2image, auto-detecting common Windows locations."""
+    # Check environment variable first
+    env_path = os.environ.get("POPPLER_PATH")
+    if env_path and os.path.exists(env_path):
+        return env_path
+    
+    # Common Windows installation paths
+    common_paths = [
+        r"C:\poppler\poppler-24.08.0\Library\bin",
+        r"C:\Program Files\poppler\Library\bin",
+        r"C:\Program Files (x86)\poppler\Library\bin",
+        r"C:\ProgramData\chocolatey\lib\poppler\tools\Library\bin",
+        r"C:\tools\poppler\Library\bin",
+    ]
+    
+    # Also check for versioned directories
+    if os.path.exists(r"C:\Program Files"):
+        import glob
+        for pattern in [r"C:\Program Files\poppler-*\Library\bin", r"C:\ProgramData\chocolatey\lib\poppler\tools\poppler-*\Library\bin"]:
+            matches = glob.glob(pattern)
+            if matches:
+                common_paths.extend(matches)
+    
+    for path in common_paths:
+        if os.path.exists(path) and os.path.exists(os.path.join(path, "pdftoppm.exe")):
+            return path
+    
+    return None
+
+
 def _extract_text_with_chatgpt(path: str, api_key: str = None) -> str:
-    """Extract text from PDF using ChatGPT Vision API."""
+    """Extract text from PDF using ChatGPT Vision API and return structured CV data."""
     if not OpenAI:
         raise RuntimeError("OpenAI library not installed. Run: pip install openai")
     
@@ -96,7 +120,7 @@ def _extract_text_with_chatgpt(path: str, api_key: str = None) -> str:
     
     try:
         # Convert first 3 pages to images (requires Poppler to be installed)
-        images = convert_from_path(path, dpi=200, first_page=1, last_page=3)
+        images = convert_from_path(path, dpi=200, first_page=1, last_page=3, poppler_path=_get_poppler_path())
     except Exception as e:
         # pdf2image needs Poppler installed on Windows
         raise RuntimeError(f"pdf2image/Poppler error: {str(e)}. Install Poppler and add to PATH.")
@@ -117,7 +141,7 @@ def _extract_text_with_chatgpt(path: str, api_key: str = None) -> str:
                 
                 # Call ChatGPT Vision API
                 response = client.chat.completions.create(
-                    model="gpt-4o",
+                    model="gpt-4.1",
                     messages=[
                         {
                             "role": "user",
@@ -151,6 +175,286 @@ def _extract_text_with_chatgpt(path: str, api_key: str = None) -> str:
     
     except Exception as e:
         raise RuntimeError(f"ChatGPT OCR failed: {str(e)}")
+
+
+def _extract_cv_with_chatgpt(path: str, api_key: str = None) -> Dict[str, str]:
+    """Extract and parse a CV using ChatGPT Vision in one pass, returning structured fields."""
+    if not OpenAI:
+        raise RuntimeError("OpenAI library not installed. Run: pip install openai")
+
+    # Resolve API key
+    if not api_key:
+        try:
+            from config import BaseConfig
+            api_key = BaseConfig.OPENAI_API_KEY
+        except Exception:
+            pass
+    api_key = api_key or os.environ.get("OPENAI_API_KEY")
+    if not api_key:
+        raise RuntimeError("OpenAI API key not configured. Set in config.py or OPENAI_API_KEY env var.")
+
+    if not convert_from_path:
+        raise RuntimeError("pdf2image not installed. Run: pip install pdf2image")
+
+    client = OpenAI(api_key=api_key)
+
+    # Track token usage
+    total_input_tokens = 0
+    total_output_tokens = 0
+
+    # Render first pages to images for Vision
+    poppler_path = _get_poppler_path()
+    try:
+        images = convert_from_path(path, dpi=200, first_page=1, last_page=3, poppler_path=poppler_path)
+    except Exception as e:
+        error_msg = f"pdf2image/Poppler error: {str(e)}."
+        if not poppler_path:
+            error_msg += " Poppler not found. Install with: choco install poppler (admin PowerShell), then restart Flask."
+        raise RuntimeError(error_msg)
+
+    # Extract raw text from images
+    all_text = []
+    for img in images:
+        import tempfile
+        with tempfile.NamedTemporaryFile(suffix=".png", delete=False) as tmp:
+            img.save(tmp.name, "PNG")
+            tmp_path = tmp.name
+        try:
+            with open(tmp_path, "rb") as img_file:
+                img_data = base64.b64encode(img_file.read()).decode("utf-8")
+
+            resp = client.chat.completions.create(
+                model="gpt-4.1",
+                messages=[
+                    {
+                        "role": "user",
+                        "content": [
+                            {"type": "text", "text": "Extract the text from this CV page. Return ONLY the raw text content without any markdown formatting, without bold markers (**), without explanations or commentary. Preserve section headers, bullet points, dates, and line breaks."},
+                            {"type": "image_url", "image_url": {"url": f"data:image/png;base64,{img_data}"}},
+                        ],
+                    }
+                ],
+                max_tokens=500,
+            )
+            # Track token usage
+            if hasattr(resp, 'usage'):
+                total_input_tokens += resp.usage.prompt_tokens
+                total_output_tokens += resp.usage.completion_tokens
+            # Clean up the extracted text
+            extracted = resp.choices[0].message.content
+            # Remove markdown bold markers
+            extracted = re.sub(r'\*\*([^*]+)\*\*', r'\1', extracted)
+            # Remove any conversational phrases
+            extracted = re.sub(r'Certainly!.*?shown:', '', extracted, flags=re.DOTALL | re.IGNORECASE)
+            extracted = re.sub(r'Here is .*?:', '', extracted, flags=re.IGNORECASE)
+            all_text.append(extracted.strip())
+        finally:
+            try:
+                os.unlink(tmp_path)
+            except Exception:
+                pass
+
+    combined_text = "\n\n".join(all_text)
+    
+    # Additional cleanup of combined text
+    combined_text = re.sub(r'\*\*([^*]+)\*\*', r'\1', combined_text)  # Remove ** markers
+    combined_text = re.sub(r'--+', '', combined_text)  # Remove separator lines
+    combined_text = re.sub(r'Certainly!.*?shown:', '', combined_text, flags=re.DOTALL | re.IGNORECASE)
+
+    # Ask ChatGPT to extract raw data (Python will format it locally)
+    try:
+        parse_resp = client.chat.completions.create(
+            model="gpt-4.1",
+            messages=[
+                {
+                    "role": "user",
+                    "content": f"""Extract data from this CV. Return ONLY valid JSON (no markdown, no backticks, no code blocks).
+
+Extract these fields:
+- name: Full name
+- position: Current or desired job title
+- dob: Date of birth
+- nationality: Nationality
+- marital_status: Marital status
+- address: Full address
+- phone: Phone number
+- email: Email address
+- linkedin: LinkedIn URL if present
+- experience_summary: Professional summary/profile text (paragraph form)
+- education: List of education entries (each object: {{year_from, year_to, degree, institution}})
+- work_history: List of work experience (each object: {{year_from, year_to, company, position, projects: [list], responsibilities: [list]}})
+- skills: List of technical skills
+- professional_training: List of professional trainings/certifications
+- computer_skills: List of computer skills
+- professional_memberships: List of memberships (each: {{organization: "name", membership_level: "level"}}, e.g. BEM, MBOT)
+- involvements: List of activities/organizations
+- references: Reference information
+
+Return ONLY this JSON structure:
+{{
+  "name": "...",
+  "position": "...",
+  "dob": "...",
+  "nationality": "...",
+  "marital_status": "...",
+  "address": "...",
+  "phone": "...",
+  "email": "...",
+  "linkedin": "...",
+  "experience_summary": "...",
+  "education": [
+    {{"year_from": "2020", "year_to": "2024", "degree": "Bachelor of Engineering", "institution": "University"}}
+  ],
+  "work_history": [
+    {{
+      "year_from": "2023",
+      "year_to": "Present",
+      "company": "Company Name",
+      "position": "Job Title",
+      "projects": ["Project 1", "Project 2"],
+      "responsibilities": ["Task 1", "Task 2"]
+    }}
+  ],
+  "skills": ["Skill 1", "Skill 2"],
+  "professional_training": ["Training 1", "Certification 1"],
+  "computer_skills": ["AutoCAD", "Excel"],
+  "professional_memberships": [
+    {{"organization": "BEM", "membership_level": "Member"}},
+    {{"organization": "MBOT", "membership_level": "Technologist"}}
+  ],
+  "involvements": ["Activity 1", "Activity 2"],
+  "references": "Reference details"
+}}
+
+CV TEXT:
+{combined_text}
+""",
+                }
+            ],
+            temperature=0.1,
+            max_tokens=2500,
+            response_format={"type": "json_object"}
+        )
+
+        # Track token usage
+        if hasattr(parse_resp, 'usage'):
+            total_input_tokens += parse_resp.usage.prompt_tokens
+            total_output_tokens += parse_resp.usage.completion_tokens
+
+        response_text = parse_resp.choices[0].message.content or "{}"
+        
+        import json
+        
+        def aggressive_json_fix(text):
+            """Aggressively fix JSON by escaping all internal newlines and problematic characters."""
+            # Extract JSON object
+            start = text.find('{')
+            end = text.rfind('}')
+            if start < 0 or end <= start:
+                return text
+            
+            json_str = text[start:end+1]
+            
+            # Split by field boundaries
+            result = []
+            in_string = False
+            escape_next = False
+            
+            for char in json_str:
+                if escape_next:
+                    result.append(char)
+                    escape_next = False
+                elif char == '\\':
+                    result.append(char)
+                    escape_next = True
+                elif char == '"':
+                    result.append(char)
+                    in_string = not in_string
+                elif in_string and char in '\n\r':
+                    # Escape newlines in strings
+                    if char == '\n':
+                        result.append('\\n')
+                    elif char == '\r':
+                        result.append('\\r')
+                else:
+                    result.append(char)
+            
+            return ''.join(result)
+        
+        try:
+            # Try direct parsing
+            data = json.loads(response_text)
+        except json.JSONDecodeError:
+            # Apply aggressive fix
+            fixed = aggressive_json_fix(response_text)
+            try:
+                data = json.loads(fixed)
+            except json.JSONDecodeError as e:
+                # Last resort: extract just the JSON fields manually
+                try:
+                    import ast
+                    # Try to evaluate as Python dict if all else fails
+                    fixed2 = fixed.replace('true', 'True').replace('false', 'False').replace('null', 'None')
+                    data = ast.literal_eval(fixed2)
+                    # Convert back from Python to JSON-safe dict
+                    data = {k: (v if not isinstance(v, bool) else v) for k, v in data.items()}
+                except:
+                    raise RuntimeError(f"Unable to parse ChatGPT response: {str(e)}")
+        
+        data.setdefault("name", "Candidate")
+        data.setdefault("nationality", "MALAYSIAN")
+        # Include the full extracted text so downstream consumers can use all content
+        data["full_text"] = combined_text
+        
+        # === LOCAL PYTHON PARSING: Format raw data into KLSB structure ===
+        
+        # Format education from list to KLSB string
+        if 'education' in data and isinstance(data['education'], list):
+            data['education'] = _format_education_klsb(data['education'])
+        
+        # Format work_history from list to KLSB string
+        if 'work_history' in data and isinstance(data['work_history'], list):
+            data['working_experience'] = _format_work_experience_klsb(data['work_history'])
+            # Remove work_history key, keep working_experience for template
+            data.pop('work_history', None)
+        
+        # Format skills from list to KLSB string with bullets
+        if 'skills' in data and isinstance(data['skills'], list):
+            data['skills'] = _format_skills_klsb(data['skills'])
+        
+        # Format new fields with bullets
+        if 'professional_training' in data and isinstance(data['professional_training'], list):
+            data['professional_training'] = _format_list_klsb(data['professional_training'])
+        
+        if 'computer_skills' in data and isinstance(data['computer_skills'], list):
+            data['computer_skills'] = _format_list_klsb(data['computer_skills'])
+        
+        if 'professional_memberships' in data:
+            if isinstance(data['professional_memberships'], list):
+                data['professional_memberships'] = _format_professional_memberships_klsb(data['professional_memberships'])
+        
+        # Format involvements from list to KLSB string with bullets
+        if 'involvements' in data and isinstance(data['involvements'], list):
+            data['involvements'] = _format_involvements_klsb(data['involvements'])
+        
+        # Ensure name is uppercase
+        if 'name' in data:
+            data['name'] = str(data['name']).upper()
+        
+        # Ensure position is uppercase
+        if 'position' in data:
+            data['position'] = str(data['position']).upper()
+        
+        # Add token usage to data
+        data['_token_usage'] = {
+            'input_tokens': total_input_tokens,
+            'output_tokens': total_output_tokens,
+            'total_tokens': total_input_tokens + total_output_tokens
+        }
+        
+        return data
+    except Exception as e:
+        raise RuntimeError(f"ChatGPT parsing failed: {str(e)}")
 
 
 def _extract_text_from_pdf(path: str, use_chatgpt: bool = None) -> str:
@@ -194,7 +498,7 @@ def _extract_text_from_pdf(path: str, use_chatgpt: bool = None) -> str:
     # If we have little or no text, try OCR on the first couple pages
     if (not text or len(text.strip()) < 50) and convert_from_path and pytesseract:
         try:
-            images = convert_from_path(path, dpi=200, first_page=1, last_page=2)
+            images = convert_from_path(path, dpi=200, first_page=1, last_page=2, poppler_path=_get_poppler_path())
             ocr_chunks = []
             for img in images:
                 ocr_chunks.append(pytesseract.image_to_string(img))
@@ -215,6 +519,179 @@ def _extract_text_from_pdf(path: str, use_chatgpt: bool = None) -> str:
     return text
 
 
+def _format_education_klsb(education_list):
+    """Format education list into KLSB structure."""
+    if not education_list:
+        return ""
+    
+    formatted = []
+    for edu in education_list:
+        if isinstance(edu, dict):
+            # Handle both 'year' and 'year_from'/'year_to' formats
+            year = edu.get('year', '')
+            if not year:
+                year_from = edu.get('year_from', '')
+                year_to = edu.get('year_to', '')
+                if year_from and year_to:
+                    year = f"{year_from} – {year_to}"
+                elif year_from:
+                    year = year_from
+                elif year_to:
+                    year = year_to
+            
+            degree = edu.get('degree', '')
+            institution = edu.get('institution', '')
+            
+            # Format: Year – Year\nDegree\nInstitution
+            parts = []
+            if year:
+                parts.append(year.replace('-', ' – '))
+            if degree:
+                parts.append(degree)
+            if institution:
+                parts.append(institution)
+            
+            if parts:
+                formatted.append('\n'.join(parts))
+        elif isinstance(edu, str):
+            formatted.append(edu)
+    
+    return '\n'.join(formatted)
+
+
+def _format_work_experience_klsb(work_history):
+    """Format work history into KLSB structure."""
+    if not work_history:
+        return ""
+    
+    formatted = []
+    for job in work_history:
+        if not isinstance(job, dict):
+            continue
+        
+        job_parts = []
+        
+        # Year : value (handle both 'year' and 'year_from'/'year_to')
+        year_str = ""
+        if job.get('year'):
+            year_str = job['year']
+        elif job.get('year_from') or job.get('year_to'):
+            year_from = job.get('year_from', '')
+            year_to = job.get('year_to', '')
+            if year_from and year_to:
+                year_str = f"{year_from} - {year_to}"
+            elif year_from:
+                year_str = year_from
+            elif year_to:
+                year_str = year_to
+        
+        if year_str:
+            job_parts.append(f"Year : {year_str}")
+        
+        # Company : value
+        if job.get('company'):
+            job_parts.append(f"Company : {job['company']}")
+        
+        # Position : value
+        if job.get('position'):
+            job_parts.append(f"Position : {job['position']}")
+        
+        # Project Involved:
+        projects = job.get('projects', [])
+        if projects:
+            job_parts.append("")
+            job_parts.append("Project Involved:")
+            for proj in projects:
+                job_parts.append(f"• {proj}")
+        
+        # Job Description:
+        responsibilities = job.get('responsibilities', [])
+        if responsibilities:
+            job_parts.append("")
+            job_parts.append("Job Description:")
+            for resp in responsibilities:
+                job_parts.append(f"• {resp}")
+        
+        if job_parts:
+            formatted.append('\n'.join(job_parts))
+    
+    return '\n\n'.join(formatted)
+
+
+def _format_skills_klsb(skills_list):
+    """Format skills list into KLSB structure with bullets."""
+    if not skills_list:
+        return ""
+    
+    formatted = []
+    for skill in skills_list:
+        skill_str = str(skill).strip()
+        if skill_str:
+            # Remove existing bullets if any
+            skill_str = re.sub(r'^[•\-\*]\s*', '', skill_str)
+            formatted.append(f"• {skill_str}")
+    
+    return '\n'.join(formatted)
+
+
+def _format_involvements_klsb(involvements_list):
+    """Format involvements list into KLSB structure with bullets."""
+    if not involvements_list:
+        return ""
+    
+    formatted = []
+    for item in involvements_list:
+        item_str = str(item).strip()
+        if item_str:
+            # Add bullet if not present
+            if not item_str.startswith('•'):
+                item_str = f"• {item_str}"
+            formatted.append(item_str)
+    
+    return '\n'.join(formatted)
+
+
+def _format_professional_memberships_klsb(memberships_list):
+    """Format professional memberships into KLSB structure."""
+    if not memberships_list:
+        return ""
+    
+    formatted = []
+    for item in memberships_list:
+        if isinstance(item, dict):
+            org = item.get('organization', '')
+            level = item.get('membership_level', '')
+            if org:
+                text = f"• {org}"
+                if level:
+                    text += f": {level}"
+                formatted.append(text)
+        elif isinstance(item, str):
+            item_str = str(item).strip()
+            if item_str:
+                if not item_str.startswith('•'):
+                    item_str = f"• {item_str}"
+                formatted.append(item_str)
+    
+    return '\n'.join(formatted)
+
+
+def _format_list_klsb(items_list):
+    """Format generic list with bullets."""
+    if not items_list:
+        return ""
+    
+    formatted = []
+    for item in items_list:
+        item_str = str(item).strip()
+        if item_str:
+            if not item_str.startswith('•'):
+                item_str = f"• {item_str}"
+            formatted.append(item_str)
+    
+    return '\n'.join(formatted)
+
+
 def _guess_fields(text: str) -> Dict[str, str]:
     """Heuristic extraction of common CV fields matching KLSB_877 format."""
     lines = [ln.strip() for ln in text.splitlines() if ln.strip()]
@@ -222,6 +699,14 @@ def _guess_fields(text: str) -> Dict[str, str]:
 
     # Email detection
     email_match = re.search(r"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}", joined)
+
+    # LinkedIn detection
+    linkedin = ""
+    ln_match = re.search(r"LinkedIn\s*:\s*(.+)|https?://(?:www\.)?linkedin\.com/\S+", joined, re.I)
+    if ln_match:
+        # If matched with label, take the captured group; else take full match
+        val = ln_match.group(1) if ln_match.lastindex else ln_match.group(0)
+        linkedin = val.strip()
     
     # Phone detection (including Tel: format) - improved to avoid years
     phone_match = re.search(r"(?:Tel|Phone|Mobile|Contact)\s*:?\s*(\+?\d[\d\s().-]{7,})", joined, re.I)
@@ -258,10 +743,22 @@ def _guess_fields(text: str) -> Dict[str, str]:
         # Clean up multi-line positions
         position = re.sub(r'\s+', ' ', position)
     else:
-        for ln in lines[:15]:
-            if re.search(r"^(SENIOR|JUNIOR|LEAD|PRINCIPAL|CHIEF).*?(DESIGNER|ENGINEER|MANAGER|DEVELOPER)", ln, re.I):
-                position = ln
-                break
+        # Try the line immediately following the detected name
+        if name:
+            try:
+                idx = lines.index(name)
+                if idx + 1 < len(lines):
+                    next_ln = lines[idx + 1]
+                    if re.search(r"engineer|designer|manager|developer", next_ln, re.I):
+                        position = next_ln.strip()
+            except ValueError:
+                pass
+        # Fallback: look near the top for job titles
+        if not position:
+            for ln in lines[:15]:
+                if re.search(r"^(SENIOR|JUNIOR|LEAD|PRINCIPAL|CHIEF).*?(DESIGNER|ENGINEER|MANAGER|DEVELOPER)", ln, re.I):
+                    position = ln
+                    break
     
     # Date of Birth extraction
     dob = ""
@@ -281,9 +778,11 @@ def _guess_fields(text: str) -> Dict[str, str]:
     if marital_match:
         marital = marital_match.group(1).strip()
     
-    # Address extraction - improved to stop at Tel or Email
+    # Address extraction - improved to stop at Tel or Email and handle 'Address:' prefix
     address = ""
-    addr_match = re.search(r"(?:CONTACT )?ADDRESS\s*:\s*(.+?)(?=\nTel:|Tel:|Email:|NATIONALITY|ACADEMIC|EXPERIENCE|$)", joined, re.I | re.DOTALL)
+    addr_match = re.search(r"(?:CONTACT )?ADDRESS\s*:\s*(.+?)(?=\nTel:|\nPhone:|\nEmail:|NATIONALITY|ACADEMIC|EXPERIENCE|$)", joined, re.I | re.DOTALL)
+    if not addr_match:
+        addr_match = re.search(r"Address\s*:\s*(.+?)(?=\nPhone:|\nEmail:|$)", joined, re.I | re.DOTALL)
     if addr_match:
         address = addr_match.group(1).strip()
         # Clean up address - remove excessive line breaks
@@ -298,21 +797,209 @@ def _guess_fields(text: str) -> Dict[str, str]:
         "nationality": nationality,
         "marital_status": marital,
         "address": address,
+        "linkedin": linkedin,
     }
 
 
+def _parse_cv_sections(text: str) -> Dict[str, str]:
+    """Extract all sections from CV text for traditional OCR path.
+    
+    Combines basic field extraction with education/experience sections.
+    Returns dict matching ChatGPT output format for consistency.
+    """
+    # Get basic fields
+    fields = _guess_fields(text)
+    
+    # Extract education section - more flexible lookahead
+    education = ""
+    edu_match = re.search(
+        r"(?:ACADEMIC QUALIFICATIONS?|EDUCATION|QUALIFICATION)\s*:?\s*(.+?)(?=\n(?:EXPERIENCE SUMMARY|PROFESSIONAL SUMMARY|SUMMARY|EMPLOYMENT|PROFESSIONAL EXPERIENCE|WORKING EXPERIENCE|WORKING|SKILLS|LANGUAGE|REFERENCES?|UNIVERSITY PROJECTS|INVOLVEMENTS|OTHERS|$))",
+        text,
+        re.I | re.DOTALL
+    )
+    if edu_match:
+        education = edu_match.group(1).strip()
+    
+    # Extract experience summary/professional summary
+    experience_summary = ""
+    exp_sum_match = re.search(
+        r"(?:PROFESSIONAL SUMMARY|EXPERIENCE SUMMARY|PROFILE SUMMARY|SUMMARY)\s*:?\s*(.+?)(?=\n(?:EDUCATION|EMPLOYMENT|WORKING|EXPERIENCE|SKILLS|$))",
+        text,
+        re.I | re.DOTALL
+    )
+    if exp_sum_match:
+        experience_summary = exp_sum_match.group(1).strip()
+    
+    # Extract working experience/employment history - scan entire text for all entries
+    working_experience = ""
+
+    # Known next-section headers to bound the EXPERIENCE capture.
+    section_boundary_re = r"(?:ACADEMIC QUALIFICATIONS?|EDUCATION|QUALIFICATION|EXPERIENCE SUMMARY|PROFESSIONAL SUMMARY|PROFILE SUMMARY|SUMMARY|SKILLS|TECHNICAL SKILLS|COMPUTER SKILLS|CORE COMPETENCIES|COMPETENCIES|TOOLS|UNIVERSITY PROJECTS|ACADEMIC PROJECTS|INVOLVEMENTS|REFERENCES?|OTHERS)"
+
+    # Strategy 1: Look for an explicit EXPERIENCE section and capture until next known section header.
+    work_match = re.search(
+        rf"(?:WORKING EXPERIENCE|EMPLOYMENT HISTORY|PROFESSIONAL EXPERIENCE|EXPERIENCE)\s*:?\s*\n(?P<body>.+?)(?=\n\s*{section_boundary_re}\b|\Z)",
+        text,
+        re.I | re.DOTALL,
+    )
+    if work_match:
+        working_experience = work_match.group("body").strip()
+    
+    # Strategy 2: If no section found, scan entire text for position-with-date patterns
+    if not working_experience:
+        # Find all lines with a trailing (duration) parentheses containing a year.
+        # Supports multi-parentheses job titles like: "Enumerator (Part Time) (Feb 2024 – Aug 2024)"
+        position_pattern = re.compile(
+            r"^(?P<pos>.*)\((?P<dur>[^()]*(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec|Present|\d{4})[^()]*)\)\s*$",
+            re.M | re.I,
+        )
+        matches = list(position_pattern.finditer(text))
+        
+        if matches:
+            # Extract content from first match to before EDUCATION/SKILLS section
+            start_pos = matches[0].start()
+            end_match = re.search(rf"\n\s*{section_boundary_re}\b", text[start_pos:], re.I)
+            if end_match:
+                working_experience = text[start_pos:start_pos + end_match.start()].strip()
+            else:
+                working_experience = text[start_pos:].strip()
+    
+    # Strategy 3: Fallback to simple pattern (bounded by next known section header)
+    if not working_experience:
+        work_match = re.search(
+            rf"(?:WORKING EXPERIENCE|EMPLOYMENT HISTORY|PROFESSIONAL EXPERIENCE|EXPERIENCE)\s*:?\s*(?P<body>.+?)(?=\n\s*{section_boundary_re}\b|\Z)",
+            text,
+            re.I | re.DOTALL
+        )
+        if work_match:
+            working_experience = work_match.group("body").strip()
+    
+    # UNIVERSITY PROJECTS
+    university_projects = ""
+    uni_match = re.search(
+        r"(?:UNIVERSITY PROJECTS|ACADEMIC PROJECTS)\s*:?\s*(.+?)(?=\n(?:EXPERIENCE SUMMARY|EXPERIENCE|WORKING EXPERIENCE|SKILLS|INVOLVEMENTS|REFERENCES|$))",
+        text,
+        re.I | re.DOTALL
+    )
+    if uni_match:
+        university_projects = uni_match.group(1).strip()
+
+    # SKILLS - includes TECHNICAL SKILLS, COMPUTER SKILLS, etc.
+    skills = ""
+    skills_match = re.search(
+        r"(?:SKILLS|TECHNICAL SKILLS|COMPUTER SKILLS|CORE COMPETENCIES|COMPETENCIES|TOOLS)\s*:?\s*(.+?)(?=\n(?:INVOLVEMENTS|EXPERIENCE|WORKING EXPERIENCE|REFERENCES|UNIVERSITY PROJECTS|CERTIFICATIONS|OTHERS|$))",
+        text,
+        re.I | re.DOTALL
+    )
+    if skills_match:
+        skills = skills_match.group(1).strip()
+
+    # INVOLVEMENTS
+    involvements = ""
+    inv_match = re.search(
+        r"INVOLVEMENTS\s*:?\s*(.+?)(?=\n(?:REFERENCES|SKILLS|EXPERIENCE|WORKING EXPERIENCE|$))",
+        text,
+        re.I | re.DOTALL
+    )
+    if inv_match:
+        involvements = inv_match.group(1).strip()
+
+    # REFERENCES
+    references = ""
+    ref_match = re.search(
+        r"REFERENCES?\s*:?\s*(.+)$",
+        text,
+        re.I | re.DOTALL
+    )
+    if ref_match:
+        references = ref_match.group(1).strip()
+
+    # Add sections to fields dict
+    fields["education"] = education
+    fields["experience_summary"] = experience_summary
+    fields["working_experience"] = working_experience
+    fields["university_projects"] = university_projects
+    fields["skills"] = skills
+    fields["involvements"] = involvements
+    fields["references"] = references
+    
+    return fields
+
+
+def _extract_work_experience_from_full_text(text: str) -> str:
+    """Extract a best-effort WORKING EXPERIENCE chunk directly from full extracted text.
+
+    This is intentionally tolerant of OCR noise and missing section headers.
+    """
+    if not text:
+        return ""
+
+    # Normalize some common OCR bullet placeholders
+    normalized = re.sub(r'[�▪▫■□●○◆◇]', '•', text)
+    lines = [ln.rstrip() for ln in normalized.splitlines()]
+
+    section_boundary_re = re.compile(
+        r"^\s*(?:ACADEMIC QUALIFICATIONS?|EDUCATION|QUALIFICATION|EXPERIENCE SUMMARY|PROFESSIONAL SUMMARY|PROFILE SUMMARY|SUMMARY|SKILLS|TECHNICAL SKILLS|COMPUTER SKILLS|CORE COMPETENCIES|COMPETENCIES|TOOLS|UNIVERSITY PROJECTS|ACADEMIC PROJECTS|INVOLVEMENTS|REFERENCES?|OTHERS)\b",
+        re.I,
+    )
+
+    # 1) Prefer explicit experience header if it exists
+    start_idx = None
+    for i, ln in enumerate(lines):
+        if re.match(r"^\s*(?:WORKING EXPERIENCE|EMPLOYMENT HISTORY|PROFESSIONAL EXPERIENCE|EXPERIENCE)\b", ln, re.I):
+            start_idx = i + 1
+            break
+
+    # 2) Otherwise locate first role header line
+    def looks_like_duration(value: str) -> bool:
+        if not value:
+            return False
+        if not re.search(r"\d{4}", value):
+            return False
+        if "-" in value or "–" in value:
+            return True
+        if re.search(r"\b(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec|Present)\b", value, re.I):
+            return True
+        return False
+
+    if start_idx is None:
+        for i, ln in enumerate(lines):
+            m1 = re.match(r"^(?P<pos>.+?)\s*\((?P<dur>[^)]+)\)\s*$", ln.strip())
+            if m1 and looks_like_duration(m1.group("dur")):
+                start_idx = i
+                break
+            m2 = re.match(r"^(?P<pos>.*)\((?P<dur>[^()]*(?:\d{4})[^()]*)\)\s*$", ln.strip())
+            if m2 and looks_like_duration(m2.group("dur")):
+                start_idx = i
+                break
+
+    if start_idx is None:
+        return ""
+
+    end_idx = len(lines)
+    for j in range(start_idx + 1, len(lines)):
+        if section_boundary_re.match(lines[j]):
+            end_idx = j
+            break
+
+    chunk = "\n".join(ln.strip() for ln in lines[start_idx:end_idx] if ln.strip())
+    return chunk.strip()
+
+
 def _build_docx(output_path: str, fields: Dict[str, str], source_text: str, logo_path: str = None, cv_number: str = "KLSB_001") -> None:
-    """Generate KLSB format Word document matching the exact PDF format with highlighting."""
+    """Generate KLSB format Word document perfectly matching KLSB_877_MWAK.pdf template.
+    Uses ChatGPT-extracted text and converts to company CV format.
+    """
     if not docx_available:
         raise RuntimeError("python-docx is required for Word conversion. Please install python-docx==1.1.2")
     
     doc = Document()
     
-    # Set margins to match PDF
+    # Set margins to match KLSB template
     sections = doc.sections
     for section in sections:
-        section.top_margin = Inches(0.6)
-        section.bottom_margin = Inches(0.6)
+        section.top_margin = Inches(0.5)
+        section.bottom_margin = Inches(0.5)
         section.left_margin = Inches(0.75)
         section.right_margin = Inches(0.75)
     
@@ -322,26 +1009,25 @@ def _build_docx(output_path: str, fields: Dict[str, str], source_text: str, logo
         header_table.autofit = False
         header_table.allow_autofit = False
         
-        # Left cell - Larger logo
+        # Left cell - Logo (1.9" x 0.65")
         left_cell = header_table.rows[0].cells[0]
-        left_cell.width = Inches(2.2)
+        left_cell.width = Inches(2.0)
         logo_para = left_cell.paragraphs[0]
         logo_para.alignment = WD_ALIGN_PARAGRAPH.LEFT
         try:
             logo_run = logo_para.add_run()
-            logo_run.add_picture(logo_path, width=Inches(1.9))
+            logo_run.add_picture(logo_path, width=Inches(1.9), height=Inches(0.65))
         except:
             pass
         
         # Right cell - Centered header text
         right_cell = header_table.rows[0].cells[1]
-        right_cell.width = Inches(4.8)
+        right_cell.width = Inches(4.5)
         header_p = right_cell.paragraphs[0]
         header_p.alignment = WD_ALIGN_PARAGRAPH.CENTER
         
         # Remove cell borders for clean layout
         from docx.oxml import OxmlElement
-        from docx.oxml.ns import qn
         def set_cell_border(cell):
             tc = cell._element
             tcPr = tc.get_or_add_tcPr()
@@ -355,151 +1041,340 @@ def _build_docx(output_path: str, fields: Dict[str, str], source_text: str, logo
         set_cell_border(left_cell)
         set_cell_border(right_cell)
     else:
-        # No logo, just add header text normally
         header_p = doc.add_paragraph()
         header_p.alignment = WD_ALIGN_PARAGRAPH.CENTER
     
-    # Header section text
-    run1 = header_p.add_run("PROFESSIONAL RESUME")
-    run1.bold = True
-    run1.font.size = Pt(16)
-    header_p.add_run("  \n")
+    # Header section - matches KLSB_877 format
+    run = header_p.add_run("PROFESSIONAL RESUME")
+    run.bold = True
+    run.font.size = Pt(16)
+    header_p.add_run("\n")
     
-    run2 = header_p.add_run(fields.get("name", "CANDIDATE NAME").upper())
-    run2.bold = True
-    run2.font.size = Pt(14)
-    header_p.add_run("  \n")
+    run = header_p.add_run(fields.get("name", "CANDIDATE NAME").upper())
+    run.bold = True
+    run.font.size = Pt(12)
+    header_p.add_run("\n")
     
-    run3 = header_p.add_run(cv_number)
-    run3.bold = True
-    run3.font.size = Pt(12)
+    run = header_p.add_run(cv_number)
+    run.bold = True
+    run.font.size = Pt(9)
     
-    # Add separator line
-    sep_p = doc.add_paragraph("_" * 110)
-    sep_p.paragraph_format.space_before = Pt(6)
+    # Add separator
+    sep_p = doc.add_paragraph("-" * 100)
+    sep_p.paragraph_format.space_before = Pt(3)
     sep_p.paragraph_format.space_after = Pt(6)
     
-    # Personal information block (no table) to match CV header layout
-    info_items = [
-        ("NAME", fields.get("name", "").upper()),
-        ("POSITION", fields.get("position", "").upper()),
-        ("DATE OF BIRTH", fields.get("dob", "")),
-        ("NATIONALITY", fields.get("nationality", "MALAYSIAN").upper()),
-        ("MARITAL STATUS", fields.get("marital_status", "").upper()),
-        ("CONTACT ADDRESS", fields.get("address", "")),
-        ("", "Tel: " + fields.get("phone", "") if fields.get("phone") else ""),
-        ("EMAIL", fields.get("email", "").lower() if fields.get("email") else ""),
-    ]
-
-    for label, value in info_items:
-        if not label and not value:
-            continue
-        p = doc.add_paragraph()
-        if label:
-            lbl_run = p.add_run(label)
-            lbl_run.bold = True
-        if label:
-            p.add_run(" : ")
-        p.add_run(value)
-
-    # Add space after info block
+    # Personal Information - 3-column table (Label, colon, Value) to match KLSB format
     doc.add_paragraph()
     
-    # Parse sections
-    sections_dict = _parse_cv_sections(source_text)
+    # Create personal info table
+    info_table = doc.add_table(rows=8, cols=3)
+    info_table.autofit = False
+    info_table.allow_autofit = False
     
-    # Add ACADEMIC/TECHNICAL QUALIFICATIONS with YELLOW highlighting
-    if "qualifications" in sections_dict:
+    # Set column widths
+    for row in info_table.rows:
+        row.cells[0].width = Inches(1.5)  # Label column
+        row.cells[1].width = Inches(0.15) # Colon column
+        row.cells[2].width = Inches(4.0)  # Value column
+    
+    # Fill table data
+    info_data = [
+        ("NAME", fields.get('name', '').upper()),
+        ("POSITION", fields.get('position', '').upper()),
+        ("DATE OF BIRTH", fields.get('dob', '')),
+        ("NATIONALITY", fields.get('nationality', 'MALAYSIAN').upper()),
+        ("MARITAL STATUS", fields.get('marital_status', '').upper()),
+        ("CONTACT ADDRESS", fields.get('address', '')),
+        ("Tel", fields.get('phone', '')),
+        ("EMAIL", fields.get('email', '').lower()),
+    ]
+    
+    for idx, (label, value) in enumerate(info_data):
+        row = info_table.rows[idx]
+        # Label cell
+        label_cell = row.cells[0]
+        label_para = label_cell.paragraphs[0]
+        label_run = label_para.add_run(label)
+        label_run.bold = True
+        label_run.font.size = Pt(9)
+        
+        # Colon cell
+        colon_cell = row.cells[1]
+        colon_para = colon_cell.paragraphs[0]
+        colon_run = colon_para.add_run(":")
+        colon_run.bold = True
+        colon_run.font.size = Pt(9)
+        colon_para.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        
+        # Value cell
+        value_cell = row.cells[2]
+        value_para = value_cell.paragraphs[0]
+        value_run = value_para.add_run(value or "")
+        value_run.font.size = Pt(9)
+    
+    # Remove table borders
+    for row in info_table.rows:
+        for cell in row.cells:
+            tcPr = cell._element.get_or_add_tcPr()
+            tcBorders = OxmlElement('w:tcBorders')
+            for border_name in ['top', 'left', 'bottom', 'right', 'insideH', 'insideV']:
+                border = OxmlElement(f'w:{border_name}')
+                border.set(qn('w:val'), 'none')
+                tcBorders.append(border)
+            tcPr.append(tcBorders)
+    
+    # Add space
+    doc.add_paragraph()
+    
+    # Use ChatGPT's formatted output directly (no Python parsing needed)
+    # Helper to convert any list fields to strings
+    def ensure_string(value):
+        if isinstance(value, list):
+            return "\n".join(str(item) for item in value)
+        return str(value) if value else ""
+
+    # Helper to strip any accidental section titles ChatGPT might include
+    def strip_titles(s: str) -> str:
+        if not s:
+            return s
+        titles = {
+            "EXPERIENCE SUMMARY",
+            "ACADEMIC/TECHNICAL QUALIFICATIONS:",
+            "ACADEMIC/TECHNICAL QUALIFICATIONS",
+            "WORKING EXPERIENCE",
+            "OTHERS (TRAININGS/SKILLS/etc.)",
+            "INVOLVEMENTS",
+            "REFERENCES",
+        }
+        lines = []
+        for ln in s.splitlines():
+            val = ln.strip()
+            if val in titles:
+                continue
+            lines.append(ln)
+        return "\n".join(lines).strip()
+
+    # Helper to strip any accidental section titles ChatGPT might include
+    def strip_titles(s: str) -> str:
+        if not s:
+            return s
+        titles = {
+            "EXPERIENCE SUMMARY",
+            "ACADEMIC/TECHNICAL QUALIFICATIONS:",
+            "ACADEMIC/TECHNICAL QUALIFICATIONS",
+            "WORKING EXPERIENCE",
+            "OTHERS (TRAININGS/SKILLS/etc.)",
+            "INVOLVEMENTS",
+            "REFERENCES",
+        }
+        lines = []
+        for ln in s.splitlines():
+            val = ln.strip()
+            if val in titles:
+                continue
+            lines.append(ln)
+        return "\n".join(lines).strip()
+    
+    # EXPERIENCE SUMMARY (comes FIRST) - ChatGPT already formatted this
+    exp_summary = strip_titles(ensure_string(fields.get("experience_summary", "")).strip())
+    if exp_summary:
         heading = doc.add_paragraph()
+        heading.paragraph_format.space_before = Pt(6)
+        heading.paragraph_format.space_after = Pt(3)
+        run = heading.add_run("EXPERIENCE SUMMARY")
+        run.bold = False  # NOT bold in template
+        run.font.size = Pt(11)
+        
+        # Split into paragraphs if ChatGPT provided multiple paragraphs
+        for para_text in exp_summary.split('\n\n'):
+            if para_text.strip():
+                p = doc.add_paragraph(para_text.strip())
+                p.paragraph_format.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
+                p.paragraph_format.left_indent = Inches(0.25)
+                p.paragraph_format.space_before = Pt(0)
+                p.paragraph_format.space_after = Pt(6)
+    
+    # ACADEMIC/TECHNICAL QUALIFICATIONS (comes SECOND) - ChatGPT already formatted this
+    edu_text = strip_titles(ensure_string(fields.get("education", "")).strip())
+    
+    if edu_text:
+        doc.add_paragraph()
+        heading = doc.add_paragraph()
+        heading.paragraph_format.space_before = Pt(6)
+        heading.paragraph_format.space_after = Pt(3)
         run = heading.add_run("ACADEMIC/TECHNICAL QUALIFICATIONS:")
         run.bold = True
-        run.font.size = Pt(12)
-        run.font.highlight_color = 6  # Yellow highlight
-        heading.paragraph_format.space_before = Pt(12)
-        heading.paragraph_format.space_after = Pt(6)
+        run.font.size = Pt(11)
         
-        doc.add_paragraph()  # Blank line
-        
-        # Parse qualification entries
-        qual_text = sections_dict["qualifications"]
-        qual_lines = [ln.strip() for ln in qual_text.splitlines() if ln.strip()]
-        
-        for line in qual_lines:
-            if line and not line.startswith("Period") and not line.startswith("Description"):
-                p = doc.add_paragraph(line)
-                for run in p.runs:
-                    run.font.highlight_color = 6  # Yellow
-                p.paragraph_format.left_indent = Inches(0.5)
+        # ChatGPT formatted as: "Year1 – Year2\nDegree\nInstitution"
+        # Just render directly with proper spacing
+        for line in edu_text.split('\n'):
+            if line.strip():
+                p = doc.add_paragraph(line.strip())
+                p.paragraph_format.left_indent = Inches(0.25)
+                p.paragraph_format.space_before = Pt(0)
+                p.paragraph_format.space_after = Pt(2)
     
-    # Add EXPERIENCE SUMMARY
-    if "experience_summary" in sections_dict:
+    # WORKING EXPERIENCE (comes THIRD) - ChatGPT already formatted this with Year, Company, Position, Projects, Job Description
+    work_text = strip_titles(ensure_string(fields.get("working_experience", "")).strip())
+    
+    # Check for work-related involvements to append to working experience
+    involvements_text = strip_titles(ensure_string(fields.get("involvements", "")).strip())
+    def is_work_related(text: str) -> bool:
+        """Check if involvement text is work-related."""
+        work_keywords = [
+            'led', 'managed', 'developed', 'implemented', 'project', 'team',
+            'coordinated', 'organized', 'directed', 'oversaw', 'supervised', 'spearheaded',
+            'facilitated', 'contributed', 'worked on', 'responsible', 'duties',
+            'position', 'role', 'chairman', 'president', 'vice', 'secretary',
+            'treasurer', 'head', 'lead', 'engineer', 'consultant', 'advisor'
+        ]
+        lower_text = text.lower()
+        return any(keyword in lower_text for keyword in work_keywords)
+    
+    # Extract and append work-related involvements
+    if involvements_text:
+        work_involvement_items = []
+        for line in involvements_text.split('\n'):
+            clean_line = re.sub(r'^[•\-\*]\s*', '', line.strip())
+            if clean_line and is_work_related(clean_line):
+                work_involvement_items.append(clean_line)
+        
+        # Append to work text if found
+        if work_involvement_items:
+            work_text += "\n\nADDITIONAL INVOLVEMENTS:\n"
+            for item in work_involvement_items:
+                work_text += f"• {item}\n"
+    
+    if work_text:
         doc.add_paragraph()
         heading = doc.add_paragraph()
-        run = heading.add_run("EXPERIENCE SUMMARY")
-        run.bold = True
-        run.font.size = Pt(12)
-        heading.paragraph_format.space_before = Pt(12)
-        heading.paragraph_format.space_after = Pt(6)
-        
-        # Format as continuous text, not bullets (like the PDF)
-        summary_text = sections_dict["experience_summary"]
-        p = doc.add_paragraph(summary_text)
-        p.paragraph_format.left_indent = Inches(0)
-        p.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
-    
-    # Add WORKING EXPERIENCE with simplified layout
-    if "working_experience" in sections_dict:
-        doc.add_paragraph()
-        heading = doc.add_paragraph()
+        heading.paragraph_format.space_before = Pt(6)
+        heading.paragraph_format.space_after = Pt(3)
         run = heading.add_run("WORKING EXPERIENCE")
+        run.bold = False  # NOT bold in template
+        run.font.size = Pt(11)
+        
+        # Render ChatGPT's formatted work experience directly
+        lines = work_text.split('\n')
+        for line in lines:
+            line = line.strip()
+            if not line:
+                continue
+            
+            # Check if line starts with bullet point
+            if line.startswith('•') or line.startswith('-') or line.startswith('*'):
+                clean_line = re.sub(r'^[•\-\*]\s*', '', line).strip()
+                p = doc.add_paragraph(clean_line, style='List Bullet')
+                p.paragraph_format.space_before = Pt(0)
+                p.paragraph_format.space_after = Pt(2)
+                p.paragraph_format.left_indent = Inches(0.5)
+            # Check if line contains Year/Company/Position/Project/Job Description labels
+            elif any(label in line for label in ['Year', 'Company', 'Position', 'Client', 'Duration', 'Project', 'ADDITIONAL INVOLVEMENTS']):
+                p = doc.add_paragraph(line)
+                # Bold the label part
+                if ':' in line:
+                    p.clear()
+                    label, value = line.split(':', 1)
+                    r = p.add_run(label + ': ')
+                    r.bold = True
+                    p.add_run(value.strip())
+                else:
+                    # For "ADDITIONAL INVOLVEMENTS:" or similar
+                    p.clear()
+                    r = p.add_run(line)
+                    r.bold = True
+                p.paragraph_format.space_before = Pt(2)
+                p.paragraph_format.space_after = Pt(1)
+                p.paragraph_format.left_indent = Inches(0.25)
+            else:
+                # Regular line
+                p = doc.add_paragraph(line)
+                p.paragraph_format.space_before = Pt(1)
+                p.paragraph_format.space_after = Pt(1)
+                p.paragraph_format.left_indent = Inches(0.25)
+
+    
+    # OTHERS (TRAININGS/SKILLS/etc.) - ChatGPT already formatted this
+    skills_text = strip_titles(ensure_string(fields.get("skills", "")).strip())
+    if skills_text:
+        doc.add_paragraph()
+        heading = doc.add_paragraph()
+        heading.paragraph_format.space_before = Pt(6)
+        heading.paragraph_format.space_after = Pt(3)
+        run = heading.add_run("OTHERS (TRAININGS/SKILLS/etc.)")
         run.bold = True
-        run.font.size = Pt(12)
-        heading.paragraph_format.space_before = Pt(12)
-        heading.paragraph_format.space_after = Pt(6)
+        run.font.size = Pt(11)
         
-        doc.add_paragraph()  # Blank line
+        # Render skills directly as bullet points
+        for line in skills_text.split('\n'):
+            if line.strip():
+                clean_line = re.sub(r'^[•\-\*]\s*', '', line.strip())
+                p = doc.add_paragraph(clean_line, style='List Bullet')
+                p.paragraph_format.left_indent = Inches(0.5)
+                p.paragraph_format.space_before = Pt(0)
+                p.paragraph_format.space_after = Pt(2)
+
+    # PROFESSIONAL MEMBERSHIP - ChatGPT already formatted this
+    prof_members_text = strip_titles(ensure_string(fields.get("professional_memberships", "")).strip())
+    if prof_members_text:
+        doc.add_paragraph()
+        heading = doc.add_paragraph()
+        heading.paragraph_format.space_before = Pt(6)
+        heading.paragraph_format.space_after = Pt(3)
+        run = heading.add_run("PROFESSIONAL MEMBERSHIP")
+        run.bold = True
+        run.font.size = Pt(11)
         
-        work_blocks = _parse_work_experience_blocks(sections_dict["working_experience"])
+        # Render professional memberships as bullet points
+        for line in prof_members_text.split('\n'):
+            if line.strip():
+                clean_line = re.sub(r'^[•\-\*]\s*', '', line.strip())
+                p = doc.add_paragraph(clean_line, style='List Bullet')
+                p.paragraph_format.left_indent = Inches(0.5)
+                p.paragraph_format.space_before = Pt(0)
+                p.paragraph_format.space_after = Pt(2)
+
+    # PROFESSIONAL TRAINING / COMPETENCY - ChatGPT already formatted this
+    prof_training_text = strip_titles(ensure_string(fields.get("professional_training", "")).strip())
+    if prof_training_text:
+        doc.add_paragraph()
+        heading = doc.add_paragraph()
+        heading.paragraph_format.space_before = Pt(6)
+        heading.paragraph_format.space_after = Pt(3)
+        run = heading.add_run("PROFESSIONAL TRAINING / COMPETENCY")
+        run.bold = True
+        run.font.size = Pt(11)
         
-        for idx, block in enumerate(work_blocks, start=1):
-            # Position + Year on first line
-            position_line_parts = []
-            if "position" in block:
-                position_line_parts.append(block["position"])
-            if "year" in block:
-                position_line_parts.append(f"({block['year']})")
-            if position_line_parts:
-                p = doc.add_paragraph(" ".join(position_line_parts))
-                p.runs[0].bold = True
-            
-            # Company on its own line with optional highlight
-            if "company" in block:
-                p = doc.add_paragraph(block["company"])
-                # Highlight if contains "Sdn Bhd" or "Bhd"
-                if re.search(r'\b(Sdn\.?\s*Bhd|Bhd)\b', block["company"], re.I):
-                    p.runs[0].font.highlight_color = 6  # Yellow
-            
-            # Projects with GREEN highlighting
-            if "projects" in block and block["projects"]:
-                p = doc.add_paragraph()
-                proj_run = p.add_run("Project Involved:")
-                proj_run.bold = True
-                proj_run.font.highlight_color = 4  # Green highlight
-                
-                for project in block["projects"]:
-                    proj_p = doc.add_paragraph("• " + project)
-                    proj_p.paragraph_format.left_indent = Inches(0.5)
-                    for run in proj_p.runs:
-                        run.font.highlight_color = 4  # Green
-            
-            # Job Description
-            if "description" in block and block["description"]:
-                for desc_point in block["description"]:
-                    desc_p = doc.add_paragraph("• " + desc_point)
-                    desc_p.paragraph_format.left_indent = Inches(0.5)
-            
-            # Add space between companies
-            doc.add_paragraph()
+        # Render professional training as bullet points
+        for line in prof_training_text.split('\n'):
+            if line.strip():
+                clean_line = re.sub(r'^[•\-\*]\s*', '', line.strip())
+                p = doc.add_paragraph(clean_line, style='List Bullet')
+                p.paragraph_format.left_indent = Inches(0.5)
+                p.paragraph_format.space_before = Pt(0)
+                p.paragraph_format.space_after = Pt(2)
+
+    # COMPUTER SKILLS - ChatGPT already formatted this
+    computer_skills_text = strip_titles(ensure_string(fields.get("computer_skills", "")).strip())
+    if computer_skills_text:
+        doc.add_paragraph()
+        heading = doc.add_paragraph()
+        heading.paragraph_format.space_before = Pt(6)
+        heading.paragraph_format.space_after = Pt(3)
+        run = heading.add_run("COMPUTER SKILLS")
+        run.bold = True
+        run.font.size = Pt(11)
+        
+        # Render computer skills as bullet points
+        for line in computer_skills_text.split('\n'):
+            if line.strip():
+                clean_line = re.sub(r'^[•\-\*]\s*', '', line.strip())
+                p = doc.add_paragraph(clean_line, style='List Bullet')
+                p.paragraph_format.left_indent = Inches(0.5)
+                p.paragraph_format.space_before = Pt(0)
+                p.paragraph_format.space_after = Pt(2)
     
     # Save the document
     doc.save(output_path)
@@ -539,18 +1414,34 @@ def _parse_work_experience_blocks(text: str) -> list:
     text = text.replace(" •", "\n•")
     lines = [ln.strip() for ln in text.splitlines() if ln.strip()]
 
+    # Matches common single-parens format: "Position (Apr 2025 – Present)"
     header_pattern = re.compile(r"^(?P<position>.+?)\s*\((?P<year>[^)]+)\)\s*$")
+    # Matches lines that START with a year range (used in some CVs)
     year_range_pattern = re.compile(r"^(?:[A-Za-z]{3}\s+)?\d{4}\s*[-–]\s*(?:Present|\d{4}|[A-Za-z]{3}\s*\d{4})", re.I)
+    # Matches lines where the LAST parentheses contains a year, e.g.:
+    # "Enumerator (Part Time) (Feb 2024 – Aug 2024)" -> pos="Enumerator (Part Time)", year="Feb 2024 – Aug 2024"
+    trailing_year_parens_pattern = re.compile(r"^(?P<pos>.*)\((?P<year>[^()]*(?:\d{4})[^()]*)\)\s*$")
     bullet_re = re.compile(r'^[•\-\*�▪]')
 
+    def looks_like_duration(value: str) -> bool:
+        if not value:
+            return False
+        if not re.search(r"\d{4}", value):
+            return False
+        if "-" in value or "–" in value:
+            return True
+        if re.search(r"\b(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec|Present)\b", value, re.I):
+            return True
+        return False
+
     blocks = []
-    current_block = None
+    current_block = {"description": [], "projects": []}
     current_roles = []
     mode = None  # None | "projects" | "description"
 
     def push_block():
         nonlocal current_block, mode, current_roles
-        if current_block and (current_block.get("year") or current_block.get("company") or current_block.get("position")):
+        if current_block and (current_block.get("year") or current_block.get("company") or current_block.get("position") or current_roles):
             # Store accumulated roles as position if we collected any
             if current_roles and not current_block.get("position"):
                 current_block["position"] = " | ".join(r for r in current_roles if r)
@@ -559,7 +1450,10 @@ def _parse_work_experience_blocks(text: str) -> list:
                 current_block.pop("description", None)
             if not current_block.get("projects"):
                 current_block.pop("projects", None)
+            # Clean up temp fields
+            current_block.pop("_temp_address", None)
             blocks.append(current_block)
+        # Reset for next block
         current_block = {"description": [], "projects": []}
         current_roles = []
         mode = None
@@ -576,6 +1470,24 @@ def _parse_work_experience_blocks(text: str) -> list:
             idx += 1
             continue
 
+        lower_line = line.lower()
+        if lower_line.startswith("project involved") or lower_line.startswith("client:") or lower_line.startswith("duration:"):
+            mode = "projects"
+            idx += 1
+            continue
+        if lower_line.startswith("job description") or lower_line.startswith("scope of work") or lower_line.startswith("responsibilities"):
+            mode = "description"
+            idx += 1
+            continue
+
+        # Bullet/indented content (must be handled before header detection; bullets can contain parentheses)
+        if bullet_re.match(line):
+            clean = re.sub(r'^[•\-\*�▪]\s*', '', line).strip()
+            target = "projects" if mode == "projects" else "description"
+            current_block.setdefault(target, []).append(clean)
+            idx += 1
+            continue
+
         # Labeled fields (Year/Company/Position)
         if line.startswith("Year") and ":" in line:
             push_block()
@@ -583,28 +1495,53 @@ def _parse_work_experience_blocks(text: str) -> list:
             idx += 1
             continue
         if line.startswith("Company") and ":" in line:
-            if current_block is None:
-                push_block()
-            current_block["company"] = line.split(":", 1)[1].strip()
+            company_value = line.split(":", 1)[1].strip()
+            # Detect if this looks like an address (contains street indicators)
+            if any(indicator in company_value.lower() for indicator in ["jalan", "street", "level", "menara", "floor", "avenue", "road", "no.", "lot"]):
+                # This is likely an address, store temporarily
+                current_block["_temp_address"] = company_value
+            else:
+                current_block["company"] = company_value
             idx += 1
             continue
         if line.startswith("Position") and ":" in line:
-            if current_block is None:
-                push_block()
-            pos = line.split(":", 1)[1].strip()
-            if pos:
-                current_roles.append(pos)
+            pos_value = line.split(":", 1)[1].strip()
+            # Check if we stored an address in company field
+            if "_temp_address" in current_block:
+                # Position field actually contains the company name, swap them
+                current_block["company"] = pos_value
+                # Discard the address, we don't use it
+                current_block.pop("_temp_address", None)
+            else:
+                # Normal case: position is position
+                if pos_value:
+                    current_roles.append(pos_value)
             idx += 1
             continue
 
-        # Header style: Position (Date Range)
+        # Header style: Position (Date Range) - extract both
         header_match = header_pattern.match(line)
         if header_match:
-            push_block()
-            current_block["position"] = header_match.group("position").strip()
-            current_block["year"] = header_match.group("year").strip()
-            idx += 1
-            continue
+            year_part = header_match.group("year").strip()
+            if looks_like_duration(year_part):
+                push_block()
+                current_block["position"] = header_match.group("position").strip()
+                current_block["year"] = year_part
+                idx += 1
+                continue
+
+        # Multi-parentheses header style: take LAST parens containing a year
+        trailing_match = trailing_year_parens_pattern.match(line)
+        if trailing_match:
+            pos_part = (trailing_match.group("pos") or "").strip()
+            year_part = (trailing_match.group("year") or "").strip()
+            # Only accept if it looks like a real duration (has a year AND dash/Present/month)
+            if pos_part and looks_like_duration(year_part):
+                push_block()
+                current_block["position"] = pos_part
+                current_block["year"] = year_part
+                idx += 1
+                continue
 
         # Year-range line followed by position/company line(s)
         if year_range_pattern.match(line):
@@ -647,33 +1584,7 @@ def _parse_work_experience_blocks(text: str) -> list:
             idx += 1
             continue
 
-        lower_line = line.lower()
-        if lower_line.startswith("project involved"):
-            if current_block is None:
-                push_block()
-            mode = "projects"
-            idx += 1
-            continue
-        if lower_line.startswith("job description") or lower_line.startswith("scope of work"):
-            if current_block is None:
-                push_block()
-            mode = "description"
-            idx += 1
-            continue
-
-        # Bullet/indented content
-        if bullet_re.match(line):
-            if current_block is None:
-                push_block()
-            clean = re.sub(r'^[•\-\*�▪]\s*', '', line).strip()
-            target = "projects" if mode == "projects" else "description"
-            current_block.setdefault(target, []).append(clean)
-            idx += 1
-            continue
-
         # Fallback: description line
-        if current_block is None:
-            push_block()
         if line and len(line.strip()) > 0:
             current_block.setdefault("description", []).append(line)
         idx += 1
@@ -794,11 +1705,10 @@ def _build_pdf(output_path: str, fields: Dict[str, str], source_text: str, logo_
             pass
     header_cells.append([logo_flow])
 
-    # Text cell (centered)
+    # Text cell (centered) — follow KLSB header
     header_text = [
         Paragraph("PROFESSIONAL RESUME", ParagraphStyle("H1", parent=styles["Normal"], fontSize=16, fontName="Helvetica-Bold", alignment=TA_CENTER, spaceAfter=2)),
-        Paragraph(fields.get("name", "CANDIDATE NAME").upper(), ParagraphStyle("H2", parent=styles["Normal"], fontSize=14, fontName="Helvetica-Bold", alignment=TA_CENTER, spaceAfter=2)),
-        Paragraph(cv_number, ParagraphStyle("H3", parent=styles["Normal"], fontSize=12, fontName="Helvetica-Bold", alignment=TA_CENTER, spaceAfter=4)),
+        Paragraph(fields.get("name", "CANDIDATE NAME").upper(), ParagraphStyle("H2", parent=styles["Normal"], fontSize=12, fontName="Helvetica-Bold", alignment=TA_CENTER, spaceAfter=2)),
     ]
     header_cells.append([header_text])
 
@@ -817,78 +1727,195 @@ def _build_pdf(output_path: str, fields: Dict[str, str], source_text: str, logo_
     elements.append(main_header)
     elements.append(Spacer(1, 0.08 * inch))
 
-    # Personal info as simple lines (no table)
+    # Helper to convert any list fields to strings
+    def ensure_string(value):
+        if isinstance(value, list):
+            return "\n".join(str(item) for item in value)
+        return str(value) if value else ""
+
+    # Personal info block - 3-column table with labels, colons, and values
     info_items = [
         ("NAME", fields.get("name", "").upper()),
         ("POSITION", fields.get("position", "").upper()),
         ("DATE OF BIRTH", fields.get("dob", "")),
         ("NATIONALITY", fields.get("nationality", "MALAYSIAN").upper()),
-        ("MARITAL STATUS", fields.get("marital_status", "").upper()),
+        ("MARITAL STATUS", (fields.get("marital_status", "") or "").upper()),
         ("CONTACT ADDRESS", fields.get("address", "")),
-        ("", "Tel: " + fields.get("phone", "") if fields.get("phone") else ""),
+        ("Tel", fields.get("phone", "")),
         ("EMAIL", fields.get("email", "")),
     ]
 
+    left_rows = []
     for label, value in info_items:
         if not label and not value:
             continue
-        line_parts = []
-        if label:
-            line_parts.append(f"<b>{label}</b>")
-            line_parts.append(" : ")
-        line_parts.append(value or "")
-        elements.append(Paragraph("".join(line_parts), text_style))
+        left_rows.append([
+            Paragraph(f"<b>{label}</b>", text_style),
+            Paragraph("<b>:</b>", text_style),
+            Paragraph(value or "", text_style),
+        ])
 
-    elements.append(Spacer(1, 0.12 * inch))
-    
-    # Add horizontal separator line like in original
-    separator_line = Table([[""]], colWidths=[6.7*inch])
-    separator_line.setStyle(TableStyle([
-        ("LINEBELOW", (0, 0), (-1, -1), 0.5, colors.black),
+    left_table = Table(left_rows, colWidths=[1.5*inch, 0.15*inch, 3.95*inch])
+    left_table.setStyle(TableStyle([
+        ("VALIGN", (0,0), (-1,-1), "TOP"),
+        ("LEFTPADDING", (0,0), (-1,-1), 0),
+        ("RIGHTPADDING", (0,0), (-1,-1), 3),
+        ("TOPPADDING", (0,0), (-1,-1), 0),
+        ("BOTTOMPADDING", (0,0), (-1,-1), 2),
+        ("ALIGN", (0,0), (0,-1), "LEFT"),
+        ("ALIGN", (1,0), (1,-1), "CENTER"),
+        ("ALIGN", (2,0), (2,-1), "LEFT"),
     ]))
-    elements.append(separator_line)
-    elements.append(Spacer(1, 0.15 * inch))
-    
-    # Parse and add content sections    # Horizontal line separator
+
+    # Photo column (placeholder if none)
+    photo_cell = []
+    try:
+        if fields.get("photo_path") and os.path.exists(fields["photo_path"]):
+            photo_cell.append(Image(fields["photo_path"], width=1.7*inch, height=2.2*inch))
+        else:
+            photo_cell.append(Spacer(1, 2.2*inch))
+    except Exception:
+        photo_cell.append(Spacer(1, 2.2*inch))
+
+    info_row = Table([[left_table, photo_cell]], colWidths=[5.6*inch, 1.75*inch])
+    info_row.setStyle(TableStyle([
+        ("VALIGN", (0,0), (-1,-1), "TOP"),
+        ("LEFTPADDING", (0,0), (-1,-1), 0),
+        ("RIGHTPADDING", (0,0), (-1,-1), 0),
+        ("TOPPADDING", (0,0), (-1,-1), 0),
+        ("BOTTOMPADDING", (0,0), (-1,-1), 0),
+    ]))
+    elements.append(info_row)
+    elements.append(Spacer(1, 0.12 * inch))
+
+    # Horizontal line separator (single rule)
     elements.append(Table([[""]], colWidths=[6.7 * inch], style=TableStyle([
         ("LINEBELOW", (0, 0), (-1, -1), 1, colors.black),
     ])))
     elements.append(Spacer(1, 0.15 * inch))
 
-    # Parse and add content sections with bullet points
-    sections = _parse_cv_sections(source_text)
+    # Helper to convert any list fields to strings
+    def ensure_string(value):
+        if isinstance(value, list):
+            return "\n".join(str(item) for item in value)
+        return str(value) if value else ""
+
+    # Helper to strip any accidental section titles ChatGPT might include
+    def strip_titles(s: str) -> str:
+        if not s:
+            return s
+        titles = {
+            "EXPERIENCE SUMMARY",
+            "ACADEMIC/TECHNICAL QUALIFICATIONS:",
+            "ACADEMIC/TECHNICAL QUALIFICATIONS",
+            "WORKING EXPERIENCE",
+            "OTHERS (TRAININGS/SKILLS/etc.)",
+            "INVOLVEMENTS",
+            "REFERENCES",
+        }
+        lines = []
+        for ln in s.splitlines():
+            val = ln.strip()
+            if val in titles:
+                continue
+            lines.append(ln)
+        return "\n".join(lines).strip()
+
+    # EXPERIENCE SUMMARY (comes FIRST) - ChatGPT already formatted
+    exp_summary = strip_titles(ensure_string(fields.get("experience_summary", "")).strip())
     
-    # Add ACADEMIC/TECHNICAL QUALIFICATIONS if found
-    if "qualifications" in sections:
-        elements.append(Paragraph("ACADEMIC/TECHNICAL QUALIFICATIONS:", section_title_style))
-        elements.append(Spacer(1, 0.05 * inch))
-        qual_content = _format_as_bullets(sections["qualifications"])
-        for item in qual_content:
-            elements.append(item)
-        elements.append(Spacer(1, 0.1 * inch))
-    
-    # Add EXPERIENCE SUMMARY if found
-    if "experience_summary" in sections:
+    if exp_summary:
         elements.append(Paragraph("EXPERIENCE SUMMARY", section_title_style))
         elements.append(Spacer(1, 0.05 * inch))
-        summary_content = _format_summary(sections["experience_summary"], text_style)
-        for item in summary_content:
-            elements.append(item)
+        # Render paragraphs directly
+        for para in exp_summary.split('\n\n'):
+            if para.strip():
+                elements.append(Paragraph(para.strip(), text_style))
         elements.append(Spacer(1, 0.1 * inch))
     
-    # Add WORKING EXPERIENCE if found
-    if "working_experience" in sections:
+    # ACADEMIC/TECHNICAL QUALIFICATIONS (comes SECOND) - ChatGPT already formatted
+    edu_text = strip_titles(ensure_string(fields.get("education", "")).strip())
+    if edu_text:
+        elements.append(Paragraph("ACADEMIC/TECHNICAL QUALIFICATIONS:", section_title_style))
+        elements.append(Spacer(1, 0.05 * inch))
+        
+        # Render education directly - ChatGPT formatted as:
+        # Year – Year
+        # Degree
+        # Institution
+        for line in edu_text.split('\n'):
+            if line.strip():
+                elements.append(Paragraph(line.strip(), text_style))
+        elements.append(Spacer(1, 0.1 * inch))
+    
+    # WORKING EXPERIENCE (comes THIRD) - ChatGPT already formatted
+    work_text = strip_titles(ensure_string(fields.get("working_experience", "")).strip())
+
+    if work_text:
         elements.append(Paragraph("WORKING EXPERIENCE", section_title_style))
         elements.append(Spacer(1, 0.05 * inch))
-        work_content = _format_working_experience(sections["working_experience"], bullet_style, text_style)
-        for item in work_content:
-            elements.append(item)
-    
-    # Add any remaining content
-    if "other" in sections and sections["other"].strip():
+        
+        # Render ChatGPT's formatted work experience directly - Match DOCX format
+        lines = work_text.split('\n')
+        for line in lines:
+            line = line.strip()
+            if not line:
+                continue
+            
+            # Check if line starts with bullet point
+            if line.startswith('•') or line.startswith('-') or line.startswith('*'):
+                clean_line = re.sub(r'^[•\-\*]\s*', '', line).strip()
+                p_text = f"• {clean_line}"
+                elements.append(Paragraph(p_text, text_style))
+            # Check if line contains Year/Company/Position/Project/Job Description labels
+            elif any(label in line for label in ['Year', 'Company', 'Position', 'Client', 'Duration', 'Project', 'Job Description']):
+                # Bold the label part if there's a colon
+                if ':' in line:
+                    label, value = line.split(':', 1)
+                    p_text = f"<b>{label}:</b> {value.strip()}"
+                else:
+                    p_text = line
+                elements.append(Paragraph(p_text, text_style))
+            else:
+                # Regular line
+                elements.append(Paragraph(line, text_style))
+        
         elements.append(Spacer(1, 0.1 * inch))
-        elements.append(Paragraph(sections["other"], text_style))
+    
+    # OTHERS (TRAININGS/SKILLS/etc.) - ChatGPT already formatted
+    skills_text = strip_titles(ensure_string(fields.get("skills", "")).strip())
+    if skills_text:
+        elements.append(Paragraph("OTHERS (TRAININGS/SKILLS/etc.)", section_title_style))
+        elements.append(Spacer(1, 0.05 * inch))
+        
+        for line in skills_text.split('\n'):
+            if line.strip():
+                clean_line = re.sub(r'^[•\-\*]\s*', '', line.strip())
+                elements.append(Paragraph(f"• {clean_line}", bullet_style))
+        elements.append(Spacer(1, 0.1 * inch))
 
+    # INVOLVEMENTS - ChatGPT already formatted
+    involvements_text = strip_titles(ensure_string(fields.get("involvements", "")).strip())
+    if involvements_text:
+        elements.append(Paragraph("INVOLVEMENTS", section_title_style))
+        elements.append(Spacer(1, 0.05 * inch))
+        
+        for line in involvements_text.split('\n'):
+            if line.strip():
+                elements.append(Paragraph(line.strip(), text_style))
+        elements.append(Spacer(1, 0.1 * inch))
+
+    # REFERENCES - ChatGPT already formatted
+    refs_text = strip_titles(ensure_string(fields.get("references", "")).strip())
+    if refs_text:
+        elements.append(Paragraph("REFERENCES", section_title_style))
+        elements.append(Spacer(1, 0.05 * inch))
+        
+        for line in refs_text.split('\n'):
+            if line.strip():
+                elements.append(Paragraph(line.strip(), text_style))
+        elements.append(Spacer(1, 0.1 * inch))
+    
     doc.build(elements)
 
 
@@ -1122,10 +2149,10 @@ def _parse_cv_sections(text: str) -> Dict[str, str]:
     """Parse CV text into standard sections.
     
     Captures all content and intelligently assigns sections based on headers:
-    - EDUCATION/QUALIFICATIONS → qualifications
-    - EXPERIENCE SUMMARY → experience_summary
-    - EXPERIENCE (with dates/companies) → working_experience
-    - EXPERIENCE (descriptive only) → experience_summary
+    - EDUCATION/QUALIFICATIONS -> qualifications
+    - EXPERIENCE SUMMARY -> experience_summary
+    - EXPERIENCE (with dates/companies) -> working_experience
+    - EXPERIENCE (descriptive only) -> experience_summary
     """
     if not text or not isinstance(text, str):
         return {"other": ""}
@@ -1275,14 +2302,15 @@ def _classify_unlabeled_content(text: str) -> Dict[str, str]:
     return {k: v.strip() for k, v in sections.items() if v.strip()}
 
 
-def convert_cv_to_klsb_ocr(source_path: str, output_dir: str, overrides: Optional[Dict[str, str]] = None, output_format: str = "docx") -> Tuple[str, Dict[str, str]]:
-    """Convert a CV into KLSB_877 format using text extraction + OCR fallback.
+def convert_cv_to_klsb_ocr(source_path: str, output_dir: str, overrides: Optional[Dict[str, str]] = None, output_format: str = "docx", use_chatgpt: bool = False) -> Tuple[str, Dict[str, str]]:
+    """Convert a CV into KLSB format using ChatGPT or traditional OCR.
     
     Args:
         source_path: Path to source CV file
         output_dir: Directory to save converted file
         overrides: Optional field overrides
         output_format: Output format - "docx" (Word) or "pdf" (default: docx)
+        use_chatgpt: If True, use ChatGPT Vision API; if False, use traditional tesseract OCR
 
     Returns: (output_path, detected_fields)
     """
@@ -1291,13 +2319,32 @@ def convert_cv_to_klsb_ocr(source_path: str, output_dir: str, overrides: Optiona
     if not os.path.exists(source_path):
         raise FileNotFoundError(f"Source CV not found: {source_path}")
 
-    text = _extract_text_from_pdf(source_path)
-    fields = _guess_fields(text)
+    # Extract text and parse based on selected method
+    if use_chatgpt:
+        # Use ChatGPT Vision API for extraction and parsing (no fallback)
+        fields = _extract_cv_with_chatgpt(source_path)
+        full_text = fields.get("full_text", "")
+    else:
+        # Use traditional OCR (tesseract)
+        raw_text = _extract_text_from_pdf(source_path, use_chatgpt=False)
+        fields = _parse_cv_sections(raw_text)
+        full_text = raw_text
+        # Keep parity with ChatGPT path: include full extracted text in fields
+        fields["full_text"] = full_text
+
+    # Fill any missing personal fields from full text heuristics
+    guess = _guess_fields(full_text)
+    for k in ["name","position","dob","nationality","marital_status","address","phone","email","linkedin"]:
+        if not fields.get(k):
+            fields[k] = guess.get(k, fields.get(k, ""))
 
     overrides = overrides or {}
     for key, val in overrides.items():
         if val:
             fields[key] = val
+
+    # Use the full extracted text for builders to enable full-content parsing
+    text = full_text or ""
 
     os.makedirs(output_dir, exist_ok=True)
     slug = slugify_filename(fields.get("name"))

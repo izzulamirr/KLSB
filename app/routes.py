@@ -201,6 +201,9 @@ def admin_download_applicant_file_view(applicant_id):
 @admin_required
 def admin_cv_convert_ocr():
     """Convert an applicant CV into KLSB_877 format using OCR/text extraction."""
+    from openai import RateLimitError as OpenAIRateLimitError
+    from openai import APIError as OpenAIAPIError
+    
     data = {}
     if request.is_json:
         data.update(request.get_json(silent=True) or {})
@@ -262,6 +265,9 @@ def admin_cv_convert_ocr():
 
     # Get output format preference (default to docx)
     output_format = data.get("output_format", "docx")
+    
+    # Get OCR method preference (default to traditional tesseract)
+    use_chatgpt = data.get("use_chatgpt", "false").lower() == "true"
 
     try:
         converted_path, detected_fields = convert_cv_to_klsb_ocr(
@@ -277,8 +283,19 @@ def admin_cv_convert_ocr():
                 "marital_status": marital_status,
                 "address": address,
             },
-            output_format=output_format
+            output_format=output_format,
+            use_chatgpt=use_chatgpt
         )
+    except OpenAIRateLimitError as exc:
+        # ChatGPT quota exceeded - suggest using blue button (tesseract)
+        error_msg = "ChatGPT quota exceeded. Please use the blue button (free Tesseract OCR) instead, or add API credits at https://platform.openai.com/settings/organization/billing"
+        current_app.logger.warning(f"ChatGPT quota exceeded: {exc}")
+        return jsonify({"status": "error", "errors": [error_msg]}), 429
+    except OpenAIAPIError as exc:
+        # Other OpenAI API errors
+        error_msg = f"ChatGPT API error: {str(exc)}. Try the blue button (Tesseract OCR)."
+        current_app.logger.warning(f"OpenAI API error: {exc}")
+        return jsonify({"status": "error", "errors": [error_msg]}), 500
     except Exception as exc:
         current_app.logger.exception("CV OCR conversion failed")
         return jsonify({"status": "error", "errors": [str(exc)]}), 500
