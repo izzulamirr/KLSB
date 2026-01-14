@@ -81,7 +81,7 @@ def process_cv_with_template(pdf_path, template_path, output_dir='uploads/cv'):
             else:
                 context[key] = str(value)
 
-        # Build RichText for working experience with bold headers and bullets
+        # Build RichText for working experience with bold headers and indented bullets
         work_items = structured_data.get('work_experiences', [])
         if work_items:
             rt = RichText()
@@ -103,10 +103,12 @@ def process_cv_with_template(pdf_path, template_path, output_dir='uploads/cv'):
                 desc = work.get('description', '').strip()
                 if desc:
                     rt.add("\n")
-                    rt.add("Job Description:\n")
+                    rt.add("Job Description:", bold=True)
+                    rt.add("\n")
                     for line in desc.split('\n'):
                         if line.strip():
-                            rt.add("• " + line.strip())
+                            # Add bullet and content, using spaces for hanging indent on wrapped lines
+                            rt.add("    • " + line.strip())
                             rt.add("\n")
 
                 if idx < len(work_items) - 1:
