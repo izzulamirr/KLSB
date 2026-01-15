@@ -3,6 +3,7 @@
 ENV/
 env/
 venv/
+.env
 
 # Bytecode
 __pycache__/
