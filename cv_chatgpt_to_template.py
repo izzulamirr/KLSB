@@ -81,38 +81,50 @@ def process_cv_with_template(pdf_path, template_path, output_dir='uploads/cv'):
             else:
                 context[key] = str(value)
 
-        # Build RichText for working experience with bold headers and indented bullets
+        # Populate individual work experience tags and build complete work history
         work_items = structured_data.get('work_experiences', [])
         if work_items:
+            # Set empty values for template tags (we'll render all in working_experience_formatted)
+            context['work_years'] = ''
+            context['work_company'] = ''
+            context['work_position'] = ''
+            
+            # Build RichText for ALL work experiences with tab-aligned headers
             rt = RichText()
             for idx, work in enumerate(work_items):
                 years = work.get('years', '').strip()
                 company = work.get('company', '').strip()
                 position = work.get('position', '').strip()
-
+                
+                # Add spacing before next company (except first)
+                if idx > 0:
+                    rt.add("\n\n")
+                
+                # Add tab-aligned headers for this work experience
                 if years:
-                    rt.add(f"Year : {years}", bold=True)
+                    rt.add("Year", bold=True)
+                    rt.add("\t: " + years, bold=True)
                     rt.add("\n")
                 if company:
-                    rt.add(f"Company : {company}", bold=True)
+                    rt.add("Company", bold=True)
+                    rt.add("\t: " + company, bold=True)
                     rt.add("\n")
                 if position:
-                    rt.add(f"Position : {position}", bold=True)
+                    rt.add("Position", bold=True)
+                    rt.add("\t: " + position, bold=True)
                     rt.add("\n")
-
+                rt.add("\n")
+                
+                # Add job description
                 desc = work.get('description', '').strip()
                 if desc:
-                    rt.add("\n")
                     rt.add("Job Description:", bold=True)
                     rt.add("\n")
+                    
                     for line in desc.split('\n'):
                         if line.strip():
-                            # Add bullet and content, using spaces for hanging indent on wrapped lines
-                            rt.add("    • " + line.strip())
+                            rt.add("• " + line.strip())
                             rt.add("\n")
-
-                if idx < len(work_items) - 1:
-                    rt.add("\n")
 
             # Override the plain string with RichText for the template tag
             context['working_experience_formatted'] = rt
@@ -134,6 +146,15 @@ def process_cv_with_template(pdf_path, template_path, output_dir='uploads/cv'):
         # Save
         print(f"→ Step 4: Saving output...")
         template.save(output_path)
+        
+        # Explicitly release the template object and force garbage collection
+        # to ensure all file handles are closed before the file is accessed again
+        del template
+        import gc
+        gc.collect()
+        
+        import time as time_module
+        time_module.sleep(0.5)  # Small delay to ensure file is fully released
         
         print(f"\n✓ Successfully generated!")
         print(f"✓ Output: {os.path.basename(output_path)}")

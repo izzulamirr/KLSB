@@ -8,13 +8,15 @@ import csv
 from flask import Response, send_file, abort
 from app import db
 from app.models import Applicant, JobListing
-from app.cv_converter import convert_cv_to_klsb_ocr
+from app.cv_converter import convert_cv_to_klsb_ocr, _extract_cv_with_chatgpt
 from functools import wraps
 from flask import session, flash
 import time
 import json
 import urllib.parse
 import urllib.request
+import sys
+import subprocess
 
 # Rate limiting storage (in-memory for simplicity; use Redis in production)
 login_attempts = {}  # {ip: [timestamp1, timestamp2, ...]}
@@ -323,6 +325,189 @@ def admin_cv_convert_ocr():
             "detected_fields": detected_fields,
         }
     ), 201
+
+
+@main_bp.route("/admin/cv/convert-template", methods=["POST"], endpoint="admin_cv_convert_template")
+@admin_required
+def admin_cv_convert_template():
+    """Convert CV using ChatGPT extraction + KLSB template rendering."""
+    from docxtpl import DocxTemplate, RichText
+    from cv_data_parser import structure_cv_data
+    
+    data = {}
+    if request.is_json:
+        data.update(request.get_json(silent=True) or {})
+    data.update(request.form.to_dict())
+
+    applicant_id = data.get("applicant_id")
+    cv_file = request.files.get("cv_file")
+
+    project_root = os.path.abspath(os.path.join(current_app.root_path, ".."))
+    upload_folder = current_app.config.get("UPLOAD_FOLDER") or os.path.join(current_app.root_path, "uploads", "cv")
+    klsb_folder = os.path.join(upload_folder, "klsb_formatted")
+    os.makedirs(klsb_folder, exist_ok=True)
+
+    source_path = None
+    temp_path = None
+
+    if applicant_id:
+        try:
+            applicant = Applicant.query.get_or_404(int(applicant_id))
+            source_path = applicant.file_path or ""
+            if not os.path.isabs(source_path):
+                candidate = os.path.join(project_root, source_path)
+                if os.path.exists(candidate):
+                    source_path = candidate
+                else:
+                    source_path = os.path.join(current_app.root_path, source_path)
+            if not os.path.exists(source_path):
+                return jsonify({"status": "error", "errors": [f"CV file not found: {source_path}"]}), 404
+        except Exception as exc:
+            current_app.logger.exception("Failed to load applicant for template conversion")
+            return jsonify({"status": "error", "errors": [str(exc)]}), 400
+    else:
+        if not cv_file or cv_file.filename == "":
+            return jsonify({"status": "error", "errors": ["Provide applicant_id or upload cv_file."]}), 400
+        safe_orig = secure_filename(cv_file.filename or "cv.pdf")
+        rand = secrets.token_hex(6)
+        ext = os.path.splitext(safe_orig)[1] or ".pdf"
+        temp_name = f"tpl_{rand}{ext}"
+        temp_path = os.path.join(klsb_folder, temp_name)
+        try:
+            cv_file.save(temp_path)
+            source_path = temp_path
+        except Exception:
+            current_app.logger.exception("Failed to save uploaded CV for template conversion")
+            return jsonify({"status": "error", "errors": ["Unable to save uploaded file."]}), 500
+
+    try:
+        # Extract CV data using ChatGPT
+        cv_data = _extract_cv_with_chatgpt(source_path)
+        
+        if not cv_data:
+            return jsonify({"status": "error", "errors": ["Failed to extract CV data"]}), 400
+        
+        # Structure the data
+        sys.path.insert(0, project_root)
+        from cv_data_parser import structure_cv_data
+        structured_data = structure_cv_data(cv_data)
+        
+        # Load template
+        template_path = os.path.join(project_root, "KLSB_template_true.docx")
+        if not os.path.exists(template_path):
+            return jsonify({"status": "error", "errors": [f"Template not found: {template_path}"]}), 500
+        
+        template = DocxTemplate(template_path)
+        
+        # Prepare context
+        context = {}
+        for key, value in structured_data.items():
+            if value is None:
+                context[key] = ''
+            elif isinstance(value, list):
+                context[key] = value
+            elif key in ['name', 'position', 'nationality']:
+                context[key] = str(value).upper() if value else ''
+            else:
+                context[key] = str(value)
+        
+        # Populate individual work experience tags and build complete work history
+        work_items = structured_data.get('work_experiences', [])
+        if work_items:
+            # Set empty values for template tags (we'll render all in working_experience_formatted)
+            context['work_years'] = ''
+            context['work_company'] = ''
+            context['work_position'] = ''
+            
+            # Build RichText for ALL work experiences with tab-aligned headers
+            rt = RichText()
+            for idx, work in enumerate(work_items):
+                years = work.get('years', '').strip()
+                company = work.get('company', '').strip()
+                position = work.get('position', '').strip()
+                
+                # Add spacing before next company (except first)
+                if idx > 0:
+                    rt.add("\n\n")
+                
+                # Add tab-aligned headers for this work experience
+                if years:
+                    rt.add("Year")
+                    rt.add("\t: " + years, bold=True)
+                    rt.add("\n")
+                if company:
+                    rt.add("Company")
+                    rt.add("\t: " + company, bold=True)
+                    rt.add("\n")
+                if position:
+                    rt.add("Position")
+                    rt.add("\t: " + position, bold=True)
+                    rt.add("\n")
+                rt.add("\n")
+                
+                # Add job description
+                desc = work.get('description', '').strip()
+                if desc:
+                    rt.add("Job Description:", bold=True)
+                    rt.add("\n")
+                    
+                    for line in desc.split('\n'):
+                        if line.strip():
+                            rt.add("• " + line.strip())
+                            rt.add("\n")
+
+            context['working_experience_formatted'] = rt
+        
+        # Render template
+        template.render(context)
+        
+        # Generate output filename
+        candidate_name = cv_data.get('name', 'Candidate').lower().replace(' ', '-')
+        import time as time_module
+        timestamp = int(time_module.time()) % 10000
+        output_filename = f"KLSB_{candidate_name}_{timestamp}.docx"
+        output_path = os.path.join(klsb_folder, output_filename)
+        
+        # Save
+        template.save(output_path)
+        
+        # Release template object
+        del template
+        import gc
+        gc.collect()
+        time_module.sleep(0.5)
+        
+        rel_path = os.path.relpath(output_path, start=current_app.root_path).replace("\\", "/")
+
+        if applicant_id:
+            try:
+                applicant = Applicant.query.get(int(applicant_id))
+                if applicant:
+                    applicant.filename = output_filename
+                    applicant.file_path = rel_path
+                    db.session.add(applicant)
+                    db.session.commit()
+            except Exception as e:
+                current_app.logger.warning(f"Failed to update applicant record: {e}")
+
+        return jsonify(
+            {
+                "status": "success",
+                "filename": output_filename,
+                "stored_at": rel_path,
+                "detected_fields": cv_data,
+            }
+        ), 201
+
+    except Exception as exc:
+        current_app.logger.exception("CV template conversion failed")
+        return jsonify({"status": "error", "errors": [str(exc)]}), 500
+    finally:
+        if temp_path and os.path.exists(temp_path):
+            try:
+                os.remove(temp_path)
+            except Exception:
+                pass
 
 # --- CSV export ---
 @main_bp.route("/admin/applicants/export/csv", endpoint="admin_export_applicants_csv")

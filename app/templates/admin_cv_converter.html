@@ -144,13 +144,13 @@ chatgptBtn?.addEventListener('click', async () => {
   formData.append('use_chatgpt', 'true');  // Explicitly use ChatGPT
 
   try {
-    const resp = await fetch("{{ url_for('main.admin_cv_convert_ocr') }}", {
+    const resp = await fetch("{{ url_for('main.admin_cv_convert_template') }}", {
       method: 'POST',
       body: formData
     });
     const data = await resp.json();
     if (resp.ok && data.status === 'success') {
-      resultEl.innerHTML = "✅ <strong>ChatGPT OCR Complete!</strong><br/>File: " + data.filename + "<br/>Stored at: " + data.stored_at + "<br/><br/><strong>Detected Fields:</strong><br/>" + 
+      resultEl.innerHTML = "✅ <strong>ChatGPT + Template Conversion Complete!</strong><br/>File: " + data.filename + "<br/>Stored at: " + data.stored_at + "<br/><br/><strong>Detected Fields:</strong><br/>" + 
         Object.entries(data.detected_fields || {})
           .map(([k, v]) => `<strong>${k}:</strong> ${v}`)
           .join('<br/>');
