@@ -341,11 +341,40 @@ def admin_cv_convert_template():
 
     applicant_id = data.get("applicant_id")
     cv_file = request.files.get("cv_file")
+    
+    # Extract override fields including KLSB number
+    overrides = {}
+    for key in ['klsb_number', 'full_name', 'position', 'email', 'phone', 'dob', 'nationality', 'marital_status', 'address']:
+        override_value = data.get(f'override_{key}')
+        if override_value and override_value.strip():
+            overrides[key] = override_value.strip()
 
     project_root = os.path.abspath(os.path.join(current_app.root_path, ".."))
     upload_folder = current_app.config.get("UPLOAD_FOLDER") or os.path.join(current_app.root_path, "uploads", "cv")
     klsb_folder = os.path.join(upload_folder, "klsb_formatted")
     os.makedirs(klsb_folder, exist_ok=True)
+    
+    # Determine KLSB number - override or auto-increment from 4130
+    counter_file = os.path.join(klsb_folder, ".klsb_counter.txt")
+    
+    if 'klsb_number' in overrides:
+        # Use manual override
+        klsb_number = overrides['klsb_number']
+    else:
+        # Auto-increment from 4130
+        try:
+            if os.path.exists(counter_file):
+                with open(counter_file, 'r') as f:
+                    klsb_number = f.read().strip()
+            else:
+                klsb_number = '4130'
+            
+            # Save next number for future use
+            next_num = int(klsb_number) + 1
+            with open(counter_file, 'w') as f:
+                f.write(str(next_num))
+        except Exception:
+            klsb_number = '4130'
 
     source_path = None
     temp_path = None
@@ -387,6 +416,24 @@ def admin_cv_convert_template():
         if not cv_data:
             return jsonify({"status": "error", "errors": ["Failed to extract CV data"]}), 400
         
+        # Apply overrides to extracted data
+        if 'full_name' in overrides:
+            cv_data['name'] = overrides['full_name']
+        if 'position' in overrides:
+            cv_data['position'] = overrides['position']
+        if 'email' in overrides:
+            cv_data['email'] = overrides['email']
+        if 'phone' in overrides:
+            cv_data['phone'] = overrides['phone']
+        if 'dob' in overrides:
+            cv_data['dob'] = overrides['dob']
+        if 'nationality' in overrides:
+            cv_data['nationality'] = overrides['nationality']
+        if 'marital_status' in overrides:
+            cv_data['marital_status'] = overrides['marital_status']
+        if 'address' in overrides:
+            cv_data['address'] = overrides['address']
+        
         # Structure the data
         sys.path.insert(0, project_root)
         from cv_data_parser import structure_cv_data
@@ -410,6 +457,14 @@ def admin_cv_convert_template():
                 context[key] = str(value).upper() if value else ''
             else:
                 context[key] = str(value)
+        
+        # Add KLSB number to context for template (AFTER structured_data to prevent overwrite)
+        context['klsb_number'] = str(klsb_number)
+        
+        # Debug logging
+        current_app.logger.info(f"KLSB Number being passed to template: {klsb_number} (type: {type(klsb_number)})")
+        current_app.logger.info(f"Context klsb_number: '{context['klsb_number']}'")
+        current_app.logger.info(f"All context keys: {list(context.keys())}")
         
         # Populate individual work experience tags and build complete work history
         work_items = structured_data.get('work_experiences', [])
@@ -458,24 +513,22 @@ def admin_cv_convert_template():
 
             context['working_experience_formatted'] = rt
         
+        # Add KLSB number to template context
+        context['klsb_number'] = klsb_number
+        
         # Render template
         template.render(context)
         
         # Generate output filename
         candidate_name = cv_data.get('name', 'Candidate').lower().replace(' ', '-')
-        import time as time_module
-        timestamp = int(time_module.time()) % 10000
-        output_filename = f"KLSB_{candidate_name}_{timestamp}.docx"
+        output_filename = f"{candidate_name}_KLSB_{klsb_number}.docx"
         output_path = os.path.join(klsb_folder, output_filename)
         
         # Save
         template.save(output_path)
-        
-        # Release template object
         del template
         import gc
         gc.collect()
-        time_module.sleep(0.5)
         
         rel_path = os.path.relpath(output_path, start=current_app.root_path).replace("\\", "/")
 
@@ -508,6 +561,46 @@ def admin_cv_convert_template():
                 os.remove(temp_path)
             except Exception:
                 pass
+
+# --- List Formatted CVs ---
+@main_bp.route("/admin/formatted-cvs", methods=["GET"], endpoint="admin_formatted_cvs")
+@admin_required
+def admin_formatted_cvs():
+    """List all formatted KLSB CVs with download links."""
+    from datetime import datetime
+    project_root = os.path.abspath(os.path.join(current_app.root_path, ".."))
+    upload_folder = current_app.config.get("UPLOAD_FOLDER") or os.path.join(current_app.root_path, "uploads", "cv")
+    klsb_folder = os.path.join(upload_folder, "klsb_formatted")
+    
+    import glob
+    cvs = []
+    if os.path.exists(klsb_folder):
+        files = glob.glob(os.path.join(klsb_folder, 'KLSB_*.docx'))
+        for filepath in sorted(files, reverse=True):  # Newest first
+            filename = os.path.basename(filepath)
+            stat = os.stat(filepath)
+            cvs.append({
+                'filename': filename,
+                'size': round(stat.st_size / 1024, 2),  # KB
+                'modified': datetime.fromtimestamp(stat.st_mtime).strftime('%Y-%m-%d %H:%M:%S'),
+                'path': os.path.relpath(filepath, start=current_app.root_path).replace("\\", "/")
+            })
+    
+    return render_template('admin_formatted_cvs.html', cvs=cvs)
+
+# --- Download Formatted CV ---
+@main_bp.route("/admin/formatted-cvs/download/<path:filename>", methods=["GET"], endpoint="download_formatted_cv")
+@admin_required
+def download_formatted_cv(filename):
+    """Download a formatted CV file."""
+    upload_folder = current_app.config.get("UPLOAD_FOLDER") or os.path.join(current_app.root_path, "uploads", "cv")
+    klsb_folder = os.path.join(upload_folder, "klsb_formatted")
+    file_path = os.path.join(klsb_folder, secure_filename(filename))
+    
+    if not os.path.exists(file_path):
+        abort(404)
+    
+    return send_file(file_path, as_attachment=True, download_name=filename)
 
 # --- CSV export ---
 @main_bp.route("/admin/applicants/export/csv", endpoint="admin_export_applicants_csv")

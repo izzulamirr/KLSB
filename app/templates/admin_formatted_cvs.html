@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block title %}Formatted CVs{% endblock %}
+
+{% block content %}
+<section class="py-12 bg-white min-h-screen">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="flex items-center justify-between mb-8">
+      <h1 class="text-3xl font-bold text-[#030C69]">Formatted CVs (KLSB Template)</h1>
+      <div class="flex gap-3">
+        <a href="{{ url_for('main.admin_cv_converter_view') }}" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 text-sm font-semibold">
+          + Convert New CV
+        </a>
+        <a href="{{ url_for('main.admin_applicants') }}" class="text-sm text-blue-600 hover:underline self-center">
+          Back to Applicants
+        </a>
+      </div>
+    </div>
+
+    <div class="bg-white border border-slate-200 rounded-lg shadow-sm overflow-hidden">
+      {% if cvs %}
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead class="bg-slate-50 border-b border-slate-200">
+            <tr>
+              <th class="px-6 py-3 text-left text-xs font-semibold text-slate-700 uppercase tracking-wider">Filename</th>
+              <th class="px-6 py-3 text-left text-xs font-semibold text-slate-700 uppercase tracking-wider">Size</th>
+              <th class="px-6 py-3 text-left text-xs font-semibold text-slate-700 uppercase tracking-wider">Modified</th>
+              <th class="px-6 py-3 text-center text-xs font-semibold text-slate-700 uppercase tracking-wider">Actions</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-100">
+            {% for cv in cvs %}
+            <tr class="hover:bg-slate-50 transition">
+              <td class="px-6 py-4 font-medium text-slate-900">{{ cv.filename }}</td>
+              <td class="px-6 py-4 text-slate-600">{{ cv.size }} KB</td>
+              <td class="px-6 py-4 text-slate-600">{{ cv.modified }}</td>
+              <td class="px-6 py-4 text-center">
+                <a href="{{ url_for('main.download_formatted_cv', filename=cv.filename) }}" 
+                   class="inline-flex items-center gap-2 bg-[#030C69] text-white px-4 py-2 rounded hover:bg-[#02074f] text-sm font-semibold">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                  </svg>
+                  Download
+                </a>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      
+      <div class="px-6 py-4 bg-slate-50 border-t border-slate-200">
+        <p class="text-sm text-slate-600">
+          Total: <strong>{{ cvs|length }}</strong> formatted CV(s)
+        </p>
+      </div>
+      {% else %}
+      <div class="px-6 py-12 text-center text-slate-500">
+        <svg class="w-16 h-16 mx-auto mb-4 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+        </svg>
+        <p class="text-lg font-semibold mb-2">No formatted CVs yet</p>
+        <p class="text-sm mb-4">Start by converting a CV using the ChatGPT OCR converter</p>
+        <a href="{{ url_for('main.admin_cv_converter_view') }}" class="inline-block bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700 text-sm font-semibold">
+          Convert Your First CV
+        </a>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+{% endblock %}

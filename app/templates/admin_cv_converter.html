@@ -3,83 +3,114 @@
 
 {% block content %}
 <section class="py-12 bg-white">
-  <div class="max-w-4xl mx-auto px-6 space-y-6">
+  <div class="max-w-5xl mx-auto px-6 space-y-6">
     <div class="flex items-center justify-between">
-      <h1 class="text-3xl font-bold text-[#030C69]">CV Converter (OCR)</h1>
-      <a href="{{ url_for('main.admin_applicants') }}" class="text-sm text-blue-600 hover:underline">Back to Applicants</a>
+      <h1 class="text-3xl font-bold text-[#030C69]">CV Converter (ChatGPT OCR)</h1>
+      <div class="flex gap-3">
+        <a href="{{ url_for('main.admin_formatted_cvs') }}" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 text-sm font-semibold">
+          📄 View All Formatted CVs
+        </a>
+        <a href="{{ url_for('main.admin_applicants') }}" class="text-sm text-blue-600 hover:underline self-center">Back to Applicants</a>
+      </div>
     </div>
 
-    <div class="p-4 bg-slate-50 border border-slate-200 rounded-lg space-y-3 text-sm">
-      <p class="font-semibold">How it works</p>
-      <ul class="list-disc list-inside space-y-1 text-slate-700">
-        <li>Option A: Enter an existing applicant ID to convert the stored CV.</li>
-        <li>Option B: Upload a CV file directly.</li>
-        <li>Choose output format: <strong>Word (.docx)</strong> with highlighting or <strong>PDF</strong>.</li>
-        <li>Word format highlights: <span class="bg-yellow-200 px-1">Education/Qualifications (Yellow)</span>, <span class="bg-yellow-200 px-1">Companies with Sdn Bhd (Yellow)</span>, <span class="bg-green-200 px-1">Projects (Green)</span></li>
-        <li>Optional overrides: name, position, email, phone, etc. (prefill/override detected fields).</li>
+    <div class="p-4 bg-blue-50 border border-blue-200 rounded-lg space-y-3 text-sm">
+      <p class="font-semibold text-blue-900">💡 How to Use</p>
+      <ul class="list-disc list-inside space-y-1 text-blue-800">
+        <li><strong>Upload CV:</strong> Choose a PDF or Word file containing the candidate's resume</li>
+        <li><strong>Override Fields:</strong> Fill in any field to override ChatGPT's extracted data (optional)</li>
+        <li><strong>KLSB Numbering:</strong> Auto-increments from 4130 (KLSB_4130, KLSB_4131...) unless manually overridden</li>
+        <li><strong>Convert:</strong> Click "Convert with ChatGPT OCR" to format the CV using KLSB template</li>
+        <li><strong>Processing Time:</strong> Typically takes 30-60 seconds for AI analysis</li>
       </ul>
     </div>
 
-    <div class="p-6 bg-white border border-slate-200 rounded-lg shadow-sm space-y-4">
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
-          <label class="block text-sm font-medium text-slate-700">Applicant ID (optional)</label>
-          <input id="applicant_id" type="number" class="w-full border rounded px-3 py-2 text-sm" placeholder="e.g. 12" />
-        </div>
-        <div>
-          <label class="block text-sm font-medium text-slate-700">Upload CV (optional)</label>
-          <input id="cv_file" name="cv_file" type="file" accept=".pdf,.doc,.docx" class="w-full text-sm" />
-        </div>
-        <div>
-          <label class="block text-sm font-medium text-slate-700">Output Format</label>
-          <select id="output_format" class="w-full border rounded px-3 py-2 text-sm">
-            <option value="docx" selected>Word Document (.docx) - With Highlighting</option>
-            <option value="pdf">PDF Document (.pdf)</option>
-          </select>
-        </div>
-        <div>
-          <label class="block text-sm font-medium text-slate-700">Name override</label>
-          <input id="full_name" type="text" class="w-full border rounded px-3 py-2 text-sm" placeholder="Full Name" />
-        </div>
-        <div>
-          <label class="block text-sm font-medium text-slate-700">Position override</label>
-          <input id="position" type="text" class="w-full border rounded px-3 py-2 text-sm" placeholder="e.g. SENIOR PIPING DESIGNER" />
-        </div>
-        <div>
-          <label class="block text-sm font-medium text-slate-700">Email override</label>
-          <input id="email" type="email" class="w-full border rounded px-3 py-2 text-sm" placeholder="Email" />
-        </div>
-        <div>
-          <label class="block text-sm font-medium text-slate-700">Phone override</label>
-          <input id="phone" type="text" class="w-full border rounded px-3 py-2 text-sm" placeholder="+603 2181 8078" />
-        </div>
-        <div>
-          <label class="block text-sm font-medium text-slate-700">Date of Birth override</label>
-          <input id="dob" type="text" class="w-full border rounded px-3 py-2 text-sm" placeholder="16 AUGUST 1985" />
-        </div>
-        <div>
-          <label class="block text-sm font-medium text-slate-700">Nationality override</label>
-          <input id="nationality" type="text" class="w-full border rounded px-3 py-2 text-sm" placeholder="MALAYSIAN" />
-        </div>
-        <div>
-          <label class="block text-sm font-medium text-slate-700">Marital Status override</label>
-          <input id="marital_status" type="text" class="w-full border rounded px-3 py-2 text-sm" placeholder="MARRIED" />
-        </div>
-        <div>
-          <label class="block text-sm font-medium text-slate-700">Address override</label>
-          <input id="address" type="text" class="w-full border rounded px-3 py-2 text-sm" placeholder="Contact Address" />
+    <div class="p-6 bg-white border border-slate-200 rounded-lg shadow-sm space-y-6">
+      <!-- File Upload Section -->
+      <div class="border-b pb-6">
+        <h2 class="text-lg font-semibold text-slate-900 mb-4">📁 Upload CV File</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-medium text-slate-700 mb-1">Applicant ID (optional)</label>
+            <input id="applicant_id" type="number" class="w-full border border-slate-300 rounded px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="e.g. 12" />
+            <p class="text-xs text-slate-500 mt-1">Use existing applicant's CV from database</p>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-slate-700 mb-1">Upload CV File (PDF/Word)</label>
+            <input id="cv_file" name="cv_file" type="file" accept=".pdf,.doc,.docx" class="w-full text-sm border border-slate-300 rounded px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
+            <p class="text-xs text-slate-500 mt-1">Or upload a new CV file</p>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-slate-700 mb-1">Output Format</label>
+            <select id="output_format" class="w-full border border-slate-300 rounded px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+              <option value="docx" selected>Word Document (.docx) - KLSB Template</option>
+              <option value="pdf">PDF Document (.pdf)</option>
+            </select>
+          </div>
         </div>
       </div>
 
-      <div class="flex gap-3">
-        <button id="convert-btn" class="bg-[#030C69] text-white px-4 py-2 rounded hover:bg-[#02074f] text-sm font-semibold">Convert</button>
-        <button id="convert-chatgpt-btn" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 text-sm font-semibold flex items-center gap-2">
-          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M10.5 1.5H5.75A2.25 2.25 0 003.5 3.75v12.5A2.25 2.25 0 005.75 18.5h8.5a2.25 2.25 0 002.25-2.25V8"></path><path d="M14 1.5v5h5" stroke="currentColor" stroke-width="1.5" fill="none"></path></svg>
-          Convert with ChatGPT OCR
-        </button>
+      <!-- Override Fields Section -->
+      <div class="border-b pb-6">
+        <h2 class="text-lg font-semibold text-slate-900 mb-4">✏️ Override Extracted Data (Optional)</h2>
+        <p class="text-sm text-slate-600 mb-4">Fill in these fields to override ChatGPT's extracted values:</p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-medium text-slate-700 mb-1">KLSB Number</label>
+            <input id="klsb_number" type="text" class="w-full border border-slate-300 rounded px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="Leave empty for auto-increment from 4130" />
+            <p class="text-xs text-slate-500 mt-1">Leave empty for auto-increment, or enter manually to override</p>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-slate-700 mb-1">Full Name</label>
+            <input id="full_name" type="text" class="w-full border border-slate-300 rounded px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="e.g. JOHN DOE" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-slate-700 mb-1">Position</label>
+            <input id="position" type="text" class="w-full border border-slate-300 rounded px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="e.g. SENIOR PIPING DESIGNER" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-slate-700 mb-1">Email</label>
+            <input id="email" type="email" class="w-full border border-slate-300 rounded px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="john@example.com" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-slate-700 mb-1">Phone</label>
+            <input id="phone" type="text" class="w-full border border-slate-300 rounded px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="+603 2181 8078" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-slate-700 mb-1">Date of Birth</label>
+            <input id="dob" type="text" class="w-full border border-slate-300 rounded px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="16 AUGUST 1985" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-slate-700 mb-1">Nationality</label>
+            <input id="nationality" type="text" class="w-full border border-slate-300 rounded px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="MALAYSIAN" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-slate-700 mb-1">Marital Status</label>
+            <input id="marital_status" type="text" class="w-full border border-slate-300 rounded px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="MARRIED" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-slate-700 mb-1">Address</label>
+            <input id="address" type="text" class="w-full border border-slate-300 rounded px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="Contact Address" />
+          </div>
+        </div>
       </div>
 
-      <div id="result" class="text-sm text-slate-800"></div>
+      <!-- Convert Button Section -->
+      <div>
+        <h2 class="text-lg font-semibold text-slate-900 mb-4">🚀 Convert CV</h2>
+        <div class="flex gap-3">
+          <button id="convert-btn" class="bg-slate-600 text-white px-6 py-3 rounded-lg hover:bg-slate-700 text-sm font-semibold transition">
+            Convert (Legacy)
+          </button>
+          <button id="convert-chatgpt-btn" class="flex-1 bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 text-base font-semibold flex items-center justify-center gap-3 transition shadow-md hover:shadow-lg">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M10.5 1.5H5.75A2.25 2.25 0 003.5 3.75v12.5A2.25 2.25 0 005.75 18.5h8.5a2.25 2.25 0 002.25-2.25V8"></path><path d="M14 1.5v5h5" stroke="currentColor" stroke-width="1.5" fill="none"></path></svg>
+            Convert with ChatGPT OCR
+          </button>
+        </div>
+        <p class="text-xs text-slate-500 mt-2 text-center">Processing time: 30-60 seconds</p>
+      </div>
+
+      <div id="result" class="hidden mt-4 p-4 bg-slate-50 rounded-lg border border-slate-200"></div>
     </div>
   </div>
 </section>
@@ -96,13 +127,15 @@ function gatherFormData() {
   const formData = new FormData();
   const id = document.getElementById('applicant_id').value;
   if (id) formData.append('applicant_id', id);
-  ['full_name','position','email','phone','dob','nationality','marital_status','address'].forEach(k => {
-    const v = document.getElementById(k).value;
-    if (v) formData.append(k, v);
+  
+  // Add override fields with override_ prefix
+  ['klsb_number','full_name','position','email','phone','dob','nationality','marital_status','address'].forEach(k => {
+    const v = document.getElementById(k)?.value?.trim();
+    if (v) formData.append('override_' + k, v);
   });
   
-  const outputFormat = document.getElementById('output_format').value;
-  formData.append('output_format', outputFormat);
+  const outputFormat = document.getElementById('output_format')?.value;
+  if (outputFormat) formData.append('output_format', outputFormat);
   
   const fileInput = document.getElementById('cv_file');
   if (fileInput && fileInput.files.length > 0) {
@@ -114,7 +147,8 @@ function gatherFormData() {
 
 // Regular convert button (uses traditional tesseract OCR)
 btn?.addEventListener('click', async () => {
-  resultEl.textContent = 'Step 1: Scanning text (OCR)...\nStep 2: Formatting to KLSB template...';
+  resultEl.classList.remove('hidden');
+  resultEl.innerHTML = '<div class="flex items-center gap-2 text-blue-600"><svg class="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg><span>Processing CV...</span></div>';
   const formData = gatherFormData();
   formData.append('use_chatgpt', 'false');  // Explicitly use tesseract
 
@@ -125,7 +159,7 @@ btn?.addEventListener('click', async () => {
     });
     const data = await resp.json();
     if (resp.ok && data.status === 'success') {
-      resultEl.innerHTML = "✅ Converted: " + data.filename + "<br/>Stored at: " + data.stored_at + "<br/>Detected: " + JSON.stringify(data.detected_fields);
+      resultEl.innerHTML = '<div class="space-y-2"><div class="flex items-center gap-2 text-green-700"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg><strong>Conversion Complete!</strong></div><p class="text-sm"><strong>File:</strong> ' + data.filename + '</p><p class="text-sm"><strong>Stored at:</strong> ' + data.stored_at + '</p></div>';
     } else {
       resultEl.innerHTML = "❌ Error: " + ((data.errors || []).join(', ') || resp.statusText);
     }
@@ -136,7 +170,8 @@ btn?.addEventListener('click', async () => {
 
 // ChatGPT OCR convert button (uses ChatGPT Vision API)
 chatgptBtn?.addEventListener('click', async () => {
-  resultEl.innerHTML = 'Step 1: Scanning text with ChatGPT Vision (30-60s)...<br/>Step 2: Formatting to KLSB template...';
+  resultEl.classList.remove('hidden');
+  resultEl.innerHTML = '<div class="flex items-center gap-3"><svg class="animate-spin h-6 w-6 text-green-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg><div><p class="font-semibold text-slate-900">Processing CV with ChatGPT Vision...</p><p class="text-sm text-slate-600">This may take 30-60 seconds</p></div></div>';
   chatgptBtn.disabled = true;
   chatgptBtn.style.opacity = '0.5';
   
@@ -150,12 +185,28 @@ chatgptBtn?.addEventListener('click', async () => {
     });
     const data = await resp.json();
     if (resp.ok && data.status === 'success') {
-      resultEl.innerHTML = "✅ <strong>ChatGPT + Template Conversion Complete!</strong><br/>File: " + data.filename + "<br/>Stored at: " + data.stored_at + "<br/><br/><strong>Detected Fields:</strong><br/>" + 
-        Object.entries(data.detected_fields || {})
-          .map(([k, v]) => `<strong>${k}:</strong> ${v}`)
-          .join('<br/>');
+      resultEl.innerHTML = `
+        <div class="space-y-3">
+          <div class="flex items-center gap-2 text-green-700">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            <strong class="text-lg">Conversion Complete!</strong>
+          </div>
+          <div class="text-sm">
+            <p><strong>File:</strong> ${data.filename}</p>
+            <p><strong>Stored at:</strong> ${data.stored_at}</p>
+          </div>
+          <div class="flex gap-3 mt-4">
+            <a href="{{ url_for('main.admin_formatted_cvs') }}" class="inline-block bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 text-sm font-semibold">
+              📄 View All Formatted CVs
+            </a>
+            <button onclick="location.reload()" class="inline-block bg-slate-600 text-white px-6 py-2 rounded hover:bg-slate-700 text-sm font-semibold">
+              Convert Another CV
+            </button>
+          </div>
+        </div>
+      `;
     } else {
-      resultEl.innerHTML = "❌ Error: " + ((data.errors || []).join('<br/>') || resp.statusText);
+      resultEl.innerHTML = `<div class="text-red-600"><strong>❌ Error:</strong> ${((data.errors || []).join('<br/>') || resp.statusText)}</div>`;
     }
   } catch (e) {
     resultEl.textContent = '❌ Error: ' + e.message;

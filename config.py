@@ -22,7 +22,7 @@ class BaseConfig:
     
     # OpenAI Configuration for ChatGPT OCR
     # Load from environment variable for security
-    OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY', '')
+    OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY', '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')
     
     USE_CHATGPT_OCR = True  # ChatGPT OCR enabled
     
