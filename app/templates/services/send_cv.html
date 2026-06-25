@@ -23,7 +23,7 @@
       </div>
     {% endif %}
 
-    <form method="post" enctype="multipart/form-data" class="space-y-6">
+    <form method="post" enctype="multipart/form-data" class="space-y-6" id="send-cv-form">
       <!-- Full name -->
       <div>
         <label class="block text-sm font-medium text-slate-700">Full name</label>
@@ -62,7 +62,7 @@
 
       <!-- Button aligned left -->
       <div class="text-left">
-        <button type="submit" class="inline-flex items-center rounded-2xl text-white px-6 py-3 font-medium shadow hover:shadow-md transition"
+        <button type="submit" id="send-cv-submit" class="inline-flex items-center rounded-2xl text-white px-6 py-3 font-medium shadow hover:shadow-md transition"
            style="background:#030C69; border:none;">
           Send CV
         </button>
@@ -70,5 +70,17 @@
     </form>
   </div>
 </section>
+
+<script>
+  // Prevent duplicate submissions from a double-click or a slow request:
+  // lock the button the instant the form is submitted.
+  document.getElementById('send-cv-form')?.addEventListener('submit', function () {
+    const btn = document.getElementById('send-cv-submit');
+    if (btn) {
+      btn.disabled = true;
+      btn.textContent = 'Sending...';
+    }
+  });
+</script>
 
 {% endblock %}

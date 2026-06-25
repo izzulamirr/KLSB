@@ -904,7 +904,22 @@ def services_manpower_send_cv():
 
     if errors:
         return render_template("services/send_cv.html", errors=errors, form=request.form), 400
-    
+
+    # Guard against duplicate submissions (double-click / slow request resubmit):
+    # if the same person submitted the same application moments ago, treat this
+    # as a repeat of that request rather than creating another DB row.
+    from datetime import timedelta
+    dedupe_cutoff = datetime.utcnow() - timedelta(seconds=30)
+    duplicate = Applicant.query.filter(
+        Applicant.email == email,
+        Applicant.position == position,
+        Applicant.full_name == full_name,
+        Applicant.created_at >= dedupe_cutoff,
+    ).first()
+    if duplicate:
+        current_app.logger.info(f"Duplicate CV submission ignored for {email} ({position})")
+        return render_template("services/send_cv_success.html", name=full_name, position=position)
+
     # Record successful submission for rate limiting
     record_attempt(cv_submissions, client_ip)
 
@@ -1036,7 +1051,7 @@ def healthz():
 # ------------------- REQUEST PROPOSAL PAGE -------------------
 @main_bp.route("/proposal", methods=["GET", "POST"])
 def submit_proposal():
-    from app.models import Proposal
+    from app.models import Proposal, kl_now
     from app import db
     client_ip = request.remote_addr or 'unknown'
 
@@ -1084,7 +1099,21 @@ def submit_proposal():
 
         if errors:
             return render_template("Proposal.html", errors=errors, form=request.form)
-        
+
+        # Guard against duplicate submissions (double-click / slow request resubmit).
+        # Proposal.created_at defaults to kl_now() (KL local time), not UTC.
+        from datetime import timedelta
+        dedupe_cutoff = kl_now() - timedelta(seconds=30)
+        duplicate = Proposal.query.filter(
+            Proposal.client_email == client_email,
+            Proposal.company_name == company_name,
+            Proposal.service == service,
+            Proposal.created_at >= dedupe_cutoff,
+        ).first()
+        if duplicate:
+            current_app.logger.info(f"Duplicate proposal submission ignored for {client_email} ({company_name})")
+            return render_template("proposal_success.html", name=company_name)
+
         # Record successful submission for rate limiting
         record_attempt(proposal_submissions, client_ip)
 

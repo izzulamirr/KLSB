@@ -23,7 +23,7 @@
       </div>
     {% endif %}
 
-    <form method="POST" action="{{ url_for('main.submit_proposal') }}" class="space-y-6 bg-slate-50 rounded-xl p-8 shadow">
+    <form method="POST" action="{{ url_for('main.submit_proposal') }}" class="space-y-6 bg-slate-50 rounded-xl p-8 shadow" id="proposal-form">
       <!-- Company Name -->
       <div>
         <label for="company_name" class="block font-semibold mb-1">Company Name</label>
@@ -80,7 +80,7 @@
 
       <!-- Submit -->
       <div class="text-center">
-        <button type="submit"
+        <button type="submit" id="proposal-submit"
                 class="bg-[#030C69] text-white font-semibold px-6 py-2 rounded hover:bg-[#020A50] transition">
           Submit Proposal
         </button>
@@ -88,5 +88,17 @@
     </form>
   </div>
 </section>
+
+<script>
+  // Prevent duplicate submissions from a double-click or a slow request:
+  // lock the button the instant the form is submitted.
+  document.getElementById('proposal-form')?.addEventListener('submit', function () {
+    const btn = document.getElementById('proposal-submit');
+    if (btn) {
+      btn.disabled = true;
+      btn.textContent = 'Submitting...';
+    }
+  });
+</script>
 
 {% endblock %}
