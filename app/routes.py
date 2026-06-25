@@ -15,8 +15,7 @@ import time
 import json
 import urllib.parse
 import urllib.request
-import sys
-import subprocess
+from html import escape
 
 # Rate limiting storage (in-memory for simplicity; use Redis in production)
 login_attempts = {}  # {ip: [timestamp1, timestamp2, ...]}
@@ -89,6 +88,11 @@ def admin_login():
     admin_pass = current_app.config.get("ADMIN_PASS")
     client_ip = request.remote_addr or 'unknown'
 
+    if not admin_user or not admin_pass:
+        current_app.logger.error("ADMIN_USER/ADMIN_PASS not configured; refusing admin login.")
+        flash("Admin login is not configured on this server.", "error")
+        return render_template("admin_login.html"), 503
+
     if request.method == "POST":
         # Check rate limiting
         max_attempts = current_app.config.get('MAX_LOGIN_ATTEMPTS', 5)
@@ -122,10 +126,9 @@ def admin_login():
                 flash("reCAPTCHA verification failed. Please try again.", "error")
                 return render_template("admin_login.html")
 
-        if username == admin_user and password == admin_pass:
+        if secrets.compare_digest(username, admin_user) and secrets.compare_digest(password, admin_pass):
             clear_attempts(login_attempts, client_ip)  # Clear on success
             session["is_admin"] = True
-            # ✅ ADD THIS LINE
             session.permanent = False  # Session will expire when browser is closed
             flash("Login successful.", "success")
             current_app.logger.info(f"Admin login from IP: {client_ip}")
@@ -327,241 +330,6 @@ def admin_cv_convert_ocr():
     ), 201
 
 
-@main_bp.route("/admin/cv/convert-template", methods=["POST"], endpoint="admin_cv_convert_template")
-@admin_required
-def admin_cv_convert_template():
-    """Convert CV using ChatGPT extraction + KLSB template rendering."""
-    from docxtpl import DocxTemplate, RichText
-    from cv_data_parser import structure_cv_data
-    
-    data = {}
-    if request.is_json:
-        data.update(request.get_json(silent=True) or {})
-    data.update(request.form.to_dict())
-
-    applicant_id = data.get("applicant_id")
-    cv_file = request.files.get("cv_file")
-    
-    # Extract override fields including KLSB number
-    overrides = {}
-    for key in ['klsb_number', 'full_name', 'position', 'email', 'phone', 'dob', 'nationality', 'marital_status', 'address']:
-        override_value = data.get(f'override_{key}')
-        if override_value and override_value.strip():
-            overrides[key] = override_value.strip()
-
-    project_root = os.path.abspath(os.path.join(current_app.root_path, ".."))
-    upload_folder = current_app.config.get("UPLOAD_FOLDER") or os.path.join(current_app.root_path, "uploads", "cv")
-    klsb_folder = os.path.join(upload_folder, "klsb_formatted")
-    os.makedirs(klsb_folder, exist_ok=True)
-    
-    # Determine KLSB number - override or auto-increment from 4130
-    counter_file = os.path.join(klsb_folder, ".klsb_counter.txt")
-    
-    if 'klsb_number' in overrides:
-        # Use manual override
-        klsb_number = overrides['klsb_number']
-    else:
-        # Auto-increment from 4130
-        try:
-            if os.path.exists(counter_file):
-                with open(counter_file, 'r') as f:
-                    klsb_number = f.read().strip()
-            else:
-                klsb_number = '4130'
-            
-            # Save next number for future use
-            next_num = int(klsb_number) + 1
-            with open(counter_file, 'w') as f:
-                f.write(str(next_num))
-        except Exception:
-            klsb_number = '4130'
-
-    source_path = None
-    temp_path = None
-
-    if applicant_id:
-        try:
-            applicant = Applicant.query.get_or_404(int(applicant_id))
-            source_path = applicant.file_path or ""
-            if not os.path.isabs(source_path):
-                candidate = os.path.join(project_root, source_path)
-                if os.path.exists(candidate):
-                    source_path = candidate
-                else:
-                    source_path = os.path.join(current_app.root_path, source_path)
-            if not os.path.exists(source_path):
-                return jsonify({"status": "error", "errors": [f"CV file not found: {source_path}"]}), 404
-        except Exception as exc:
-            current_app.logger.exception("Failed to load applicant for template conversion")
-            return jsonify({"status": "error", "errors": [str(exc)]}), 400
-    else:
-        if not cv_file or cv_file.filename == "":
-            return jsonify({"status": "error", "errors": ["Provide applicant_id or upload cv_file."]}), 400
-        safe_orig = secure_filename(cv_file.filename or "cv.pdf")
-        rand = secrets.token_hex(6)
-        ext = os.path.splitext(safe_orig)[1] or ".pdf"
-        temp_name = f"tpl_{rand}{ext}"
-        temp_path = os.path.join(klsb_folder, temp_name)
-        try:
-            cv_file.save(temp_path)
-            source_path = temp_path
-        except Exception:
-            current_app.logger.exception("Failed to save uploaded CV for template conversion")
-            return jsonify({"status": "error", "errors": ["Unable to save uploaded file."]}), 500
-
-    try:
-        # Extract CV data using ChatGPT
-        cv_data = _extract_cv_with_chatgpt(source_path)
-        
-        if not cv_data:
-            return jsonify({"status": "error", "errors": ["Failed to extract CV data"]}), 400
-        
-        # Apply overrides to extracted data
-        if 'full_name' in overrides:
-            cv_data['name'] = overrides['full_name']
-        if 'position' in overrides:
-            cv_data['position'] = overrides['position']
-        if 'email' in overrides:
-            cv_data['email'] = overrides['email']
-        if 'phone' in overrides:
-            cv_data['phone'] = overrides['phone']
-        if 'dob' in overrides:
-            cv_data['dob'] = overrides['dob']
-        if 'nationality' in overrides:
-            cv_data['nationality'] = overrides['nationality']
-        if 'marital_status' in overrides:
-            cv_data['marital_status'] = overrides['marital_status']
-        if 'address' in overrides:
-            cv_data['address'] = overrides['address']
-        
-        # Structure the data
-        sys.path.insert(0, project_root)
-        from cv_data_parser import structure_cv_data
-        structured_data = structure_cv_data(cv_data)
-        
-        # Load template
-        template_path = os.path.join(project_root, "KLSB_template_true.docx")
-        if not os.path.exists(template_path):
-            return jsonify({"status": "error", "errors": [f"Template not found: {template_path}"]}), 500
-        
-        template = DocxTemplate(template_path)
-        
-        # Prepare context
-        context = {}
-        for key, value in structured_data.items():
-            if value is None:
-                context[key] = ''
-            elif isinstance(value, list):
-                context[key] = value
-            elif key in ['name', 'position', 'nationality']:
-                context[key] = str(value).upper() if value else ''
-            else:
-                context[key] = str(value)
-        
-        # Add KLSB number to context for template (AFTER structured_data to prevent overwrite)
-        context['klsb_number'] = str(klsb_number)
-        
-        # Debug logging
-        current_app.logger.info(f"KLSB Number being passed to template: {klsb_number} (type: {type(klsb_number)})")
-        current_app.logger.info(f"Context klsb_number: '{context['klsb_number']}'")
-        current_app.logger.info(f"All context keys: {list(context.keys())}")
-        
-        # Populate individual work experience tags and build complete work history
-        work_items = structured_data.get('work_experiences', [])
-        if work_items:
-            # Set empty values for template tags (we'll render all in working_experience_formatted)
-            context['work_years'] = ''
-            context['work_company'] = ''
-            context['work_position'] = ''
-            
-            # Build RichText for ALL work experiences with tab-aligned headers
-            rt = RichText()
-            for idx, work in enumerate(work_items):
-                years = work.get('years', '').strip()
-                company = work.get('company', '').strip()
-                position = work.get('position', '').strip()
-                
-                # Add spacing before next company (except first)
-                if idx > 0:
-                    rt.add("\n\n")
-                
-                # Add tab-aligned headers for this work experience
-                if years:
-                    rt.add("Year")
-                    rt.add("\t: " + years, bold=True)
-                    rt.add("\n")
-                if company:
-                    rt.add("Company")
-                    rt.add("\t: " + company, bold=True)
-                    rt.add("\n")
-                if position:
-                    rt.add("Position")
-                    rt.add("\t: " + position, bold=True)
-                    rt.add("\n")
-                rt.add("\n")
-                
-                # Add job description
-                desc = work.get('description', '').strip()
-                if desc:
-                    rt.add("Job Description:", bold=True)
-                    rt.add("\n")
-                    
-                    for line in desc.split('\n'):
-                        if line.strip():
-                            rt.add("• " + line.strip())
-                            rt.add("\n")
-
-            context['working_experience_formatted'] = rt
-        
-        # Add KLSB number to template context
-        context['klsb_number'] = klsb_number
-        
-        # Render template
-        template.render(context)
-        
-        # Generate output filename
-        candidate_name = cv_data.get('name', 'Candidate').lower().replace(' ', '-')
-        output_filename = f"{candidate_name}_KLSB_{klsb_number}.docx"
-        output_path = os.path.join(klsb_folder, output_filename)
-        
-        # Save
-        template.save(output_path)
-        del template
-        import gc
-        gc.collect()
-        
-        rel_path = os.path.relpath(output_path, start=current_app.root_path).replace("\\", "/")
-
-        if applicant_id:
-            try:
-                applicant = Applicant.query.get(int(applicant_id))
-                if applicant:
-                    applicant.filename = output_filename
-                    applicant.file_path = rel_path
-                    db.session.add(applicant)
-                    db.session.commit()
-            except Exception as e:
-                current_app.logger.warning(f"Failed to update applicant record: {e}")
-
-        return jsonify(
-            {
-                "status": "success",
-                "filename": output_filename,
-                "stored_at": rel_path,
-                "detected_fields": cv_data,
-            }
-        ), 201
-
-    except Exception as exc:
-        current_app.logger.exception("CV template conversion failed")
-        return jsonify({"status": "error", "errors": [str(exc)]}), 500
-    finally:
-        if temp_path and os.path.exists(temp_path):
-            try:
-                os.remove(temp_path)
-            except Exception:
-                pass
-
 # --- List Formatted CVs ---
 @main_bp.route("/admin/formatted-cvs", methods=["GET"], endpoint="admin_formatted_cvs")
 @admin_required
@@ -718,12 +486,12 @@ def admin_export_applicants_xlsx_view():
         html_parts.append(
             f"<tr>"
             f"<td class='center'>{a.id or ''}</td>"
-            f"<td>{(a.full_name or '').replace('&','&amp;').replace('<','&lt;')}</td>"
-            f"<td>{(a.email or '').replace('&','&amp;').replace('<','&lt;')}</td>"
-            f"<td>{(a.position or '').replace('&','&amp;').replace('<','&lt;')}</td>"
-            f"<td>{(a.availability or '').replace('&','&amp;').replace('<','&lt;')}</td>"
-            f"<td class='wrap'>{(a.filename or '').replace('&','&amp;').replace('<','&lt;')}</td>"
-            f"<td class='wrap'>{(a.file_path or '').replace('&','&amp;').replace('<','&lt;')}</td>"
+            f"<td>{escape(a.full_name or '')}</td>"
+            f"<td>{escape(a.email or '')}</td>"
+            f"<td>{escape(a.position or '')}</td>"
+            f"<td>{escape(a.availability or '')}</td>"
+            f"<td class='wrap'>{escape(a.filename or '')}</td>"
+            f"<td class='wrap'>{escape(a.file_path or '')}</td>"
             f"<td class='center'>{created_local}</td>"
             f"</tr>"
         )
@@ -844,10 +612,10 @@ def admin_export_proposals_xlsx_view():
     for p in rows:
         created_local = (p.created_at + timedelta(hours=8)).strftime("%Y-%m-%d %H:%M:%S") if p.created_at else ""
         # Sanitize data to prevent breaking the HTML structure
-        company = (p.company_name or '').replace('&','&amp;').replace('<','&lt;')
-        email = (p.client_email or '').replace('&','&amp;').replace('<','&lt;')
-        service = (p.service or '').replace('&','&amp;').replace('<','&lt;')
-        details = (p.proposal_details or '').replace('&','&amp;').replace('<','&lt;')
+        company = escape(p.company_name or '')
+        email = escape(p.client_email or '')
+        service = escape(p.service or '')
+        details = escape(p.proposal_details or '')
 
         html_parts.append(
             f"<tr>"
@@ -882,9 +650,7 @@ def admin_jobs():
 @admin_required
 def admin_add_job():
     """Admin page to add a new job listing."""
-    print(f"DEBUG: admin_add_job called with method: {request.method}")
     if request.method == "POST":
-        print(f"DEBUG: Form data: {dict(request.form)}")
         title = request.form.get("title", "").strip()
         department = request.form.get("department", "").strip()
         job_type = request.form.get("type", "").strip()
@@ -933,11 +699,8 @@ def admin_add_job():
         )
         # Persist to database
         try:
-            print(f"DEBUG: About to add job to database: {new_job.title}")
             db.session.add(new_job)
-            print("DEBUG: Job added to session, committing...")
             db.session.commit()
-            print(f"DEBUG: Commit successful! Job ID: {new_job.id}")
             flash(f"Job listing '{title}' added successfully.", "success")
             return redirect(url_for("main.admin_jobs"))
         except Exception as e:
@@ -1170,11 +933,11 @@ def services_manpower_send_cv():
     # --- Insert into DB ---
     try:
         insp = inspect(db.engine)
-        db_url = str(db.engine.url)
 
         if not insp.has_table("applicants"):
+            current_app.logger.error(f"applicants table missing on {db.engine.url!r}")
             return render_template("services/send_cv.html",
-                                   errors=[f"DB ERROR: table 'applicants' does not exist on {db_url}"],
+                                   errors=["We're unable to process submissions right now. Please try again later."],
                                    form=request.form), 500
 
         db_cols = {c["name"] for c in insp.get_columns("applicants")}
@@ -1203,12 +966,10 @@ def services_manpower_send_cv():
             current_app.logger.error(f"Failed to send notification email: {str(e)}")
             # Don't fail the request if email fails
         
-    except Exception as e:
+    except Exception:
         current_app.logger.exception("Failed to persist applicant to database")
-        err = str(getattr(e, "__cause__", None) or e)
-        # TEMP: surface DB error to the user for debugging
         return render_template("services/send_cv.html",
-                               errors=[f"DB ERROR: {err}"],
+                               errors=["Unable to save your submission right now. Please try again or contact support."],
                                form=request.form), 500
 
     # --- Success Page ---
@@ -1266,20 +1027,6 @@ def about_focus():
 def about_license_registration():
     return render_template('About Us/about_license.html', page_class="home-page center-content")
 
-
-@main_bp.route("/debug/db")
-def debug_db():
-    """Temporary diagnostic route to verify DB connectivity and schema."""
-    try:
-        insp = inspect(db.engine)
-        return jsonify(
-            ok=True,
-            url=str(db.engine.url),
-            has_applicants=insp.has_table("applicants"),
-            columns=[c["name"] for c in insp.get_columns("applicants")] if insp.has_table("applicants") else [],
-        )
-    except Exception as e:
-        return jsonify(ok=False, error=str(e)), 500
 
 # ------------------- HEALTH -------------------
 @main_bp.route("/healthz")

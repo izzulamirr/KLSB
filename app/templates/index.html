@@ -53,8 +53,7 @@
   
   /* --- FIXED: Truly Infinite Client Logo Scroller --- */
   @keyframes scroll {
-    from { transform: translateX(-100%); }
-    /* FIX: Changed from -100% to -50% to create a seamless loop */
+    from { transform: translateX(0); }
     to { transform: translateX(-50%); } 
   }
   .logo-scroller {
@@ -100,7 +99,7 @@
 {% set logo_construction = url_for('static', filename='img/logo/construction_icon.png') %}
 {% set logo_supply = url_for('static', filename='img/logo/supply_icon.png') %}
 
-<section class="relative min-h-screen overflow-hidden text-center flex items-center justify-center">
+<section class="relative isolate min-h-screen overflow-hidden text-center flex items-center justify-center">
   <div class="absolute inset-0 -z-10 bg-cover bg-center hero-bg-animate" style="background-image: url('{{ hero_image }}');"></div>
   <div class="absolute inset-0 -z-10 bg-black/60"></div>
   <div class="w-full max-w-4xl mx-auto px-6 py-28" data-aos="fade-up">

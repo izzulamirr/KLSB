@@ -1,16 +1,19 @@
 # config.py
 import os
 import re
+import secrets
 from urllib.parse import quote_plus
 
 class BaseConfig:
 
+    # SECURITY: No hardcoded fallback. Set ADMIN_USER/ADMIN_PASS via environment variables.
     ADMIN_USER = os.environ.get("ADMIN_USER", "klsbadmin")
-    ADMIN_PASS = os.environ.get("ADMIN_PASS", "klsb@kl$8kl$8")
-    
+    ADMIN_PASS = os.environ.get("ADMIN_PASS", "")
+
      # Google reCAPTCHA v2 - Get keys from https://www.google.com/recaptcha/admin
-    RECAPTCHA_SITE_KEY = os.environ.get("RECAPTCHA_SITE_KEY", "6LfpGBAsAAAAAN40acZz7e_iuU1GkfCgVyamYGgy")
-    RECAPTCHA_SECRET_KEY = os.environ.get("RECAPTCHA_SECRET_KEY", "6LfpGBAsAAAAALn5Sm58lLca6T3nIcMFUQDrVwPw")
+    # SECURITY: No hardcoded fallback. Set both via environment variables.
+    RECAPTCHA_SITE_KEY = os.environ.get("RECAPTCHA_SITE_KEY", "")
+    RECAPTCHA_SECRET_KEY = os.environ.get("RECAPTCHA_SECRET_KEY", "")
     RECAPTCHA_ENABLED = bool(RECAPTCHA_SITE_KEY and RECAPTCHA_SECRET_KEY)
 
     # Rate limiting settings
@@ -21,15 +24,16 @@ class BaseConfig:
     MAX_FILE_SIZE_MB = 10
     
     # OpenAI Configuration for ChatGPT OCR
-    # Load from environment variable for security
-    OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY', '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')
-    
-    USE_CHATGPT_OCR = True  # ChatGPT OCR enabled
-    
-    
-    
+    # SECURITY: No hardcoded fallback. Set OPENAI_API_KEY via environment variable.
+    OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY', '')
 
-    SECRET_KEY = "4d453d84e5c971b955366b277637c340ed34d10b9b05850bd3e6dc24de04980d"
+    USE_CHATGPT_OCR = True  # ChatGPT OCR enabled
+
+    # SECURITY: No hardcoded fallback. Set SECRET_KEY via environment variable in
+    # production (sessions/flash messages are signed with this). Falls back to a
+    # random key generated at process start so local dev still works, but this
+    # means sessions won't survive a restart unless SECRET_KEY is set explicitly.
+    SECRET_KEY = os.environ.get("SECRET_KEY") or secrets.token_hex(32)
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     # Email Configuration - Shinjiru/cPanel SMTP for notifications
@@ -54,7 +58,7 @@ class BaseConfig:
     # Authenticate with a valid mailbox (recommended: recruitment inbox)
     MAIL_USERNAME = _clean_env('MAIL_USERNAME', 'webnotify@kemuncaklanai.com.my')
     # SECURITY: Do not hardcode passwords. Set via environment variable on the server/host.
-    MAIL_PASSWORD = _clean_env('MAIL_PASSWORD', 'Web@notifykl$8')
+    MAIL_PASSWORD = _clean_env('MAIL_PASSWORD', '')
     # Default sender should match the authenticated mailbox for best SPF/DMARC alignment
     MAIL_DEFAULT_SENDER = _clean_env('MAIL_DEFAULT_SENDER', 'webnotify@kemuncaklanai.com.my') or MAIL_USERNAME
 
@@ -86,11 +90,20 @@ class BaseConfig:
     # Site URL for links in emails
     SITE_URL = os.environ.get('SITE_URL', 'https://kemuncaklanai.com.my/')
 
-    DB_USER = "root"
-    DB_PASS = ""             # contains @ and $, so we URL-encode below
-    DB_NAME = "klsb_test"
-    DB_HOST = "localhost"
-    DB_PORT = "3306"
+    # Local dev defaults; override via env vars in production (values may contain
+    # @ and $, so we URL-encode below).
+    DB_USER = os.environ.get("DB_USER", "root")
+    DB_PASS = os.environ.get("DB_PASS", "")
+    DB_NAME = os.environ.get("DB_NAME", "klsb_test")
+
+    # DB_HOST may be given as "host" or "host:port" (some hosting panels store it
+    # that way) - tolerate both rather than producing a malformed "host:port:port" URL.
+    _db_host_raw = os.environ.get("DB_HOST", "localhost")
+    if ":" in _db_host_raw:
+        DB_HOST, _host_embedded_port = _db_host_raw.rsplit(":", 1)
+    else:
+        DB_HOST, _host_embedded_port = _db_host_raw, None
+    DB_PORT = os.environ.get("DB_PORT") or _host_embedded_port or "3306"
 
     user_q = quote_plus(DB_USER)
     pass_q = quote_plus(DB_PASS) if DB_PASS else ""

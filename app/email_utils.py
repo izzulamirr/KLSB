@@ -2,6 +2,7 @@ from flask import current_app
 from flask_mail import Message
 from app import mail
 from threading import Thread
+from html import escape
 import os
 import mimetypes
 import smtplib
@@ -226,8 +227,11 @@ Admin Panel: {current_app.config.get('SITE_URL')}/admin/login
 This is an automated notification from Kemuncak Lanai Sdn Bhd
     """
     
-    availability_html = f"<p style='margin: 10px 0;'><strong>Availability:</strong> {availability}</p>" if availability else ""
-    
+    safe_name = escape(applicant_name or "")
+    safe_position = escape(position or "")
+    safe_email = escape(email or "")
+    availability_html = f"<p style='margin: 10px 0;'><strong>Availability:</strong> {escape(availability)}</p>" if availability else ""
+
     html_body = f"""
     <!DOCTYPE html>
     <html>
@@ -256,9 +260,9 @@ This is an automated notification from Kemuncak Lanai Sdn Bhd
                     </p>
                     
                     <div style="background-color: #f8fafc; padding: 20px; border-radius: 6px; border-left: 4px solid #3b82f6;">
-                        <p style="margin: 10px 0;"><strong style="color: #1e40af;">Applicant:</strong> {applicant_name}</p>
-                        <p style="margin: 10px 0;"><strong style="color: #1e40af;">Position:</strong> {position}</p>
-                        <p style="margin: 10px 0;"><strong style="color: #1e40af;">Email:</strong> <a href="mailto:{email}" style="color: #3b82f6; text-decoration: none;">{email}</a></p>
+                        <p style="margin: 10px 0;"><strong style="color: #1e40af;">Applicant:</strong> {safe_name}</p>
+                        <p style="margin: 10px 0;"><strong style="color: #1e40af;">Position:</strong> {safe_position}</p>
+                        <p style="margin: 10px 0;"><strong style="color: #1e40af;">Email:</strong> <a href="mailto:{safe_email}" style="color: #3b82f6; text-decoration: none;">{safe_email}</a></p>
                         {availability_html}
                     </div>
                 </div>
@@ -315,10 +319,14 @@ This is an automated notification from Kemuncak Lanai Sdn Bhd
         details_html = f"""
         <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #e2e8f0;">
             <p style="margin: 0 0 10px 0;"><strong style="color: #1e40af;">Details Preview:</strong></p>
-            <p style="margin: 0; color: #475569; font-size: 14px; font-style: italic;">"{preview}"</p>
+            <p style="margin: 0; color: #475569; font-size: 14px; font-style: italic;">"{escape(preview)}"</p>
         </div>
         """
-    
+
+    safe_company = escape(company_name or "")
+    safe_service = escape(service or "")
+    safe_email = escape(email or "")
+
     html_body = f"""
     <!DOCTYPE html>
     <html>
@@ -347,9 +355,9 @@ This is an automated notification from Kemuncak Lanai Sdn Bhd
                     </p>
                     
                     <div style="background-color: #f8fafc; padding: 20px; border-radius: 6px; border-left: 4px solid #10b981;">
-                        <p style="margin: 10px 0;"><strong style="color: #1e40af;">Company:</strong> {company_name}</p>
-                        <p style="margin: 10px 0;"><strong style="color: #1e40af;">Service:</strong> {service}</p>
-                        <p style="margin: 10px 0;"><strong style="color: #1e40af;">Email:</strong> <a href="mailto:{email}" style="color: #3b82f6; text-decoration: none;">{email}</a></p>
+                        <p style="margin: 10px 0;"><strong style="color: #1e40af;">Company:</strong> {safe_company}</p>
+                        <p style="margin: 10px 0;"><strong style="color: #1e40af;">Service:</strong> {safe_service}</p>
+                        <p style="margin: 10px 0;"><strong style="color: #1e40af;">Email:</strong> <a href="mailto:{safe_email}" style="color: #3b82f6; text-decoration: none;">{safe_email}</a></p>
                         {details_html}
                     </div>
                 </div>
